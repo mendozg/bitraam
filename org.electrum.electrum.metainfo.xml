@@ -11,25 +11,25 @@
 <component type="desktop-application">
   <id>org.electrum.electrum</id>
 
-  <name>Electrum</name>
-  <summary>Bitcoin Wallet</summary>
+  <name>BitRaam</name>
+  <summary>BitRaam Wallet</summary>
 
   <metadata_license>MIT</metadata_license>
   <project_license>MIT</project_license>
 
   <description>
     <p>
-      Electrum is a lightweight Bitcoin wallet focused on speed, with low resource usage and simplifying Bitcoin.
-      Startup times are instant because it operates in conjunction with high-performance servers that handle the most complicated parts of the Bitcoin system.
+      BitRaam is a lightweight Bitraam wallet focused on speed, with low resource usage and simplifying Bitraam.
+      Startup times are instant because it operates in conjunction with high-performance servers that handle the most complicated parts of the Bitraam system.
     </p>
   </description>
 
-  <url type="homepage">https://www.electrum.org/</url>
-  <developer id="org.electrum">
-      <name>The Electrum developers</name>
+  <url type="homepage">https://www.bitraam.org/</url>
+  <developer id="org.mendozg">
+      <name>Mendozg</name>
   </developer>
 
-  <launchable type="desktop-id">electrum.desktop</launchable>
+  <launchable type="desktop-id">bitraam.desktop</launchable>
 
   <content_rating type="oars-1.1" />
 </component>
