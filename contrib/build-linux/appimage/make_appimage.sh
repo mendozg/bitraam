@@ -160,7 +160,7 @@ info "installing electrum and its dependencies."
 
 info "desktop integration."
 cp "$PROJECT_ROOT/bitraam.desktop" "$APPDIR/bitraam.desktop"
-cp "$PROJECT_ROOT/bitraam/gui/icons/electrum.png" "$APPDIR/electrum.png"
+cp "$PROJECT_ROOT/bitraam/gui/icons/bitraam.png" "$APPDIR/bitraam.png"
 
 
 # add launcher

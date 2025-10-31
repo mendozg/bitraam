@@ -28,7 +28,7 @@ Pane {
                     id: electrum_logo
                     width: parent.width
                     height: width
-                    source: '../../icons/electrum_presplash.png'
+                    source: '../../icons/bitraam_presplash.png'
                 }
             }
 

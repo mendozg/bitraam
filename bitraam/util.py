@@ -588,7 +588,7 @@ def assert_datadir_available(config_path):
         return
     else:
         raise FileNotFoundError(
-            'Electrum datadir does not exist. Was it deleted while running?' + '\n' +
+            'Bitraam datadir does not exist. Was it deleted while running?' + '\n' +
             'Should be at {}'.format(path))
 
 
@@ -704,11 +704,11 @@ def user_dir():
     elif 'ANDROID_DATA' in os.environ:
         return android_data_dir()
     elif os.name == 'posix':
-        return os.path.join(os.environ["HOME"], ".electrum")
+        return os.path.join(os.environ["HOME"], ".bitraam")
     elif "APPDATA" in os.environ:
-        return os.path.join(os.environ["APPDATA"], "Electrum")
+        return os.path.join(os.environ["APPDATA"], "Bitraam")
     elif "LOCALAPPDATA" in os.environ:
-        return os.path.join(os.environ["LOCALAPPDATA"], "Electrum")
+        return os.path.join(os.environ["LOCALAPPDATA"], "Bitraam")
     else:
         #raise Exception("No home directory found in environment variables.")
         return
@@ -1372,7 +1372,7 @@ def make_aiohttp_proxy_connector(proxy: 'ProxySettings', ssl_context: Optional[s
 
 def make_aiohttp_session(proxy: Optional['ProxySettings'], headers=None, timeout=None):
     if headers is None:
-        headers = {'User-Agent': 'Electrum'}
+        headers = {'User-Agent': 'Bitraam'}
     if timeout is None:
         # The default timeout is high intentionally.
         # DNS on some systems can be really slow, see e.g. #5337

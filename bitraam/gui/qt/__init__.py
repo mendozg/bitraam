@@ -164,7 +164,7 @@ class ElectrumGui(BaseElectrumGui, Logger):
             self.app.installEventFilter(self.screenshot_protection_efilter)
         # explicitly set 'AA_DontShowIconsInMenus' False so menu icons are shown on MacOS
         self.app.setAttribute(Qt.ApplicationAttribute.AA_DontShowIconsInMenus, on=False)
-        self.app.setWindowIcon(read_QIcon("electrum.png"))
+        self.app.setWindowIcon(read_QIcon("bitraam.png"))
         self.translator = ElectrumTranslator()
         self.app.installTranslator(self.translator)
         self._cleaned_up = False
@@ -238,13 +238,13 @@ class ElectrumGui(BaseElectrumGui, Logger):
             submenu.addAction(_("Close"), window.close)
         m.addAction(_("Dark/Light"), self.toggle_tray_icon)
         m.addSeparator()
-        m.addAction(_("Exit Electrum"), self.app.quit)
+        m.addAction(_("Exit Bitraam"), self.app.quit)
 
     def tray_icon(self):
         if self.dark_icon:
-            return read_QIcon('electrum_dark_icon.png')
+            return read_QIcon('bitraam_dark_icon.png')
         else:
-            return read_QIcon('electrum_light_icon.png')
+            return read_QIcon('bitraam_light_icon.png')
 
     def toggle_tray_icon(self):
         if not self.tray:

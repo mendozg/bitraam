@@ -22,7 +22,7 @@ WizardComponent {
             Image {
                 Layout.fillWidth: true
                 fillMode: Image.PreserveAspectFit
-                source: Qt.resolvedUrl('../../../icons/electrum_presplash.png')
+                source: Qt.resolvedUrl('../../../icons/bitraam_presplash.png')
                 // reduce spacing a bit
                 Layout.topMargin: -100
                 Layout.bottomMargin: -200

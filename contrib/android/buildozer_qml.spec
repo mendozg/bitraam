@@ -85,9 +85,9 @@ requirements =
 presplash.filename = %(source.dir)s/bitraam/gui/icons/bitraam_presplash.png
 
 # (str) Icon of the application
-icon.filename = %(source.dir)s/bitraam/gui/icons/android_electrum_icon_legacy.png
-icon.adaptive_foreground.filename = %(source.dir)s/bitraam/gui/icons/android_electrum_icon_foreground.png
-icon.adaptive_background.filename = %(source.dir)s/bitraam/gui/icons/android_electrum_icon_background.png
+icon.filename = %(source.dir)s/bitraam/gui/icons/android_bitraam_icon_legacy.png
+icon.adaptive_foreground.filename = %(source.dir)s/bitraam/gui/icons/android_bitraam_icon_foreground.png
+icon.adaptive_background.filename = %(source.dir)s/bitraam/gui/icons/android_bitraam_icon_background.png
 
 # (str) Supported orientation (one of landscape, portrait or all)
 orientation = portrait

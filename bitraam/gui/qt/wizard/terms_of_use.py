@@ -33,12 +33,12 @@ class QETermsOfUseWizard(TermsOfUseWizard, QEAbstractWizard):
 class WCTermsOfUseScreen(WizardComponent):
     def __init__(self, parent, wizard):
         WizardComponent.__init__(self, parent, wizard, title='')
-        self.wizard_title = _('Electrum Terms of Use')
+        self.wizard_title = _('Bitraam Terms of Use')
         self.img_label = QLabel()
-        pixmap = QPixmap(icon_path('electrum_darkblue_1.png'))
+        pixmap = QPixmap(icon_path('bitraam_darkblue_1.png'))
         self.img_label.setPixmap(pixmap)
         self.img_label2 = QLabel()
-        pixmap = QPixmap(icon_path('electrum_text.png'))
+        pixmap = QPixmap(icon_path('bitraam_text.png'))
         self.img_label2.setPixmap(pixmap)
         hbox_img = QHBoxLayout()
         hbox_img.addStretch(1)

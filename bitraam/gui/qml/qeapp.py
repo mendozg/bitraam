@@ -168,7 +168,7 @@ class QEAppController(BaseCrashReporter, QObject):
             icon = ""  # plyer wants image to be in .ico format on Windows
         else:
             icon = os.path.join(
-                os.path.dirname(os.path.dirname(os.path.realpath(__file__))), "icons", "electrum.png",
+                os.path.dirname(os.path.dirname(os.path.realpath(__file__))), "icons", "bitraam.png",
             )
         try:
             # TODO: lazy load not in UI thread please

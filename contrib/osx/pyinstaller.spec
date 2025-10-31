@@ -13,7 +13,7 @@ PACKAGE_NAME='Bitraam.app'
 PYPKG='electrum'
 MAIN_SCRIPT='run_bitraam'
 PROJECT_ROOT = os.path.abspath(".")
-ICONS_FILE=f"{PROJECT_ROOT}/{PYPKG}/gui/icons/electrum.icns"
+ICONS_FILE=f"{PROJECT_ROOT}/{PYPKG}/gui/icons/bitraam.icns"
 
 
 VERSION = os.environ.get("ELECTRUM_VERSION")
