@@ -52,7 +52,7 @@ class CrashReportResponse(NamedTuple):
 
 
 class BaseCrashReporter(Logger):
-    report_server = "https://crashhub.electrum.org"
+    report_server = "https://crashhub.bitraam.org"
     issue_template = """<h2>Traceback</h2>
 <pre>
 {traceback}
@@ -60,14 +60,14 @@ class BaseCrashReporter(Logger):
 
 <h2>Additional information</h2>
 <ul>
-  <li>Electrum version: {app_version}</li>
+  <li>Bitraam version: {app_version}</li>
   <li>Python version: {python_version}</li>
   <li>Operating system: {os}</li>
   <li>Wallet type: {wallet_type}</li>
   <li>Locale: {locale}</li>
 </ul>
     """
-    CRASH_MESSAGE = _('Something went wrong while executing Electrum.')
+    CRASH_MESSAGE = _('Something went wrong while executing Bitraam.')
     CRASH_TITLE = _('Sorry!')
     REQUEST_HELP_MESSAGE = _('To help us diagnose and fix the problem, you can send us a bug report that contains '
                              'useful debug information:')

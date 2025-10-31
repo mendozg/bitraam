@@ -1,4 +1,4 @@
-# Electrum - Lightweight Bitcoin client
+# Bitraam - Lightweight Bitraam client
 
 ```
 Licence: MIT Licence
@@ -14,10 +14,10 @@ Homepage: https://electrum.org/
 
 ## Getting started
 
-_(If you've come here looking to simply run Electrum,
+_(If you've come here looking to simply run Bitraam,
 [you may download it here](https://electrum.org/#download).)_
 
-Electrum itself is pure Python, and so are most of the required dependencies,
+Bitraam itself is pure Python, and so are most of the required dependencies,
 but not everything. The following sections describe how to run from source, but here
 is a TL;DR:
 
@@ -71,22 +71,22 @@ If you would like hardware wallet support,
 ### Running from tar.gz
 
 If you downloaded the official package (tar.gz), you can run
-Electrum from its root directory without installing it on your
+Bitraam from its root directory without installing it on your
 system; all the pure python dependencies are included in the 'packages'
-directory. To run Electrum from its root directory, just do:
+directory. To run Bitraam from its root directory, just do:
 ```
 $ ./run_bitraam
 ```
 
-You can also install Electrum on your system, by running this command:
+You can also install Bitraam on your system, by running this command:
 ```
 $ sudo apt-get install python3-setuptools python3-pip
 $ python3 -m pip install --user .
 ```
 
 This will download and install the Python dependencies used by
-Electrum instead of using the 'packages' directory.
-It will also place an executable named `electrum` in `~/.local/bin`,
+Bitraam instead of using the 'packages' directory.
+It will also place an executable named `bitraam` in `~/.local/bin`,
 so make sure that is on your `PATH` variable.
 
 

@@ -2365,7 +2365,7 @@ def add_network_options(parser):
         help="do not try to connect to onion servers")
     group.add_argument(
         "--skipmerklecheck", action="store_true", dest=SimpleConfig.NETWORK_SKIPMERKLECHECK.key(), default=None,
-        help="Tolerate invalid merkle proofs from Electrum server")
+        help="Tolerate invalid merkle proofs from Bitraam server")
 
 
 def add_global_options(parser, suppress=False):
@@ -2375,7 +2375,7 @@ def add_global_options(parser, suppress=False):
         help=argparse.SUPPRESS if suppress else "Set verbosity (log levels)")
     group.add_argument(
         "-D", "--dir", dest="electrum_path",
-        help=argparse.SUPPRESS if suppress else "electrum directory")
+        help=argparse.SUPPRESS if suppress else "bitraam directory")
     group.add_argument(
         "-w", "--wallet", dest="wallet_path",
         help=argparse.SUPPRESS if suppress else "wallet path")

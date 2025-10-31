@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 #
 # This script creates a virtualenv named 'env' and installs all pinned
-# python dependencies before activating the env and running Electrum.
-# If 'env' already exists, it is activated and Electrum is started
+# python dependencies before activating the env and running Bitraam.
+# If 'env' already exists, it is activated and Bitraam is started
 # without any installations (unless the pins have changed).
 #
 # By default, not all optional dependencies are installed.

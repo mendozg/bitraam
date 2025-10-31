@@ -19,7 +19,7 @@ if __name__ == '__main__':
         attr_name = "ELECTRUM_VERSION"
 
     project_root = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-    version_file_path = os.path.join(project_root, "electrum", "version.py")
+    version_file_path = os.path.join(project_root, "bitraam", "version.py")
 
     # load version.py; needlessly complicated alternative to "imp.load_source":
     version_spec = importlib.util.spec_from_file_location('version', version_file_path)

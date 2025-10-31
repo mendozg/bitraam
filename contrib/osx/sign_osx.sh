@@ -5,7 +5,7 @@ set -e
 security -v unlock-keychain login.keychain
 
 
-PACKAGE=Electrum
+PACKAGE=Bitraam
 
 
 . "$(dirname "$0")/../build_tools_util.sh"
