@@ -16,11 +16,11 @@ pushd "$PROJECT_ROOT"
 VERSION=$(git describe --tags --dirty --always)
 info "Last commit: $VERSION"
 
-info "preparing electrum-locale."
+info "preparing bitraam-locale."
 (
     "$CONTRIB/locale/build_cleanlocale.sh"
     # we want the binary to have only compiled (.mo) locale files; not source (.po) files
-    rm -r "$PROJECT_ROOT/electrum/locale/locale"/*/electrum.po
+    rm -r "$PROJECT_ROOT/bitraam/locale/locale"/*/electrum.po
 )
 
 find -exec touch -h -d '2000-11-11T11:11:11+00:00' {} +

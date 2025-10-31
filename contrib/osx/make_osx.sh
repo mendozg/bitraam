@@ -135,7 +135,7 @@ info "resetting git submodules."
 #       it is very useful here for reproducibility
 git submodule update --init --force
 
-info "preparing electrum-locale."
+info "preparing bitraam-locale."
 (
     if ! which msgfmt > /dev/null 2>&1; then
         brew install gettext
@@ -143,7 +143,7 @@ info "preparing electrum-locale."
     fi
     "$CONTRIB/locale/build_cleanlocale.sh"
     # we want the binary to have only compiled (.mo) locale files; not source (.po) files
-    rm -r "$PROJECT_ROOT/electrum/locale/locale"/*/electrum.po
+    rm -r "$PROJECT_ROOT/bitraam/locale/locale"/*/electrum.po
 )
 
 
@@ -211,7 +211,7 @@ find "$VENV_DIR/lib/python$PY_VER_MAJOR/site-packages/" -type f -name '*.so' -pr
 info "Faking timestamps..."
 find . -exec touch -t '200101220000' {} + || true
 
-# note: no --dirty, as we have dirtied electrum/locale/ ourselves.
+# note: no --dirty, as we have dirtied bitraam/locale/ ourselves.
 VERSION=$(git describe --tags --always)
 
 info "Building binary"

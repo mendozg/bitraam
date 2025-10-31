@@ -20,11 +20,11 @@ if [ ! -d "$PACKAGES" ]; then
 fi
 
 # update locale
-info "preparing electrum-locale."
+info "preparing bitraam-locale."
 (
     "$CONTRIB/locale/build_cleanlocale.sh"
     # we want the binary to have only compiled (.mo) locale files; not source (.po) files
-    rm -r "$PROJECT_ROOT/electrum/locale/locale"/*/electrum.po
+    rm -r "$PROJECT_ROOT/bitraam/locale/locale"/*/electrum.po
 )
 
 pushd "$CONTRIB_ANDROID"
