@@ -36,4 +36,4 @@ if [ "$DEPS_CHANGED_TIME" -gt "$(stat --printf %Y env)" ] ; then
     echo "Done updating deps."
 fi
 
-./run_electrum "$@"
+./run_bitraam "$@"

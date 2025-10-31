@@ -49,9 +49,9 @@ Alternatively, MSYS2 and MinGW-w64 can be used directly on Windows, as follows.
   $ pacman -S --needed git base-devel mingw-w64-x86_64-toolchain mingw-w64-x86_64-autotools
   $ export PATH="$PATH:/mingw64/bin"
   ```
-  `cd` into the git clone, e.g. `C:\wspace\electrum` (auto-mounted at `/c/wspace/electrum`)
+  `cd` into the git clone, e.g. `C:\wspace\bitraam` (auto-mounted at `/c/wspace/bitraam`)
   ```
-  $ cd /c/wspace/electrum
+  $ cd /c/wspace/bitraam
   $ GCC_TRIPLET_HOST="x86_64-w64-mingw32" ./contrib/make_libsecp256k1.sh
   ```
 
@@ -61,6 +61,6 @@ for discussion)
 ### 3. Run electrum:
 
 ```
-> python3 ./run_electrum
+> python3 ./run_bitraam
 ```
 

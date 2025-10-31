@@ -127,7 +127,7 @@ class AbstractNet:
 
     @classmethod
     def cli_flag(cls) -> str:
-        """as used in e.g. `$ run_electrum --testnet4`"""
+        """as used in e.g. `$ run_bitraam --testnet4`"""
         return cls.NET_NAME
 
     @classmethod

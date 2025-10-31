@@ -66,18 +66,18 @@ You probably need to clear the cache: `rm -rf .buildozer/android/platform/build-
 ### How do I deploy on connected phone for quick testing?
 Assuming `adb` is installed:
 ```
-$ adb -d install -r dist/Electrum-*-arm64-v8a-debug.apk
-$ adb shell monkey -p org.electrum.electrum 1
+$ adb -d install -r dist/Bitraam-*-arm64-v8a-debug.apk
+$ adb shell monkey -p org.bitraam.bitraam 1
 ```
 
 
 ### How do I get an interactive shell inside docker?
 ```
 $ docker run -it --rm \
-    -v $PWD:/home/user/wspace/electrum \
+    -v $PWD:/home/user/wspace/bitraam \
     -v $PWD/.buildozer/.gradle:/home/user/.gradle \
-    --workdir /home/user/wspace/electrum \
-    electrum-android-builder-img
+    --workdir /home/user/wspace/bitraam \
+    bitraam-android-builder-img
 ```
 
 
@@ -213,5 +213,5 @@ However, it is possible to resign the apk manually with one's own key, using
 e.g. [`apksigner`](https://developer.android.com/studio/command-line/apksigner),
 mutating the apk in place, after which it should be possible to upgrade:
 ```
-apksigner sign --ks ~/wspace/electrum/contrib/android/android_debug.keystore Electrum-*-arm64-v8a-debug.apk
+apksigner sign --ks ~/wspace/bitraam/contrib/android/android_debug.keystore Bitraam-*-arm64-v8a-debug.apk
 ```

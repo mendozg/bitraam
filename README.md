@@ -75,7 +75,7 @@ Electrum from its root directory without installing it on your
 system; all the pure python dependencies are included in the 'packages'
 directory. To run Electrum from its root directory, just do:
 ```
-$ ./run_electrum
+$ ./run_bitraam
 ```
 
 You can also install Electrum on your system, by running this command:
@@ -115,7 +115,7 @@ $ ./contrib/locale/build_locale.sh bitraam/locale/locale bitraam/locale/locale
 
 Finally, to start Electrum:
 ```
-$ ./run_electrum
+$ ./run_bitraam
 ```
 
 ### Run tests

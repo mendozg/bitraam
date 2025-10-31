@@ -150,13 +150,13 @@ else
 fi
 
 # android
-apk1="Electrum-$VERSION-armeabi-v7a-release.apk"
-apk2="Electrum-$VERSION-arm64-v8a-release.apk"
-apk3="Electrum-$VERSION-x86_64-release.apk"
+apk1="Bitraam-$VERSION-armeabi-v7a-release.apk"
+apk2="Bitraam-$VERSION-arm64-v8a-release.apk"
+apk3="Bitraam-$VERSION-x86_64-release.apk"
 for arch in armeabi-v7a arm64-v8a x86_64
 do
-    apk="Electrum-$VERSION-$arch-release.apk"
-    apk_unsigned="Electrum-$VERSION-$arch-release-unsigned.apk"
+    apk="Bitraam-$VERSION-$arch-release.apk"
+    apk_unsigned="Bitraam-$VERSION-$arch-release-unsigned.apk"
     if test -f "dist/$apk"; then
         info "file exists: $apk"
     else

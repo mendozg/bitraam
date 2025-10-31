@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 
 
 PYPKG="electrum"
-MAIN_SCRIPT="run_electrum"
+MAIN_SCRIPT="run_bitraam"
 PROJECT_ROOT = "C:/electrum"
 ICONS_FILE=f"{PROJECT_ROOT}/{PYPKG}/gui/icons/electrum.ico"
 

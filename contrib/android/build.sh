@@ -83,10 +83,10 @@ if [ ! -z "$ELECBUILD_COMMIT" ] ; then  # fresh clone (reproducible build)
 fi
 docker run --rm \
     --name electrum-android-builder-cont \
-    -v "$PROJECT_ROOT_OR_FRESHCLONE_ROOT":/home/user/wspace/electrum \
+    -v "$PROJECT_ROOT_OR_FRESHCLONE_ROOT":/home/user/wspace/bitraam \
     -v "$PROJECT_ROOT_OR_FRESHCLONE_ROOT"/.buildozer/.gradle:/home/user/.gradle \
     $DOCKER_RUN_FLAGS \
-    --workdir /home/user/wspace/electrum \
+    --workdir /home/user/wspace/bitraam \
     electrum-android-builder-img \
     ./contrib/android/make_apk.sh "$@"
 

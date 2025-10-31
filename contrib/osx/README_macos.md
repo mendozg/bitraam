@@ -1,4 +1,4 @@
-# Running Electrum from source on macOS (development version)
+# Running Bitraam from source on macOS (development version)
 
 ## Prerequisites
 
@@ -24,14 +24,14 @@ you need:
 $ brew install autoconf automake libtool coreutils
 ```
 
-### 3. Install Electrum
+### 3. Install Bitraam
 
 Run install (this should install the dependencies):
 ```
 $ python3 -m pip install --user -e ".[gui,crypto]"
 ```
 
-### 4. Run electrum:
+### 4. Run bitraam:
 ```
-$ ./run_electrum
+$ ./run_bitraam
 ```
