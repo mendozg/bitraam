@@ -1,19 +1,19 @@
 from typing import TYPE_CHECKING
 
-from electrum.i18n import _
-from electrum.plugin import hook
-from electrum.util import UserFacingException
+from bitraam.i18n import _
+from bitraam.plugin import hook
+from bitraam.util import UserFacingException
 
-from electrum.gui.qml.qewallet import QEWallet
-from electrum.gui.qml.qedaemon import QEDaemon
+from bitraam.gui.qml.qewallet import QEWallet
+from bitraam.gui.qml.qedaemon import QEDaemon
 
 from .common_qt import TrustedcoinPluginQObject
 from .trustedcoin import TrustedCoinPlugin, TrustedCoinException
 
 if TYPE_CHECKING:
-    from electrum.gui.qml import ElectrumQmlApplication
-    from electrum.wallet import Abstract_Wallet
-    from electrum.wizard import NewWalletWizard
+    from bitraam.gui.qml import ElectrumQmlApplication
+    from bitraam.wallet import Abstract_Wallet
+    from bitraam.wizard import NewWalletWizard
 
 
 class Plugin(TrustedCoinPlugin):

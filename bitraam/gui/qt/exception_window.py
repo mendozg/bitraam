@@ -30,17 +30,17 @@ import PyQt6.QtCore as QtCore
 from PyQt6.QtWidgets import (QWidget, QLabel, QPushButton, QTextEdit,
                              QMessageBox, QHBoxLayout, QVBoxLayout, QDialog, QScrollArea)
 
-from electrum.i18n import _
-from electrum.base_crash_reporter import BaseCrashReporter, EarlyExceptionsQueue, CrashReportResponse
-from electrum.logging import Logger
-from electrum import constants
-from electrum.network import Network
+from bitraam.i18n import _
+from bitraam.base_crash_reporter import BaseCrashReporter, EarlyExceptionsQueue, CrashReportResponse
+from bitraam.logging import Logger
+from bitraam import constants
+from bitraam.network import Network
 
 from .util import MessageBoxMixin, read_QIcon, WaitingDialog, font_height
 
 if TYPE_CHECKING:
-    from electrum.simple_config import SimpleConfig
-    from electrum.wallet import Abstract_Wallet
+    from bitraam.simple_config import SimpleConfig
+    from bitraam.wallet import Abstract_Wallet
 
 
 class Exception_Window(BaseCrashReporter, QWidget, MessageBoxMixin, Logger):

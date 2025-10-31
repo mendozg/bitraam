@@ -7,16 +7,16 @@ from PyQt6.QtCore import (pyqtProperty, pyqtSignal, pyqtSlot, QObject, QTimer, p
                           QModelIndex)
 from PyQt6.QtGui import QColor
 
-from electrum.i18n import _
-from electrum.bitcoin import DummyAddress
-from electrum.logging import get_logger
-from electrum.transaction import PartialTxOutput, PartialTransaction
-from electrum.util import (NotEnoughFunds, NoDynamicFeeEstimates, profiler, get_asyncio_loop, age,
+from bitraam.i18n import _
+from bitraam.bitcoin import DummyAddress
+from bitraam.logging import get_logger
+from bitraam.transaction import PartialTxOutput, PartialTransaction
+from bitraam.util import (NotEnoughFunds, NoDynamicFeeEstimates, profiler, get_asyncio_loop, age,
                            wait_for2, send_exception_to_crash_reporter)
-from electrum.submarine_swaps import NostrTransport, SwapServerTransport, pubkey_to_rgb_color
-from electrum.fee_policy import FeePolicy
+from bitraam.submarine_swaps import NostrTransport, SwapServerTransport, pubkey_to_rgb_color
+from bitraam.fee_policy import FeePolicy
 
-from electrum.gui import messages
+from bitraam.gui import messages
 
 from .auth import AuthMixin, auth_protect
 from .qetypes import QEAmount
@@ -25,7 +25,7 @@ from .util import QtEventListener, qt_event_listener
 
 if TYPE_CHECKING:
     import concurrent.futures
-    from electrum.submarine_swaps import SwapOffer
+    from bitraam.submarine_swaps import SwapOffer
 
 
 class InvalidSwapParameters(Exception): pass

@@ -1,4 +1,4 @@
-from electrum.plugins.revealer.revealer import RevealerPlugin
+from bitraam.plugins.revealer.revealer import RevealerPlugin
 
 from . import ElectrumTestCase
 

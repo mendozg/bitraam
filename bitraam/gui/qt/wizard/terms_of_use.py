@@ -4,15 +4,15 @@ from PyQt6.QtCore import QTimer, QEvent
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtWidgets import QLabel, QHBoxLayout, QScrollArea
 
-from electrum.i18n import _
-from electrum.wizard import TermsOfUseWizard
-from electrum.gui.qt.util import icon_path, WWLabel
-from electrum.gui import messages
+from bitraam.i18n import _
+from bitraam.wizard import TermsOfUseWizard
+from bitraam.gui.qt.util import icon_path, WWLabel
+from bitraam.gui import messages
 from .wizard import QEAbstractWizard, WizardComponent
 
 if TYPE_CHECKING:
-    from electrum.simple_config import SimpleConfig
-    from electrum.gui.qt import QElectrumApplication
+    from bitraam.simple_config import SimpleConfig
+    from bitraam.gui.qt import QElectrumApplication
 
 
 class QETermsOfUseWizard(TermsOfUseWizard, QEAbstractWizard):

@@ -10,32 +10,32 @@ from PyQt6.QtGui import QPen, QPainter, QPalette, QPixmap
 from PyQt6.QtWidgets import (QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QWidget,
                              QFileDialog, QSlider, QGridLayout, QDialog, QApplication)
 
-from electrum.bip32 import is_bip32_derivation, BIP32Node, normalize_bip32_derivation, xpub_type
-from electrum.daemon import Daemon
-from electrum.i18n import _
-from electrum.keystore import bip44_derivation, bip39_to_seed, purpose48_derivation, ScriptTypeNotSupported
-from electrum.plugin import run_hook, HardwarePluginLibraryUnavailable
-from electrum.storage import StorageReadWriteError
-from electrum.util import WalletFileException, get_new_wallet_name, UserFacingException, InvalidPassword
-from electrum.util import is_subpath, ChoiceItem, multisig_type, UserCancelled
-from electrum.wallet import wallet_types
+from bitraam.bip32 import is_bip32_derivation, BIP32Node, normalize_bip32_derivation, xpub_type
+from bitraam.daemon import Daemon
+from bitraam.i18n import _
+from bitraam.keystore import bip44_derivation, bip39_to_seed, purpose48_derivation, ScriptTypeNotSupported
+from bitraam.plugin import run_hook, HardwarePluginLibraryUnavailable
+from bitraam.storage import StorageReadWriteError
+from bitraam.util import WalletFileException, get_new_wallet_name, UserFacingException, InvalidPassword
+from bitraam.util import is_subpath, ChoiceItem, multisig_type, UserCancelled
+from bitraam.wallet import wallet_types
 from .wizard import QEAbstractWizard, WizardComponent
-from electrum.logging import get_logger, Logger
-from electrum import WalletStorage, mnemonic, keystore
-from electrum.wallet_db import WalletDB
-from electrum.wizard import NewWalletWizard, KeystoreWizard, WizardViewState
+from bitraam.logging import get_logger, Logger
+from bitraam import WalletStorage, mnemonic, keystore
+from bitraam.wallet_db import WalletDB
+from bitraam.wizard import NewWalletWizard, KeystoreWizard, WizardViewState
 
-from electrum.gui.qt.bip39_recovery_dialog import Bip39RecoveryDialog
-from electrum.gui.qt.password_dialog import PasswordLayout, PW_NEW, MSG_ENTER_PASSWORD, PasswordLayoutForHW
-from electrum.gui.qt.seed_dialog import SeedWidget, MSG_PASSPHRASE_WARN_ISSUE4566, KeysWidget
-from electrum.gui.qt.util import (PasswordLineEdit, char_width_in_lineedit, WWLabel, InfoButton, font_height,
+from bitraam.gui.qt.bip39_recovery_dialog import Bip39RecoveryDialog
+from bitraam.gui.qt.password_dialog import PasswordLayout, PW_NEW, MSG_ENTER_PASSWORD, PasswordLayoutForHW
+from bitraam.gui.qt.seed_dialog import SeedWidget, MSG_PASSPHRASE_WARN_ISSUE4566, KeysWidget
+from bitraam.gui.qt.util import (PasswordLineEdit, char_width_in_lineedit, WWLabel, InfoButton, font_height,
                                   ChoiceWidget, MessageBoxMixin, icon_path, IconLabel, read_QIcon)
-from electrum.gui.qt.plugins_dialog import PluginsDialog
+from bitraam.gui.qt.plugins_dialog import PluginsDialog
 
 if TYPE_CHECKING:
-    from electrum.simple_config import SimpleConfig
-    from electrum.plugin import Plugins, DeviceInfo
-    from electrum.gui.qt import QElectrumApplication
+    from bitraam.simple_config import SimpleConfig
+    from bitraam.plugin import Plugins, DeviceInfo
+    from bitraam.gui.qt import QElectrumApplication
 
 WIF_HELP_TEXT = (_('WIF keys are typed in Electrum, based on script type.') + '\n\n' +
                  _('A few examples') + ':\n' +

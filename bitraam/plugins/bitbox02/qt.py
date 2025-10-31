@@ -5,19 +5,19 @@ from typing import TYPE_CHECKING
 from PyQt6.QtCore import Qt, QMetaObject, Q_RETURN_ARG, pyqtSlot, pyqtSignal
 from PyQt6.QtWidgets import QLabel, QVBoxLayout, QLineEdit, QHBoxLayout
 
-from electrum.i18n import _
-from electrum.plugin import hook
-from electrum.util import UserCancelled, UserFacingException
+from bitraam.i18n import _
+from bitraam.plugin import hook
+from bitraam.util import UserCancelled, UserFacingException
 
 from .bitbox02 import BitBox02Plugin
-from electrum.hw_wallet.qt import QtHandlerBase, QtPluginBase
-from electrum.hw_wallet.plugin import only_hook_if_libraries_available, OperationCancelled
+from bitraam.hw_wallet.qt import QtHandlerBase, QtPluginBase
+from bitraam.hw_wallet.plugin import only_hook_if_libraries_available, OperationCancelled
 
-from electrum.gui.qt.wizard.wallet import WCScriptAndDerivation, WCHWUnlock, WCHWUninitialized, WCHWXPub
-from electrum.gui.qt.util import WindowModalDialog, OkButton, ButtonsTextEdit, read_QIcon
+from bitraam.gui.qt.wizard.wallet import WCScriptAndDerivation, WCHWUnlock, WCHWUninitialized, WCHWXPub
+from bitraam.gui.qt.util import WindowModalDialog, OkButton, ButtonsTextEdit, read_QIcon
 
 if TYPE_CHECKING:
-    from electrum.gui.qt.wizard.wallet import QENewWalletWizard
+    from bitraam.gui.qt.wizard.wallet import QENewWalletWizard
 
 
 class Plugin(BitBox02Plugin, QtPluginBase):

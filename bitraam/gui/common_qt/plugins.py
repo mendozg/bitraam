@@ -3,11 +3,11 @@ from typing import TYPE_CHECKING, Optional
 
 from PyQt6.QtCore import pyqtSignal, pyqtProperty, QObject
 
-from electrum.logging import get_logger
+from bitraam.logging import get_logger
 
 if TYPE_CHECKING:
-    from electrum.gui.qml import ElectrumQmlApplication
-    from electrum.plugin import BasePlugin
+    from bitraam.gui.qml import ElectrumQmlApplication
+    from bitraam.plugin import BasePlugin
 
 
 class PluginQObject(QObject):

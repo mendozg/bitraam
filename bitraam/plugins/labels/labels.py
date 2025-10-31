@@ -29,15 +29,15 @@ from typing import Union, TYPE_CHECKING
 
 import base64
 
-from electrum import util
-from electrum.plugin import BasePlugin, hook
-from electrum.crypto import aes_encrypt_with_iv, aes_decrypt_with_iv
-from electrum.i18n import _
-from electrum.util import log_exceptions, ignore_exceptions, make_aiohttp_session
-from electrum.network import Network
+from bitraam import util
+from bitraam.plugin import BasePlugin, hook
+from bitraam.crypto import aes_encrypt_with_iv, aes_decrypt_with_iv
+from bitraam.i18n import _
+from bitraam.util import log_exceptions, ignore_exceptions, make_aiohttp_session
+from bitraam.network import Network
 
 if TYPE_CHECKING:
-    from electrum.wallet import Abstract_Wallet
+    from bitraam.wallet import Abstract_Wallet
 
 
 class ErrorConnectingServer(Exception):

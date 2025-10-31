@@ -3,16 +3,16 @@ from typing import TYPE_CHECKING, List
 from PyQt6.QtCore import pyqtSlot, QSortFilterProxyModel, pyqtSignal, pyqtProperty
 from PyQt6.QtCore import Qt, QAbstractListModel, QModelIndex
 
-from electrum.logging import get_logger
-from electrum.util import Satoshis
+from bitraam.logging import get_logger
+from bitraam.util import Satoshis
 from .qeconfig import QEConfig
 
 from .qetypes import QEAmount
 from .util import qt_event_listener, QtEventListener
 
 if TYPE_CHECKING:
-    from electrum.wallet import Abstract_Wallet
-    from electrum.transaction import PartialTxInput
+    from bitraam.wallet import Abstract_Wallet
+    from bitraam.transaction import PartialTxInput
 
 
 class QEAddressCoinFilterProxyModel(QSortFilterProxyModel):

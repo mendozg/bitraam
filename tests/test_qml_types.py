@@ -1,11 +1,11 @@
 import shutil
 import tempfile
 
-from electrum import SimpleConfig
-from electrum.gui.qml.qetypes import QEAmount
-from electrum.invoices import Invoice, LN_EXPIRY_NEVER
+from bitraam import SimpleConfig
+from bitraam.gui.qml.qetypes import QEAmount
+from bitraam.invoices import Invoice, LN_EXPIRY_NEVER
 from tests.qt_util import QETestCase, QEventReceiver, qt_test
-from electrum.transaction import PartialTxOutput
+from bitraam.transaction import PartialTxOutput
 
 
 class WalletMock:

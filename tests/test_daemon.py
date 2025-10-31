@@ -1,11 +1,11 @@
 import os
 from typing import Optional, Iterable
 
-from electrum.commands import Commands
-from electrum.daemon import Daemon
-from electrum.simple_config import SimpleConfig
-from electrum.wallet import Abstract_Wallet
-from electrum import util
+from bitraam.commands import Commands
+from bitraam.daemon import Daemon
+from bitraam.simple_config import SimpleConfig
+from bitraam.wallet import Abstract_Wallet
+from bitraam import util
 
 from . import ElectrumTestCase, as_testnet, restore_wallet_from_text__for_unittest
 

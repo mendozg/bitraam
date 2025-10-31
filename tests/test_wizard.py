@@ -1,18 +1,18 @@
 import os
 
-from electrum import SimpleConfig
-from electrum.interface import ServerAddr
-from electrum.keystore import bip44_derivation, Hardware_KeyStore, KeyStore, BIP32_KeyStore
-from electrum.network import NetworkParameters, ProxySettings
-from electrum.plugin import Plugins, DeviceInfo, Device
-from electrum.wizard import ServerConnectWizard, NewWalletWizard, WizardViewState, KeystoreWizard
-from electrum.daemon import Daemon
-from electrum.wallet import Abstract_Wallet, Deterministic_Wallet
-from electrum import util
-from electrum import slip39
-from electrum.bip32 import KeyOriginInfo
-from electrum import keystore
-from electrum.storage import WalletStorage
+from bitraam import SimpleConfig
+from bitraam.interface import ServerAddr
+from bitraam.keystore import bip44_derivation, Hardware_KeyStore, KeyStore, BIP32_KeyStore
+from bitraam.network import NetworkParameters, ProxySettings
+from bitraam.plugin import Plugins, DeviceInfo, Device
+from bitraam.wizard import ServerConnectWizard, NewWalletWizard, WizardViewState, KeystoreWizard
+from bitraam.daemon import Daemon
+from bitraam.wallet import Abstract_Wallet, Deterministic_Wallet
+from bitraam import util
+from bitraam import slip39
+from bitraam.bip32 import KeyOriginInfo
+from bitraam import keystore
+from bitraam.storage import WalletStorage
 
 from . import ElectrumTestCase
 from .test_wallet_vertical import UNICODE_HORROR, WalletIntegrityHelper

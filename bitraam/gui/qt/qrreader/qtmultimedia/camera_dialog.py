@@ -34,12 +34,12 @@ from PyQt6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QCheckBox, QPushB
 from PyQt6.QtGui import QImage, QPixmap
 from PyQt6.QtCore import QSize, QRect, Qt, pyqtSignal, PYQT_VERSION
 
-from electrum.simple_config import SimpleConfig
-from electrum.i18n import _
-from electrum.qrreader import get_qr_reader, QrCodeResult, MissingQrDetectionLib
-from electrum.logging import Logger
+from bitraam.simple_config import SimpleConfig
+from bitraam.i18n import _
+from bitraam.qrreader import get_qr_reader, QrCodeResult, MissingQrDetectionLib
+from bitraam.logging import Logger
 
-from electrum.gui.qt.util import MessageBoxMixin, FixedAspectRatioLayout, ImageGraphicsEffect
+from bitraam.gui.qt.util import MessageBoxMixin, FixedAspectRatioLayout, ImageGraphicsEffect
 
 from .video_widget import QrReaderVideoWidget
 from .video_overlay import QrReaderVideoOverlay

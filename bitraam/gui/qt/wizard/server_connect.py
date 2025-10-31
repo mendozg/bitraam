@@ -4,17 +4,17 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtWidgets import QCheckBox, QLabel, QHBoxLayout, QVBoxLayout, QWidget
 
-from electrum.i18n import _
-from electrum.wizard import ServerConnectWizard
-from electrum.gui.qt.network_dialog import ProxyWidget, ServerWidget
-from electrum.gui.qt.util import icon_path
+from bitraam.i18n import _
+from bitraam.wizard import ServerConnectWizard
+from bitraam.gui.qt.network_dialog import ProxyWidget, ServerWidget
+from bitraam.gui.qt.util import icon_path
 from .wizard import QEAbstractWizard, WizardComponent
 
 if TYPE_CHECKING:
-    from electrum.simple_config import SimpleConfig
-    from electrum.plugin import Plugins
-    from electrum.daemon import Daemon
-    from electrum.gui.qt import QElectrumApplication
+    from bitraam.simple_config import SimpleConfig
+    from bitraam.plugin import Plugins
+    from bitraam.daemon import Daemon
+    from bitraam.gui.qt import QElectrumApplication
 
 
 class QEServerConnectWizard(ServerConnectWizard, QEAbstractWizard):

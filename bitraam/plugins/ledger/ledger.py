@@ -8,26 +8,26 @@ from typing import Dict, List, Optional, Sequence, Tuple, TYPE_CHECKING, Union
 
 import electrum_ecc as ecc
 
-from electrum import bip32, constants
-from electrum import descriptor
-from electrum.bip32 import BIP32Node, convert_bip32_intpath_to_strpath, normalize_bip32_derivation
-from electrum.bitcoin import EncodeBase58Check, is_b58_address, is_segwit_script_type, var_int
-from electrum.crypto import hash_160
-from electrum.i18n import _
-from electrum.keystore import Hardware_KeyStore
-from electrum.logging import get_logger
-from electrum.plugin import Device, runs_in_hwd_thread
-from electrum.transaction import PartialTransaction, Transaction, PartialTxInput
-from electrum.util import bfh, UserFacingException, versiontuple
-from electrum.wallet import Standard_Wallet
+from bitraam import bip32, constants
+from bitraam import descriptor
+from bitraam.bip32 import BIP32Node, convert_bip32_intpath_to_strpath, normalize_bip32_derivation
+from bitraam.bitcoin import EncodeBase58Check, is_b58_address, is_segwit_script_type, var_int
+from bitraam.crypto import hash_160
+from bitraam.i18n import _
+from bitraam.keystore import Hardware_KeyStore
+from bitraam.logging import get_logger
+from bitraam.plugin import Device, runs_in_hwd_thread
+from bitraam.transaction import PartialTransaction, Transaction, PartialTxInput
+from bitraam.util import bfh, UserFacingException, versiontuple
+from bitraam.wallet import Standard_Wallet
 
-from electrum.hw_wallet import HardwareClientBase, HW_PluginBase
-from electrum.hw_wallet.plugin import is_any_tx_output_on_change_branch, validate_op_return_output, LibraryFoundButUnusable
-from electrum.hw_wallet.plugin import HardwareClientDummy
+from bitraam.hw_wallet import HardwareClientBase, HW_PluginBase
+from bitraam.hw_wallet.plugin import is_any_tx_output_on_change_branch, validate_op_return_output, LibraryFoundButUnusable
+from bitraam.hw_wallet.plugin import HardwareClientDummy
 
 if TYPE_CHECKING:
-    from electrum.plugin import DeviceInfo
-    from electrum.wizard import NewWalletWizard
+    from bitraam.plugin import DeviceInfo
+    from bitraam.wizard import NewWalletWizard
 
 _logger = get_logger(__name__)
 

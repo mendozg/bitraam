@@ -4,15 +4,15 @@ from typing import TYPE_CHECKING, Dict, Any
 from PyQt6.QtCore import pyqtProperty, pyqtSignal, pyqtSlot
 from PyQt6.QtCore import Qt, QAbstractListModel, QModelIndex
 
-from electrum.logging import get_logger
-from electrum.util import Satoshis, TxMinedInfo
-from electrum.address_synchronizer import TX_HEIGHT_FUTURE, TX_HEIGHT_LOCAL
+from bitraam.logging import get_logger
+from bitraam.util import Satoshis, TxMinedInfo
+from bitraam.address_synchronizer import TX_HEIGHT_FUTURE, TX_HEIGHT_LOCAL
 
 from .qetypes import QEAmount
 from .util import QtEventListener, qt_event_listener
 
 if TYPE_CHECKING:
-    from electrum.wallet import Abstract_Wallet
+    from bitraam.wallet import Abstract_Wallet
 
 
 class QETransactionListModel(QAbstractListModel, QtEventListener):

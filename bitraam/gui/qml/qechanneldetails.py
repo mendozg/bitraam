@@ -4,12 +4,12 @@ from typing import Optional, TYPE_CHECKING
 
 from PyQt6.QtCore import pyqtProperty, pyqtSignal, pyqtSlot, QObject, pyqtEnum
 
-from electrum.i18n import _
-from electrum.gui import messages
-from electrum.logging import get_logger
-from electrum.lnutil import LOCAL, REMOTE
-from electrum.lnchannel import ChanCloseOption, ChannelState, AbstractChannel, Channel, ChannelBackup
-from electrum.util import format_short_id
+from bitraam.i18n import _
+from bitraam.gui import messages
+from bitraam.logging import get_logger
+from bitraam.lnutil import LOCAL, REMOTE
+from bitraam.lnchannel import ChanCloseOption, ChannelState, AbstractChannel, Channel, ChannelBackup
+from bitraam.util import format_short_id
 
 from .auth import AuthMixin, auth_protect
 from .qewallet import QEWallet
@@ -17,7 +17,7 @@ from .qetypes import QEAmount
 from .util import QtEventListener, event_listener
 
 if TYPE_CHECKING:
-    from electrum.wallet import Abstract_Wallet
+    from bitraam.wallet import Abstract_Wallet
 
 
 class QEChannelDetails(AuthMixin, QObject, QtEventListener):

@@ -1,11 +1,11 @@
 from typing import TYPE_CHECKING, List
 
-from electrum.simple_config import ConfigVar, SimpleConfig
-from electrum.commands import plugin_command
+from bitraam.simple_config import ConfigVar, SimpleConfig
+from bitraam.commands import plugin_command
 
 if TYPE_CHECKING:
-    from electrum.commands import Commands
-    from electrum.wallet import Abstract_Wallet
+    from bitraam.commands import Commands
+    from bitraam.wallet import Abstract_Wallet
 
 
 plugin_name = "swapserver"

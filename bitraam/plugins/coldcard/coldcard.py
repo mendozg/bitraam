@@ -7,22 +7,22 @@ import time
 from typing import TYPE_CHECKING, Optional
 import struct
 
-from electrum import bip32
-from electrum.bip32 import BIP32Node, InvalidMasterKeyVersionBytes
-from electrum.i18n import _
-from electrum.plugin import Device, hook, runs_in_hwd_thread
-from electrum.keystore import Hardware_KeyStore, KeyStoreWithMPK
-from electrum.transaction import PartialTransaction
-from electrum.wallet import Standard_Wallet, Multisig_Wallet, Abstract_Wallet
-from electrum.util import bfh, versiontuple, UserFacingException
-from electrum.logging import get_logger
+from bitraam import bip32
+from bitraam.bip32 import BIP32Node, InvalidMasterKeyVersionBytes
+from bitraam.i18n import _
+from bitraam.plugin import Device, hook, runs_in_hwd_thread
+from bitraam.keystore import Hardware_KeyStore, KeyStoreWithMPK
+from bitraam.transaction import PartialTransaction
+from bitraam.wallet import Standard_Wallet, Multisig_Wallet, Abstract_Wallet
+from bitraam.util import bfh, versiontuple, UserFacingException
+from bitraam.logging import get_logger
 
-from electrum.hw_wallet import HW_PluginBase, HardwareClientBase
-from electrum.hw_wallet.plugin import LibraryFoundButUnusable, only_hook_if_libraries_available
+from bitraam.hw_wallet import HW_PluginBase, HardwareClientBase
+from bitraam.hw_wallet.plugin import LibraryFoundButUnusable, only_hook_if_libraries_available
 
 if TYPE_CHECKING:
-    from electrum.plugin import DeviceInfo
-    from electrum.wizard import NewWalletWizard
+    from bitraam.plugin import DeviceInfo
+    from bitraam.wizard import NewWalletWizard
 
 _logger = get_logger(__name__)
 

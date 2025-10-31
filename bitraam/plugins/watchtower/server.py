@@ -5,15 +5,15 @@ from typing import TYPE_CHECKING
 
 from aiohttp import web
 
-from electrum.util import log_exceptions, ignore_exceptions
-from electrum.logging import Logger
-from electrum.util import EventListener
-from electrum.lnaddr import lndecode
-from electrum.daemon import AuthenticatedServer
+from bitraam.util import log_exceptions, ignore_exceptions
+from bitraam.logging import Logger
+from bitraam.util import EventListener
+from bitraam.lnaddr import lndecode
+from bitraam.daemon import AuthenticatedServer
 
 
 if TYPE_CHECKING:
-    from electrum.network import Network
+    from bitraam.network import Network
 
 
 class WatchTowerServer(AuthenticatedServer):

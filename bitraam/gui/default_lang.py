@@ -9,7 +9,7 @@
 import os
 from typing import Optional
 
-from electrum.i18n import languages
+from bitraam.i18n import languages
 
 
 jLocale = None

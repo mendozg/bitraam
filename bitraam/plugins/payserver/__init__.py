@@ -1,4 +1,4 @@
-from electrum.simple_config import ConfigVar, SimpleConfig
+from bitraam.simple_config import ConfigVar, SimpleConfig
 
 SimpleConfig.PAYSERVER_PORT = ConfigVar('plugins.payserver.port', default=8080, type_=int, plugin=__name__)
 SimpleConfig.PAYSERVER_ROOT = ConfigVar('plugins.payserver.root', default='/r', type_=str, plugin=__name__)

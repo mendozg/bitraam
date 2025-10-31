@@ -3,10 +3,10 @@ from decimal import Decimal
 
 from PyQt6.QtCore import pyqtProperty, pyqtSignal, pyqtSlot, QObject, QRegularExpression
 
-from electrum.bitcoin import COIN
-from electrum.exchange_rate import FxThread
-from electrum.logging import get_logger
-from electrum.simple_config import SimpleConfig
+from bitraam.bitcoin import COIN
+from bitraam.exchange_rate import FxThread
+from bitraam.logging import get_logger
+from bitraam.simple_config import SimpleConfig
 
 from .qetypes import QEAmount
 from .util import QtEventListener, event_listener

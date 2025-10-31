@@ -1,6 +1,6 @@
 from PyQt6.QtCore import QTranslator
 
-from electrum.i18n import _
+from bitraam.i18n import _
 
 
 class ElectrumTranslator(QTranslator):

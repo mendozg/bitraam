@@ -1,10 +1,10 @@
 from PyQt6.QtCore import pyqtProperty, pyqtSignal, pyqtSlot
 from PyQt6.QtCore import Qt, QAbstractListModel, QModelIndex
 
-from electrum.logging import get_logger
-from electrum.util import Satoshis
-from electrum.interface import ServerAddr, PREFERRED_NETWORK_PROTOCOL
-from electrum import blockchain
+from bitraam.logging import get_logger
+from bitraam.util import Satoshis
+from bitraam.interface import ServerAddr, PREFERRED_NETWORK_PROTOCOL
+from bitraam import blockchain
 
 from .util import QtEventListener, qt_event_listener
 

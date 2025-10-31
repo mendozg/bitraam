@@ -5,9 +5,9 @@ from PyQt6.QtGui import QCursor
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QSlider, QToolTip, QComboBox, QWidget
 
-from electrum.i18n import _
-from electrum.fee_policy import FeeMethod, FeePolicy
-from electrum.network import Network
+from bitraam.i18n import _
+from bitraam.fee_policy import FeeMethod, FeePolicy
+from bitraam.network import Network
 
 
 class FeeComboBox(QComboBox):

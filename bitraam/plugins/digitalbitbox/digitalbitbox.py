@@ -19,27 +19,27 @@ from typing import TYPE_CHECKING, Optional
 
 import electrum_ecc as ecc
 
-from electrum.crypto import sha256d, EncodeAES_bytes, DecodeAES_bytes, hmac_oneshot
-from electrum.bitcoin import public_key_to_p2pkh, usermessage_magic, verify_usermessage_with_address
-from electrum.bip32 import BIP32Node, convert_bip32_intpath_to_strpath, is_all_public_derivation
-from electrum.bip32 import normalize_bip32_derivation
-from electrum import descriptor
-from electrum.wallet import Standard_Wallet
-from electrum import constants
-from electrum.transaction import Transaction, PartialTransaction, PartialTxInput, Sighash
-from electrum.i18n import _
-from electrum.keystore import Hardware_KeyStore
-from electrum.util import to_string, UserCancelled, UserFacingException, bfh, ChoiceItem
-from electrum.network import Network
-from electrum.logging import get_logger
-from electrum.plugin import runs_in_hwd_thread, run_in_hwd_thread
+from bitraam.crypto import sha256d, EncodeAES_bytes, DecodeAES_bytes, hmac_oneshot
+from bitraam.bitcoin import public_key_to_p2pkh, usermessage_magic, verify_usermessage_with_address
+from bitraam.bip32 import BIP32Node, convert_bip32_intpath_to_strpath, is_all_public_derivation
+from bitraam.bip32 import normalize_bip32_derivation
+from bitraam import descriptor
+from bitraam.wallet import Standard_Wallet
+from bitraam import constants
+from bitraam.transaction import Transaction, PartialTransaction, PartialTxInput, Sighash
+from bitraam.i18n import _
+from bitraam.keystore import Hardware_KeyStore
+from bitraam.util import to_string, UserCancelled, UserFacingException, bfh, ChoiceItem
+from bitraam.network import Network
+from bitraam.logging import get_logger
+from bitraam.plugin import runs_in_hwd_thread, run_in_hwd_thread
 
-from electrum.hw_wallet import HW_PluginBase, HardwareClientBase, HardwareHandlerBase
-from electrum.hw_wallet.plugin import OperationCancelled
+from bitraam.hw_wallet import HW_PluginBase, HardwareClientBase, HardwareHandlerBase
+from bitraam.hw_wallet.plugin import OperationCancelled
 
 if TYPE_CHECKING:
-    from electrum.plugin import DeviceInfo
-    from electrum.wizard import NewWalletWizard
+    from bitraam.plugin import DeviceInfo
+    from bitraam.wizard import NewWalletWizard
 
 _logger = get_logger(__name__)
 

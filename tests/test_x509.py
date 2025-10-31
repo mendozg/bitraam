@@ -1,6 +1,6 @@
 import unittest
 
-from electrum.x509 import X509
+from bitraam.x509 import X509
 
 from . import ElectrumTestCase
 

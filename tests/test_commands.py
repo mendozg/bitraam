@@ -9,19 +9,19 @@ from os import urandom
 import shutil
 
 import electrum
-from electrum.commands import Commands, eval_bool
-from electrum import storage, wallet
-from electrum.lnworker import RecvMPPResolution
-from electrum.wallet import Abstract_Wallet
-from electrum.address_synchronizer import TX_HEIGHT_UNCONFIRMED
-from electrum.simple_config import SimpleConfig
-from electrum.submarine_swaps import SwapOffer, SwapFees, NostrTransport
-from electrum.transaction import Transaction, TxOutput, tx_from_any
-from electrum.util import UserFacingException, NotEnoughFunds
-from electrum.crypto import sha256
-from electrum.lnaddr import lndecode
-from electrum.daemon import Daemon
-from electrum import json_db
+from bitraam.commands import Commands, eval_bool
+from bitraam import storage, wallet
+from bitraam.lnworker import RecvMPPResolution
+from bitraam.wallet import Abstract_Wallet
+from bitraam.address_synchronizer import TX_HEIGHT_UNCONFIRMED
+from bitraam.simple_config import SimpleConfig
+from bitraam.submarine_swaps import SwapOffer, SwapFees, NostrTransport
+from bitraam.transaction import Transaction, TxOutput, tx_from_any
+from bitraam.util import UserFacingException, NotEnoughFunds
+from bitraam.crypto import sha256
+from bitraam.lnaddr import lndecode
+from bitraam.daemon import Daemon
+from bitraam import json_db
 
 from . import ElectrumTestCase
 from . import restore_wallet_from_text__for_unittest

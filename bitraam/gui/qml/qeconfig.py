@@ -4,17 +4,17 @@ from typing import TYPE_CHECKING
 
 from PyQt6.QtCore import pyqtProperty, pyqtSignal, pyqtSlot, QObject, QRegularExpression
 
-from electrum.bitcoin import TOTAL_COIN_SUPPLY_LIMIT_IN_BTC
-from electrum.i18n import set_language, languages
-from electrum.logging import get_logger
-from electrum.util import base_unit_name_to_decimal_point
-from electrum.gui import messages
+from bitraam.bitcoin import TOTAL_COIN_SUPPLY_LIMIT_IN_BTC
+from bitraam.i18n import set_language, languages
+from bitraam.logging import get_logger
+from bitraam.util import base_unit_name_to_decimal_point
+from bitraam.gui import messages
 
 from .qetypes import QEAmount
 from .auth import AuthMixin, auth_protect
 
 if TYPE_CHECKING:
-    from electrum.simple_config import SimpleConfig
+    from bitraam.simple_config import SimpleConfig
 
 
 class QEConfig(AuthMixin, QObject):

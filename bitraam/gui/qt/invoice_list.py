@@ -31,10 +31,10 @@ from PyQt6.QtGui import QStandardItemModel, QStandardItem
 from PyQt6.QtWidgets import QAbstractItemView
 from PyQt6.QtWidgets import QMenu, QVBoxLayout, QTreeWidget, QTreeWidgetItem, QHeaderView
 
-from electrum.i18n import _
-from electrum.util import format_time
-from electrum.invoices import PR_UNPAID, PR_INFLIGHT, PR_FAILED
-from electrum.lnutil import HtlcLog
+from bitraam.i18n import _
+from bitraam.util import format_time
+from bitraam.invoices import PR_UNPAID, PR_INFLIGHT, PR_FAILED
+from bitraam.lnutil import HtlcLog
 
 from .util import read_QIcon, pr_icons
 from .util import CloseButton, Buttons

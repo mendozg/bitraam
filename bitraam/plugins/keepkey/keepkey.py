@@ -1,22 +1,22 @@
 from typing import Optional, TYPE_CHECKING, Sequence
 
-from electrum.util import UserFacingException
-from electrum.bip32 import BIP32Node
-from electrum import descriptor
-from electrum import constants
-from electrum.i18n import _
-from electrum.transaction import Transaction, PartialTransaction, PartialTxInput, Sighash
-from electrum.keystore import Hardware_KeyStore
-from electrum.plugin import Device, runs_in_hwd_thread
+from bitraam.util import UserFacingException
+from bitraam.bip32 import BIP32Node
+from bitraam import descriptor
+from bitraam import constants
+from bitraam.i18n import _
+from bitraam.transaction import Transaction, PartialTransaction, PartialTxInput, Sighash
+from bitraam.keystore import Hardware_KeyStore
+from bitraam.plugin import Device, runs_in_hwd_thread
 
-from electrum.hw_wallet import HW_PluginBase
-from electrum.hw_wallet.plugin import is_any_tx_output_on_change_branch, trezor_validate_op_return_output_and_get_data
+from bitraam.hw_wallet import HW_PluginBase
+from bitraam.hw_wallet.plugin import is_any_tx_output_on_change_branch, trezor_validate_op_return_output_and_get_data
 
 if TYPE_CHECKING:
     import usb1
     from .client import KeepKeyClient
-    from electrum.plugin import DeviceInfo
-    from electrum.wizard import NewWalletWizard
+    from bitraam.plugin import DeviceInfo
+    from bitraam.wizard import NewWalletWizard
 
 
 # TREZOR initialization methods

@@ -31,9 +31,9 @@ from PyQt6.QtCore import pyqtSignal
 from PyQt6.QtGui import QFontMetrics, QFont, QContextMenuEvent
 from PyQt6.QtWidgets import QTextEdit, QWidget, QLineEdit, QStackedLayout, QCompleter
 
-from electrum.payment_identifier import PaymentIdentifier
-from electrum.logging import Logger
-from electrum.util import EventListener, event_listener
+from bitraam.payment_identifier import PaymentIdentifier
+from bitraam.logging import Logger
+from bitraam.util import EventListener, event_listener
 
 from . import util
 from .util import MONOSPACE_FONT, GenericInputHandler, ColorScheme, add_input_actions_to_context_menu

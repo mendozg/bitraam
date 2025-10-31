@@ -213,18 +213,18 @@ You now have a self-signed certificate `signing_dummy` added to your `login` key
 
 #### To sign the executables with the self-signed certificate:
 
-Assuming you have the two unsigned outputs of `make_osx.sh` inside `~/electrum/dist`
-(e.g. `Electrum.app` and `electrum-4.5.4-1368-gc8db684cc-unsigned.dmg`).
+Assuming you have the two unsigned outputs of `make_osx.sh` inside `~/bitraam/dist`
+(e.g. `Bitraam.app` and `bitraam-4.5.4-1368-gc8db684cc-unsigned.dmg`).
 
-In `~/electrum` run:
+In `~/bitraam` run:
 
 `$ CODESIGN_CERT="signing_dummy" ./contrib/osx/sign_osx.sh`
 
-After `sign_osx.sh` finished, you will have a new `*.dmg` inside `electrum/dist`
+After `sign_osx.sh` finished, you will have a new `*.dmg` inside `bitraam/dist`
 (without the `-unsigned` postfix) which is signed with your certificate.
 
 #### To compare the unsigned executable with the self-signed executable:
 
 Running `compare_dmg` with `IS_NOTARIZED=false` should succeed:
 
-`$ IS_NOTARIZED=false ./electrum/contrib/osx/compare_dmg <unsigned executable> <self-signed executable>`
+`$ IS_NOTARIZED=false ./bitraam/contrib/osx/compare_dmg <unsigned executable> <self-signed executable>`

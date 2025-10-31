@@ -28,19 +28,19 @@ from typing import TYPE_CHECKING, List, Tuple, Optional
 
 from PyQt6.QtCore import QObject, pyqtSignal, pyqtProperty, pyqtSlot
 
-from electrum import util
-from electrum.plugin import hook
-from electrum.transaction import PartialTransaction, tx_from_any
-from electrum.wallet import Multisig_Wallet
-from electrum.util import EventListener, event_listener
+from bitraam import util
+from bitraam.plugin import hook
+from bitraam.transaction import PartialTransaction, tx_from_any
+from bitraam.wallet import Multisig_Wallet
+from bitraam.util import EventListener, event_listener
 
-from electrum.gui.qml.qewallet import QEWallet
+from bitraam.gui.qml.qewallet import QEWallet
 
 from .psbt_nostr import PsbtNostrPlugin, CosignerWallet
 
 if TYPE_CHECKING:
-    from electrum.wallet import Abstract_Wallet
-    from electrum.gui.qml import ElectrumQmlApplication
+    from bitraam.wallet import Abstract_Wallet
+    from bitraam.gui.qml import ElectrumQmlApplication
 
 
 class QReceiveSignalObject(QObject):

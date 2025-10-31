@@ -27,17 +27,17 @@ from typing import TYPE_CHECKING
 
 from PyQt6.QtCore import QObject, pyqtSignal
 
-from electrum.plugin import hook
-from electrum.i18n import _
+from bitraam.plugin import hook
+from bitraam.i18n import _
 
-from electrum.gui.common_qt.util import TaskThread
-from electrum.gui.qt.util import read_QIcon_from_bytes
+from bitraam.gui.common_qt.util import TaskThread
+from bitraam.gui.qt.util import read_QIcon_from_bytes
 
 from .labels import LabelsPlugin
 
 if TYPE_CHECKING:
-    from electrum.gui.qt.main_window import ElectrumWindow
-    from electrum.wallet import Abstract_Wallet
+    from bitraam.gui.qt.main_window import ElectrumWindow
+    from bitraam.wallet import Abstract_Wallet
 
 
 class QLabelsSignalObject(QObject):

@@ -2,9 +2,9 @@ from pprint import pprint
 import unittest
 from typing import NamedTuple
 
-from electrum.lnutil import RECEIVED, LOCAL, REMOTE, SENT, HTLCOwner, Direction
-from electrum.lnhtlc import HTLCManager
-from electrum.json_db import StoredDict
+from bitraam.lnutil import RECEIVED, LOCAL, REMOTE, SENT, HTLCOwner, Direction
+from bitraam.lnhtlc import HTLCManager
+from bitraam.json_db import StoredDict
 
 from . import ElectrumTestCase
 

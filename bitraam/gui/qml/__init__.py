@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING
 try:
     import PyQt6
 except Exception as e:
-    from electrum import GuiImportError
+    from bitraam import GuiImportError
     raise GuiImportError(
         "Error: Could not import PyQt6. On Linux systems, "
         "you may try 'sudo apt-get install python3-pyqt6'") from e
@@ -15,7 +15,7 @@ except Exception as e:
 try:
     import PyQt6.QtQml
 except Exception as e:
-    from electrum import GuiImportError
+    from bitraam import GuiImportError
     raise GuiImportError(
         "Error: Could not import PyQt6.QtQml. On Linux systems, "
         "you may try 'sudo apt-get install python3-pyqt6.qtquick'") from e
@@ -23,17 +23,17 @@ except Exception as e:
 from PyQt6.QtCore import (Qt, QCoreApplication, QLocale, QTimer, QT_VERSION_STR, PYQT_VERSION_STR)
 from PyQt6.QtGui import QGuiApplication
 
-from electrum.plugin import run_hook
-from electrum.util import profiler
-from electrum.logging import Logger
-from electrum.gui import BaseElectrumGui
-from electrum.gui.common_qt.i18n import ElectrumTranslator
+from bitraam.plugin import run_hook
+from bitraam.util import profiler
+from bitraam.logging import Logger
+from bitraam.gui import BaseElectrumGui
+from bitraam.gui.common_qt.i18n import ElectrumTranslator
 
 
 if TYPE_CHECKING:
-    from electrum.daemon import Daemon
-    from electrum.simple_config import SimpleConfig
-    from electrum.plugin import Plugins
+    from bitraam.daemon import Daemon
+    from bitraam.simple_config import SimpleConfig
+    from bitraam.plugin import Plugins
 
 from .qeapp import ElectrumQmlApplication, Exception_Hook
 
@@ -86,7 +86,7 @@ class ElectrumGui(BaseElectrumGui, Logger):
 
         # Initialize any QML plugins
         run_hook('init_qml', self.app)
-        self.app.engine.load('electrum/gui/qml/components/main.qml')
+        self.app.engine.load('bitraam/gui/qml/components/main.qml')
 
     def close(self):
         self.app.quit()

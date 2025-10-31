@@ -30,9 +30,9 @@ from PyQt6.QtGui import QStandardItemModel, QStandardItem
 from PyQt6.QtWidgets import QMenu, QAbstractItemView
 from PyQt6.QtCore import Qt, QItemSelectionModel, QModelIndex
 
-from electrum.i18n import _
-from electrum.util import format_time
-from electrum.plugin import run_hook
+from bitraam.i18n import _
+from bitraam.util import format_time
+from bitraam.plugin import run_hook
 
 from .util import pr_icons, read_QIcon
 from .my_treeview import MyTreeView, MySortModel

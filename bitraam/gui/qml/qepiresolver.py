@@ -3,9 +3,9 @@ from typing import Optional
 
 from PyQt6.QtCore import pyqtProperty, pyqtSignal, pyqtSlot, QObject, QTimer
 
-from electrum.logging import get_logger
-from electrum.i18n import _
-from electrum.payment_identifier import PaymentIdentifier, PaymentIdentifierState, PaymentIdentifierType
+from bitraam.logging import get_logger
+from bitraam.i18n import _
+from bitraam.payment_identifier import PaymentIdentifier, PaymentIdentifierState, PaymentIdentifierType
 
 from .qewallet import QEWallet
 

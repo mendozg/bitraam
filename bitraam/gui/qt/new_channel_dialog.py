@@ -3,12 +3,12 @@ from PyQt6.QtWidgets import QLabel, QVBoxLayout, QGridLayout, QPushButton, QComb
 
 import electrum_ecc as ecc
 
-from electrum.i18n import _
-from electrum.lnutil import MIN_FUNDING_SAT
-from electrum.lnworker import hardcoded_trampoline_nodes
-from electrum.util import NotEnoughFunds, NoDynamicFeeEstimates
-from electrum.fee_policy import FeePolicy
-from electrum.lntransport import extract_nodeid, ConnStringFormatError
+from bitraam.i18n import _
+from bitraam.lnutil import MIN_FUNDING_SAT
+from bitraam.lnworker import hardcoded_trampoline_nodes
+from bitraam.util import NotEnoughFunds, NoDynamicFeeEstimates
+from bitraam.fee_policy import FeePolicy
+from bitraam.lntransport import extract_nodeid, ConnStringFormatError
 
 from .util import (WindowModalDialog, Buttons, OkButton, CancelButton,
                    EnterButton, WWLabel, char_width_in_lineedit)

@@ -2,8 +2,8 @@ from typing import TYPE_CHECKING
 
 from PyQt6.QtWidgets import QLabel, QVBoxLayout, QGridLayout, QPushButton
 
-from electrum.i18n import _
-from electrum.lnchannel import Channel
+from bitraam.i18n import _
+from bitraam.lnchannel import Channel
 
 from .util import WindowModalDialog, Buttons, OkButton, CancelButton, WWLabel
 from .amountedit import BTCAmountEdit

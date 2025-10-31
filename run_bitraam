@@ -32,7 +32,7 @@ _min_python_version_tuple = tuple(map(int, (MIN_PYTHON_VERSION.split("."))))
 
 
 if sys.version_info[:3] < _min_python_version_tuple:
-    sys.exit("Error: Electrum requires Python version >= %s..." % MIN_PYTHON_VERSION)
+    sys.exit("Error: Bitraam requires Python version >= %s..." % MIN_PYTHON_VERSION)
 
 
 import warnings
@@ -47,7 +47,7 @@ is_appimage = 'APPIMAGE' in os.environ
 is_binary_distributable = is_pyinstaller or is_android or is_appimage
 # is_local: unpacked tar.gz but not pip installed, or git clone
 is_local = (not is_binary_distributable
-            and os.path.exists(os.path.join(script_dir, "electrum.desktop")))
+            and os.path.exists(os.path.join(script_dir, "bitraam.desktop")))
 is_git_clone = is_local and os.path.exists(os.path.join(script_dir, ".git"))
 
 if is_git_clone:
@@ -102,20 +102,20 @@ if not is_android:
 
 sys._ELECTRUM_RUNNING_VIA_RUNELECTRUM = True  # used by logging.py
 
-from electrum.logging import get_logger, configure_logging  # import logging submodule first
-from electrum import util
-from electrum.payment_identifier import PaymentIdentifier
-from electrum import SimpleConfig
-from electrum.wallet_db import WalletDB
-from electrum.wallet import Wallet
-from electrum.storage import WalletStorage
-from electrum.util import print_msg, print_stderr, json_encode, json_decode, UserCancelled
-from electrum.util import InvalidPassword
-from electrum.plugin import Plugins
-from electrum.commands import get_parser, get_simple_parser, known_commands, Commands, config_variables
-from electrum import daemon
-from electrum.util import create_and_start_event_loop, UserFacingException, JsonRPCError
-from electrum.i18n import set_language
+from bitraam.logging import get_logger, configure_logging  # import logging submodule first
+from bitraam import util
+from bitraam.payment_identifier import PaymentIdentifier
+from bitraam import SimpleConfig
+from bitraam.wallet_db import WalletDB
+from bitraam.wallet import Wallet
+from bitraam.storage import WalletStorage
+from bitraam.util import print_msg, print_stderr, json_encode, json_decode, UserCancelled
+from bitraam.util import InvalidPassword
+from bitraam.plugin import Plugins
+from bitraam.commands import get_parser, get_simple_parser, known_commands, Commands, config_variables
+from bitraam import daemon
+from bitraam.util import create_and_start_event_loop, UserFacingException, JsonRPCError
+from bitraam.i18n import set_language
 
 if TYPE_CHECKING:
     import threading
@@ -423,7 +423,7 @@ def main():
         lang = config.LOCALIZATION_LANGUAGE
         if not lang:
             try:
-                from electrum.gui.default_lang import get_default_language
+                from bitraam.gui.default_lang import get_default_language
                 lang = get_default_language(gui_name=gui_name)
                 _logger.info(f"get_default_language: detected default as {lang=!r}")
             except ImportError as e:

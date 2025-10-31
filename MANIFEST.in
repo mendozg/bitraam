@@ -11,7 +11,7 @@ include contrib/requirements/requirements*.txt
 include contrib/deterministic-build/requirements*.txt
 include contrib/*.sh
 
-graft electrum
+graft bitraam
 graft tests
 graft contrib/udev
 

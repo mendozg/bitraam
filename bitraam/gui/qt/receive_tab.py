@@ -9,10 +9,10 @@ from PyQt6.QtCore import Qt, QSize
 from PyQt6.QtWidgets import (QLabel, QVBoxLayout, QGridLayout, QTextEdit,
                              QHBoxLayout, QPushButton, QWidget, QSizePolicy, QFrame)
 
-from electrum.i18n import _
-from electrum.util import InvoiceError, ChoiceItem
-from electrum.invoices import pr_expiration_values
-from electrum.logging import Logger
+from bitraam.i18n import _
+from bitraam.util import InvoiceError, ChoiceItem
+from bitraam.invoices import pr_expiration_values
+from bitraam.logging import Logger
 
 from .amountedit import AmountEdit, BTCAmountEdit, SizedFreezableLineEdit
 from .qrcodewidget import QRCodeWidget

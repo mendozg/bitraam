@@ -33,19 +33,19 @@ import electrum_aionostr as aionostr
 from electrum_aionostr.key import PrivateKey
 from typing import Dict, TYPE_CHECKING, Union, List, Tuple, Optional, Callable
 
-from electrum import util, Transaction
-from electrum.crypto import sha256
-from electrum.i18n import _
-from electrum.logging import Logger
-from electrum.plugin import BasePlugin
-from electrum.transaction import PartialTransaction, tx_from_any
-from electrum.util import (
+from bitraam import util, Transaction
+from bitraam.crypto import sha256
+from bitraam.i18n import _
+from bitraam.logging import Logger
+from bitraam.plugin import BasePlugin
+from bitraam.transaction import PartialTransaction, tx_from_any
+from bitraam.util import (
     log_exceptions, OldTaskGroup, ca_path, trigger_callback, event_listener, json_decode, make_aiohttp_proxy_connector
 )
-from electrum.wallet import Multisig_Wallet
+from bitraam.wallet import Multisig_Wallet
 
 if TYPE_CHECKING:
-    from electrum.wallet import Abstract_Wallet
+    from bitraam.wallet import Abstract_Wallet
     from aiohttp_socks import ProxyConnector
 
 # event kind used for nostr messages (with expiration tag)

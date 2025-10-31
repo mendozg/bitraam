@@ -3,10 +3,10 @@
 import sys
 import asyncio
 
-from electrum.network import Network
-from electrum.util import print_msg, create_and_start_event_loop
-from electrum.synchronizer import SynchronizerBase
-from electrum.simple_config import SimpleConfig
+from bitraam.network import Network
+from bitraam.util import print_msg, create_and_start_event_loop
+from bitraam.synchronizer import SynchronizerBase
+from bitraam.simple_config import SimpleConfig
 
 
 try:

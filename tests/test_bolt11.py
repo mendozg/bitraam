@@ -4,11 +4,11 @@ from binascii import unhexlify, hexlify
 import pprint
 import unittest
 
-from electrum.lnaddr import shorten_amount, unshorten_amount, LnAddr, lnencode, lndecode
-from electrum.segwit_addr import bech32_encode, bech32_decode
-from electrum import segwit_addr
-from electrum.lnutil import UnknownEvenFeatureBits, LnFeatures, IncompatibleLightningFeatures
-from electrum import constants
+from bitraam.lnaddr import shorten_amount, unshorten_amount, LnAddr, lnencode, lndecode
+from bitraam.segwit_addr import bech32_encode, bech32_decode
+from bitraam import segwit_addr
+from bitraam.lnutil import UnknownEvenFeatureBits, LnFeatures, IncompatibleLightningFeatures
+from bitraam import constants
 
 from . import ElectrumTestCase
 

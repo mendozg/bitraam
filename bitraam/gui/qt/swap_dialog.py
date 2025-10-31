@@ -8,14 +8,14 @@ from PyQt6.QtWidgets import QTreeWidget, QTreeWidgetItem, QHeaderView
 
 from electrum_aionostr.util import from_nip19
 
-from electrum.i18n import _
-from electrum.util import NotEnoughFunds, NoDynamicFeeEstimates, UserCancelled
-from electrum.bitcoin import DummyAddress
-from electrum.transaction import PartialTxOutput, PartialTransaction
-from electrum.fee_policy import FeePolicy
-from electrum.submarine_swaps import NostrTransport, pubkey_to_rgb_color
+from bitraam.i18n import _
+from bitraam.util import NotEnoughFunds, NoDynamicFeeEstimates, UserCancelled
+from bitraam.bitcoin import DummyAddress
+from bitraam.transaction import PartialTxOutput, PartialTransaction
+from bitraam.fee_policy import FeePolicy
+from bitraam.submarine_swaps import NostrTransport, pubkey_to_rgb_color
 
-from electrum.gui import messages
+from bitraam.gui import messages
 from . import util
 from .util import (WindowModalDialog, Buttons, OkButton, CancelButton,
                    EnterButton, ColorScheme, WWLabel, read_QIcon, IconLabel, char_width_in_lineedit)
@@ -26,8 +26,8 @@ from .my_treeview import create_toolbar_with_menu, MyTreeView
 
 if TYPE_CHECKING:
     from .main_window import ElectrumWindow
-    from electrum.submarine_swaps import SwapServerTransport, SwapOffer
-    from electrum.lnchannel import Channel
+    from bitraam.submarine_swaps import SwapServerTransport, SwapOffer
+    from bitraam.lnchannel import Channel
 
 CANNOT_RECEIVE_WARNING = _(
 """The requested amount is higher than what you can receive in your currently open channels.
@@ -520,7 +520,7 @@ class SwapServerDialog(WindowModalDialog, QtEventListener):
 
     def update_servers_list(self, servers: Sequence['SwapOffer']):
         self.servers_list.clear()
-        from electrum.util import age
+        from bitraam.util import age
         items = []
         for x in servers:
             labels = [""] * len(self.Columns)

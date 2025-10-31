@@ -3,13 +3,13 @@ import tempfile
 import unittest
 from typing import List
 
-from electrum import constants
-from electrum.simple_config import SimpleConfig
-from electrum import blockchain
-from electrum.interface import Interface, ServerAddr, ChainResolutionMode
-from electrum.crypto import sha256
-from electrum.util import OldTaskGroup
-from electrum import util
+from bitraam import constants
+from bitraam.simple_config import SimpleConfig
+from bitraam import blockchain
+from bitraam.interface import Interface, ServerAddr, ChainResolutionMode
+from bitraam.crypto import sha256
+from bitraam.util import OldTaskGroup
+from bitraam import util
 
 from . import ElectrumTestCase
 

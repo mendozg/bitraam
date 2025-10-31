@@ -2,9 +2,9 @@ import os
 import json
 from typing import Dict, List
 
-from electrum import bitcoin
-from electrum.json_db import StoredDict
-from electrum.lnutil import (
+from bitraam import bitcoin
+from bitraam.json_db import StoredDict
+from bitraam.lnutil import (
     RevocationStore, get_per_commitment_secret_from_seed, make_offered_htlc, make_received_htlc, make_commitment,
     make_htlc_tx_witness, make_htlc_tx_output, make_htlc_tx_inputs, secret_to_pubkey, derive_blinded_pubkey,
     derive_privkey, derive_pubkey, make_htlc_tx, extract_ctn_from_tx, get_compressed_pubkey_from_bech32,
@@ -12,11 +12,11 @@ from electrum.lnutil import (
     IncompatibleLightningFeatures, ChannelType, offered_htlc_trim_threshold_sat, received_htlc_trim_threshold_sat,
     ImportedChannelBackupStorage, list_enabled_ln_feature_bits
 )
-from electrum.util import bfh, MyEncoder
-from electrum.transaction import Transaction, PartialTransaction, Sighash
-from electrum.lnworker import LNWallet
-from electrum.wallet import Standard_Wallet
-from electrum.simple_config import SimpleConfig
+from bitraam.util import bfh, MyEncoder
+from bitraam.transaction import Transaction, PartialTransaction, Sighash
+from bitraam.lnworker import LNWallet
+from bitraam.wallet import Standard_Wallet
+from bitraam.simple_config import SimpleConfig
 
 from . import ElectrumTestCase, as_testnet
 from . import restore_wallet_from_text__for_unittest
@@ -799,7 +799,7 @@ class TestLNUtil(ElectrumTestCase):
     def test_commitment_tx_anchors_test_vectors(self):
         # this test is only valid for the original anchor output test vectors (not anchors-zero-fee-htlcs),
         # therefore we patch the effective htlc tx weight to result in a finite weight
-        from electrum import lnutil
+        from bitraam import lnutil
         effective_htlc_tx_weight_original = lnutil.effective_htlc_tx_weight
 
         def effective_htlc_tx_weight_patched(success: bool, has_anchors: bool):

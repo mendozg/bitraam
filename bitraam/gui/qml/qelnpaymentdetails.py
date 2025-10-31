@@ -1,7 +1,7 @@
 from PyQt6.QtCore import pyqtProperty, pyqtSignal, pyqtSlot, QObject
 
-from electrum.logging import get_logger
-from electrum.util import bfh, format_time
+from bitraam.logging import get_logger
+from bitraam.util import bfh, format_time
 
 from .qetypes import QEAmount
 from .qewallet import QEWallet

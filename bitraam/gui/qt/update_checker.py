@@ -9,14 +9,14 @@ from typing import Optional
 from PyQt6.QtCore import Qt, QThread, pyqtSignal
 from PyQt6.QtWidgets import QVBoxLayout, QLabel, QProgressBar, QHBoxLayout, QPushButton, QDialog
 
-from electrum import version
-from electrum import constants
-from electrum.bitcoin import verify_usermessage_with_address
-from electrum.i18n import _
-from electrum.util import make_aiohttp_session
-from electrum.logging import Logger
-from electrum.network import Network
-from electrum._vendor.distutils.version import StrictVersion
+from bitraam import version
+from bitraam import constants
+from bitraam.bitcoin import verify_usermessage_with_address
+from bitraam.i18n import _
+from bitraam.util import make_aiohttp_session
+from bitraam.logging import Logger
+from bitraam.network import Network
+from bitraam._vendor.distutils.version import StrictVersion
 
 
 class UpdateCheck(QDialog, Logger):

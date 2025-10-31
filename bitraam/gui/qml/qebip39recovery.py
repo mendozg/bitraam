@@ -5,13 +5,13 @@ from enum import IntEnum
 from PyQt6.QtCore import pyqtProperty, pyqtSignal, pyqtSlot, pyqtEnum
 from PyQt6.QtCore import Qt, QAbstractListModel, QModelIndex
 
-from electrum import Network, keystore
-from electrum.bip32 import BIP32Node
-from electrum.bip39_recovery import account_discovery
-from electrum.logging import get_logger
-from electrum.util import get_asyncio_loop
+from bitraam import Network, keystore
+from bitraam.bip32 import BIP32Node
+from bitraam.bip39_recovery import account_discovery
+from bitraam.logging import get_logger
+from bitraam.util import get_asyncio_loop
 
-from electrum.gui.common_qt.util import TaskThread
+from bitraam.gui.common_qt.util import TaskThread
 
 
 class QEBip39RecoveryListModel(QAbstractListModel):

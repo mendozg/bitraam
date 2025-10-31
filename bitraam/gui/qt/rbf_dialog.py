@@ -9,9 +9,9 @@ from PyQt6.QtWidgets import QLabel, QGridLayout, QHBoxLayout, QComboBox
 
 from .util import ColorScheme
 
-from electrum.i18n import _
-from electrum.transaction import PartialTransaction
-from electrum.wallet import CannotRBFTx, BumpFeeStrategy
+from bitraam.i18n import _
+from bitraam.transaction import PartialTransaction
+from bitraam.wallet import CannotRBFTx, BumpFeeStrategy
 
 if TYPE_CHECKING:
     from .main_window import ElectrumWindow

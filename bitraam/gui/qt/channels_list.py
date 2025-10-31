@@ -9,12 +9,12 @@ from PyQt6.QtCore import Qt, QRect, QSize
 from PyQt6.QtWidgets import QMenu, QLabel, QVBoxLayout, QGridLayout, QAbstractItemView, QCheckBox, QToolTip
 from PyQt6.QtGui import QFont, QStandardItem, QBrush, QPainter, QIcon, QHelpEvent
 
-from electrum.i18n import _
-from electrum.lnchannel import AbstractChannel, ChannelBackup, Channel, ChanCloseOption
-from electrum.wallet import Abstract_Wallet
-from electrum.lnutil import LOCAL, REMOTE
-from electrum.lnworker import LNWallet
-from electrum.gui import messages
+from bitraam.i18n import _
+from bitraam.lnchannel import AbstractChannel, ChannelBackup, Channel, ChanCloseOption
+from bitraam.wallet import Abstract_Wallet
+from bitraam.lnutil import LOCAL, REMOTE
+from bitraam.lnworker import LNWallet
+from bitraam.gui import messages
 
 from .util import WindowModalDialog, Buttons, OkButton, EnterButton, WaitingDialog, MONOSPACE_FONT, ColorScheme
 from .util import read_QIcon, font_height

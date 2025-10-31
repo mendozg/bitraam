@@ -12,13 +12,13 @@ from typing import Optional
 
 from aiorpcx import NetAddress
 
-from electrum.logging import get_logger, configure_logging
-from electrum.simple_config import SimpleConfig
-from electrum import constants, util
-from electrum.daemon import Daemon
-from electrum.wallet import create_new_wallet
-from electrum.util import create_and_start_event_loop, log_exceptions, bfh
-from electrum.lnutil import LnFeatures
+from bitraam.logging import get_logger, configure_logging
+from bitraam.simple_config import SimpleConfig
+from bitraam import constants, util
+from bitraam.daemon import Daemon
+from bitraam.wallet import create_new_wallet
+from bitraam.util import create_and_start_event_loop, log_exceptions, bfh
+from bitraam.lnutil import LnFeatures
 
 logger = get_logger(__name__)
 

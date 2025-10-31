@@ -30,17 +30,17 @@ from typing import TYPE_CHECKING, Optional
 
 from aiohttp import web
 
-from electrum import util
-from electrum.util import log_exceptions, ignore_exceptions
-from electrum.plugin import BasePlugin, hook
-from electrum.logging import Logger
-from electrum.util import EventListener, event_listener
-from electrum.invoices import PR_PAID, PR_EXPIRED
+from bitraam import util
+from bitraam.util import log_exceptions, ignore_exceptions
+from bitraam.plugin import BasePlugin, hook
+from bitraam.logging import Logger
+from bitraam.util import EventListener, event_listener
+from bitraam.invoices import PR_PAID, PR_EXPIRED
 
 if TYPE_CHECKING:
-    from electrum.simple_config import SimpleConfig
-    from electrum.daemon import Daemon
-    from electrum.wallet import Abstract_Wallet
+    from bitraam.simple_config import SimpleConfig
+    from bitraam.daemon import Daemon
+    from bitraam.wallet import Abstract_Wallet
 
 
 class PayServerPlugin(BasePlugin):
@@ -149,7 +149,7 @@ class PayServer(Logger, EventListener):
         return web.json_response(request)
 
     async def get_bip70_request(self, r):
-        from electrum.paymentrequest import make_request
+        from bitraam.paymentrequest import make_request
         key = r.match_info['key']
         request = self.wallet.get_request(key)
         if not request:

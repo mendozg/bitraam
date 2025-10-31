@@ -63,11 +63,11 @@ if [ ! -z "$ELECBUILD_COMMIT" ] ; then  # fresh clone (reproducible build)
     fi
 fi
 docker run $DOCKER_RUN_FLAGS \
-    --name electrum-wine-builder-cont \
-    -v "$PROJECT_ROOT_OR_FRESHCLONE_ROOT":/opt/wine64/drive_c/electrum \
+    --name bitraam-wine-builder-cont \
+    -v "$PROJECT_ROOT_OR_FRESHCLONE_ROOT":/opt/wine64/drive_c/bitraam \
     --rm \
-    --workdir /opt/wine64/drive_c/electrum/contrib/build-wine \
-    electrum-wine-builder-img \
+    --workdir /opt/wine64/drive_c/bitraam/contrib/build-wine \
+    bitraam-wine-builder-img \
     ./make_win.sh
 
 # make sure resulting binary location is independent of fresh_clone

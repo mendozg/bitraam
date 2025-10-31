@@ -3,27 +3,27 @@ import os
 
 from typing import List, NamedTuple, Any, Dict, Optional, Tuple, TYPE_CHECKING
 
-from electrum.gui.messages import TERMS_OF_USE_LATEST_VERSION
+from bitraam.gui.messages import TERMS_OF_USE_LATEST_VERSION
 
-from electrum.i18n import _
-from electrum.interface import ServerAddr
-from electrum.keystore import hardware_keystore
-from electrum.logging import get_logger
-from electrum.network import ProxySettings
-from electrum.plugin import run_hook
-from electrum.slip39 import EncryptedSeed
-from electrum.storage import WalletStorage, StorageEncryptionVersion
-from electrum.wallet_db import WalletDB
-from electrum.bip32 import normalize_bip32_derivation, xpub_type
-from electrum import keystore, mnemonic, bitcoin
-from electrum.mnemonic import is_any_2fa_seed_type, can_seed_have_passphrase
-from electrum.util import multisig_type
+from bitraam.i18n import _
+from bitraam.interface import ServerAddr
+from bitraam.keystore import hardware_keystore
+from bitraam.logging import get_logger
+from bitraam.network import ProxySettings
+from bitraam.plugin import run_hook
+from bitraam.slip39 import EncryptedSeed
+from bitraam.storage import WalletStorage, StorageEncryptionVersion
+from bitraam.wallet_db import WalletDB
+from bitraam.bip32 import normalize_bip32_derivation, xpub_type
+from bitraam import keystore, mnemonic, bitcoin
+from bitraam.mnemonic import is_any_2fa_seed_type, can_seed_have_passphrase
+from bitraam.util import multisig_type
 
 if TYPE_CHECKING:
-    from electrum.daemon import Daemon
-    from electrum.plugin import Plugins
-    from electrum.keystore import Hardware_KeyStore
-    from electrum.simple_config import SimpleConfig
+    from bitraam.daemon import Daemon
+    from bitraam.plugin import Plugins
+    from bitraam.keystore import Hardware_KeyStore
+    from bitraam.simple_config import SimpleConfig
 
 
 class WizardViewState(NamedTuple):

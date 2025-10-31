@@ -6,16 +6,16 @@ import electrum_ecc as ecc
 
 from PyQt6.QtCore import pyqtProperty, pyqtSignal, pyqtSlot, QObject
 
-from electrum.i18n import _
-from electrum.gui import messages
-from electrum.util import bfh
-from electrum.lnutil import MIN_FUNDING_SAT
-from electrum.lntransport import extract_nodeid, ConnStringFormatError
-from electrum.bitcoin import DummyAddress
-from electrum.lnworker import hardcoded_trampoline_nodes
-from electrum.logging import get_logger
-from electrum.fee_policy import FeePolicy
-from electrum.transaction import PartialTransaction
+from bitraam.i18n import _
+from bitraam.gui import messages
+from bitraam.util import bfh
+from bitraam.lnutil import MIN_FUNDING_SAT
+from bitraam.lntransport import extract_nodeid, ConnStringFormatError
+from bitraam.bitcoin import DummyAddress
+from bitraam.lnworker import hardcoded_trampoline_nodes
+from bitraam.logging import get_logger
+from bitraam.fee_policy import FeePolicy
+from bitraam.transaction import PartialTransaction
 
 from .auth import AuthMixin, auth_protect
 from .qetxfinalizer import QETxFinalizer

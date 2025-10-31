@@ -54,7 +54,7 @@ class ConfigVar(property):
         self._short_desc = short_desc
         self._long_desc = long_desc
         if plugin:  # enforce "key" starts with 'plugins.<name of plugin>.'
-            pkg_prefix = "electrum.plugins."  # for internal plugins
+            pkg_prefix = "bitraam.plugins."  # for internal plugins
             if plugin.startswith(pkg_prefix):
                 plugin = plugin[len(pkg_prefix):]
             assert "." not in plugin, plugin
@@ -244,7 +244,7 @@ class SimpleConfig(Logger):
         # ~hack for easier testnet builds. pkgname subject to change.
         android_pkg_name = util.get_android_package_name()
         for chain in constants.NETS_LIST:
-            if android_pkg_name == f"org.electrum.{chain.cli_flag()}.electrum":
+            if android_pkg_name == f"org.bitraam.{chain.cli_flag()}.electrum":
                 config_options[chain.cli_flag()] = True
 
     def get_selected_chain(self) -> Type[constants.AbstractNet]:
@@ -962,7 +962,7 @@ Warning: setting this to too low will result in lots of payment failures."""),
 
 
 def read_user_config(path: Optional[str]) -> Dict[str, Any]:
-    """Parse and store the user config settings in electrum.conf into user_config[]."""
+    """Parse and store the user config settings in bitraam.conf into user_config[]."""
     if not path:
         return {}
     config_path = os.path.join(path, "config")

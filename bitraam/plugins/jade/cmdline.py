@@ -1,6 +1,6 @@
-from electrum.plugin import hook
+from bitraam.plugin import hook
 from .jade import JadePlugin
-from electrum.hw_wallet import CmdLineHandler
+from bitraam.hw_wallet import CmdLineHandler
 
 class Plugin(JadePlugin):
     handler = CmdLineHandler()

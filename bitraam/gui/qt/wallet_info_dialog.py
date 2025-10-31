@@ -11,13 +11,13 @@ from PyQt6.QtWidgets import (
     QLabel, QVBoxLayout, QGridLayout,
     QHBoxLayout, QPushButton, QWidget, QTabWidget)
 
-from electrum.plugin import run_hook
-from electrum.i18n import _
-from electrum.wallet import Multisig_Wallet
-from electrum.wizard import WizardViewState
+from bitraam.plugin import run_hook
+from bitraam.i18n import _
+from bitraam.wallet import Multisig_Wallet
+from bitraam.wizard import WizardViewState
 
 from .main_window import protected
-from electrum.gui.qt.wizard.wallet import QEKeystoreWizard
+from bitraam.gui.qt.wizard.wallet import QEKeystoreWizard
 from .qrtextedit import ShowQRTextEdit
 from .util import (
     read_QIcon, WindowModalDialog, Buttons,

@@ -10,12 +10,12 @@ import urllib.parse
 
 import aiohttp.client_exceptions
 
-from electrum import segwit_addr, util
-from electrum.segwit_addr import bech32_decode, Encoding, convertbits, bech32_encode
-from electrum.lnaddr import LnDecodeException, LnEncodeException
-from electrum.network import Network
-from electrum.logging import get_logger
-from electrum.i18n import _
+from bitraam import segwit_addr, util
+from bitraam.segwit_addr import bech32_decode, Encoding, convertbits, bech32_encode
+from bitraam.lnaddr import LnDecodeException, LnEncodeException
+from bitraam.network import Network
+from bitraam.logging import get_logger
+from bitraam.i18n import _
 
 
 _logger = get_logger(__name__)

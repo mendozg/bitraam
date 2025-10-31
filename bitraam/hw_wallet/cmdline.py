@@ -22,8 +22,8 @@
 # ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-from electrum.util import print_stderr, raw_input
-from electrum.logging import get_logger
+from bitraam.util import print_stderr, raw_input
+from bitraam.logging import get_logger
 
 from .plugin import HardwareHandlerBase
 

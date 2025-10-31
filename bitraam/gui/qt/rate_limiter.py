@@ -9,7 +9,7 @@ import weakref
 
 from PyQt6.QtCore import QObject, QTimer
 
-from electrum.logging import Logger, get_logger
+from bitraam.logging import Logger, get_logger
 
 
 _logger = get_logger(__name__)

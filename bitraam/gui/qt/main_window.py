@@ -48,34 +48,34 @@ from PyQt6.QtWidgets import (QMessageBox, QTabWidget, QMenuBar, QFileDialog, QCh
 import electrum_ecc as ecc
 
 import electrum
-from electrum.gui import messages
-from electrum import (keystore, constants, util, bitcoin, commands,
+from bitraam.gui import messages
+from bitraam import (keystore, constants, util, bitcoin, commands,
                       paymentrequest, lnutil)
-from electrum.bitcoin import COIN, is_address, DummyAddress
-from electrum.plugin import run_hook
-from electrum.i18n import _
-from electrum.util import (format_time, UserCancelled, profiler, bfh, InvalidPassword,
+from bitraam.bitcoin import COIN, is_address, DummyAddress
+from bitraam.plugin import run_hook
+from bitraam.i18n import _
+from bitraam.util import (format_time, UserCancelled, profiler, bfh, InvalidPassword,
                            UserFacingException, get_new_wallet_name,
                            send_exception_to_crash_reporter,
                            AddTransactionException, os_chmod, UI_UNIT_NAME_TXSIZE_VBYTES,
                            is_valid_email, ChoiceItem)
-from electrum.bip21 import BITCOIN_BIP21_URI_SCHEME
-from electrum.payment_identifier import PaymentIdentifier
-from electrum.invoices import PR_PAID, Invoice
-from electrum.transaction import (Transaction, PartialTxInput,
+from bitraam.bip21 import BITCOIN_BIP21_URI_SCHEME
+from bitraam.payment_identifier import PaymentIdentifier
+from bitraam.invoices import PR_PAID, Invoice
+from bitraam.transaction import (Transaction, PartialTxInput,
                                   PartialTransaction, PartialTxOutput)
-from electrum.wallet import (Multisig_Wallet, Abstract_Wallet,
+from bitraam.wallet import (Multisig_Wallet, Abstract_Wallet,
                              sweep_preparations, InternalAddressCorruption,
                              CannotCPFP)
-from electrum.version import ELECTRUM_VERSION
-from electrum.network import Network, UntrustedServerReturnedError
-from electrum.exchange_rate import FxThread
-from electrum.simple_config import SimpleConfig
-from electrum.logging import Logger
-from electrum.lntransport import extract_nodeid, ConnStringFormatError
-from electrum.lnaddr import lndecode
-from electrum.submarine_swaps import SwapServerTransport, NostrTransport
-from electrum.fee_policy import FeePolicy
+from bitraam.version import ELECTRUM_VERSION
+from bitraam.network import Network, UntrustedServerReturnedError
+from bitraam.exchange_rate import FxThread
+from bitraam.simple_config import SimpleConfig
+from bitraam.logging import Logger
+from bitraam.lntransport import extract_nodeid, ConnStringFormatError
+from bitraam.lnaddr import lndecode
+from bitraam.submarine_swaps import SwapServerTransport, NostrTransport
+from bitraam.fee_policy import FeePolicy
 
 from .rate_limiter import rate_limited
 from .exception_window import Exception_Hook
@@ -103,12 +103,12 @@ from .swap_dialog import SwapDialog, InvalidSwapParameters
 from .balance_dialog import (BalanceToolButton, COLOR_FROZEN, COLOR_UNMATURED, COLOR_UNCONFIRMED, COLOR_CONFIRMED,
                              COLOR_LIGHTNING, COLOR_FROZEN_LIGHTNING)
 
-from electrum.gui.common_qt.util import TaskThread
+from bitraam.gui.common_qt.util import TaskThread
 
 if TYPE_CHECKING:
     from . import ElectrumGui
-    from electrum.submarine_swaps import SwapOffer
-    from electrum.lnchannel import Channel
+    from bitraam.submarine_swaps import SwapOffer
+    from bitraam.lnchannel import Channel
 
 
 class StatusBarButton(QToolButton):
@@ -848,7 +848,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger, QtEventListener):
             about_action.setMenuRole(QAction.MenuRole.AboutRole)  # make sure OS recognizes it as "About"
             self.help_menu.addAction(about_action)
         self.help_menu.addAction(_("&Check for updates"), self.show_update_check)
-        self.help_menu.addAction(_("&Official website"), lambda: webopen("https://electrum.org"))
+        self.help_menu.addAction(_("&Official website"), lambda: webopen("https://bitraam.org"))
         self.help_menu.addSeparator()
         self.help_menu.addAction(_("&Documentation"), lambda: webopen("http://docs.electrum.org/")).setShortcut(QKeySequence.StandardKey.HelpContents)
         if not constants.net.TESTNET:
@@ -1696,7 +1696,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger, QtEventListener):
         d.exec()
 
     def show_lightning_invoice(self, invoice: Invoice):
-        from electrum.util import format_short_id
+        from bitraam.util import format_short_id
         lnaddr = lndecode(invoice.lightning_invoice)
         d = WindowModalDialog(self, _("Lightning Invoice"))
         vbox = QVBoxLayout(d)
@@ -1941,7 +1941,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger, QtEventListener):
         self.password_button.setVisible(self.wallet.may_have_password())
 
     def change_password_dialog(self):
-        from electrum.storage import StorageEncryptionVersion
+        from bitraam.storage import StorageEncryptionVersion
         if StorageEncryptionVersion.XPUB_PASSWORD in self.wallet.get_available_storage_encryption_versions():
             from .password_dialog import ChangePasswordDialogForHW
             d = ChangePasswordDialogForHW(self, self.wallet)
@@ -1995,7 +1995,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger, QtEventListener):
             tab.searchable_list.filter(t)
 
     def new_channel_dialog(self, *, amount_sat=None, min_amount_sat=None):
-        from electrum.lnutil import MIN_FUNDING_SAT
+        from bitraam.lnutil import MIN_FUNDING_SAT
         from .new_channel_dialog import NewChannelDialog
         assert self.wallet.can_have_lightning()
         confirmed = self.wallet.get_spendable_balance_sat(confirmed_only=True)
@@ -2249,7 +2249,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger, QtEventListener):
         self.thread.add(task, on_success=setText)
 
     def do_encrypt(self, message_e, pubkey_e, encrypted_e):
-        from electrum import crypto
+        from bitraam import crypto
         message = message_e.toPlainText()
         message = message.encode('utf-8')
         try:
@@ -2303,7 +2303,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger, QtEventListener):
         d.exec()
 
     def tx_from_text(self, data: Union[str, bytes]) -> Union[None, 'PartialTransaction', 'Transaction']:
-        from electrum.transaction import tx_from_any
+        from bitraam.transaction import tx_from_any
         try:
             return tx_from_any(data)
         except BaseException as e:
@@ -2398,7 +2398,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger, QtEventListener):
     def do_process_from_txid(self, *, parent: QWidget = None, txid: str = None):
         if parent is None:
             parent = self
-        from electrum import transaction
+        from bitraam import transaction
         if txid is None:
             txid, ok = QInputDialog.getText(parent, _('Lookup transaction'), _('Transaction ID') + ':')
             if not ok:
@@ -2751,7 +2751,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger, QtEventListener):
         self.closing_warning_callbacks.append(warning_callback)
 
     def _check_ongoing_force_closures(self) -> Optional[str]:
-        from electrum.lnutil import MIN_FINAL_CLTV_DELTA_ACCEPTED
+        from bitraam.lnutil import MIN_FINAL_CLTV_DELTA_ACCEPTED
         if not self.wallet.has_lightning():
             return None
         if not self.network:
@@ -2769,7 +2769,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger, QtEventListener):
 
     def _check_ongoing_submarine_swaps_callback(self) -> Optional[str]:
         """Callback that will return a warning string if there are unconfirmed swap funding txs."""
-        from electrum.submarine_swaps import MIN_FINAL_CLTV_DELTA_FOR_CLIENT, LOCKTIME_DELTA_REFUND
+        from bitraam.submarine_swaps import MIN_FINAL_CLTV_DELTA_FOR_CLIENT, LOCKTIME_DELTA_REFUND
         if not (self.wallet.has_lightning() and self.wallet.lnworker.swap_manager):
             return None
         if not self.network:

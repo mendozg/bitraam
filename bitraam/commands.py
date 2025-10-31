@@ -84,7 +84,7 @@ from . import descriptor
 if TYPE_CHECKING:
     from .network import Network
     from .daemon import Daemon
-    from electrum.lnworker import PaymentInfo
+    from bitraam.lnworker import PaymentInfo
 
 
 known_commands = {}  # type: Dict[str, Command]

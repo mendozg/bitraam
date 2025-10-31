@@ -11,26 +11,26 @@ from typing import TYPE_CHECKING, Optional
 try:
     import pyperclip
 except ImportError:  # only use vendored lib as fallback, to allow Linux distros to bring their own
-    from electrum._vendor import pyperclip
+    from bitraam._vendor import pyperclip
 
-from electrum.gui import BaseElectrumGui
-from electrum.bip21 import parse_bip21_URI
-from electrum.util import format_time
-from electrum.util import EventListener, event_listener
-from electrum.bitcoin import is_address, address_to_script
-from electrum.transaction import PartialTxOutput
-from electrum.wallet import Wallet, Abstract_Wallet
-from electrum.wallet_db import WalletDB
-from electrum.storage import WalletStorage
-from electrum.network import NetworkParameters, TxBroadcastError, BestEffortRequestFailed, ProxySettings
-from electrum.interface import ServerAddr
-from electrum.invoices import Invoice
-from electrum.fee_policy import FeePolicy
+from bitraam.gui import BaseElectrumGui
+from bitraam.bip21 import parse_bip21_URI
+from bitraam.util import format_time
+from bitraam.util import EventListener, event_listener
+from bitraam.bitcoin import is_address, address_to_script
+from bitraam.transaction import PartialTxOutput
+from bitraam.wallet import Wallet, Abstract_Wallet
+from bitraam.wallet_db import WalletDB
+from bitraam.storage import WalletStorage
+from bitraam.network import NetworkParameters, TxBroadcastError, BestEffortRequestFailed, ProxySettings
+from bitraam.interface import ServerAddr
+from bitraam.invoices import Invoice
+from bitraam.fee_policy import FeePolicy
 
 if TYPE_CHECKING:
-    from electrum.daemon import Daemon
-    from electrum.simple_config import SimpleConfig
-    from electrum.plugin import Plugins
+    from bitraam.daemon import Daemon
+    from bitraam.simple_config import SimpleConfig
+    from bitraam.plugin import Plugins
 
 
 _ = lambda x:x  # i18n
@@ -50,7 +50,7 @@ def parse_bip21(text):
 
 
 def parse_bolt11(text):
-    from electrum.lnaddr import lndecode
+    from bitraam.lnaddr import lndecode
     try:
         return lndecode(text)
     except Exception:
@@ -774,7 +774,7 @@ class ElectrumGui(BaseElectrumGui, EventListener):
                 self.network.run_from_another_thread(self.network.set_parameters(net_params))
 
     def settings_dialog(self):
-        from electrum.fee_policy import FeePolicy
+        from bitraam.fee_policy import FeePolicy
         out = self.run_dialog('Settings', [
             {'label':'Fee policy', 'type':'str', 'value': self.config.FEE_POLICY}
         ], buttons = 1)

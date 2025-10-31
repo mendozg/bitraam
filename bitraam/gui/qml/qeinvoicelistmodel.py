@@ -4,15 +4,15 @@ from typing import TYPE_CHECKING, List, Dict, Any
 from PyQt6.QtCore import pyqtSlot, QTimer
 from PyQt6.QtCore import Qt, QAbstractListModel, QModelIndex
 
-from electrum.logging import get_logger
-from electrum.util import Satoshis, format_time
-from electrum.invoices import BaseInvoice, PR_EXPIRED, LN_EXPIRY_NEVER, Invoice, Request, PR_PAID
+from bitraam.logging import get_logger
+from bitraam.util import Satoshis, format_time
+from bitraam.invoices import BaseInvoice, PR_EXPIRED, LN_EXPIRY_NEVER, Invoice, Request, PR_PAID
 
 from .util import QtEventListener, qt_event_listener, status_update_timer_interval
 from .qetypes import QEAmount
 
 if TYPE_CHECKING:
-    from electrum.wallet import Abstract_Wallet
+    from bitraam.wallet import Abstract_Wallet
 
 
 class QEAbstractInvoiceListModel(QAbstractListModel):

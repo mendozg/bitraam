@@ -29,18 +29,18 @@ from typing import TYPE_CHECKING, List, Tuple, Optional, Union
 from PyQt6.QtCore import QObject, pyqtSignal
 from PyQt6.QtWidgets import QPushButton, QMessageBox
 
-from electrum.plugin import hook
-from electrum.i18n import _
-from electrum.wallet import Multisig_Wallet, Abstract_Wallet
-from electrum.util import UserCancelled, event_listener, EventListener
-from electrum.gui.qt.transaction_dialog import show_transaction, TxDialog
-from electrum.gui.qt.util import read_QIcon_from_bytes
+from bitraam.plugin import hook
+from bitraam.i18n import _
+from bitraam.wallet import Multisig_Wallet, Abstract_Wallet
+from bitraam.util import UserCancelled, event_listener, EventListener
+from bitraam.gui.qt.transaction_dialog import show_transaction, TxDialog
+from bitraam.gui.qt.util import read_QIcon_from_bytes
 
 from .psbt_nostr import PsbtNostrPlugin, CosignerWallet
 
 if TYPE_CHECKING:
-    from electrum.transaction import Transaction, PartialTransaction
-    from electrum.gui.qt.main_window import ElectrumWindow
+    from bitraam.transaction import Transaction, PartialTransaction
+    from bitraam.gui.qt.main_window import ElectrumWindow
 
 
 class QReceiveSignalObject(QObject):

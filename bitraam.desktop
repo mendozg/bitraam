@@ -20,5 +20,5 @@ Actions=Testnet;
 Keywords=crypto;currency;BRM
 
 [Desktop Action Testnet]
-Exec=electrum --testnet %u
+Exec=bitraam --testnet %u
 Name=Testnet mode

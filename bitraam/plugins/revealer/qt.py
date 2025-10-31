@@ -27,22 +27,22 @@ from PyQt6.QtGui import (QPixmap, QImage, QBitmap, QPainter, QFontDatabase, QPen
 from PyQt6.QtWidgets import (QGridLayout, QVBoxLayout, QHBoxLayout, QLabel,
                              QPushButton, QLineEdit)
 
-from electrum.plugin import hook
-from electrum.i18n import _
-from electrum.util import make_dir, InvalidPassword, UserCancelled
-from electrum.gui.qt.util import (read_QIcon, EnterButton, WWLabel, icon_path,
+from bitraam.plugin import hook
+from bitraam.i18n import _
+from bitraam.util import make_dir, InvalidPassword, UserCancelled
+from bitraam.gui.qt.util import (read_QIcon, EnterButton, WWLabel, icon_path,
                                   internal_plugin_icon_path, WindowModalDialog, Buttons,
                                   CloseButton, OkButton, HelpButton)
-from electrum.gui.qt.qrtextedit import ScanQRTextEdit
-from electrum.gui.qt.main_window import StatusBarButton
-from electrum.gui.qt.util import read_QIcon_from_bytes, read_QPixmap_from_bytes
-from electrum.gui.common_qt.util import paintQR
+from bitraam.gui.qt.qrtextedit import ScanQRTextEdit
+from bitraam.gui.qt.main_window import StatusBarButton
+from bitraam.gui.qt.util import read_QIcon_from_bytes, read_QPixmap_from_bytes
+from bitraam.gui.common_qt.util import paintQR
 
 from .revealer import RevealerPlugin
 
 
 if TYPE_CHECKING:
-    from electrum.gui.qt import ElectrumGui
+    from bitraam.gui.qt import ElectrumGui
 
 
 class Plugin(RevealerPlugin):
@@ -110,7 +110,7 @@ class Plugin(RevealerPlugin):
         return self.calibration_dialog(window)
 
     def password_dialog(self, msg=None, parent=None):
-        from electrum.gui.qt.password_dialog import PasswordDialog
+        from bitraam.gui.qt.password_dialog import PasswordDialog
         parent = parent or self
         d = PasswordDialog(parent, msg)
         return d.run()

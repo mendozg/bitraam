@@ -92,7 +92,7 @@ adb logcat | grep python
 ```
 Better `grep` but fragile because of `cut`:
 ```
-adb logcat | grep -F "`adb shell ps | grep org.electrum.electrum | cut -c14-19`"
+adb logcat | grep -F "`adb shell ps | grep org.bitraam.bitraam | cut -c14-19`"
 ```
 
 
@@ -137,18 +137,18 @@ of Android does not let you access the internal storage of an app without root.
 To pull a file:
 ```
 $ adb shell
-adb$ run-as org.electrum.electrum ls /data/data/org.electrum.electrum/files/data
+adb$ run-as org.bitraam.bitraam ls /data/data/org.bitraam.bitraam/files/data
 adb$ exit
-$ adb exec-out run-as org.electrum.electrum cat /data/data/org.electrum.electrum/files/data/wallets/my_wallet > my_wallet
+$ adb exec-out run-as org.bitraam.bitraam cat /data/data/org.bitraam.bitraam/files/data/wallets/my_wallet > my_wallet
 ```
 To push a file:
 ```
 $ adb push ~/wspace/tmp/my_wallet /data/local/tmp
 $ adb shell
 adb$ ls -la /data/local/tmp
-adb$ run-as org.electrum.testnet.electrum cp /data/local/tmp/my_wallet /data/data/org.electrum.testnet.electrum/files/data/testnet/wallets/
-adb$ run-as org.electrum.testnet.electrum chmod -R 700 /data/data/org.electrum.testnet.electrum/files/data/testnet/wallets
-adb$ run-as org.electrum.testnet.electrum chmod -R u-x,u+X /data/data/org.electrum.testnet.electrum/files/data/testnet/wallets
+adb$ run-as org.bitraam.testnet.bitraam cp /data/local/tmp/my_wallet /data/data/org.bitraam.testnet.bitraam/files/data/testnet/wallets/
+adb$ run-as org.bitraam.testnet.bitraam chmod -R 700 /data/data/org.bitraam.testnet.bitraam/files/data/testnet/wallets
+adb$ run-as org.bitraam.testnet.bitraam chmod -R u-x,u+X /data/data/org.bitraam.testnet.bitraam/files/data/testnet/wallets
 adb$ rm /data/local/tmp/my_wallet
 ```
 
@@ -164,8 +164,8 @@ Run `$ adb shell pm list users` to get a list of all existing users, and take no
 
 Instead of `/data/data/{app.path}`, private app data is stored at `/data/user/{userId}/{app.path}`.
 
-Further, instead of `adb$ run-as org.electrum.electrum`,
-you need `adb$ run-as org.electrum.electrum --user {userId}`.
+Further, instead of `adb$ run-as org.bitraam.bitraam`,
+you need `adb$ run-as org.bitraam.bitraam --user {userId}`.
 
 ### How to investigate diff between binaries if reproducibility fails?
 ```

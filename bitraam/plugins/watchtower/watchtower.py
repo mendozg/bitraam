@@ -29,21 +29,21 @@ import os
 from typing import TYPE_CHECKING
 from typing import Dict
 
-from electrum.util import log_exceptions, random_shuffled_copy
-from electrum.plugin import BasePlugin
-from electrum.sql_db import SqlDB, sql
-from electrum.transaction import Transaction, match_script_against_template
-from electrum.network import Network
-from electrum.address_synchronizer import AddressSynchronizer, TX_HEIGHT_LOCAL
-from electrum.wallet_db import WalletDB
-from electrum.lnutil import WITNESS_TEMPLATE_RECEIVED_HTLC, WITNESS_TEMPLATE_OFFERED_HTLC
-from electrum.logging import Logger
-from electrum.util import EventListener, event_listener
+from bitraam.util import log_exceptions, random_shuffled_copy
+from bitraam.plugin import BasePlugin
+from bitraam.sql_db import SqlDB, sql
+from bitraam.transaction import Transaction, match_script_against_template
+from bitraam.network import Network
+from bitraam.address_synchronizer import AddressSynchronizer, TX_HEIGHT_LOCAL
+from bitraam.wallet_db import WalletDB
+from bitraam.lnutil import WITNESS_TEMPLATE_RECEIVED_HTLC, WITNESS_TEMPLATE_OFFERED_HTLC
+from bitraam.logging import Logger
+from bitraam.util import EventListener, event_listener
 
 from .server import WatchTowerServer
 
 if TYPE_CHECKING:
-    from electrum.simple_config import SimpleConfig
+    from bitraam.simple_config import SimpleConfig
 
 
 class WatchtowerPlugin(BasePlugin):

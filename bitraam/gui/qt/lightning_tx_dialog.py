@@ -29,8 +29,8 @@ import datetime
 
 from PyQt6.QtWidgets import QVBoxLayout, QLabel
 
-from electrum.i18n import _
-from electrum.lnworker import PaymentDirection
+from bitraam.i18n import _
+from bitraam.lnworker import PaymentDirection
 
 from .util import WindowModalDialog, ShowQRLineEdit, Buttons, CloseButton, font_height, ButtonsLineEdit
 from .qrtextedit import ShowQRTextEdit

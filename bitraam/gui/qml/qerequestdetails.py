@@ -4,15 +4,15 @@ from urllib.parse import urlparse
 
 from PyQt6.QtCore import pyqtProperty, pyqtSignal, pyqtSlot, QObject, QTimer, pyqtEnum
 
-from electrum.logging import get_logger
-from electrum.invoices import (
+from bitraam.logging import get_logger
+from bitraam.invoices import (
     PR_UNPAID, PR_EXPIRED, PR_UNKNOWN, PR_PAID, PR_INFLIGHT, PR_FAILED, PR_ROUTING, PR_UNCONFIRMED, LN_EXPIRY_NEVER
 )
-from electrum.lnutil import MIN_FUNDING_SAT
-from electrum.lnurl import LNURL3Data, request_lnurl_withdraw_callback, LNURLError
-from electrum.payment_identifier import PaymentIdentifier, PaymentIdentifierType
-from electrum.i18n import _
-from electrum.network import Network
+from bitraam.lnutil import MIN_FUNDING_SAT
+from bitraam.lnurl import LNURL3Data, request_lnurl_withdraw_callback, LNURLError
+from bitraam.payment_identifier import PaymentIdentifier, PaymentIdentifierType
+from bitraam.i18n import _
+from bitraam.network import Network
 
 from .qewallet import QEWallet
 from .qetypes import QEAmount

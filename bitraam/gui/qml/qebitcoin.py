@@ -2,16 +2,16 @@ import asyncio
 
 from PyQt6.QtCore import pyqtProperty, pyqtSignal, pyqtSlot, QObject
 
-from electrum import mnemonic
-from electrum import keystore
-from electrum.i18n import _
-from electrum.bip32 import is_bip32_derivation, xpub_type
-from electrum.logging import get_logger
-from electrum.util import get_asyncio_loop
-from electrum.transaction import tx_from_any
-from electrum.mnemonic import Mnemonic
-from electrum.old_mnemonic import wordlist as old_wordlist
-from electrum.bitcoin import is_address
+from bitraam import mnemonic
+from bitraam import keystore
+from bitraam.i18n import _
+from bitraam.bip32 import is_bip32_derivation, xpub_type
+from bitraam.logging import get_logger
+from bitraam.util import get_asyncio_loop
+from bitraam.transaction import tx_from_any
+from bitraam.mnemonic import Mnemonic
+from bitraam.old_mnemonic import wordlist as old_wordlist
+from bitraam.bitcoin import is_address
 
 
 class QEBitcoin(QObject):

@@ -61,12 +61,12 @@ if [ ! -z "$ELECBUILD_COMMIT" ] ; then  # fresh clone (reproducible build)
     fi
 fi
 docker run $DOCKER_RUN_FLAGS \
-    --name electrum-sdist-builder-cont \
-    -v "$PROJECT_ROOT_OR_FRESHCLONE_ROOT":/opt/electrum \
+    --name bitraam-sdist-builder-cont \
+    -v "$PROJECT_ROOT_OR_FRESHCLONE_ROOT":/opt/bitraam \
     --rm \
-    --workdir /opt/electrum/contrib/build-linux/sdist \
+    --workdir /opt/bitraam/contrib/build-linux/sdist \
     --env OMIT_UNCLEAN_FILES \
-    electrum-sdist-builder-img \
+    bitraam-sdist-builder-img \
     ./make_sdist.sh
 
 # make sure resulting binary location is independent of fresh_clone

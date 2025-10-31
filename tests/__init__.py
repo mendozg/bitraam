@@ -9,10 +9,10 @@ import inspect
 
 import electrum
 import electrum.logging
-from electrum import constants
-from electrum import util
-from electrum.logging import Logger
-from electrum.wallet import restore_wallet_from_text
+from bitraam import constants
+from bitraam import util
+from bitraam.logging import Logger
+from bitraam.wallet import restore_wallet_from_text
 
 
 # Set this locally to make the test suite run faster.

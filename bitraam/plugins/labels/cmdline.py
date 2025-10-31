@@ -23,7 +23,7 @@
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 from .labels import LabelsPlugin
-from electrum.plugin import hook
+from bitraam.plugin import hook
 
 
 class Plugin(LabelsPlugin):

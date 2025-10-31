@@ -25,21 +25,21 @@
 from abc import abstractmethod, ABC
 from typing import TYPE_CHECKING, Sequence, Optional, Type, Iterable, Any
 
-from electrum.plugin import (BasePlugin, hook, Device, DeviceMgr,
+from bitraam.plugin import (BasePlugin, hook, Device, DeviceMgr,
                              assert_runs_in_hwd_thread, runs_in_hwd_thread)
-from electrum.i18n import _
-from electrum.bitcoin import is_address, opcodes
-from electrum.util import versiontuple, UserFacingException, ChoiceItem
-from electrum.transaction import TxOutput, PartialTransaction
-from electrum.bip32 import BIP32Node
-from electrum.storage import get_derivation_used_for_hw_device_encryption
-from electrum.keystore import Xpub, Hardware_KeyStore
+from bitraam.i18n import _
+from bitraam.bitcoin import is_address, opcodes
+from bitraam.util import versiontuple, UserFacingException, ChoiceItem
+from bitraam.transaction import TxOutput, PartialTransaction
+from bitraam.bip32 import BIP32Node
+from bitraam.storage import get_derivation_used_for_hw_device_encryption
+from bitraam.keystore import Xpub, Hardware_KeyStore
 
 if TYPE_CHECKING:
     import threading
-    from electrum.plugin import DeviceInfo
-    from electrum.wallet import Abstract_Wallet
-    from electrum.wizard import AbstractWizard
+    from bitraam.plugin import DeviceInfo
+    from bitraam.wallet import Abstract_Wallet
+    from bitraam.wizard import AbstractWizard
 
 
 class HW_PluginBase(BasePlugin, ABC):

@@ -2,15 +2,15 @@ from typing import Optional
 
 from PyQt6.QtCore import pyqtProperty, pyqtSignal, pyqtSlot, QObject
 
-from electrum.i18n import _
-from electrum.logging import get_logger
-from electrum.bitcoin import DummyAddress
-from electrum.util import format_time, TxMinedInfo
-from electrum.transaction import tx_from_any, Transaction, PartialTransaction
-from electrum.network import Network
-from electrum.address_synchronizer import TX_HEIGHT_UNCONF_PARENT, TX_HEIGHT_UNCONFIRMED, TX_HEIGHT_FUTURE
-from electrum.wallet import TxSighashDanger
-from electrum.fee_policy import FeePolicy
+from bitraam.i18n import _
+from bitraam.logging import get_logger
+from bitraam.bitcoin import DummyAddress
+from bitraam.util import format_time, TxMinedInfo
+from bitraam.transaction import tx_from_any, Transaction, PartialTransaction
+from bitraam.network import Network
+from bitraam.address_synchronizer import TX_HEIGHT_UNCONF_PARENT, TX_HEIGHT_UNCONFIRMED, TX_HEIGHT_FUTURE
+from bitraam.wallet import TxSighashDanger
+from bitraam.fee_policy import FeePolicy
 
 from .qewallet import QEWallet
 from .qetypes import QEAmount

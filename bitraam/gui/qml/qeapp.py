@@ -14,15 +14,15 @@ from PyQt6.QtGui import QGuiApplication
 from PyQt6.QtQml import qmlRegisterType, QQmlApplicationEngine
 
 import electrum
-from electrum import version, constants
-from electrum.i18n import _
-from electrum.logging import Logger, get_logger
-from electrum.bip21 import BITCOIN_BIP21_URI_SCHEME, LIGHTNING_URI_SCHEME
-from electrum.base_crash_reporter import BaseCrashReporter, EarlyExceptionsQueue
-from electrum.network import Network
-from electrum.plugin import run_hook
-from electrum.gui.common_qt.util import get_font_id
-from electrum.util import profiler
+from bitraam import version, constants
+from bitraam.i18n import _
+from bitraam.logging import Logger, get_logger
+from bitraam.bip21 import BITCOIN_BIP21_URI_SCHEME, LIGHTNING_URI_SCHEME
+from bitraam.base_crash_reporter import BaseCrashReporter, EarlyExceptionsQueue
+from bitraam.network import Network
+from bitraam.plugin import run_hook
+from bitraam.gui.common_qt.util import get_font_id
+from bitraam.util import profiler
 
 from .qeconfig import QEConfig
 from .qedaemon import QEDaemon
@@ -48,10 +48,10 @@ from .qemodelfilter import QEFilterProxyModel
 from .qebip39recovery import QEBip39RecoveryListModel
 
 if TYPE_CHECKING:
-    from electrum.simple_config import SimpleConfig
-    from electrum.wallet import Abstract_Wallet
-    from electrum.daemon import Daemon
-    from electrum.plugin import Plugins
+    from bitraam.simple_config import SimpleConfig
+    from bitraam.wallet import Abstract_Wallet
+    from bitraam.daemon import Daemon
+    from bitraam.plugin import Plugins
 
 if 'ANDROID_DATA' in os.environ:
     from jnius import autoclass, cast

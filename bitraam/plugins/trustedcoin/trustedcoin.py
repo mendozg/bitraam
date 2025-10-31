@@ -34,21 +34,21 @@ from aiohttp import ClientResponse
 
 import electrum_ecc as ecc
 
-from electrum import constants, keystore, version, bip32, bitcoin
-from electrum.bip32 import BIP32Node, xpub_type, is_xprv
-from electrum.crypto import sha256
-from electrum.transaction import PartialTxOutput, PartialTxInput, PartialTransaction, Transaction
-from electrum.mnemonic import Mnemonic, calc_seed_type, is_any_2fa_seed_type
-from electrum.wallet import Multisig_Wallet, Deterministic_Wallet
-from electrum.i18n import _
-from electrum.plugin import BasePlugin, hook
-from electrum.util import NotEnoughFunds, UserFacingException, error_text_str_to_safe_str
-from electrum.network import Network
-from electrum.logging import Logger
-from electrum.keystore import KeyStore
+from bitraam import constants, keystore, version, bip32, bitcoin
+from bitraam.bip32 import BIP32Node, xpub_type, is_xprv
+from bitraam.crypto import sha256
+from bitraam.transaction import PartialTxOutput, PartialTxInput, PartialTransaction, Transaction
+from bitraam.mnemonic import Mnemonic, calc_seed_type, is_any_2fa_seed_type
+from bitraam.wallet import Multisig_Wallet, Deterministic_Wallet
+from bitraam.i18n import _
+from bitraam.plugin import BasePlugin, hook
+from bitraam.util import NotEnoughFunds, UserFacingException, error_text_str_to_safe_str
+from bitraam.network import Network
+from bitraam.logging import Logger
+from bitraam.keystore import KeyStore
 
 if TYPE_CHECKING:
-    from electrum.wizard import NewWalletWizard
+    from bitraam.wizard import NewWalletWizard
 
 
 def get_signing_xpub(xtype):

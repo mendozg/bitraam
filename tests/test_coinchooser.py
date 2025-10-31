@@ -1,7 +1,7 @@
-from electrum.coinchooser import CoinChooserPrivacy
-from electrum.util import NotEnoughFunds
-from electrum.transaction import PartialTxInput, TxOutpoint, Transaction, PartialTxOutput
-from electrum.fee_policy import FeePolicy, FixedFeePolicy
+from bitraam.coinchooser import CoinChooserPrivacy
+from bitraam.util import NotEnoughFunds
+from bitraam.transaction import PartialTxInput, TxOutpoint, Transaction, PartialTxOutput
+from bitraam.fee_policy import FeePolicy, FixedFeePolicy
 from functools import partial
 from typing import Optional
 

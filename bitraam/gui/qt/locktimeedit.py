@@ -11,8 +11,8 @@ from PyQt6.QtGui import QPainter
 from PyQt6.QtWidgets import (QWidget, QLineEdit, QStyle, QStyleOptionFrame, QComboBox,
                              QHBoxLayout, QDateTimeEdit)
 
-from electrum.i18n import _
-from electrum.bitcoin import NLOCKTIME_MIN, NLOCKTIME_MAX, NLOCKTIME_BLOCKHEIGHT_MAX
+from bitraam.i18n import _
+from bitraam.bitcoin import NLOCKTIME_MIN, NLOCKTIME_MAX, NLOCKTIME_BLOCKHEIGHT_MAX
 
 from .util import char_width_in_lineedit, ColorScheme
 

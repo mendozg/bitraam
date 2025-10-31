@@ -5,15 +5,15 @@ from typing import TYPE_CHECKING
 
 from PyQt6.QtCore import pyqtSignal, pyqtProperty, pyqtSlot
 
-from electrum.i18n import _
-from electrum.bip32 import BIP32Node
-from electrum import bitcoin
+from bitraam.i18n import _
+from bitraam.bip32 import BIP32Node
+from bitraam import bitcoin
 
 from .trustedcoin import (server, ErrorConnectingServer, MOBILE_DISCLAIMER, TrustedCoinException)
-from electrum.gui.common_qt.plugins import PluginQObject
+from bitraam.gui.common_qt.plugins import PluginQObject
 
 if TYPE_CHECKING:
-    from electrum.wizard import NewWalletWizard
+    from bitraam.wizard import NewWalletWizard
 
 
 class TrustedcoinPluginQObject(PluginQObject):

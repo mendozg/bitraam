@@ -2,7 +2,7 @@ from functools import wraps, partial
 
 from PyQt6.QtCore import pyqtSignal, pyqtSlot
 
-from electrum.logging import get_logger
+from bitraam.logging import get_logger
 
 
 def auth_protect(func=None, reject=None, method='pin', message=''):

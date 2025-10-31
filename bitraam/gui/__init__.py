@@ -8,9 +8,9 @@ from typing import TYPE_CHECKING, Mapping, Optional
 
 if TYPE_CHECKING:
     from . import qt
-    from electrum.simple_config import SimpleConfig
-    from electrum.daemon import Daemon
-    from electrum.plugin import Plugins
+    from bitraam.simple_config import SimpleConfig
+    from bitraam.daemon import Daemon
+    from bitraam.plugin import Plugins
 
 
 class BaseElectrumGui:

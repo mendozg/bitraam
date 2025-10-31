@@ -24,13 +24,13 @@
 # SOFTWARE.
 from typing import TYPE_CHECKING
 
-from electrum.plugin import hook
+from bitraam.plugin import hook
 
 from .nwcserver import NWCServerPlugin
 
 if TYPE_CHECKING:
-    from electrum.daemon import Daemon
-    from electrum.wallet import Abstract_Wallet
+    from bitraam.daemon import Daemon
+    from bitraam.wallet import Abstract_Wallet
 
 
 class Plugin(NWCServerPlugin):

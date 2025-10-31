@@ -1,7 +1,7 @@
-from electrum.plugin import hook
-from electrum.i18n import _
-from electrum.util import print_stderr
-from electrum.hw_wallet import CmdLineHandler
+from bitraam.plugin import hook
+from bitraam.i18n import _
+from bitraam.util import print_stderr
+from bitraam.hw_wallet import CmdLineHandler
 
 from .trezor import TrezorPlugin, PASSPHRASE_ON_DEVICE
 

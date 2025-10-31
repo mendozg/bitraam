@@ -34,20 +34,20 @@ import electrum_aionostr as aionostr
 from electrum_aionostr.event import Event as nEvent
 from electrum_aionostr.key import PrivateKey
 
-from electrum.lnworker import PaymentDirection
-from electrum.plugin import BasePlugin, hook
-from electrum.logging import Logger
-from electrum.util import log_exceptions, ca_path, OldTaskGroup, get_asyncio_loop, InvoiceError, \
+from bitraam.lnworker import PaymentDirection
+from bitraam.plugin import BasePlugin, hook
+from bitraam.logging import Logger
+from bitraam.util import log_exceptions, ca_path, OldTaskGroup, get_asyncio_loop, InvoiceError, \
     LightningHistoryItem, event_listener, EventListener, make_aiohttp_proxy_connector, \
     get_running_loop
-from electrum.invoices import Invoice, Request, PR_UNKNOWN, PR_PAID, BaseInvoice, PR_INFLIGHT
-from electrum import constants
+from bitraam.invoices import Invoice, Request, PR_UNKNOWN, PR_PAID, BaseInvoice, PR_INFLIGHT
+from bitraam import constants
 
 if TYPE_CHECKING:
     from aiohttp_socks import ProxyConnector
 
-    from electrum.simple_config import SimpleConfig
-    from electrum.wallet import Abstract_Wallet
+    from bitraam.simple_config import SimpleConfig
+    from bitraam.wallet import Abstract_Wallet
 
 
 class NWCServerPlugin(BasePlugin):

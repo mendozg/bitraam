@@ -7,24 +7,24 @@ from typing import TYPE_CHECKING, Dict, Tuple, Optional, List, Any, Callable
 
 import electrum_ecc as ecc
 
-from electrum import bip32, constants
-from electrum.i18n import _
-from electrum.keystore import Hardware_KeyStore
-from electrum.transaction import PartialTransaction, Sighash
-from electrum.wallet import Multisig_Wallet, Deterministic_Wallet
-from electrum.util import UserFacingException
-from electrum.logging import get_logger
-from electrum.plugin import Device, DeviceInfo, runs_in_hwd_thread
-from electrum.simple_config import SimpleConfig
-from electrum.storage import get_derivation_used_for_hw_device_encryption
-from electrum.bitcoin import OnchainOutputType
+from bitraam import bip32, constants
+from bitraam.i18n import _
+from bitraam.keystore import Hardware_KeyStore
+from bitraam.transaction import PartialTransaction, Sighash
+from bitraam.wallet import Multisig_Wallet, Deterministic_Wallet
+from bitraam.util import UserFacingException
+from bitraam.logging import get_logger
+from bitraam.plugin import Device, DeviceInfo, runs_in_hwd_thread
+from bitraam.simple_config import SimpleConfig
+from bitraam.storage import get_derivation_used_for_hw_device_encryption
+from bitraam.bitcoin import OnchainOutputType
 
 import electrum.bitcoin as bitcoin
 
-from electrum.hw_wallet import HW_PluginBase, HardwareClientBase, HardwareHandlerBase
+from bitraam.hw_wallet import HW_PluginBase, HardwareClientBase, HardwareHandlerBase
 
 if TYPE_CHECKING:
-    from electrum.wizard import NewWalletWizard
+    from bitraam.wizard import NewWalletWizard
 
 _logger = get_logger(__name__)
 

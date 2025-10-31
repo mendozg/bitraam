@@ -1,4 +1,4 @@
-from electrum.fee_policy import FeeHistogram
+from bitraam.fee_policy import FeeHistogram
 
 from . import ElectrumTestCase
 

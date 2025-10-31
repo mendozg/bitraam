@@ -25,7 +25,7 @@ class ConnStringFormatError(Exception): pass
 
 
 if TYPE_CHECKING:
-    from electrum.network import Network
+    from bitraam.network import Network
 
 
 class HandshakeState(object):

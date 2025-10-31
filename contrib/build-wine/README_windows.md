@@ -22,13 +22,13 @@ Run install (this should install most dependencies):
 ### 2. Install `libsecp256k1`
 
 [comment]: # (technically the dll should be put into site-packages/electrum_ecc/,
-but putting it into electrum/ also works because of the `os.add_dll_directory` call in
-electrum/__init__.py)
+but putting it into bitraam/ also works because of the `os.add_dll_directory` call in
+bitraam/__init__.py)
 
 [libsecp256k1](https://github.com/bitcoin-core/secp256k1) is a required dependency.
 This is a C library, which you need to compile yourself.
 Electrum needs a dll, named `libsecp256k1-0.dll` (or newer `libsecp256k1-*.dll`),
-placed into the inner `electrum/` folder.
+placed into the inner `bitraam/` folder.
 
 For Unix-like systems, the (`contrib/make_libsecp256k1.sh`) script does this for you,
 however it does not work on Windows.

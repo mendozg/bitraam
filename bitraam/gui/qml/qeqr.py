@@ -16,11 +16,11 @@ except ImportError:
     # Note: missing QtMultimedia will lead to errors when using QR scanner on desktop
     from PyQt6.QtCore import QObject as QVideoSink
 
-from electrum.logging import get_logger
-from electrum.qrreader import get_qr_reader
-from electrum.i18n import _
-from electrum.util import profiler, get_asyncio_loop
-from electrum.gui.common_qt.util import draw_qr
+from bitraam.logging import get_logger
+from bitraam.qrreader import get_qr_reader
+from bitraam.i18n import _
+from bitraam.util import profiler, get_asyncio_loop
+from bitraam.gui.common_qt.util import draw_qr
 
 
 class QEQRParser(QObject):

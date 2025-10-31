@@ -4,17 +4,17 @@ from typing import TYPE_CHECKING
 from PyQt6.QtCore import pyqtSignal
 from PyQt6.QtWidgets import QInputDialog, QLineEdit
 
-from electrum.i18n import _
-from electrum.plugin import hook
-from electrum.wallet import Standard_Wallet
-from electrum.hw_wallet.qt import QtHandlerBase, QtPluginBase
-from electrum.hw_wallet.plugin import only_hook_if_libraries_available
+from bitraam.i18n import _
+from bitraam.plugin import hook
+from bitraam.wallet import Standard_Wallet
+from bitraam.hw_wallet.qt import QtHandlerBase, QtPluginBase
+from bitraam.hw_wallet.plugin import only_hook_if_libraries_available
 
 from .ledger import LedgerPlugin, Ledger_Client
-from electrum.gui.qt.wizard.wallet import WCScriptAndDerivation, WCHWUninitialized, WCHWUnlock, WCHWXPub
+from bitraam.gui.qt.wizard.wallet import WCScriptAndDerivation, WCHWUninitialized, WCHWUnlock, WCHWXPub
 
 if TYPE_CHECKING:
-    from electrum.gui.qt.wizard.wallet import QENewWalletWizard
+    from bitraam.gui.qt.wizard.wallet import QENewWalletWizard
 
 
 class Plugin(LedgerPlugin, QtPluginBase):

@@ -8,13 +8,13 @@ import concurrent.futures
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QListWidget, QListWidgetItem
 
-from electrum.i18n import _
-from electrum.network import Network
-from electrum.bip39_recovery import account_discovery
-from electrum.logging import get_logger
-from electrum.util import get_asyncio_loop, UserFacingException
+from bitraam.i18n import _
+from bitraam.network import Network
+from bitraam.bip39_recovery import account_discovery
+from bitraam.logging import get_logger
+from bitraam.util import get_asyncio_loop, UserFacingException
 
-from electrum.gui.common_qt.util import TaskThread
+from bitraam.gui.common_qt.util import TaskThread
 
 from .util import WindowModalDialog, Buttons, CancelButton, OkButton
 

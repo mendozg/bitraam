@@ -9,7 +9,7 @@ profile electrum @{electrum_exec_path} {
   include <abstractions/electrum>
 
   @{electrum_exec_path} mr,
-  owner @{HOME}/.electrum/{**,} rw,
+  owner @{HOME}/.bitraam/{**,} rw,
   owner @{HOME}/.local/{**,} mrw,
 
 }

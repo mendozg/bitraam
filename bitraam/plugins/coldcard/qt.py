@@ -4,23 +4,23 @@ from typing import TYPE_CHECKING, Sequence
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QPushButton, QLabel, QVBoxLayout, QWidget, QGridLayout
 
-from electrum.i18n import _
-from electrum.plugin import hook
-from electrum.wallet import Multisig_Wallet
-from electrum.keystore import Hardware_KeyStore
-from electrum.util import ChoiceItem
+from bitraam.i18n import _
+from bitraam.plugin import hook
+from bitraam.wallet import Multisig_Wallet
+from bitraam.keystore import Hardware_KeyStore
+from bitraam.util import ChoiceItem
 
-from electrum.hw_wallet.qt import QtHandlerBase, QtPluginBase
-from electrum.hw_wallet.plugin import only_hook_if_libraries_available
+from bitraam.hw_wallet.qt import QtHandlerBase, QtPluginBase
+from bitraam.hw_wallet.plugin import only_hook_if_libraries_available
 
-from electrum.gui.qt.wizard.wallet import WCScriptAndDerivation, WCHWXPub, WCHWUninitialized, WCHWUnlock
-from electrum.gui.qt.util import WindowModalDialog, CloseButton, getOpenFileName, getSaveFileName, RichLabel
-from electrum.gui.qt.main_window import ElectrumWindow
+from bitraam.gui.qt.wizard.wallet import WCScriptAndDerivation, WCHWXPub, WCHWUninitialized, WCHWUnlock
+from bitraam.gui.qt.util import WindowModalDialog, CloseButton, getOpenFileName, getSaveFileName, RichLabel
+from bitraam.gui.qt.main_window import ElectrumWindow
 
 from .coldcard import ColdcardPlugin, xfp2str
 
 if TYPE_CHECKING:
-    from electrum.gui.qt.wizard.wallet import QENewWalletWizard
+    from bitraam.gui.qt.wizard.wallet import QENewWalletWizard
 
 CC_DEBUG = False
 

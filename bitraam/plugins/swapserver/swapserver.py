@@ -24,14 +24,14 @@
 # SOFTWARE.
 from typing import TYPE_CHECKING
 
-from electrum.plugin import BasePlugin, hook
+from bitraam.plugin import BasePlugin, hook
 
 from .server import HttpSwapServer
 
 if TYPE_CHECKING:
-    from electrum.simple_config import SimpleConfig
-    from electrum.daemon import Daemon
-    from electrum.wallet import Abstract_Wallet
+    from bitraam.simple_config import SimpleConfig
+    from bitraam.daemon import Daemon
+    from bitraam.wallet import Abstract_Wallet
 
 
 class SwapServerPlugin(BasePlugin):

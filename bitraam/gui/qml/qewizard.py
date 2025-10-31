@@ -3,16 +3,16 @@ from typing import TYPE_CHECKING
 
 from PyQt6.QtCore import pyqtProperty, pyqtSignal, pyqtSlot, QObject
 
-from electrum.logging import get_logger
-from electrum import mnemonic
-from electrum.wizard import NewWalletWizard, ServerConnectWizard, TermsOfUseWizard
-from electrum.storage import WalletStorage, StorageReadWriteError
-from electrum.util import WalletFileException
-from electrum.gui import messages
+from bitraam.logging import get_logger
+from bitraam import mnemonic
+from bitraam.wizard import NewWalletWizard, ServerConnectWizard, TermsOfUseWizard
+from bitraam.storage import WalletStorage, StorageReadWriteError
+from bitraam.util import WalletFileException
+from bitraam.gui import messages
 
 if TYPE_CHECKING:
-    from electrum.gui.qml.qedaemon import QEDaemon
-    from electrum.plugin import Plugins
+    from bitraam.gui.qml.qedaemon import QEDaemon
+    from bitraam.plugin import Plugins
 
 
 class QEAbstractWizard(QObject):

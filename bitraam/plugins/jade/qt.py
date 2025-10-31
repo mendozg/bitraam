@@ -3,19 +3,19 @@ from typing import TYPE_CHECKING
 
 from PyQt6.QtCore import pyqtSignal
 
-from electrum.i18n import _
-from electrum.plugin import hook
-from electrum.wallet import Standard_Wallet
+from bitraam.i18n import _
+from bitraam.plugin import hook
+from bitraam.wallet import Standard_Wallet
 
-from electrum.hw_wallet.qt import QtHandlerBase, QtPluginBase
-from electrum.hw_wallet import plugin
-from electrum.hw_wallet.plugin import only_hook_if_libraries_available
-from electrum.gui.qt.wizard.wallet import WCScriptAndDerivation, WCHWUnlock, WCHWXPub, WCHWUninitialized
+from bitraam.hw_wallet.qt import QtHandlerBase, QtPluginBase
+from bitraam.hw_wallet import plugin
+from bitraam.hw_wallet.plugin import only_hook_if_libraries_available
+from bitraam.gui.qt.wizard.wallet import WCScriptAndDerivation, WCHWUnlock, WCHWXPub, WCHWUninitialized
 
 from .jade import JadePlugin
 
 if TYPE_CHECKING:
-    from electrum.gui.qt.wizard.wallet import QENewWalletWizard
+    from bitraam.gui.qt.wizard.wallet import QENewWalletWizard
 
 
 class Plugin(JadePlugin, QtPluginBase):

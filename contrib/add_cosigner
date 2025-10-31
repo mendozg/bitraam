@@ -11,8 +11,8 @@
 #   (using release.sh, and perhaps some manual steps)
 # - BUILDER creates a PR against https://github.com/spesmilo/electrum-signatures/
 #   to add their sigs for a given release, which then gets merged
-# - SFTPUSER runs `$ SSHUSER=$SFTPUSER electrum/contrib/add_cosigner $BUILDER`
-# - SFTPUSER runs `$ electrum/contrib/make_download $WWW_DIR`
+# - SFTPUSER runs `$ SSHUSER=$SFTPUSER bitraam/contrib/add_cosigner $BUILDER`
+# - SFTPUSER runs `$ bitraam/contrib/make_download $WWW_DIR`
 # -     $ (cd $WWW_DIR; git commit -a -m "add_cosigner"; git push)
 # - SFTPUSER runs `$ electrum-web/publish.sh $SFTPUSER`
 # - (for the website to be updated, both ThomasV and SomberNight needs to run publish.sh)
@@ -32,7 +32,7 @@ if len(sys.argv) < 2:
 os.chdir(os.path.dirname(os.path.dirname(__file__)))
 
 # load version.py; needlessly complicated alternative to "imp.load_source":
-version_spec = importlib.util.spec_from_file_location('version', 'electrum/version.py')
+version_spec = importlib.util.spec_from_file_location('version', 'bitraam/version.py')
 version_module = importlib.util.module_from_spec(version_spec)
 version_spec.loader.exec_module(version_module)
 

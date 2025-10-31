@@ -3,13 +3,13 @@ from struct import pack
 
 import electrum_ecc as ecc
 
-from electrum.i18n import _
-from electrum.util import UserCancelled, UserFacingException
-from electrum.keystore import bip39_normalize_passphrase
-from electrum.bip32 import BIP32Node, convert_bip32_strpath_to_intpath as parse_path
-from electrum.logging import Logger
-from electrum.plugin import runs_in_hwd_thread
-from electrum.hw_wallet.plugin import OutdatedHwFirmwareException, HardwareClientBase
+from bitraam.i18n import _
+from bitraam.util import UserCancelled, UserFacingException
+from bitraam.keystore import bip39_normalize_passphrase
+from bitraam.bip32 import BIP32Node, convert_bip32_strpath_to_intpath as parse_path
+from bitraam.logging import Logger
+from bitraam.plugin import runs_in_hwd_thread
+from bitraam.hw_wallet.plugin import OutdatedHwFirmwareException, HardwareClientBase
 
 from trezorlib.client import TrezorClient, PASSPHRASE_ON_DEVICE
 from trezorlib.exceptions import TrezorFailure, Cancelled, OutdatedFirmwareError

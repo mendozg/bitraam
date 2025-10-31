@@ -5,13 +5,13 @@ import aiorpcx
 from aiorpcx import RPCError
 
 import electrum
-from electrum.interface import ServerAddr, Interface, PaddedRSTransport
-from electrum import util, blockchain
-from electrum.util import OldTaskGroup, bfh
-from electrum.logging import Logger
-from electrum.simple_config import SimpleConfig
-from electrum.transaction import Transaction
-from electrum import constants
+from bitraam.interface import ServerAddr, Interface, PaddedRSTransport
+from bitraam import util, blockchain
+from bitraam.util import OldTaskGroup, bfh
+from bitraam.logging import Logger
+from bitraam.simple_config import SimpleConfig
+from bitraam.transaction import Transaction
+from bitraam import constants
 
 from . import ElectrumTestCase
 

@@ -6,14 +6,14 @@ from typing import TYPE_CHECKING
 from PyQt6.QtCore import Qt, QAbstractListModel, QModelIndex
 from PyQt6.QtCore import pyqtProperty, pyqtSignal, pyqtSlot, QObject
 
-from electrum.i18n import _
-from electrum.logging import get_logger
-from electrum.util import WalletFileException, standardize_path, InvalidPassword, send_exception_to_crash_reporter
-from electrum.plugin import run_hook
-from electrum.lnchannel import ChannelState
-from electrum.bitcoin import is_address
-from electrum.bitcoin import verify_usermessage_with_address
-from electrum.storage import StorageReadWriteError
+from bitraam.i18n import _
+from bitraam.logging import get_logger
+from bitraam.util import WalletFileException, standardize_path, InvalidPassword, send_exception_to_crash_reporter
+from bitraam.plugin import run_hook
+from bitraam.lnchannel import ChannelState
+from bitraam.bitcoin import is_address
+from bitraam.bitcoin import verify_usermessage_with_address
+from bitraam.storage import StorageReadWriteError
 
 from .auth import AuthMixin, auth_protect
 from .qefx import QEFX
@@ -21,8 +21,8 @@ from .qewallet import QEWallet
 from .qewizard import QENewWalletWizard, QEServerConnectWizard, QETermsOfUseWizard
 
 if TYPE_CHECKING:
-    from electrum.daemon import Daemon
-    from electrum.plugin import Plugins
+    from bitraam.daemon import Daemon
+    from bitraam.plugin import Plugins
 
 
 # wallet list model. supports both wallet basenames (wallet file basenames)

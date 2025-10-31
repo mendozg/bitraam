@@ -1,9 +1,9 @@
 from functools import partial
 from typing import Callable
 
-from electrum.i18n import _
-from electrum.plugin import run_hook
-from electrum.simple_config import SimpleConfig
+from bitraam.i18n import _
+from bitraam.plugin import run_hook
+from bitraam.simple_config import SimpleConfig
 
 from .util import ButtonsTextEdit, MessageBoxMixin, ColorScheme, read_QIcon
 from .util import get_icon_camera, get_icon_qrcode, add_input_actions_to_context_menu

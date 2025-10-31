@@ -3,23 +3,23 @@ import base64
 import json
 from typing import Optional, TYPE_CHECKING
 
-from electrum import bip32, constants
-from electrum.crypto import sha256
-from electrum.i18n import _
-from electrum.keystore import Hardware_KeyStore
-from electrum.transaction import PartialTransaction, Transaction
-from electrum.wallet import Multisig_Wallet
-from electrum.util import UserFacingException
-from electrum.logging import get_logger
-from electrum.plugin import runs_in_hwd_thread, Device
-from electrum.network import Network
+from bitraam import bip32, constants
+from bitraam.crypto import sha256
+from bitraam.i18n import _
+from bitraam.keystore import Hardware_KeyStore
+from bitraam.transaction import PartialTransaction, Transaction
+from bitraam.wallet import Multisig_Wallet
+from bitraam.util import UserFacingException
+from bitraam.logging import get_logger
+from bitraam.plugin import runs_in_hwd_thread, Device
+from bitraam.network import Network
 
-from electrum.hw_wallet import HW_PluginBase, HardwareClientBase
-from electrum.hw_wallet.plugin import OutdatedHwFirmwareException
+from bitraam.hw_wallet import HW_PluginBase, HardwareClientBase
+from bitraam.hw_wallet.plugin import OutdatedHwFirmwareException
 
 if TYPE_CHECKING:
-    from electrum.plugin import DeviceInfo
-    from electrum.wizard import NewWalletWizard
+    from bitraam.plugin import DeviceInfo
+    from bitraam.wizard import NewWalletWizard
 
 _logger = get_logger(__name__)
 

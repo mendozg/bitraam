@@ -29,14 +29,14 @@ from PyQt6.QtWidgets import QVBoxLayout, QHBoxLayout, QLabel, QWidget, QGridLayo
 from PyQt6.QtCore import QRect, Qt
 from PyQt6.QtGui import QPen, QPainter, QPixmap
 
-from electrum.i18n import _
-from electrum.gui.messages import MSG_LN_UTXO_RESERVE
+from bitraam.i18n import _
+from bitraam.gui.messages import MSG_LN_UTXO_RESERVE
 
 from .util import Buttons, CloseButton, WindowModalDialog, ColorScheme, font_height, AmountLabel, icon_path
 
 if TYPE_CHECKING:
     from .main_window import ElectrumWindow
-    from electrum.wallet import Abstract_Wallet
+    from bitraam.wallet import Abstract_Wallet
 
 
 # Todo:

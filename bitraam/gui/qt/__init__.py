@@ -33,7 +33,7 @@ try:
     import PyQt6
     import PyQt6.QtGui
 except Exception as e:
-    from electrum import GuiImportError
+    from bitraam import GuiImportError
     raise GuiImportError(
         "Error: Could not import PyQt6. On Linux systems, "
         "you may try 'sudo apt-get install python3-pyqt6'") from e
@@ -44,7 +44,7 @@ from PyQt6.QtCore import QObject, pyqtSignal, QTimer, Qt
 
 import PyQt6.QtCore as QtCore
 
-from electrum.logging import Logger, get_logger
+from bitraam.logging import Logger, get_logger
 _logger = get_logger(__name__)
 
 try:
@@ -66,22 +66,22 @@ if sys.platform == "linux" and os.environ.get("APPIMAGE"):
     # see https://bugreports.qt.io/browse/QTBUG-114635
     os.environ.setdefault("QT_QPA_PLATFORM", "xcb")
 
-from electrum.i18n import _, set_language
-from electrum.plugin import run_hook
-from electrum.util import (UserCancelled, profiler, send_exception_to_crash_reporter,
+from bitraam.i18n import _, set_language
+from bitraam.plugin import run_hook
+from bitraam.util import (UserCancelled, profiler, send_exception_to_crash_reporter,
                            WalletFileException, get_new_wallet_name, InvalidPassword,
                            standardize_path)
-from electrum.wallet import Wallet, Abstract_Wallet
-from electrum.wallet_db import WalletRequiresSplit, WalletRequiresUpgrade, WalletUnfinished
-from electrum.gui import BaseElectrumGui
-from electrum.simple_config import SimpleConfig
-from electrum.wizard import WizardViewState
-from electrum.keystore import load_keystore
-from electrum.bip32 import is_xprv
-from electrum import constants
+from bitraam.wallet import Wallet, Abstract_Wallet
+from bitraam.wallet_db import WalletRequiresSplit, WalletRequiresUpgrade, WalletUnfinished
+from bitraam.gui import BaseElectrumGui
+from bitraam.simple_config import SimpleConfig
+from bitraam.wizard import WizardViewState
+from bitraam.keystore import load_keystore
+from bitraam.bip32 import is_xprv
+from bitraam import constants
 
-from electrum.gui.common_qt.i18n import ElectrumTranslator
-from electrum.gui.messages import TERMS_OF_USE_LATEST_VERSION
+from bitraam.gui.common_qt.i18n import ElectrumTranslator
+from bitraam.gui.messages import TERMS_OF_USE_LATEST_VERSION
 
 from .util import (read_QIcon, ColorScheme, custom_message_box, MessageBoxMixin, WWLabel,
                    set_windows_os_screenshot_protection_drm_flag)
@@ -94,8 +94,8 @@ from .wizard.server_connect import QEServerConnectWizard
 from .wizard.wallet import QENewWalletWizard
 
 if TYPE_CHECKING:
-    from electrum.daemon import Daemon
-    from electrum.plugin import Plugins
+    from bitraam.daemon import Daemon
+    from bitraam.plugin import Plugins
 
 
 class OpenFileEventFilter(QObject):
@@ -542,7 +542,7 @@ class ElectrumGui(BaseElectrumGui, Logger):
         """
         if self.has_accepted_terms_of_use():
             return
-        from electrum.gui.qt.wizard.terms_of_use import QETermsOfUseWizard
+        from bitraam.gui.qt.wizard.terms_of_use import QETermsOfUseWizard
         dialog = QETermsOfUseWizard(self.config, self.app)
         result = dialog.exec()
         if result == QDialog.DialogCode.Rejected:

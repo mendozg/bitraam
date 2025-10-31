@@ -29,16 +29,16 @@ from PyQt6.QtGui import QImage, QPainter, QColor
 from PyQt6.QtCore import QRect, QCoreApplication
 from PyQt6 import QtCore
 
-from electrum.i18n import _
-from electrum.util import UserFacingException
-from electrum.logging import get_logger
-from electrum.qrreader import get_qr_reader, QrCodeResult, MissingQrDetectionLib
+from bitraam.i18n import _
+from bitraam.util import UserFacingException
+from bitraam.logging import get_logger
+from bitraam.qrreader import get_qr_reader, QrCodeResult, MissingQrDetectionLib
 
-from electrum.gui.qt.util import MessageBoxMixin, custom_message_box
+from bitraam.gui.qt.util import MessageBoxMixin, custom_message_box
 
 
 if TYPE_CHECKING:
-    from electrum.simple_config import SimpleConfig
+    from bitraam.simple_config import SimpleConfig
 
 
 _logger = get_logger(__name__)
@@ -107,7 +107,7 @@ def find_system_cameras() -> Mapping[str, str]:
         else:
             return find_system_cameras()
     else:  # desktop Linux and similar
-        from electrum import qrscanner
+        from bitraam import qrscanner
         return qrscanner.find_system_cameras()
 
 
@@ -119,7 +119,7 @@ def _scan_qrcode_using_zbar(
         config: 'SimpleConfig',
         callback: Callable[[bool, str, Optional[str]], None],
 ) -> None:
-    from electrum import qrscanner
+    from bitraam import qrscanner
     data = None
     try:
         data = qrscanner.scan_barcode(config.get_video_device())

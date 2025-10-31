@@ -22,12 +22,12 @@
 # ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-from electrum.commands import plugin_command
+from bitraam.commands import plugin_command
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from .labels import LabelsPlugin
-    from electrum.commands import Commands
+    from bitraam.commands import Commands
 
 plugin_name = "labels"
 

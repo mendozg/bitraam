@@ -2,13 +2,13 @@ import os
 import asyncio
 from unittest.mock import patch
 
-from electrum import SimpleConfig
-from electrum.invoices import Invoice
-from electrum.payment_identifier import (maybe_extract_lightning_payment_identifier, PaymentIdentifier,
+from bitraam import SimpleConfig
+from bitraam.invoices import Invoice
+from bitraam.payment_identifier import (maybe_extract_lightning_payment_identifier, PaymentIdentifier,
                                          PaymentIdentifierType, PaymentIdentifierState,
                                          invoice_from_payment_identifier)
-from electrum.lnurl import LNURL6Data, LNURL3Data, LNURLError
-from electrum.transaction import PartialTxOutput
+from bitraam.lnurl import LNURL6Data, LNURL3Data, LNURLError
+from bitraam.transaction import PartialTxOutput
 
 from . import ElectrumTestCase
 from . import restore_wallet_from_text__for_unittest

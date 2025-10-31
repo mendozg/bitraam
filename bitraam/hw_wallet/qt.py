@@ -31,27 +31,27 @@ from typing import TYPE_CHECKING, Union, Optional, Sequence
 from PyQt6.QtCore import QObject, pyqtSignal, Qt
 from PyQt6.QtWidgets import QVBoxLayout, QLineEdit, QHBoxLayout, QLabel, QMenu
 
-from electrum.i18n import _
-from electrum.logging import Logger
-from electrum.util import UserCancelled, UserFacingException, ChoiceItem
-from electrum.plugin import hook
+from bitraam.i18n import _
+from bitraam.logging import Logger
+from bitraam.util import UserCancelled, UserFacingException, ChoiceItem
+from bitraam.plugin import hook
 
-from electrum.gui.common_qt.util import TaskThread
-from electrum.gui.qt.password_dialog import PasswordLayout, PW_PASSPHRASE
-from electrum.gui.qt.util import (
+from bitraam.gui.common_qt.util import TaskThread
+from bitraam.gui.qt.password_dialog import PasswordLayout, PW_PASSPHRASE
+from bitraam.gui.qt.util import (
     read_QIcon, WWLabel, OkButton, WindowModalDialog, Buttons, CancelButton, char_width_in_lineedit, PasswordLineEdit,
     read_QIcon_from_bytes
 )
-from electrum.gui.qt.main_window import StatusBarButton
+from bitraam.gui.qt.main_window import StatusBarButton
 
 
 from .plugin import OutdatedHwFirmwareException, HW_PluginBase, HardwareHandlerBase
 
 if TYPE_CHECKING:
-    from electrum.wallet import Abstract_Wallet
-    from electrum.keystore import Hardware_KeyStore
-    from electrum.gui.qt import ElectrumWindow
-    from electrum.gui.qt.wizard.wallet import QENewWalletWizard
+    from bitraam.wallet import Abstract_Wallet
+    from bitraam.keystore import Hardware_KeyStore
+    from bitraam.gui.qt import ElectrumWindow
+    from bitraam.gui.qt.wizard.wallet import QENewWalletWizard
 
 
 # The trickiest thing about this handler was getting windows properly

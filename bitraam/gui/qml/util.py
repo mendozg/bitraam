@@ -7,8 +7,8 @@ from typing import Tuple
 
 from PyQt6.QtCore import pyqtSignal
 
-from electrum.i18n import _
-from electrum.util import EventListener, event_listener
+from bitraam.i18n import _
+from bitraam.util import EventListener, event_listener
 
 
 class QtEventListener(EventListener):

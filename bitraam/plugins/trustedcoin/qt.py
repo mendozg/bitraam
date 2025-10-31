@@ -32,29 +32,29 @@ from PyQt6.QtCore import QObject, pyqtSignal, QSize, Qt
 from PyQt6.QtWidgets import (QTextEdit, QVBoxLayout, QLabel, QGridLayout, QHBoxLayout,
                              QRadioButton, QCheckBox, QPushButton, QWidget)
 
-from electrum.i18n import _
-from electrum.plugin import hook
-from electrum.util import InvalidPassword, ChoiceItem
-from electrum.logging import Logger, get_logger
-from electrum import keystore
+from bitraam.i18n import _
+from bitraam.plugin import hook
+from bitraam.util import InvalidPassword, ChoiceItem
+from bitraam.logging import Logger, get_logger
+from bitraam import keystore
 
-from electrum.gui.qt.util import (WindowModalDialog, WaitingDialog, OkButton, CancelButton, Buttons, icon_path,
+from bitraam.gui.qt.util import (WindowModalDialog, WaitingDialog, OkButton, CancelButton, Buttons, icon_path,
                                   internal_plugin_icon_path, WWLabel, CloseButton, ColorScheme,
                                   ChoiceWidget, PasswordLineEdit, char_width_in_lineedit)
-from electrum.gui.qt.qrcodewidget import QRCodeWidget
-from electrum.gui.qt.amountedit import AmountEdit
-from electrum.gui.qt.main_window import StatusBarButton
-from electrum.gui.qt.wizard.wallet import (WCCreateSeed, WCConfirmSeed, WCHaveSeed, WCEnterExt, WCConfirmExt,
+from bitraam.gui.qt.qrcodewidget import QRCodeWidget
+from bitraam.gui.qt.amountedit import AmountEdit
+from bitraam.gui.qt.main_window import StatusBarButton
+from bitraam.gui.qt.wizard.wallet import (WCCreateSeed, WCConfirmSeed, WCHaveSeed, WCEnterExt, WCConfirmExt,
                                            WalletWizardComponent)
-from electrum.gui.qt.util import read_QIcon_from_bytes
+from bitraam.gui.qt.util import read_QIcon_from_bytes
 
 from .common_qt import TrustedcoinPluginQObject
 from .trustedcoin import TrustedCoinPlugin, DISCLAIMER
 
 if TYPE_CHECKING:
-    from electrum.gui.qt.main_window import ElectrumWindow
-    from electrum.wallet import Abstract_Wallet
-    from electrum.gui.qt.wizard.wallet import QENewWalletWizard
+    from bitraam.gui.qt.main_window import ElectrumWindow
+    from bitraam.wallet import Abstract_Wallet
+    from bitraam.gui.qt.wizard.wallet import QENewWalletWizard
 
 
 class TOS(QTextEdit):

@@ -37,7 +37,7 @@ info "preparing bitraam-locale."
 
 if ([ "$OMIT_UNCLEAN_FILES" = 1 ]); then
     # FIXME side-effecting repo... though in practice, this script probably runs in fresh_clone
-    rm -f "$PROJECT_ROOT/electrum/paymentrequest_pb2.py"
+    rm -f "$PROJECT_ROOT/bitraam/paymentrequest_pb2.py"
 fi
 
 (

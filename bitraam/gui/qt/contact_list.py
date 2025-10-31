@@ -30,11 +30,11 @@ from PyQt6.QtGui import QStandardItemModel, QStandardItem
 from PyQt6.QtCore import Qt, QPersistentModelIndex, QModelIndex
 from PyQt6.QtWidgets import (QAbstractItemView, QMenu)
 
-from electrum.i18n import _
-from electrum.bitcoin import is_address
-from electrum.util import block_explorer_URL
-from electrum.plugin import run_hook
-from electrum.gui.qt.util import read_QIcon
+from bitraam.i18n import _
+from bitraam.bitcoin import is_address
+from bitraam.util import block_explorer_URL
+from bitraam.plugin import run_hook
+from bitraam.gui.qt.util import read_QIcon
 
 from .util import webopen
 from .my_treeview import MyTreeView

@@ -31,14 +31,14 @@ from PyQt6.QtCore import Qt, QTimer
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QHBoxLayout, QVBoxLayout, QLabel, QGridLayout, QPushButton, QToolButton, QMenu, QComboBox
 
-from electrum.i18n import _
-from electrum.util import NotEnoughFunds, NoDynamicFeeEstimates
-from electrum.util import quantize_feerate
-from electrum.plugin import run_hook
-from electrum.transaction import Transaction, PartialTransaction
-from electrum.wallet import InternalAddressCorruption
-from electrum.bitcoin import DummyAddress
-from electrum.fee_policy import FeePolicy, FixedFeePolicy, FeeMethod
+from bitraam.i18n import _
+from bitraam.util import NotEnoughFunds, NoDynamicFeeEstimates
+from bitraam.util import quantize_feerate
+from bitraam.plugin import run_hook
+from bitraam.transaction import Transaction, PartialTransaction
+from bitraam.wallet import InternalAddressCorruption
+from bitraam.bitcoin import DummyAddress
+from bitraam.fee_policy import FeePolicy, FixedFeePolicy, FeeMethod
 
 from .util import (WindowModalDialog, ColorScheme, HelpLabel, Buttons, CancelButton,
                    WWLabel, read_QIcon)

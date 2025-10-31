@@ -9,9 +9,9 @@ import traceback
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtCore import Qt
 
-from electrum import util
-from electrum.i18n import _
-from electrum.base_crash_reporter import taint_reports_by_console_usage
+from bitraam import util
+from bitraam.i18n import _
+from bitraam.base_crash_reporter import taint_reports_by_console_usage
 
 from .util import MONOSPACE_FONT, font_height
 

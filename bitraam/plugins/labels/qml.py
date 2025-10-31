@@ -26,11 +26,11 @@ import threading
 
 from PyQt6.QtCore import pyqtSignal, pyqtSlot
 
-from electrum.i18n import _
-from electrum.plugin import hook
+from bitraam.i18n import _
+from bitraam.plugin import hook
 
-from electrum.gui.qml.qewallet import QEWallet
-from electrum.gui.common_qt.plugins import PluginQObject
+from bitraam.gui.qml.qewallet import QEWallet
+from bitraam.gui.common_qt.plugins import PluginQObject
 
 from .labels import LabelsPlugin
 

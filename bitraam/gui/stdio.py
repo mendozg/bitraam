@@ -4,16 +4,16 @@ import datetime
 import logging
 from typing import Optional
 
-from electrum.gui import BaseElectrumGui
-from electrum import util
-from electrum import WalletStorage, Wallet
-from electrum.wallet import Abstract_Wallet
-from electrum.wallet_db import WalletDB
-from electrum.util import format_satoshis, EventListener, event_listener
-from electrum.bitcoin import is_address, COIN
-from electrum.transaction import PartialTxOutput
-from electrum.network import TxBroadcastError, BestEffortRequestFailed
-from electrum.fee_policy import FixedFeePolicy
+from bitraam.gui import BaseElectrumGui
+from bitraam import util
+from bitraam import WalletStorage, Wallet
+from bitraam.wallet import Abstract_Wallet
+from bitraam.wallet_db import WalletDB
+from bitraam.util import format_satoshis, EventListener, event_listener
+from bitraam.bitcoin import is_address, COIN
+from bitraam.transaction import PartialTxOutput
+from bitraam.network import TxBroadcastError, BestEffortRequestFailed
+from bitraam.fee_policy import FixedFeePolicy
 
 _ = lambda x:x  # i18n
 

@@ -56,7 +56,7 @@ from . import GuiImportError
 from .plugin import run_hook, Plugins
 
 if TYPE_CHECKING:
-    from electrum import gui
+    from bitraam import gui
 
 
 _logger = get_logger(__name__)

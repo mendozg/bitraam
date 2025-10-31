@@ -29,8 +29,8 @@ from PyQt6.QtMultimedia import (QVideoFrame, QVideoFrameFormat, QVideoSink)
 from PyQt6.QtGui import QImage
 from PyQt6.QtCore import QObject, pyqtSignal
 
-from electrum.i18n import _
-from electrum.logging import get_logger
+from bitraam.i18n import _
+from bitraam.logging import get_logger
 
 
 _logger = get_logger(__name__)

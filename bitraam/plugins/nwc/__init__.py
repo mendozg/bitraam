@@ -24,12 +24,12 @@
 # SOFTWARE.
 from typing import TYPE_CHECKING
 
-from electrum.commands import plugin_command
-from electrum.simple_config import SimpleConfig, ConfigVar
+from bitraam.commands import plugin_command
+from bitraam.simple_config import SimpleConfig, ConfigVar
 
 if TYPE_CHECKING:
     from .nwcserver import NWCServerPlugin
-    from electrum.commands import Commands
+    from bitraam.commands import Commands
 
 plugin_name = "nwc"
 

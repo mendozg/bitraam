@@ -38,14 +38,14 @@ from PyQt6.QtCore import (Qt, QPersistentModelIndex, QModelIndex,
 from PyQt6.QtWidgets import (QMenu, QHeaderView, QLabel, QPushButton, QComboBox, QVBoxLayout, QCalendarWidget,
                              QGridLayout)
 
-from electrum.gui import messages
-from electrum.address_synchronizer import TX_HEIGHT_LOCAL
-from electrum.i18n import _
-from electrum.util import (block_explorer_URL, profiler, TxMinedInfo,
+from bitraam.gui import messages
+from bitraam.address_synchronizer import TX_HEIGHT_LOCAL
+from bitraam.i18n import _
+from bitraam.util import (block_explorer_URL, profiler, TxMinedInfo,
                            OrderedDictWithIndex, timestamp_to_datetime,
                            Satoshis, format_time, Fiat)
-from electrum.logging import get_logger, Logger
-from electrum.simple_config import SimpleConfig
+from bitraam.logging import get_logger, Logger
+from bitraam.simple_config import SimpleConfig
 
 from .custom_model import CustomNode, CustomModel
 from .util import (read_QIcon, MONOSPACE_FONT, Buttons, CancelButton, OkButton,
@@ -54,7 +54,7 @@ from .util import (read_QIcon, MONOSPACE_FONT, Buttons, CancelButton, OkButton,
 from .my_treeview import MyTreeView
 
 if TYPE_CHECKING:
-    from electrum.wallet import Abstract_Wallet
+    from bitraam.wallet import Abstract_Wallet
     from .main_window import ElectrumWindow
 
 
@@ -677,7 +677,7 @@ class HistoryList(MyTreeView, AcceptFileDragDrop):
 
     def plot_history_dialog(self):
         try:
-            from electrum.plot import plot_history, NothingToPlotException
+            from bitraam.plot import plot_history, NothingToPlotException
         except ImportError as e:
             _logger.error(f"could not import electrum.plot. This feature needs matplotlib to be installed. exc={e!r}")
             self.main_window.show_message("\n\n".join([
@@ -909,7 +909,7 @@ class HistoryList(MyTreeView, AcceptFileDragDrop):
                 for line in lines:
                     transaction.writerow(line)
             else:
-                from electrum.util import json_encode
+                from bitraam.util import json_encode
                 f.write(json_encode(txns))
 
     def get_text_from_coordinate(self, row, col):

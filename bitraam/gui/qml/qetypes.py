@@ -1,7 +1,7 @@
 from PyQt6.QtCore import pyqtProperty, pyqtSignal, pyqtSlot, QObject
 
-from electrum.logging import get_logger
-from electrum.i18n import _
+from bitraam.logging import get_logger
+from bitraam.i18n import _
 
 
 class QEAmount(QObject):

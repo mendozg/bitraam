@@ -20,21 +20,21 @@ from PyQt6.QtWidgets import (QPushButton, QLabel, QMessageBox, QHBoxLayout, QVBo
                              QGraphicsEffect, QGraphicsScene, QGraphicsPixmapItem, QLayoutItem, QLayout, QMenu,
                              QFrame, QAbstractButton)
 
-from electrum.i18n import _
-from electrum.util import (FileImportFailed, FileExportFailed, resource_path, EventListener, event_listener,
+from bitraam.i18n import _
+from bitraam.util import (FileImportFailed, FileExportFailed, resource_path, EventListener, event_listener,
                            get_logger, UserCancelled, UserFacingException, ChoiceItem)
-from electrum.invoices import (PR_UNPAID, PR_PAID, PR_EXPIRED, PR_INFLIGHT, PR_UNKNOWN, PR_FAILED, PR_ROUTING,
+from bitraam.invoices import (PR_UNPAID, PR_PAID, PR_EXPIRED, PR_INFLIGHT, PR_UNKNOWN, PR_FAILED, PR_ROUTING,
                                PR_UNCONFIRMED, PR_BROADCASTING, PR_BROADCAST)
-from electrum.qrreader import MissingQrDetectionLib, QrCodeResult
+from bitraam.qrreader import MissingQrDetectionLib, QrCodeResult
 
-from electrum.gui.common_qt.util import TaskThread
+from bitraam.gui.common_qt.util import TaskThread
 
 if TYPE_CHECKING:
     from .main_window import ElectrumWindow
     from .paytoedit import PayToEdit
 
-    from electrum.simple_config import SimpleConfig
-    from electrum.simple_config import ConfigVarWithConfig
+    from bitraam.simple_config import SimpleConfig
+    from bitraam.simple_config import ConfigVarWithConfig
 
 
 if platform.system() == 'Windows':
@@ -444,7 +444,7 @@ class WaitingDialog(WindowModalDialog):
 class RunCoroutineDialog(WaitingDialog):
 
     def __init__(self, parent: QWidget, message: str, coroutine):
-        from electrum import util
+        from bitraam import util
         import asyncio
         import concurrent.futures
         loop = util.get_asyncio_loop()

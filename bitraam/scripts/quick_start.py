@@ -3,19 +3,19 @@
 import os
 import asyncio
 
-from electrum.simple_config import SimpleConfig
-from electrum import constants
-from electrum.daemon import Daemon
-from electrum.storage import WalletStorage
-from electrum.wallet import Wallet, create_new_wallet
-from electrum.wallet_db import WalletDB
-from electrum.commands import Commands
-from electrum.util import create_and_start_event_loop, log_exceptions
+from bitraam.simple_config import SimpleConfig
+from bitraam import constants
+from bitraam.daemon import Daemon
+from bitraam.storage import WalletStorage
+from bitraam.wallet import Wallet, create_new_wallet
+from bitraam.wallet_db import WalletDB
+from bitraam.commands import Commands
+from bitraam.util import create_and_start_event_loop, log_exceptions
 
 
 loop, stopping_fut, loop_thread = create_and_start_event_loop()
 
-config = SimpleConfig({"testnet": True})  # to use ~/.electrum/testnet as datadir
+config = SimpleConfig({"testnet": True})  # to use ~/.bitraam/testnet as datadir
 constants.BitcoinTestnet.set_as_network()  # to set testnet magic bytes
 daemon = Daemon(config, listen_jsonrpc=False)
 network = daemon.network

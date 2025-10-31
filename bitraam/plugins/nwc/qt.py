@@ -33,19 +33,19 @@ from PyQt6.QtWidgets import (
 from PyQt6.QtGui import QPixmap, QImage
 from PyQt6.QtCore import Qt
 
-from electrum.i18n import _
-from electrum.plugin import hook
-from electrum.gui.qt.util import (
+from bitraam.i18n import _
+from bitraam.plugin import hook
+from bitraam.gui.qt.util import (
     WindowModalDialog, Buttons, OkButton, CancelButton, CloseButton,
     read_QIcon_from_bytes, read_QPixmap_from_bytes,
 )
-from electrum.gui.common_qt.util import paintQR
+from bitraam.gui.common_qt.util import paintQR
 
 from .nwcserver import NWCServerPlugin
 
 if TYPE_CHECKING:
-    from electrum.wallet import Abstract_Wallet
-    from electrum.gui.qt.main_window import ElectrumWindow
+    from bitraam.wallet import Abstract_Wallet
+    from bitraam.gui.qt.main_window import ElectrumWindow
 
 
 class Plugin(NWCServerPlugin):

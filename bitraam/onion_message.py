@@ -33,15 +33,15 @@ from typing import TYPE_CHECKING, Optional, Sequence, NamedTuple
 
 import electrum_ecc as ecc
 
-from electrum.lnrouter import PathEdge
-from electrum.logging import get_logger, Logger
-from electrum.crypto import sha256, get_ecdh
-from electrum.lnmsg import OnionWireSerializer
-from electrum.lnonion import (get_bolt04_onion_key, OnionPacket, process_onion_packet,
+from bitraam.lnrouter import PathEdge
+from bitraam.logging import get_logger, Logger
+from bitraam.crypto import sha256, get_ecdh
+from bitraam.lnmsg import OnionWireSerializer
+from bitraam.lnonion import (get_bolt04_onion_key, OnionPacket, process_onion_packet,
                               OnionHopsDataSingle, decrypt_onionmsg_data_tlv, encrypt_onionmsg_data_tlv,
                               get_shared_secrets_along_route, new_onion_packet)
-from electrum.lnutil import LnFeatures
-from electrum.util import OldTaskGroup, log_exceptions
+from bitraam.lnutil import LnFeatures
+from bitraam.util import OldTaskGroup, log_exceptions
 
 
 def now():
@@ -49,10 +49,10 @@ def now():
 
 
 if TYPE_CHECKING:
-    from electrum.lnworker import LNWallet
-    from electrum.network import Network
-    from electrum.lnrouter import NodeInfo
-    from electrum.lntransport import LNPeerAddr
+    from bitraam.lnworker import LNWallet
+    from bitraam.network import Network
+    from bitraam.lnrouter import NodeInfo
+    from bitraam.lntransport import LNPeerAddr
     from asyncio import Task
 
 logger = get_logger(__name__)

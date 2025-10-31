@@ -33,13 +33,13 @@ from PyQt6.QtWidgets import (
 )
 from PyQt6.QtGui import QIntValidator
 
-from electrum.i18n import _
-from electrum import blockchain
-from electrum.interface import ServerAddr, PREFERRED_NETWORK_PROTOCOL
-from electrum.network import Network, ProxySettings, is_valid_host, is_valid_port
-from electrum.logging import get_logger
-from electrum.util import is_valid_websocket_url
-from electrum.gui import messages
+from bitraam.i18n import _
+from bitraam import blockchain
+from bitraam.interface import ServerAddr, PREFERRED_NETWORK_PROTOCOL
+from bitraam.network import Network, ProxySettings, is_valid_host, is_valid_port
+from bitraam.logging import get_logger
+from bitraam.util import is_valid_websocket_url
+from bitraam.gui import messages
 
 from .util import (
     Buttons, CloseButton, HelpButton, read_QIcon, char_width_in_lineedit, PasswordLineEdit, QtEventListener,

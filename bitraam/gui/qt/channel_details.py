@@ -5,14 +5,14 @@ import PyQt6.QtWidgets as QtWidgets
 import PyQt6.QtCore as QtCore
 from PyQt6.QtWidgets import QLabel, QLineEdit, QHBoxLayout, QGridLayout
 
-from electrum.util import EventListener, ShortID
-from electrum.i18n import _
-from electrum.util import format_time
-from electrum.lnutil import format_short_channel_id, LOCAL, REMOTE, UpdateAddHtlc, Direction
-from electrum.lnchannel import htlcsum, Channel, AbstractChannel, HTLCWithStatus
-from electrum.lnaddr import LnAddr, lndecode
-from electrum.bitcoin import COIN
-from electrum.wallet import Abstract_Wallet
+from bitraam.util import EventListener, ShortID
+from bitraam.i18n import _
+from bitraam.util import format_time
+from bitraam.lnutil import format_short_channel_id, LOCAL, REMOTE, UpdateAddHtlc, Direction
+from bitraam.lnchannel import htlcsum, Channel, AbstractChannel, HTLCWithStatus
+from bitraam.lnaddr import LnAddr, lndecode
+from bitraam.bitcoin import COIN
+from bitraam.wallet import Abstract_Wallet
 
 from .util import Buttons, CloseButton, ShowQRLineEdit, MessageBoxMixin, WWLabel
 from .util import QtEventListener, qt_event_listener, VLine

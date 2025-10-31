@@ -10,23 +10,23 @@ from PyQt6.QtCore import pyqtSignal, QPoint, Qt
 from PyQt6.QtWidgets import (QLabel, QVBoxLayout, QGridLayout, QHBoxLayout,
                              QWidget, QToolTip, QPushButton, QApplication)
 
-from electrum.i18n import _
-from electrum.logging import Logger
-from electrum.bitcoin import DummyAddress
-from electrum.plugin import run_hook
-from electrum.util import (
+from bitraam.i18n import _
+from bitraam.logging import Logger
+from bitraam.bitcoin import DummyAddress
+from bitraam.plugin import run_hook
+from bitraam.util import (
     NotEnoughFunds, NoDynamicFeeEstimates, parse_max_spend, UserCancelled, ChoiceItem,
     UserFacingException,
 )
-from electrum.invoices import PR_PAID, Invoice, PR_BROADCASTING, PR_BROADCAST
-from electrum.transaction import Transaction, PartialTxInput, PartialTxOutput
-from electrum.network import TxBroadcastError, BestEffortRequestFailed
-from electrum.payment_identifier import (PaymentIdentifierType, PaymentIdentifier,
+from bitraam.invoices import PR_PAID, Invoice, PR_BROADCASTING, PR_BROADCAST
+from bitraam.transaction import Transaction, PartialTxInput, PartialTxOutput
+from bitraam.network import TxBroadcastError, BestEffortRequestFailed
+from bitraam.payment_identifier import (PaymentIdentifierType, PaymentIdentifier,
                                          invoice_from_payment_identifier,
                                          payment_identifier_from_invoice, PaymentIdentifierState)
-from electrum.submarine_swaps import SwapServerError
-from electrum.fee_policy import FeePolicy, FixedFeePolicy
-from electrum.lnurl import LNURL3Data, request_lnurl_withdraw_callback, LNURLError
+from bitraam.submarine_swaps import SwapServerError
+from bitraam.fee_policy import FeePolicy, FixedFeePolicy
+from bitraam.lnurl import LNURL3Data, request_lnurl_withdraw_callback, LNURLError
 
 from .amountedit import AmountEdit, BTCAmountEdit, SizedFreezableLineEdit
 from .paytoedit import InvalidPaymentIdentifier

@@ -1,5 +1,5 @@
-from electrum.plugin import hook
-from electrum.hw_wallet import CmdLineHandler
+from bitraam.plugin import hook
+from bitraam.hw_wallet import CmdLineHandler
 from .keepkey import KeepKeyPlugin
 
 class Plugin(KeepKeyPlugin):

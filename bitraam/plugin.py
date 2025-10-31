@@ -73,7 +73,7 @@ class Plugins(DaemonThread):
 
     pkgpath = os.path.dirname(plugins.__file__)
     # TODO: use XDG Base Directory Specification instead of hardcoding /etc
-    keyfile_posix = '/etc/electrum/plugins_key'
+    keyfile_posix = '/etc/bitraam/plugins_key'
     keyfile_windows = r'HKEY_LOCAL_MACHINE\SOFTWARE\Electrum\PluginsKey'
 
     @profiler

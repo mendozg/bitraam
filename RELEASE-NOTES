@@ -1236,7 +1236,7 @@ below are user-visible.
    significantly for large wallets. (d56917f4)
  * Importing/sweeping WIF keys: stricter checks (#4638, #5290)
  * Electrum protocol: the client's "user agent" has been changed from
-   "3.3.5" to "electrum/3.3.5". Other libraries connecting to servers
+   "3.3.5" to "bitraam/3.3.5". Other libraries connecting to servers
    can consider not "spoofing" to be Electrum. (#5246)
  * Several other minor bugfixes and usability improvements.
 

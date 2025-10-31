@@ -8,18 +8,18 @@ from functools import partial
 
 from PyQt6.QtCore import pyqtProperty, pyqtSignal, pyqtSlot, QObject, QTimer
 
-from electrum.i18n import _
-from electrum.invoices import InvoiceError, PR_PAID, PR_BROADCASTING, PR_BROADCAST
-from electrum.logging import get_logger
-from electrum.network import TxBroadcastError, BestEffortRequestFailed
-from electrum.transaction import PartialTransaction, Transaction
-from electrum.util import InvalidPassword, event_listener, AddTransactionException, get_asyncio_loop, NotEnoughFunds, \
+from bitraam.i18n import _
+from bitraam.invoices import InvoiceError, PR_PAID, PR_BROADCASTING, PR_BROADCAST
+from bitraam.logging import get_logger
+from bitraam.network import TxBroadcastError, BestEffortRequestFailed
+from bitraam.transaction import PartialTransaction, Transaction
+from bitraam.util import InvalidPassword, event_listener, AddTransactionException, get_asyncio_loop, NotEnoughFunds, \
     NoDynamicFeeEstimates
-from electrum.lnutil import MIN_FUNDING_SAT
-from electrum.plugin import run_hook
-from electrum.wallet import Multisig_Wallet
-from electrum.crypto import pw_decode_with_version_and_mac
-from electrum.fee_policy import FeePolicy, FixedFeePolicy
+from bitraam.lnutil import MIN_FUNDING_SAT
+from bitraam.plugin import run_hook
+from bitraam.wallet import Multisig_Wallet
+from bitraam.crypto import pw_decode_with_version_and_mac
+from bitraam.fee_policy import FeePolicy, FixedFeePolicy
 
 from .auth import AuthMixin, auth_protect
 from .qeaddresslistmodel import QEAddressCoinListModel
@@ -30,15 +30,15 @@ from .qetypes import QEAmount
 from .util import QtEventListener, qt_event_listener
 
 if TYPE_CHECKING:
-    from electrum.wallet import Abstract_Wallet
-    from electrum.invoices import Invoice
+    from bitraam.wallet import Abstract_Wallet
+    from bitraam.invoices import Invoice
 
 
 class QEWallet(AuthMixin, QObject, QtEventListener):
     __instances = []
 
     # this factory method should be used to instantiate QEWallet
-    # so we have only one QEWallet for each electrum.wallet
+    # so we have only one QEWallet for each bitraam.wallet
     @classmethod
     def getInstanceFor(cls, wallet):
         for i in cls.__instances:

@@ -40,17 +40,17 @@ from PyQt6.QtWidgets import (QDialog, QLabel, QPushButton, QHBoxLayout, QVBoxLay
 import qrcode
 from qrcode import exceptions
 
-from electrum import bitcoin
+from bitraam import bitcoin
 
-from electrum.bitcoin import NLOCKTIME_BLOCKHEIGHT_MAX, DummyAddress
-from electrum.i18n import _
-from electrum.plugin import run_hook
-from electrum.transaction import SerializationError, Transaction, PartialTransaction, TxOutpoint, TxinDataFetchProgress
-from electrum.logging import get_logger
-from electrum.util import (ShortID, get_asyncio_loop, UI_UNIT_NAME_TXSIZE_VBYTES, delta_time_str,
+from bitraam.bitcoin import NLOCKTIME_BLOCKHEIGHT_MAX, DummyAddress
+from bitraam.i18n import _
+from bitraam.plugin import run_hook
+from bitraam.transaction import SerializationError, Transaction, PartialTransaction, TxOutpoint, TxinDataFetchProgress
+from bitraam.logging import get_logger
+from bitraam.util import (ShortID, get_asyncio_loop, UI_UNIT_NAME_TXSIZE_VBYTES, delta_time_str,
                            UserCancelled)
-from electrum.network import Network
-from electrum.wallet import TxSighashRiskLevel, TxSighashDanger
+from bitraam.network import Network
+from bitraam.wallet import TxSighashRiskLevel, TxSighashDanger
 
 from .util import (MessageBoxMixin, read_QIcon, Buttons, icon_path,
                    MONOSPACE_FONT, ColorScheme, ButtonsLineEdit, ShowQRLineEdit, text_dialog,
@@ -64,8 +64,8 @@ from .my_treeview import create_toolbar_with_menu, QMenuWithConfig
 
 if TYPE_CHECKING:
     from .main_window import ElectrumWindow
-    from electrum.wallet import Abstract_Wallet
-    from electrum.invoices import Invoice
+    from bitraam.wallet import Abstract_Wallet
+    from bitraam.invoices import Invoice
 
 
 _logger = get_logger(__name__)
@@ -886,7 +886,7 @@ class TxDialog(QDialog, MessageBoxMixin):
             self.date_label.setText(_("Date: {}").format(time_str))
             self.date_label.show()
         elif exp_n is not None:
-            from electrum.fee_policy import FeePolicy
+            from bitraam.fee_policy import FeePolicy
             self.date_label.setText(_('Position in mempool: {}').format(FeePolicy.depth_tooltip(exp_n)))
             self.date_label.show()
         else:

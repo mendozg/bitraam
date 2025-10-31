@@ -6,15 +6,15 @@ import dataclasses
 
 from aiorpcx import timeout_after
 
-from electrum import storage, bitcoin, keystore, wallet
-from electrum import SimpleConfig
-from electrum import util
-from electrum.address_synchronizer import TX_HEIGHT_UNCONFIRMED, TX_HEIGHT_UNCONF_PARENT, TX_HEIGHT_LOCAL
-from electrum.transaction import Transaction, PartialTxInput, PartialTxOutput, TxOutpoint
-from electrum.logging import console_stderr_handler, Logger
-from electrum.submarine_swaps import SwapManager, SwapData
-from electrum.lnsweep import SweepInfo
-from electrum.fee_policy import FeeTimeEstimates
+from bitraam import storage, bitcoin, keystore, wallet
+from bitraam import SimpleConfig
+from bitraam import util
+from bitraam.address_synchronizer import TX_HEIGHT_UNCONFIRMED, TX_HEIGHT_UNCONF_PARENT, TX_HEIGHT_LOCAL
+from bitraam.transaction import Transaction, PartialTxInput, PartialTxOutput, TxOutpoint
+from bitraam.logging import console_stderr_handler, Logger
+from bitraam.submarine_swaps import SwapManager, SwapData
+from bitraam.lnsweep import SweepInfo
+from bitraam.fee_policy import FeeTimeEstimates
 
 from . import ElectrumTestCase
 from .test_wallet_vertical import WalletIntegrityHelper, read_test_vector

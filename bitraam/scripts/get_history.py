@@ -3,10 +3,10 @@
 import sys
 import asyncio
 
-from electrum import bitcoin
-from electrum.network import Network
-from electrum.util import json_encode, print_msg, create_and_start_event_loop, log_exceptions
-from electrum.simple_config import SimpleConfig
+from bitraam import bitcoin
+from bitraam.network import Network
+from bitraam.util import json_encode, print_msg, create_and_start_event_loop, log_exceptions
+from bitraam.simple_config import SimpleConfig
 
 
 try:

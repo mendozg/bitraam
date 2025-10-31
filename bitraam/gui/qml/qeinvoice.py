@@ -6,19 +6,19 @@ from urllib.parse import urlparse
 
 from PyQt6.QtCore import pyqtProperty, pyqtSignal, pyqtSlot, QObject, pyqtEnum, QTimer
 
-from electrum.i18n import _
-from electrum.logging import get_logger
-from electrum.invoices import (
+from bitraam.i18n import _
+from bitraam.logging import get_logger
+from bitraam.invoices import (
     Invoice, PR_UNPAID, PR_EXPIRED, PR_UNKNOWN, PR_PAID, PR_INFLIGHT, PR_FAILED, PR_ROUTING, PR_UNCONFIRMED,
     PR_BROADCASTING, PR_BROADCAST, LN_EXPIRY_NEVER
 )
-from electrum.transaction import PartialTxOutput, TxOutput
-from electrum.lnutil import format_short_channel_id
-from electrum.lnurl import LNURL6Data
-from electrum.bitcoin import COIN, address_to_script
-from electrum.paymentrequest import PaymentRequest
-from electrum.payment_identifier import PaymentIdentifier, PaymentIdentifierState, PaymentIdentifierType
-from electrum.network import Network
+from bitraam.transaction import PartialTxOutput, TxOutput
+from bitraam.lnutil import format_short_channel_id
+from bitraam.lnurl import LNURL6Data
+from bitraam.bitcoin import COIN, address_to_script
+from bitraam.paymentrequest import PaymentRequest
+from bitraam.payment_identifier import PaymentIdentifier, PaymentIdentifierState, PaymentIdentifierType
+from bitraam.network import Network
 
 from .qetypes import QEAmount
 from .qewallet import QEWallet

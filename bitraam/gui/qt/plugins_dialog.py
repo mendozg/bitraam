@@ -7,9 +7,9 @@ from PyQt6.QtWidgets import QLabel, QVBoxLayout, QGridLayout, QPushButton, QWidg
     QFormLayout, QFileDialog, QMenu, QApplication, QMessageBox
 from PyQt6.QtCore import QTimer
 
-from electrum.i18n import _
-from electrum.gui import messages
-from electrum.logging import get_logger
+from bitraam.i18n import _
+from bitraam.gui import messages
+from bitraam.logging import get_logger
 
 from .util import (WindowModalDialog, Buttons, CloseButton, WWLabel, insert_spaces, MessageBoxMixin,
                    EnterButton, read_QIcon_from_bytes, IconLabel, RunCoroutineDialog)
@@ -18,8 +18,8 @@ from .util import (WindowModalDialog, Buttons, CloseButton, WWLabel, insert_spac
 if TYPE_CHECKING:
     from . import ElectrumGui
     from electrum_ecc import ECPrivkey
-    from electrum.simple_config import SimpleConfig
-    from electrum.plugin import Plugins
+    from bitraam.simple_config import SimpleConfig
+    from bitraam.plugin import Plugins
 
 
 class PluginDialog(WindowModalDialog):

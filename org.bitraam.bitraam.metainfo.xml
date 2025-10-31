@@ -9,7 +9,7 @@
 -->
 
 <component type="desktop-application">
-  <id>org.electrum.electrum</id>
+  <id>org.bitraam.bitraam</id>
 
   <name>BitRaam</name>
   <summary>BitRaam Wallet</summary>

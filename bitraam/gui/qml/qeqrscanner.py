@@ -3,10 +3,10 @@ import os
 from PyQt6.QtCore import pyqtProperty, pyqtSignal, pyqtSlot, QObject, Qt
 from PyQt6.QtGui import QGuiApplication
 
-from electrum.gui.qml.qetypes import QEBytes
-from electrum.util import send_exception_to_crash_reporter
-from electrum.logging import get_logger
-from electrum.i18n import _
+from bitraam.gui.qml.qetypes import QEBytes
+from bitraam.util import send_exception_to_crash_reporter
+from bitraam.logging import get_logger
+from bitraam.i18n import _
 
 
 if 'ANDROID_DATA' in os.environ:
@@ -49,7 +49,7 @@ class QEQRScanner(QObject):
         if 'ANDROID_DATA' not in os.environ:
             self._scan_qr_non_android()
             return
-        jSimpleScannerActivity = autoclass("org.electrum.qr.SimpleScannerActivity")
+        jSimpleScannerActivity = autoclass("org.bitraam.qr.SimpleScannerActivity")
         intent = jIntent(jpythonActivity, jSimpleScannerActivity)
         intent.putExtra(jIntent.EXTRA_TEXT, jString(self._hint))
 

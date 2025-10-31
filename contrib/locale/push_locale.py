@@ -63,7 +63,7 @@ subprocess.check_output(cmd)
 
 
 # add QML translations
-cmd = "find electrum/gui/qml -type f -name '*.qml'"
+cmd = "find bitraam/gui/qml -type f -name '*.qml'"
 files = subprocess.check_output(cmd, shell=True)
 
 with open(f"{build_dir}/qml.lst", "wb") as f:
@@ -82,8 +82,8 @@ subprocess.check_output(cmd)
 
 print("Fixing some paths in messages_qml.pot")
 #  sed from " ../../gui/qml/"
-#      to   " electrum/gui/qml/"
-cmd = ["sed", "-i", r"s/ ..\/..\/gui\/qml\// electrum\/gui\/qml\//g", f"{build_dir}/messages_qml.pot"]
+#      to   " bitraam/gui/qml/"
+cmd = ["sed", "-i", r"s/ ..\/..\/gui\/qml\// bitraam\/gui\/qml\//g", f"{build_dir}/messages_qml.pot"]
 subprocess.check_output(cmd)
 
 cmd = ["msgcat", "-u", "-o", f"{build_dir}/messages.pot", f"{build_dir}/messages_gettext.pot", f"{build_dir}/messages_qml.pot"]
@@ -92,7 +92,7 @@ subprocess.check_output(cmd)
 
 
 # prepare uploading to crowdin
-os.chdir(os.path.join(project_root, "electrum"))
+os.chdir(os.path.join(project_root, "bitraam"))
 
 crowdin_api_key = None
 filename = os.path.expanduser('~/.crowdin_api_key')

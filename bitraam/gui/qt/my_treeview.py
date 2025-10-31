@@ -36,15 +36,15 @@ from PyQt6.QtWidgets import (QLabel, QHBoxLayout, QAbstractItemView, QLineEdit,
                              QWidget, QToolButton, QTreeView, QHeaderView, QStyledItemDelegate,
                              QMenu, QStyleOptionViewItem)
 
-from electrum.i18n import _
-from electrum.simple_config import ConfigVarWithConfig
+from bitraam.i18n import _
+from bitraam.simple_config import ConfigVarWithConfig
 
-from electrum.gui import messages
+from bitraam.gui import messages
 
 from .util import read_QIcon
 
 if TYPE_CHECKING:
-    from electrum import SimpleConfig
+    from bitraam import SimpleConfig
     from .main_window import ElectrumWindow
 
 

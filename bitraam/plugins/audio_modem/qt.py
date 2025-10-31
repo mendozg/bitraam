@@ -8,14 +8,14 @@ from typing import TYPE_CHECKING
 
 from PyQt6.QtWidgets import (QComboBox, QGridLayout, QLabel, QPushButton)
 
-from electrum.plugin import BasePlugin, hook
-from electrum.gui.qt.util import WaitingDialog, EnterButton, WindowModalDialog, read_QIcon
-from electrum.i18n import _
-from electrum.logging import get_logger
-from electrum.gui.qt.util import read_QIcon_from_bytes
+from bitraam.plugin import BasePlugin, hook
+from bitraam.gui.qt.util import WaitingDialog, EnterButton, WindowModalDialog, read_QIcon
+from bitraam.i18n import _
+from bitraam.logging import get_logger
+from bitraam.gui.qt.util import read_QIcon_from_bytes
 
 if TYPE_CHECKING:
-    from electrum.gui.qt.transaction_dialog import TxDialog
+    from bitraam.gui.qt.transaction_dialog import TxDialog
 
 
 _logger = get_logger(__name__)

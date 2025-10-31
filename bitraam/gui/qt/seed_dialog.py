@@ -31,11 +31,11 @@ from PyQt6.QtWidgets import (QVBoxLayout, QCheckBox, QHBoxLayout, QLineEdit,
                              QLabel, QCompleter, QDialog, QStyledItemDelegate,
                              QWidget, QPushButton)
 
-from electrum.i18n import _
-from electrum.mnemonic import Mnemonic, calc_seed_type, is_any_2fa_seed_type
-from electrum import old_mnemonic
-from electrum import slip39
-from electrum.util import ChoiceItem
+from bitraam.i18n import _
+from bitraam.mnemonic import Mnemonic, calc_seed_type, is_any_2fa_seed_type
+from bitraam import old_mnemonic
+from bitraam import slip39
+from bitraam.util import ChoiceItem
 
 from .util import (
     Buttons, OkButton, WWLabel, ButtonsTextEdit, icon_path, EnterButton,
@@ -45,7 +45,7 @@ from .qrtextedit import ShowQRTextEdit, ScanQRTextEdit
 from .completion_text_edit import CompletionTextEdit
 
 if TYPE_CHECKING:
-    from electrum.simple_config import SimpleConfig
+    from bitraam.simple_config import SimpleConfig
 
 
 MSG_PASSPHRASE_WARN_ISSUE4566 = _("Warning") + ": "\
@@ -290,7 +290,7 @@ class SeedWidget(QWidget):
     def on_edit(self):
         s = ' '.join(self.get_seed_words())
         if self.seed_type == 'bip39':
-            from electrum.keystore import bip39_is_checksum_valid
+            from bitraam.keystore import bip39_is_checksum_valid
             is_checksum, is_wordlist = bip39_is_checksum_valid(s)
             label = ''
             valid = bool(s)

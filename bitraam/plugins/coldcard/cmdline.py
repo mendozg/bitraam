@@ -1,8 +1,8 @@
-from electrum.plugin import hook
-from electrum.util import print_msg, raw_input, print_stderr
-from electrum.logging import get_logger
+from bitraam.plugin import hook
+from bitraam.util import print_msg, raw_input, print_stderr
+from bitraam.logging import get_logger
 
-from electrum.hw_wallet.cmdline import CmdLineHandler
+from bitraam.hw_wallet.cmdline import CmdLineHandler
 
 from .coldcard import ColdcardPlugin
 

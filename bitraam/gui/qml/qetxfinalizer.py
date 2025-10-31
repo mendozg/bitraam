@@ -7,23 +7,23 @@ from functools import partial
 
 from PyQt6.QtCore import pyqtProperty, pyqtSignal, pyqtSlot, QObject, pyqtEnum
 
-from electrum.logging import get_logger
-from electrum.i18n import _
-from electrum.bitcoin import DummyAddress
-from electrum.transaction import PartialTxOutput, PartialTransaction, Transaction, TxOutpoint
-from electrum.util import NotEnoughFunds, profiler, quantize_feerate, UserFacingException
-from electrum.wallet import CannotBumpFee, CannotDoubleSpendTx, CannotCPFP, BumpFeeStrategy, sweep_preparations
-from electrum import keystore
-from electrum.plugin import run_hook
-from electrum.fee_policy import FeePolicy, FeeMethod
-from electrum.network import NetworkException
+from bitraam.logging import get_logger
+from bitraam.i18n import _
+from bitraam.bitcoin import DummyAddress
+from bitraam.transaction import PartialTxOutput, PartialTransaction, Transaction, TxOutpoint
+from bitraam.util import NotEnoughFunds, profiler, quantize_feerate, UserFacingException
+from bitraam.wallet import CannotBumpFee, CannotDoubleSpendTx, CannotCPFP, BumpFeeStrategy, sweep_preparations
+from bitraam import keystore
+from bitraam.plugin import run_hook
+from bitraam.fee_policy import FeePolicy, FeeMethod
+from bitraam.network import NetworkException
 
 from .qewallet import QEWallet
 from .qetypes import QEAmount
 from .util import QtEventListener, event_listener
 
 if TYPE_CHECKING:
-    from electrum.simple_config import SimpleConfig
+    from bitraam.simple_config import SimpleConfig
 
 
 class FeeSlider(QObject):

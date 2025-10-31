@@ -9,23 +9,23 @@ from PyQt6.QtWidgets import (QVBoxLayout, QLabel, QGridLayout, QPushButton,
                              QTextEdit, QLineEdit, QRadioButton, QCheckBox, QWidget,
                              QMessageBox, QSlider, QTabWidget)
 
-from electrum.gui.qt.util import (WindowModalDialog, WWLabel, Buttons, CancelButton,
+from bitraam.gui.qt.util import (WindowModalDialog, WWLabel, Buttons, CancelButton,
                                   OkButton, CloseButton, ChoiceWidget)
-from electrum.i18n import _
-from electrum.plugin import hook
-from electrum.logging import Logger
-from electrum.util import ChoiceItem
+from bitraam.i18n import _
+from bitraam.plugin import hook
+from bitraam.logging import Logger
+from bitraam.util import ChoiceItem
 
-from electrum.hw_wallet.qt import QtHandlerBase, QtPluginBase
-from electrum.hw_wallet.trezor_qt_pinmatrix import PinMatrixWidget
-from electrum.hw_wallet.plugin import only_hook_if_libraries_available
+from bitraam.hw_wallet.qt import QtHandlerBase, QtPluginBase
+from bitraam.hw_wallet.trezor_qt_pinmatrix import PinMatrixWidget
+from bitraam.hw_wallet.plugin import only_hook_if_libraries_available
 
 from .keepkey import KeepKeyPlugin, TIM_NEW, TIM_RECOVER, TIM_MNEMONIC, TIM_PRIVKEY
 
-from electrum.gui.qt.wizard.wallet import WCScriptAndDerivation, WCHWUnlock, WCHWXPub, WalletWizardComponent
+from bitraam.gui.qt.wizard.wallet import WCScriptAndDerivation, WCHWUnlock, WCHWXPub, WalletWizardComponent
 
 if TYPE_CHECKING:
-    from electrum.gui.qt.wizard.wallet import QENewWalletWizard
+    from bitraam.gui.qt.wizard.wallet import QENewWalletWizard
 
 PASSPHRASE_HELP_SHORT =_(
     "Passphrases allow you to access new wallets, each "
@@ -272,7 +272,7 @@ class KeepkeyInitLayout(QVBoxLayout):
                 msg = _("Enter the master private key beginning with xprv:")
 
                 def set_enabled():
-                    from electrum.bip32 import is_xprv
+                    from bitraam.bip32 import is_xprv
                     self.validChanged.emit(is_xprv(clean_text(self.text_e)))
                 self.text_e.textChanged.connect(set_enabled)
 

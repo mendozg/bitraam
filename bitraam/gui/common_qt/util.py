@@ -8,8 +8,8 @@ from PyQt6.QtCore import Qt, QThread, pyqtSignal
 from PyQt6.QtGui import QColor, QPen, QPaintDevice, QFontDatabase, QImage
 import qrcode
 
-from electrum.i18n import _
-from electrum.logging import Logger
+from bitraam.i18n import _
+from bitraam.logging import Logger
 
 _cached_font_ids: dict[str, int] = {}
 

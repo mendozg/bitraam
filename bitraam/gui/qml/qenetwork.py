@@ -2,18 +2,18 @@ from typing import TYPE_CHECKING
 
 from PyQt6.QtCore import pyqtProperty, pyqtSignal, QObject, pyqtSlot
 
-from electrum.logging import get_logger
-from electrum import constants
-from electrum.network import ProxySettings
-from electrum.interface import ServerAddr
-from electrum.fee_policy import FEERATE_DEFAULT_RELAY
+from bitraam.logging import get_logger
+from bitraam import constants
+from bitraam.network import ProxySettings
+from bitraam.interface import ServerAddr
+from bitraam.fee_policy import FEERATE_DEFAULT_RELAY
 
 from .util import QtEventListener, event_listener
 from .qeconfig import QEConfig
 from .qeserverlistmodel import QEServerListModel
 
 if TYPE_CHECKING:
-    from electrum.network import Network
+    from bitraam.network import Network
 
 
 class QENetwork(QObject, QtEventListener):

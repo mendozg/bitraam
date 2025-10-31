@@ -1,5 +1,5 @@
-from electrum.i18n import _
-from electrum.submarine_swaps import MIN_FINAL_CLTV_DELTA_FOR_CLIENT
+from bitraam.i18n import _
+from bitraam.submarine_swaps import MIN_FINAL_CLTV_DELTA_FOR_CLIENT
 
 
 def to_rtf(msg):

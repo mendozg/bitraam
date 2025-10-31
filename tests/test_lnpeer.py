@@ -17,35 +17,35 @@ from electrum_ecc import ECPrivkey
 
 import electrum
 import electrum.trampoline
-from electrum import bitcoin
-from electrum import util
-from electrum import constants
-from electrum.network import Network
-from electrum import simple_config, lnutil
-from electrum.lnaddr import lnencode, LnAddr, lndecode
-from electrum.bitcoin import COIN, sha256
-from electrum.transaction import Transaction
-from electrum.util import NetworkRetryManager, bfh, OldTaskGroup, EventListener, InvoiceError
-from electrum.lnpeer import Peer
-from electrum.lntransport import LNPeerAddr
-from electrum.crypto import privkey_to_pubkey
-from electrum.lnutil import Keypair, PaymentFailure, LnFeatures, HTLCOwner, PaymentFeeBudget
-from electrum.lnchannel import ChannelState, PeerState, Channel
-from electrum.lnrouter import LNPathFinder, PathEdge, LNPathInconsistent
-from electrum.channel_db import ChannelDB
-from electrum.lnworker import LNWallet, NoPathFound, SentHtlcInfo, PaySession
-from electrum.lnmsg import encode_msg, decode_msg
-from electrum import lnmsg
-from electrum.logging import console_stderr_handler, Logger
-from electrum.lnworker import PaymentInfo, RECEIVED
-from electrum.lnonion import OnionFailureCode, OnionRoutingFailure
-from electrum.lnutil import UpdateAddHtlc
-from electrum.lnutil import LOCAL, REMOTE
-from electrum.invoices import PR_PAID, PR_UNPAID, Invoice, LN_EXPIRY_NEVER
-from electrum.interface import GracefulDisconnect
-from electrum.simple_config import SimpleConfig
-from electrum.fee_policy import FeeTimeEstimates, FEE_ETA_TARGETS
-from electrum.mpp_split import split_amount_normal
+from bitraam import bitcoin
+from bitraam import util
+from bitraam import constants
+from bitraam.network import Network
+from bitraam import simple_config, lnutil
+from bitraam.lnaddr import lnencode, LnAddr, lndecode
+from bitraam.bitcoin import COIN, sha256
+from bitraam.transaction import Transaction
+from bitraam.util import NetworkRetryManager, bfh, OldTaskGroup, EventListener, InvoiceError
+from bitraam.lnpeer import Peer
+from bitraam.lntransport import LNPeerAddr
+from bitraam.crypto import privkey_to_pubkey
+from bitraam.lnutil import Keypair, PaymentFailure, LnFeatures, HTLCOwner, PaymentFeeBudget
+from bitraam.lnchannel import ChannelState, PeerState, Channel
+from bitraam.lnrouter import LNPathFinder, PathEdge, LNPathInconsistent
+from bitraam.channel_db import ChannelDB
+from bitraam.lnworker import LNWallet, NoPathFound, SentHtlcInfo, PaySession
+from bitraam.lnmsg import encode_msg, decode_msg
+from bitraam import lnmsg
+from bitraam.logging import console_stderr_handler, Logger
+from bitraam.lnworker import PaymentInfo, RECEIVED
+from bitraam.lnonion import OnionFailureCode, OnionRoutingFailure
+from bitraam.lnutil import UpdateAddHtlc
+from bitraam.lnutil import LOCAL, REMOTE
+from bitraam.invoices import PR_PAID, PR_UNPAID, Invoice, LN_EXPIRY_NEVER
+from bitraam.interface import GracefulDisconnect
+from bitraam.simple_config import SimpleConfig
+from bitraam.fee_policy import FeeTimeEstimates, FEE_ETA_TARGETS
+from bitraam.mpp_split import split_amount_normal
 
 from .test_lnchannel import create_test_channels
 from .test_bitcoin import needs_test_with_all_chacha20_implementations

@@ -65,11 +65,11 @@ if [ ! -z "$ELECBUILD_COMMIT" ] ; then  # fresh clone (reproducible build)
     fi
 fi
 docker run $DOCKER_RUN_FLAGS \
-    --name electrum-appimage-builder-cont \
-    -v "$PROJECT_ROOT_OR_FRESHCLONE_ROOT":/opt/electrum \
+    --name bitram-appimage-builder-cont \
+    -v "$PROJECT_ROOT_OR_FRESHCLONE_ROOT":/opt/bitraam \
     --rm \
-    --workdir /opt/electrum/contrib/build-linux/appimage \
-    electrum-appimage-builder-img \
+    --workdir /opt/bitraam/contrib/build-linux/appimage \
+    bitraam-appimage-builder-img \
     ./make_appimage.sh
 
 # make sure resulting binary location is independent of fresh_clone

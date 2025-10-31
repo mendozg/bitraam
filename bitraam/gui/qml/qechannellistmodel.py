@@ -1,11 +1,11 @@
 from PyQt6.QtCore import Qt, QAbstractListModel, QModelIndex
 from PyQt6.QtCore import pyqtProperty, pyqtSignal, pyqtSlot
 
-from electrum.lnchannel import ChannelState
-from electrum.lnutil import LOCAL, REMOTE
-from electrum.logging import get_logger
-from electrum.util import Satoshis
-from electrum.gui import messages
+from bitraam.lnchannel import ChannelState
+from bitraam.lnutil import LOCAL, REMOTE
+from bitraam.logging import get_logger
+from bitraam.util import Satoshis
+from bitraam.gui import messages
 
 from .qetypes import QEAmount
 from .util import QtEventListener, qt_event_listener

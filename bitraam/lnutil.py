@@ -667,7 +667,7 @@ def derive_multisig_funding_key_if_we_opened(
     nlocktime_bytes = int.to_bytes(nlocktime, length=4, byteorder="little", signed=False)
     node_id_prefix = remote_node_id_or_prefix[0:NODE_ID_PREFIX_LEN]
     funding_key = ecc.ECPrivkey(bip340_tagged_hash(
-        tag=b"electrum/ln_multisig_funding_key/we_opened",
+        tag=b"bitraam/ln_multisig_funding_key/we_opened",
         msg=funding_root_secret + node_id_prefix + nlocktime_bytes,
     ))
     return Keypair(
@@ -691,7 +691,7 @@ def derive_multisig_funding_key_if_they_opened(
     assert len(remote_funding_pubkey) == 33
     node_id_prefix = remote_node_id_or_prefix[0:NODE_ID_PREFIX_LEN]
     funding_key = ecc.ECPrivkey(bip340_tagged_hash(
-        tag=b"electrum/ln_multisig_funding_key/they_opened",
+        tag=b"bitraam/ln_multisig_funding_key/they_opened",
         msg=funding_root_secret + node_id_prefix + remote_funding_pubkey,
     ))
     return Keypair(

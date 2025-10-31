@@ -2,10 +2,10 @@
 import json
 import asyncio
 
-from electrum.simple_config import SimpleConfig
-from electrum.network import filter_version, Network
-from electrum.util import create_and_start_event_loop, log_exceptions
-from electrum import constants
+from bitraam.simple_config import SimpleConfig
+from bitraam.network import filter_version, Network
+from bitraam.util import create_and_start_event_loop, log_exceptions
+from bitraam import constants
 
 # testnet?
 #constants.BitcoinTestnet.set_as_network()
