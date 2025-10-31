@@ -170,13 +170,13 @@ you need `adb$ run-as org.bitraam.bitraam --user {userId}`.
 ### How to investigate diff between binaries if reproducibility fails?
 ```
 cd dist/
-unzip Electrum-*.apk1 -d apk1
+unzip Bitraam-*.apk1 -d apk1
 mkdir apk1/assets/private_mp3/
 tar -xzvf apk1/assets/private.tar --directory apk1/assets/private_mp3/
 mkdir apk1/lib/_libpybundle/
 tar -xzvf apk1/lib/*/libpybundle.so --directory apk1/lib/_libpybundle/
 
-unzip Electrum-*.apk2 -d apk2
+unzip Bitraam-*.apk2 -d apk2
 mkdir apk2/assets/private_mp3/
 tar -xzvf apk2/assets/private.tar --directory apk2/assets/private_mp3/
 mkdir apk2/lib/_libpybundle/

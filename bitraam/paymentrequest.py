@@ -56,8 +56,8 @@ if TYPE_CHECKING:
 _logger = get_logger(__name__)
 
 
-REQUEST_HEADERS = {'Accept': 'application/bitcoin-paymentrequest', 'User-Agent': 'Electrum'}
-ACK_HEADERS = {'Content-Type': 'application/bitcoin-payment', 'Accept': 'application/bitcoin-paymentack', 'User-Agent': 'Electrum'}
+REQUEST_HEADERS = {'Accept': 'application/bitraam-paymentrequest', 'User-Agent': 'Bitraam'}
+ACK_HEADERS = {'Content-Type': 'application/bitraam-payment', 'Accept': 'application/bitraam-paymentack', 'User-Agent': 'Bitraam'}
 
 ca_path = certifi.where()
 ca_list = None
@@ -290,7 +290,7 @@ class PaymentRequest:
         paymnt.transactions.append(bfh(raw_tx))
         ref_out = paymnt.refund_to.add()
         ref_out.script = address_to_script(refund_addr)
-        paymnt.memo = "Paid using Electrum"
+        paymnt.memo = "Paid using Bitraam"
         pm = paymnt.SerializeToString()
         payurl = urllib.parse.urlparse(pay_det.payment_url)
         resp_content = None

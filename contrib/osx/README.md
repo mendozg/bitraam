@@ -117,7 +117,7 @@ repository.
 2. Use the provided `compare_dmg` script to compare the binary you built with
    the official release binary.
     ```
-    $ ./contrib/osx/compare_dmg dist/electrum-*.dmg electrum_dmg_official_release.dmg
+    $ ./contrib/osx/compare_dmg dist/bitraam-*.dmg bitraam_dmg_official_release.dmg
     ```
    The `compare_dmg` script is mostly only needed as the official release binary is
    codesigned and notarized. Otherwise, the built `.app` bundles should be byte-identical.
@@ -170,13 +170,13 @@ $ codesign --verify --deep --strict --verbose=2 $HOME/Desktop/electrum-4.5.8.dmg
 signed
 ```
 ```
-$ codesign --verify --deep --strict --verbose=1 $HOME/Desktop/Electrum-4.5.8.app && echo "signed"
-/Users/vagrant/Desktop/Electrum-4.5.8.app: valid on disk
-/Users/vagrant/Desktop/Electrum-4.5.8.app: satisfies its Designated Requirement
+$ codesign --verify --deep --strict --verbose=1 $HOME/Desktop/Bitraam-4.5.8.app && echo "signed"
+/Users/vagrant/Desktop/Bitraam-4.5.8.app: valid on disk
+/Users/vagrant/Desktop/Bitraam-4.5.8.app: satisfies its Designated Requirement
 signed
 ```
 
-Also see `$ codesign -dvvv $HOME/Desktop/electrum-4.5.8.dmg`
+Also see `$ codesign -dvvv $HOME/Desktop/bitraam-4.5.8.dmg`
 
 ### How to check if a file is notarized?
 
@@ -185,13 +185,13 @@ The outer `.dmg` is NOT notarized, but the inner `.app` is notarized:
 $ spctl -a -vvv -t install $HOME/Desktop/electrum-4.5.8.dmg
 /Users/vagrant/Desktop/electrum-4.5.8.dmg: rejected
 source=Unnotarized Developer ID
-origin=Developer ID Application: Electrum Technologies GmbH (L6P37P7P56)
+origin=Developer ID Application: Bitraam Technologies GmbH (L6P37P7P56)
 ```
 ```
-$ spctl -a -vvv -t install $HOME/Desktop/Electrum-4.5.8.app
-/Users/vagrant/Desktop/Electrum-4.5.8.app: accepted
+$ spctl -a -vvv -t install $HOME/Desktop/Bitraam-4.5.8.app
+/Users/vagrant/Desktop/Bitraam-4.5.8.app: accepted
 source=Notarized Developer ID
-origin=Developer ID Application: Electrum Technologies GmbH (L6P37P7P56)
+origin=Developer ID Application: Bitraam Technologies GmbH (L6P37P7P56)
 ```
 
 ### How to simulate the signing procedure?

@@ -2459,7 +2459,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger, QtEventListener):
         e.setReadOnly(True)
         vbox.addWidget(e)
 
-        defaultname = f'electrum-private-keys-{self.wallet.basename()}.csv'
+        defaultname = f'bitraam-private-keys-{self.wallet.basename()}.csv'
         select_msg = _('Select file to export your private keys to')
         hbox, filename_e, csv_button = filename_field(self, self.config, defaultname, select_msg)
         vbox.addLayout(hbox)

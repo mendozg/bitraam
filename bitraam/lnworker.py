@@ -1284,7 +1284,7 @@ class LNWallet(LNWorker):
 
     def _scid_alias_of_node(self, nodeid: bytes) -> bytes:
         # scid alias for just-in-time channels
-        return sha256(b'Electrum' + nodeid)[0:8]
+        return sha256(b'Bitraam' + nodeid)[0:8]
 
     def get_static_jit_scid_alias(self) -> bytes:
         return self._scid_alias_of_node(self.node_keypair.pubkey)

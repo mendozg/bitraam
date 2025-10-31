@@ -2308,7 +2308,7 @@ def truncate_text(text: str, *, max_len: Optional[int]) -> str:
 
 def nostr_pow_worker(nonce, nostr_pubk, target_bits, hash_function, hash_len_bits, shutdown):
     """Function to generate PoW for Nostr, to be spawned in a ProcessPoolExecutor."""
-    hash_preimage = b'electrum-' + nostr_pubk
+    hash_preimage = b'bitraam-' + nostr_pubk
     while True:
         # we cannot check is_set on each iteration as it has a lot of overhead, this way we can check
         # it with low overhead (just the additional range counter)
@@ -2323,7 +2323,7 @@ def nostr_pow_worker(nonce, nostr_pubk, target_bits, hash_function, hash_len_bit
 
 
 async def gen_nostr_ann_pow(nostr_pubk: bytes, target_bits: int) -> Tuple[int, int]:
-    """Generate a PoW for a Nostr announcement. The PoW is hash[b'electrum-'+pubk+nonce]"""
+    """Generate a PoW for a Nostr announcement. The PoW is hash[b'bitraam-'+pubk+nonce]"""
     import multiprocessing  # not available on Android, so we import it here
     hash_function = hashlib.sha256
     hash_len_bits = 256
