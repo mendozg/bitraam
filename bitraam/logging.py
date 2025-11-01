@@ -48,14 +48,14 @@ class LogFormatterForConsole(logging.Formatter):
         return text
 
 
-# try to make console log lines short... no timestamp, short levelname, no "electrum."
+# try to make console log lines short... no timestamp, short levelname, no "bitraam."
 console_formatter = LogFormatterForConsole(fmt="%(asctime)s | %(levelname).1s | %(name)s | %(message)s")
 
 
 def _shorten_name_of_logrecord(record: logging.LogRecord) -> logging.LogRecord:
     record = copy.copy(record)  # avoid mutating arg
     # strip the main module name from the logger name
-    if record.name.startswith("electrum."):
+    if record.name.startswith("bitraam."):
         record.name = record.name[9:]
     # manual map to shorten common module names
     record.name = record.name.replace("interface.Interface", "interface", 1)
@@ -262,7 +262,7 @@ if getattr(sys, "_ELECTRUM_RUNNING_VIA_RUNELECTRUM", False):
     root_logger.addHandler(_inmemory_startup_logs)
 
 # creates a logger specifically for electrum library
-electrum_logger = logging.getLogger("electrum")
+electrum_logger = logging.getLogger("bitraam")
 electrum_logger.setLevel(logging.DEBUG)
 
 

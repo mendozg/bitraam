@@ -197,7 +197,7 @@ class TestInterface(ElectrumTestCase):
 
     def setUp(self):
         super().setUp()
-        self.config = SimpleConfig({'electrum_path': self.electrum_path})
+        self.config = SimpleConfig({'bitraam_path': self.bitraam_path})
         self._orig_WAIT_FOR_BUFFER_GROWTH_SECONDS = PaddedRSTransport.WAIT_FOR_BUFFER_GROWTH_SECONDS
         PaddedRSTransport.WAIT_FOR_BUFFER_GROWTH_SECONDS = 0
 

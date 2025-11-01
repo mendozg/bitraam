@@ -57,9 +57,9 @@ class TestBlockchain(ElectrumTestCase):
 
     def setUp(self):
         super().setUp()
-        self.data_dir = self.electrum_path
+        self.data_dir = self.bitraam_path
         make_dir(os.path.join(self.data_dir, 'forks'))
-        self.config = SimpleConfig({'electrum_path': self.data_dir})
+        self.config = SimpleConfig({'bitraam_path': self.data_dir})
         blockchain.blockchains = {}
 
     def _append_header(self, chain: Blockchain, header: dict):

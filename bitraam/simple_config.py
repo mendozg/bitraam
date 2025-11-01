@@ -197,8 +197,8 @@ class SimpleConfig(Logger):
         self.cmdline_options.pop('config_version', None)
 
         # Set self.path and read the user config
-        self.user_config = {}  # for self.get in electrum_path()
-        self.path = self.electrum_path()
+        self.user_config = {}  # for self.get in bitraam_path()
+        self.path = self.bitraam_path()
         self.user_config = read_user_config_function(self.path)
         if not self.user_config:
             # avoid new config getting upgraded
@@ -232,10 +232,10 @@ class SimpleConfig(Logger):
     def list_config_vars(self) -> Sequence[str]:
         return list(sorted(_config_var_from_key.keys()))
 
-    def electrum_path_root(self):
-        # Read electrum_path from command line
+    def bitraam_path_root(self):
+        # Read bitraam_path from command line
         # Otherwise use the user's default data directory.
-        path = self.get('electrum_path') or self.user_dir()
+        path = self.get('bitraam_path') or self.user_dir()
         make_dir(path, allow_symlink=False)
         return path
 
@@ -244,7 +244,7 @@ class SimpleConfig(Logger):
         # ~hack for easier testnet builds. pkgname subject to change.
         android_pkg_name = util.get_android_package_name()
         for chain in constants.NETS_LIST:
-            if android_pkg_name == f"org.bitraam.{chain.cli_flag()}.electrum":
+            if android_pkg_name == f"org.bitraam.{chain.cli_flag()}.bitraam":
                 config_options[chain.cli_flag()] = True
 
     def get_selected_chain(self) -> Type[constants.AbstractNet]:
@@ -256,14 +256,14 @@ class SimpleConfig(Logger):
             return selected_chains[0]
         return constants.BitcoinMainnet
 
-    def electrum_path(self):
-        path = self.electrum_path_root()
+    def bitraam_path(self):
+        path = self.bitraam_path_root()
         chain = self.get_selected_chain()
         if subdir := chain.datadir_subdir():
             path = os.path.join(path, subdir)
             make_dir(path, allow_symlink=False)
 
-        self.logger.info(f"electrum directory {path} (chain={chain.NET_NAME})")
+        self.logger.info(f"bitraam directory {path} (chain={chain.NET_NAME})")
         return path
 
     def rename_config_keys(self, config, keypairs, deprecation_warning=False):

@@ -19,7 +19,7 @@ except ImportError as e:
 project_root = os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 os.chdir(project_root)
 
-locale_dir = os.path.join(project_root, "electrum", "locale")
+locale_dir = os.path.join(project_root, "bitraam", "locale")
 if not os.path.exists(os.path.join(locale_dir, "locale")):
     raise Exception(f"missing git submodule for locale? {locale_dir}")
 

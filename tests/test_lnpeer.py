@@ -770,7 +770,7 @@ class TestPeerDirect(TestPeer):
             async with OldTaskGroup() as group:
                 await group.spawn(p1._message_loop())
                 await group.spawn(p2._message_loop())
-                with self.assertLogs('electrum', level='INFO') as logs:
+                with self.assertLogs('bitraam', level='INFO') as logs:
                     async with OldTaskGroup() as group2:
                         await group2.spawn(p1.reestablish_channel(chan_AB))
                         await group2.spawn(p2.reestablish_channel(chan_BA))
@@ -827,7 +827,7 @@ class TestPeerDirect(TestPeer):
             async with OldTaskGroup() as group:
                 await group.spawn(p1._message_loop())
                 await group.spawn(p2._message_loop())
-                with self.assertLogs('electrum', level='INFO') as logs:
+                with self.assertLogs('bitraam', level='INFO') as logs:
                     async with OldTaskGroup() as group2:
                         await group2.spawn(p1.reestablish_channel(chan_AB))
                         await group2.spawn(p2.reestablish_channel(chan_BA))

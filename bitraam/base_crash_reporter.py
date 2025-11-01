@@ -94,7 +94,7 @@ class BaseCrashReporter(Logger):
             "4943",  # testnet 3
             "f043",  # testnet 4
             "1ef6",  # signet
-        ] and ".electrum.org" in BaseCrashReporter.report_server):
+        ] and ".bitraam.org" in BaseCrashReporter.report_server):
             # Gah! Some kind of altcoin wants to send us crash reports.
             raise Exception(_("Missing report URL."))
         report = self.get_traceback_info(*self.exc_args)

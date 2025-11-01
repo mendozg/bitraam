@@ -48,10 +48,10 @@ class WizardTestCase(ElectrumTestCase):
         super().setUp()
 
         self.config = SimpleConfig({
-            'electrum_path': self.electrum_path,
+            'bitraam_path': self.bitraam_path,
             'enable_plugin_trustedcoin': True,
         })
-        self.wallet_path = os.path.join(self.electrum_path, "somewallet")
+        self.wallet_path = os.path.join(self.bitraam_path, "somewallet")
         self.plugins = Plugins(self.config, gui_name='cmdline')
         self.plugins.load_plugin_by_name('trustedcoin')
         # note: hw plugins are loaded on-demand
@@ -192,7 +192,7 @@ class KeystoreWizardTestCase(WizardTestCase):
         mypassphrase = ''
         myxpub = 'zpub6nAZodjgiMNf9zzX1pTqd6ZVX61ax8azhUDnWRumKVUr1VYATVoqAuqv3qKsb8WJXjxei4wei2p4vnMG9RnpKnen2kmgdhvZUmug2NnHNsr'
         d.update({
-            'seed': myseed, 'seed_type': 'segwit', 'seed_extend': False, 'seed_variant': 'electrum',
+            'seed': myseed, 'seed_type': 'segwit', 'seed_extend': False, 'seed_variant': 'bitraam',
         })
         self.assertTrue(w.is_last_view(v.view, d))
         w.resolve_next(v.view, d)
@@ -219,7 +219,7 @@ class KeystoreWizardTestCase(WizardTestCase):
         mypassphrase = 'abc'
         myxpub = 'zpub6oLFCUpqxT8BUzy8g5miUuRofPZ46ZjjvZfcfH7qJanRM7aRYGpNX4uBGtcJRbgcKbi7dYkiiPw1GB2sc3SufyDcZskuQEWp5jBwbNcj1VL'
         d.update({
-            'seed': myseed, 'seed_type': 'segwit', 'seed_extend': True, 'seed_variant': 'electrum',
+            'seed': myseed, 'seed_type': 'segwit', 'seed_extend': True, 'seed_variant': 'bitraam',
         })
         self.assertFalse(w.is_last_view(v.view, d))
         v = w.resolve_next(v.view, d)
@@ -248,7 +248,7 @@ class KeystoreWizardTestCase(WizardTestCase):
         w, v = self._wizard_for()
         d = v.wizard_data
         d.update({
-            'seed': 'abandon bike', 'seed_type': 'segwit', 'seed_extend': False, 'seed_variant': 'electrum',
+            'seed': 'abandon bike', 'seed_type': 'segwit', 'seed_extend': False, 'seed_variant': 'bitraam',
         })
         self.assertTrue(w.is_last_view(v.view, d))
         w.resolve_next(v.view, d)
@@ -270,7 +270,7 @@ class KeystoreWizardTestCase(WizardTestCase):
         myxpub = 'e9d4b7866dd1e91c862aebf62a49548c7dbf7bcc6e4b7b8c9da820c7737968df9c09d5a3e271dc814a29981f81b3faaf2737b551ef5dcc6189cf0f8252c442b3'
         d.update({
             'seed': myseed,
-            'seed_type': 'old', 'seed_extend': False, 'seed_variant': 'electrum',
+            'seed_type': 'old', 'seed_extend': False, 'seed_variant': 'bitraam',
         })
         self.assertTrue(w.is_last_view(v.view, d))
         w.resolve_next(v.view, d)
@@ -409,7 +409,7 @@ class KeystoreWizardTestCase(WizardTestCase):
         w, v = self._wizard_for(wallet_type=wallet.wallet_type)
         d = v.wizard_data
         d.update({
-            'seed': seed2, 'seed_type': 'segwit', 'seed_extend': False, 'seed_variant': 'electrum',
+            'seed': seed2, 'seed_type': 'segwit', 'seed_extend': False, 'seed_variant': 'bitraam',
         })
         self.assertTrue(w.is_last_view(v.view, d))
         w.resolve_next(v.view, d)
@@ -489,7 +489,7 @@ class WalletWizardTestCase(WizardTestCase):
         d.update({'keystore_type': 'haveseed'})
         v = w.resolve_next(v.view, d)
         self.assertEqual('have_seed', v.view)
-        d.update({'seed': '9dk', 'seed_type': 'segwit', 'seed_extend': False, 'seed_variant': 'electrum'})
+        d.update({'seed': '9dk', 'seed_type': 'segwit', 'seed_extend': False, 'seed_variant': 'bitraam'})
         v = w.resolve_next(v.view, d)
 
         wallet = self._set_password_and_check_address(
@@ -511,7 +511,7 @@ class WalletWizardTestCase(WizardTestCase):
         d.update({'keystore_type': 'haveseed'})
         v = w.resolve_next(v.view, d)
         self.assertEqual('have_seed', v.view)
-        d.update({'seed': '9dk', 'seed_type': 'segwit', 'seed_extend': False, 'seed_variant': 'electrum'})
+        d.update({'seed': '9dk', 'seed_type': 'segwit', 'seed_extend': False, 'seed_variant': 'bitraam'})
         v = w.resolve_next(v.view, d)
 
         wallet = self._set_password_and_check_address(
@@ -536,7 +536,7 @@ class WalletWizardTestCase(WizardTestCase):
         self.assertEqual('create_seed', v.view)
 
         d.update({
-            'seed': '9dk', 'seed_type': 'segwit', 'seed_extend': False, 'seed_variant': 'electrum',
+            'seed': '9dk', 'seed_type': 'segwit', 'seed_extend': False, 'seed_variant': 'bitraam',
         })
         v = w.resolve_next(v.view, d)
         self.assertEqual('confirm_seed', v.view)
@@ -555,7 +555,7 @@ class WalletWizardTestCase(WizardTestCase):
         self.assertEqual('create_seed', v.view)
 
         d.update({
-            'seed': '9dk', 'seed_type': 'segwit', 'seed_extend': True, 'seed_variant': 'electrum',
+            'seed': '9dk', 'seed_type': 'segwit', 'seed_extend': True, 'seed_variant': 'bitraam',
         })
         v = w.resolve_next(v.view, d)
         self.assertEqual('create_ext', v.view)
@@ -582,7 +582,7 @@ class WalletWizardTestCase(WizardTestCase):
 
         d.update({
             'seed': 'powerful random nobody notice nothing important anyway look away hidden message over',
-            'seed_type': 'old', 'seed_extend': False, 'seed_variant': 'electrum'})
+            'seed_type': 'old', 'seed_extend': False, 'seed_variant': 'bitraam'})
         v = w.resolve_next(v.view, d)
         wallet = self._set_password_and_check_address(v=v, w=w, recv_addr="1FJEEB8ihPMbzs2SkLmr37dHyRFzakqUmo")
 
@@ -601,7 +601,7 @@ class WalletWizardTestCase(WizardTestCase):
 
         d.update({
             'seed': 'acb740e454c3134901d7c8f16497cc1c',
-            'seed_type': 'old', 'seed_extend': False, 'seed_variant': 'electrum'})
+            'seed_type': 'old', 'seed_extend': False, 'seed_variant': 'bitraam'})
         v = w.resolve_next(v.view, d)
         wallet = self._set_password_and_check_address(v=v, w=w, recv_addr="1FJEEB8ihPMbzs2SkLmr37dHyRFzakqUmo")
 
@@ -620,7 +620,7 @@ class WalletWizardTestCase(WizardTestCase):
 
         d.update({
             'seed': 'powerful random nobody notice nothing important anyway look away hidden message over',
-            'seed_type': 'old', 'seed_extend': True, 'seed_variant': 'electrum'})
+            'seed_type': 'old', 'seed_extend': True, 'seed_variant': 'bitraam'})
         v = w.resolve_next(v.view, d)
         # FIXME this diverges from the actual GUIs :(
         #  the GUIs do validation using wizard.validate_seed() and don't go to 'have_ext' for next view.
@@ -642,7 +642,7 @@ class WalletWizardTestCase(WizardTestCase):
         v = w.resolve_next(v.view, d)
         self.assertEqual('have_seed', v.view)
 
-        d.update({'seed': '9dk', 'seed_type': 'segwit', 'seed_extend': False, 'seed_variant': 'electrum'})
+        d.update({'seed': '9dk', 'seed_type': 'segwit', 'seed_extend': False, 'seed_variant': 'bitraam'})
         v = w.resolve_next(v.view, d)
         self._set_password_and_check_address(v=v, w=w, recv_addr="bc1qq2tmmcngng78nllq2pvrkchcdukemtj56uyue0")
 
@@ -656,7 +656,7 @@ class WalletWizardTestCase(WizardTestCase):
         v = w.resolve_next(v.view, d)
         self.assertEqual('have_seed', v.view)
 
-        d.update({'seed': '9dk', 'seed_type': 'segwit', 'seed_extend': True, 'seed_variant': 'electrum'})
+        d.update({'seed': '9dk', 'seed_type': 'segwit', 'seed_extend': True, 'seed_variant': 'bitraam'})
         v = w.resolve_next(v.view, d)
         self.assertEqual('have_ext', v.view)
 
@@ -797,7 +797,7 @@ class WalletWizardTestCase(WizardTestCase):
         self.assertEqual('trustedcoin_create_seed', v.view)
         d.update({
             'seed': 'oblige basket safe educate whale bacon celery demand novel slice various awkward',
-            'seed_type': '2fa', 'seed_extend': False, 'seed_variant': 'electrum',
+            'seed_type': '2fa', 'seed_extend': False, 'seed_variant': 'bitraam',
         })
         v = w.resolve_next(v.view, d)
         self.assertEqual('trustedcoin_confirm_seed', v.view)
@@ -832,7 +832,7 @@ class WalletWizardTestCase(WizardTestCase):
         self.assertEqual('trustedcoin_have_seed', v.view)
         d.update({
             'seed': 'oblige basket safe educate whale bacon celery demand novel slice various awkward',
-            'seed_type': '2fa', 'seed_extend': False, 'seed_variant': 'electrum',
+            'seed_type': '2fa', 'seed_extend': False, 'seed_variant': 'bitraam',
         })
         v = w.resolve_next(v.view, d)
         self.assertEqual('trustedcoin_keep_disable', v.view)
@@ -858,7 +858,7 @@ class WalletWizardTestCase(WizardTestCase):
         self.assertEqual('trustedcoin_have_seed', v.view)
         d.update({
             'seed': 'oblige basket safe educate whale bacon celery demand novel slice various awkward',
-            'seed_type': '2fa', 'seed_extend': False, 'seed_variant': 'electrum',
+            'seed_type': '2fa', 'seed_extend': False, 'seed_variant': 'bitraam',
         })
         v = w.resolve_next(v.view, d)
         self.assertEqual('trustedcoin_keep_disable', v.view)
@@ -880,7 +880,7 @@ class WalletWizardTestCase(WizardTestCase):
         self.assertEqual('trustedcoin_have_seed', v.view)
         d.update({
             'seed': 'oblige basket safe educate whale bacon celery demand novel slice various awkward',
-            'seed_type': '2fa', 'seed_extend': True, 'seed_variant': 'electrum',
+            'seed_type': '2fa', 'seed_extend': True, 'seed_variant': 'bitraam',
         })
         v = w.resolve_next(v.view, d)
         self.assertEqual('trustedcoin_have_ext', v.view)
@@ -980,7 +980,7 @@ class WalletWizardTestCase(WizardTestCase):
 
         d.update({
             'seed': 'eager divert pigeon dentist punch festival manage smart globe regular adult cash',
-            'seed_type': 'segwit', 'seed_extend': False, 'seed_variant': 'electrum'})
+            'seed_type': 'segwit', 'seed_extend': False, 'seed_variant': 'bitraam'})
         v = w.resolve_next(v.view, d)
         self.assertEqual('confirm_seed', v.view)
 
@@ -1015,7 +1015,7 @@ class WalletWizardTestCase(WizardTestCase):
 
         d.update({
             'seed': '9dk',
-            'seed_variant': 'electrum', 'seed_type': 'segwit', 'seed_extend': True})
+            'seed_variant': 'bitraam', 'seed_type': 'segwit', 'seed_extend': True})
         v = w.resolve_next(v.view, d)
         self.assertEqual('have_ext', v.view)
 
@@ -1091,7 +1091,7 @@ class WalletWizardTestCase(WizardTestCase):
 
         d['multisig_cosigner_data']['5'].update({
             'seed': 'abandon bike',
-            'seed_variant': 'electrum', 'seed_type': 'segwit', 'seed_extend': True})
+            'seed_variant': 'bitraam', 'seed_type': 'segwit', 'seed_extend': True})
         v = w.resolve_next(v.view, d)
         self.assertEqual('multisig_cosigner_have_ext', v.view)
 

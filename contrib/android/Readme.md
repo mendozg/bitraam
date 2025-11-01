@@ -102,7 +102,7 @@ Install requirements:
 python3 -m pip install ".[qml_gui]"
 ```
 
-Run electrum with the `-g` switch: `electrum -g qml`
+Run bitraam with the `-g` switch: `bitraam -g qml`
 
 Notes:
 
@@ -205,7 +205,7 @@ Click "View more details on Cirrus CI" to get to cirrus' website, and search for
 The apk is built in `debug` mode, and is signed using an ephemeral RSA key.
 
 For tech demo purposes, you can directly install this apk on your phone.
-However, if you already have electrum installed on your phone, Android's TOFU signing model
+However, if you already have bitraam installed on your phone, Android's TOFU signing model
 will not let you upgrade that to the CI apk due to mismatching signing keys. As the CI key
 is ephemeral, it is not even possible to upgrade from an older CI apk to a newer CI apk.
 

@@ -71,6 +71,6 @@ info "Building $pkgname..."
         cp -fpv "$here/$pkgname/dist/lib/$dlname" "$DLL_TARGET_DIR/" || fail "Could not copy the $pkgname binary to DLL_TARGET_DIR"
     else
         cp -fpv "$here/$pkgname/dist/lib/$dlname" "$PROJECT_ROOT/electrum" || fail "Could not copy the $pkgname binary to its destination"
-        info "$dlname has been placed in the 'electrum' folder."
+        info "$dlname has been placed in the 'bitraam' folder."
     fi
 )

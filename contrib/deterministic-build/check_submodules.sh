@@ -22,7 +22,7 @@ fail=0
 
 
 if [ $(date +%s -d "2 weeks ago") -gt $(get_git_mtime "$LOCALE") ]; then
-    echo "Last update from electrum-locale is older than 2 weeks."\
+    echo "Last update from bitraam-locale is older than 2 weeks."\
          "Please update it to incorporate the latest translations from crowdin."
     fail=1
 fi

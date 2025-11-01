@@ -88,7 +88,7 @@ class Plugin(TimelockRecoveryPlugin):
 
     def __init__(self, parent, config, name: str):
         TimelockRecoveryPlugin.__init__(self, parent, config, name)
-        self.base_dir = os.path.join(config.electrum_path(), 'timelock_recovery')
+        self.base_dir = os.path.join(config.bitraam_path(), 'timelock_recovery')
         make_dir(self.base_dir)
 
         self._init_qt_received = False

@@ -204,7 +204,7 @@ class Test_bitcoin(ElectrumTestCase):
 
     def test_signmessage_legacy_address(self):
         msg1 = b'Chancellor on brink of second bailout for banks'
-        msg2 = b'Electrum'
+        msg2 = b'Bitraam'
 
         sig1 = self.sign_message_with_wif_privkey(
             'L1TnU2zbNaAqMoVh65Cyvmcjzbrj41Gs9iTLcWbpJCMynXuap6UN', msg1)  # compressed pubkey
@@ -235,7 +235,7 @@ class Test_bitcoin(ElectrumTestCase):
         self.assertTrue(bitcoin.verify_usermessage_with_address(address=addr, sig65=base64.b64decode(sig_high_s), message=msg))
 
     def test_signmessage_segwit_witness_v0_address(self):
-        msg = b'Electrum'
+        msg = b'Bitraam'
         # p2wpkh-p2sh
         sig1 = self.sign_message_with_wif_privkey("p2wpkh-p2sh:L1cgMEnShp73r9iCukoPE3MogLeueNYRD9JVsfT1zVHyPBR3KqBY", msg)
         addr1 = "3DYoBqQ5N6dADzyQjy9FT1Ls4amiYVaqTG"

@@ -1,4 +1,4 @@
-# Running Electrum from source on Windows (development version)
+# Running Bitraam from source on Windows (development version)
 
 ## Prerequisites
 
@@ -9,8 +9,8 @@
 
 ### 1. Check out the code from GitHub:
 ```
-> git clone https://github.com/spesmilo/electrum.git
-> cd electrum
+> git clone https://github.com/mendozg/bitraam.git
+> cd bitraam
 > git submodule update --init
 ```
 
@@ -58,7 +58,7 @@ Alternatively, MSYS2 and MinGW-w64 can be used directly on Windows, as follows.
 (note: this is a bit cumbersome, see [issue #5976](https://github.com/spesmilo/electrum/issues/5976)
 for discussion)
 
-### 3. Run electrum:
+### 3. Run bitraam:
 
 ```
 > python3 ./run_bitraam

@@ -19,9 +19,9 @@ class TestWalletPaymentRequests(ElectrumTestCase):
 
     def setUp(self):
         super().setUp()
-        self.config = SimpleConfig({'electrum_path': self.electrum_path})
-        self.wallet1_path = os.path.join(self.electrum_path, "somewallet1")
-        self.wallet2_path = os.path.join(self.electrum_path, "somewallet2")
+        self.config = SimpleConfig({'bitraam_path': self.bitraam_path})
+        self.wallet1_path = os.path.join(self.bitraam_path, "somewallet1")
+        self.wallet2_path = os.path.join(self.bitraam_path, "somewallet2")
         self._orig_get_cur_time = BaseInvoice._get_cur_time
 
     def tearDown(self):

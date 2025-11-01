@@ -41,9 +41,9 @@ class WalletTestCase(ElectrumTestCase):
 
     def setUp(self):
         super(WalletTestCase, self).setUp()
-        self.config = SimpleConfig({'electrum_path': self.electrum_path})
+        self.config = SimpleConfig({'bitraam_path': self.bitraam_path})
 
-        self.wallet_path = os.path.join(self.electrum_path, "somewallet")
+        self.wallet_path = os.path.join(self.bitraam_path, "somewallet")
 
         self._saved_stdout = sys.stdout
         self._stdout_buffer = StringIO()

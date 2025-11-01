@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 
 
 PACKAGE_NAME='Bitraam.app'
-PYPKG='electrum'
+PYPKG='bitraam'
 MAIN_SCRIPT='run_bitraam'
 PROJECT_ROOT = os.path.abspath(".")
 ICONS_FILE=f"{PROJECT_ROOT}/{PYPKG}/gui/icons/bitraam.icns"

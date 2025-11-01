@@ -343,7 +343,7 @@ class TestOnionMessageManager(ElectrumTestCase):
             key=rkey)
 
         t3_result = await t3
-        self.assertEqual(t3_result, ({'path_id': {'data': b'electrum' + rkey}}, {}))
+        self.assertEqual(t3_result, ({'path_id': {'data': b'bitraam' + rkey}}, {}))
 
     async def run_test4(self, t, rkey):
         t4 = t.submit_send(
@@ -352,7 +352,7 @@ class TestOnionMessageManager(ElectrumTestCase):
             key=rkey)
 
         t4_result = await t4
-        self.assertEqual(t4_result, ({'path_id': {'data': b'electrum' + rkey}}, {}))
+        self.assertEqual(t4_result, ({'path_id': {'data': b'bitraam' + rkey}}, {}))
 
     async def run_test5(self, t):
         t5 = t.submit_send(
@@ -372,11 +372,11 @@ class TestOnionMessageManager(ElectrumTestCase):
             time.sleep(2*TIME_STEP)
 
         def withreply(key, *args, **kwargs):
-            t.on_onion_message_received({'path_id': {'data': b'electrum' + key}}, {})
+            t.on_onion_message_received({'path_id': {'data': b'bitraam' + key}}, {})
 
         def slowwithreply(key, *args, **kwargs):
             time.sleep(2*TIME_STEP)
-            t.on_onion_message_received({'path_id': {'data': b'electrum' + key}}, {})
+            t.on_onion_message_received({'path_id': {'data': b'bitraam' + key}}, {})
 
         rkey1 = bfh('0102030405060708')
         rkey2 = bfh('0102030405060709')

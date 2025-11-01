@@ -101,7 +101,7 @@ class TestHeaderChainResolution(ElectrumTestCase):
 
     async def asyncSetUp(self):
         await super().asyncSetUp()
-        self.config = SimpleConfig({'electrum_path': self.electrum_path})
+        self.config = SimpleConfig({'bitraam_path': self.bitraam_path})
         self.interface = MockInterface(self.config)
 
     async def test_catchup_one_block_behind(self):

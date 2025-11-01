@@ -43,8 +43,8 @@ We currently build the release binaries on macOS 11.7.10, and these seem to run 
 - We recommend creating a VM with a macOS guest, e.g. using VirtualBox,
   and building there.
 - The guest should run macOS 11.7.10 (that specific version).
-- The unix username should be `vagrant`, and `electrum` should be cloned directly
-  to the user's home dir: `/Users/vagrant/electrum`.
+- The unix username should be `vagrant`, and `bitraam` should be cloned directly
+  to the user's home dir: `/Users/vagrant/bitraam`.
 - Builders need to use the same version of Xcode; and note that
   full Xcode and Xcode commandline tools differ!
   We use the Xcode CLI tools as installed by brew. (version 13.2)
@@ -75,8 +75,8 @@ We currently build the release binaries on macOS 11.7.10, and these seem to run 
     ```
 - Installing extraneous brew packages can result in build differences.
   For example, pyinstaller seems to pick up and bundle brew-installed `libffi`.
-  So having a dedicated "electrum binary builder macOS VM" is recommended.
-- Make sure that you are building from a fresh clone of electrum
+  So having a dedicated "bitraam binary builder macOS VM" is recommended.
+- Make sure that you are building from a fresh clone of bitraam
   (or run e.g. `git clean -ffxd` to rm all local changes).
 
 
@@ -87,9 +87,9 @@ Install [`brew`](https://brew.sh/).
 Let brew install the Xcode CLI tools.
 
 
-#### 2. Build Electrum
+#### 2. Build Bitraam
 
-    cd electrum
+    cd bitraam
     ./contrib/osx/make_osx.sh
 
 This creates both a folder named Electrum.app and the .dmg file (both unsigned).
@@ -164,9 +164,9 @@ It contains a `.app`, which is codesigned AND notarized.
 
 Both the `.dmg` and the contained `.app` are codesigned:
 ```
-$ codesign --verify --deep --strict --verbose=2 $HOME/Desktop/electrum-4.5.8.dmg && echo "signed"
-/Users/vagrant/Desktop/electrum-4.5.8.dmg: valid on disk
-/Users/vagrant/Desktop/electrum-4.5.8.dmg: satisfies its Designated Requirement
+$ codesign --verify --deep --strict --verbose=2 $HOME/Desktop/bitraam-4.5.8.dmg && echo "signed"
+/Users/vagrant/Desktop/bitraam-4.5.8.dmg: valid on disk
+/Users/vagrant/Desktop/bitraam-4.5.8.dmg: satisfies its Designated Requirement
 signed
 ```
 ```
@@ -182,8 +182,8 @@ Also see `$ codesign -dvvv $HOME/Desktop/bitraam-4.5.8.dmg`
 
 The outer `.dmg` is NOT notarized, but the inner `.app` is notarized:
 ```
-$ spctl -a -vvv -t install $HOME/Desktop/electrum-4.5.8.dmg
-/Users/vagrant/Desktop/electrum-4.5.8.dmg: rejected
+$ spctl -a -vvv -t install $HOME/Desktop/bitraam-4.5.8.dmg
+/Users/vagrant/Desktop/bitraam-4.5.8.dmg: rejected
 source=Unnotarized Developer ID
 origin=Developer ID Application: Bitraam Technologies GmbH (L6P37P7P56)
 ```

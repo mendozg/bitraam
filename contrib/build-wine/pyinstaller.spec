@@ -9,9 +9,9 @@ if TYPE_CHECKING:
     from PyInstaller.building.build_main import Analysis, PYZ, EXE, COLLECT
 
 
-PYPKG="electrum"
+PYPKG="bitraam"
 MAIN_SCRIPT="run_bitraam"
-PROJECT_ROOT = "C:/electrum"
+PROJECT_ROOT = "C:/bitraam"
 ICONS_FILE=f"{PROJECT_ROOT}/{PYPKG}/gui/icons/bitraam.ico"
 
 cmdline_name = os.environ.get("ELECTRUM_CMDLINE_NAME")

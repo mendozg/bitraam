@@ -15,7 +15,7 @@ class DaemonTestCase(ElectrumTestCase):
 
     def setUp(self):
         super().setUp()
-        self.config = SimpleConfig({'electrum_path': self.electrum_path})
+        self.config = SimpleConfig({'bitraam_path': self.bitraam_path})
         self.config.NETWORK_OFFLINE = True
 
         self.wallet_dir = os.path.dirname(self.config.get_wallet_path())

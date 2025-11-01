@@ -1,7 +1,7 @@
 #!/bin/bash
 
-NAME_ROOT=electrum
-PROJECT_ROOT="$WINEPREFIX/drive_c/electrum"
+NAME_ROOT=bitraam
+PROJECT_ROOT="$WINEPREFIX/drive_c/bitraam"
 
 export PYTHONDONTWRITEBYTECODE=1  # don't create __pycache__/ folders with .pyc files
 
@@ -71,10 +71,10 @@ popd
 
 info "building NSIS installer"
 # $VERSION could be passed to the electrum.nsi script, but this would require some rewriting in the script itself.
-makensis -DPRODUCT_VERSION=$VERSION electrum.nsi
+makensis -DPRODUCT_VERSION=$VERSION bitraam.nsi
 
 cd dist
-mv electrum-setup.exe $NAME_ROOT-$VERSION-setup.exe
+mv bitraam-setup.exe $NAME_ROOT-$VERSION-setup.exe
 cd ..
 
 info "Padding binaries to 8-byte boundaries, and fixing COFF image checksum in PE header"
@@ -119,4 +119,4 @@ EOF
     done
 )
 
-sha256sum dist/electrum*.exe
+sha256sum dist/bitraam*.exe

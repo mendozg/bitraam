@@ -345,9 +345,9 @@ class Deterministic_KeyStore(Software_KeyStore):
 
     def __init__(self, d: dict):
         Software_KeyStore.__init__(self, d)
-        self.seed = d.get('seed', '')  # only electrum seeds
+        self.seed = d.get('seed', '')  # only bitraam seeds
         self.passphrase = d.get('passphrase', '')
-        self._seed_type = d.get('seed_type', None)  # only electrum seeds
+        self._seed_type = d.get('seed_type', None)  # only bitraam seeds
 
     def is_deterministic(self):
         return True

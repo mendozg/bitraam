@@ -35,9 +35,9 @@ WizardComponent {
             wizard_data['seed_type'] = _seedType
             wizard_data['seed_extend'] = _canPassphrase
 
-            // determine script type from electrum seed type
+            // determine script type from bitraam seed type
             // (used to limit script type options for bip39 cosigners)
-            if (wizard_data['wallet_type'] == 'multisig' && seed_variant_cb.currentValue == 'electrum') {
+            if (wizard_data['wallet_type'] == 'multisig' && seed_variant_cb.currentValue == 'bitraam') {
                 wizard_data['script_type'] = {
                     'standard': 'p2sh',
                     'segwit': 'p2wsh'
@@ -48,21 +48,21 @@ WizardComponent {
 
     function setSeedTypeHelpText() {
         var t = {
-            'electrum': [
-                // not shown as electrum is the default seed type anyways and the name is self-explanatory
-                qsTr('Electrum seeds are the default seed type.'),
-                qsTr('If you are restoring from a seed previously created by Electrum, choose this option')
+            'bitraam': [
+                // not shown as bitraam is the default seed type anyways and the name is self-explanatory
+                qsTr('Bitraam seeds are the default seed type.'),
+                qsTr('If you are restoring from a seed previously created by Bitraam, choose this option')
             ].join(' '),
             'bip39': [
-                qsTr('BIP39 seeds can be imported in Electrum, so that users can access funds locked in other wallets.'),
+                qsTr('BIP39 seeds can be imported in Bitraam, so that users can access funds locked in other wallets.'),
                 qsTr('BIP39 seeds do not include a version number, which compromises compatibility with future software.'),
             ].join(' '),
             'slip39': [
-                qsTr('SLIP39 seeds can be imported in Electrum, so that users can access funds locked in other wallets.'),
+                qsTr('SLIP39 seeds can be imported in Bitraam, so that users can access funds locked in other wallets.'),
             ].join(' ')
         }
         infotext.text = t[seed_variant_cb.currentValue]
-        infotext.visible = !cosigner && !is2fa && seed_variant_cb.currentValue != 'electrum'
+        infotext.visible = !cosigner && !is2fa && seed_variant_cb.currentValue != 'bitraam'
     }
 
     function checkValid() {
@@ -79,7 +79,7 @@ WizardComponent {
             _seedValid = verifyResult.valid
         } else {
             // bip39 validate after derivation path is known
-            if (seed_variant_cb.currentValue == 'electrum') {
+            if (seed_variant_cb.currentValue == 'bitraam') {
                 apply()
                 if (wiz.hasDuplicateMasterKeys(wizard_data)) {
                     _validationMessage = qsTr('Error: duplicate master public key')
@@ -174,7 +174,7 @@ WizardComponent {
                 textRole: 'text'
                 valueRole: 'value'
                 model: [
-                    { text: qsTr('Electrum'), value: 'electrum' },
+                    { text: qsTr('Bitraam'), value: 'bitraam' },
                     { text: qsTr('BIP39'), value: 'bip39' }
                 ]
                 onActivated: {

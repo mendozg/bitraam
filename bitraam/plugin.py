@@ -242,7 +242,7 @@ class Plugins(DaemonThread):
         """creates the dir (dir_path), writes the key in file, and sets permissions to 644"""
         dir_path: str = os.path.dirname(self.keyfile_posix)
         sh_command = (
-                     f"mkdir -p {dir_path} "  # create the /etc/electrum dir
+                     f"mkdir -p {dir_path} "  # create the /etc/bitraam dir
                      f"&& printf '%s' '{pubkey_hex}' > {self.keyfile_posix} "  # write the key to the file
                      f"&& chmod 644 {self.keyfile_posix} "  # set read permissions for the file
                      f"&& chmod 755 {dir_path}"  # set read permissions for the dir
@@ -484,7 +484,7 @@ class Plugins(DaemonThread):
         return pubkey, salt
 
     def get_external_plugin_dir(self) -> str:
-        pkg_path = os.path.join(self.config.electrum_path(), 'plugins')
+        pkg_path = os.path.join(self.config.bitraam_path(), 'plugins')
         make_dir(pkg_path)
         return pkg_path
 

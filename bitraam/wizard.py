@@ -317,7 +317,7 @@ class KeystoreWizard(AbstractWizard):
         validation_message = ''
         can_passphrase = True
 
-        if seed_variant == 'electrum':
+        if seed_variant == 'bitraam':
             seed_type = mnemonic.calc_seed_type(seed)
             if seed_type != '':
                 seed_valid = True
@@ -356,7 +356,7 @@ class KeystoreWizard(AbstractWizard):
     def keystore_from_data(self, wallet_type: str, data: dict):
         if data['keystore_type'] in ['createseed', 'haveseed'] and 'seed' in data:
             seed_extension = data.get('seed_extra_words', '')
-            if data['seed_variant'] == 'electrum':
+            if data['seed_variant'] == 'bitraam':
                 for_multisig = wallet_type in ['multisig']
                 return keystore.from_seed(data['seed'], passphrase=seed_extension, for_multisig=for_multisig)
             elif data['seed_variant'] == 'bip39':

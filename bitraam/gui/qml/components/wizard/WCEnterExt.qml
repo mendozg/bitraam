@@ -35,7 +35,7 @@ WizardComponent {
         } else {
             // passphrase is either disabled or filled with text
             apply()
-            if (cosigner && wizard_data['multisig_cosigner_data'][cosigner.toString()]['seed_variant'] == 'electrum') {
+            if (cosigner && wizard_data['multisig_cosigner_data'][cosigner.toString()]['seed_variant'] == 'bitraam') {
                 // check if master keys are not duplicated after entering passphrase
                 if (wiz.hasDuplicateMasterKeys(wizard_data)) {
                     validationtext.text = qsTr('Error: duplicate master public key')

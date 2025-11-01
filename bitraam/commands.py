@@ -703,13 +703,13 @@ class Commands(Logger):
     @command('')
     async def dumpprivkeys(self):
         """Deprecated."""
-        return "This command is deprecated. Use a pipe instead: 'electrum listaddresses | electrum getprivatekeys - '"
+        return "This command is deprecated. Use a pipe instead: 'bitraam listaddresses | bitraam getprivatekeys - '"
 
     @command('')
     async def validateaddress(self, address):
         """Check that an address is valid.
 
-        arg:str:address:Bitcoin address
+        arg:str:address:Bitraam address
         """
         return is_address(address)
 
@@ -2374,14 +2374,14 @@ def add_global_options(parser, suppress=False):
         "-v", dest="verbosity", default='',
         help=argparse.SUPPRESS if suppress else "Set verbosity (log levels)")
     group.add_argument(
-        "-D", "--dir", dest="electrum_path",
+        "-D", "--dir", dest="bitraam_path",
         help=argparse.SUPPRESS if suppress else "bitraam directory")
     group.add_argument(
         "-w", "--wallet", dest="wallet_path",
         help=argparse.SUPPRESS if suppress else "wallet path")
     group.add_argument(
         "-P", "--portable", action="store_true", dest="portable", default=False,
-        help=argparse.SUPPRESS if suppress else "Use local 'electrum_data' directory")
+        help=argparse.SUPPRESS if suppress else "Use local 'bitraam_data' directory")
     for chain in constants.NETS_LIST:
         group.add_argument(
             f"--{chain.cli_flag()}", action="store_true", dest=chain.config_key(), default=False,
@@ -2414,8 +2414,8 @@ def get_simple_parser():
                     largs.append(e.opt_str)
 
     parser = PassThroughOptionParser()
-    parser.add_option("-D", "--dir", dest="electrum_path", help="electrum directory")
-    parser.add_option("-P", "--portable", action="store_true", dest="portable", default=False, help="Use local 'electrum_data' directory")
+    parser.add_option("-D", "--dir", dest="bitraam_path", help="bitraam directory")
+    parser.add_option("-P", "--portable", action="store_true", dest="portable", default=False, help="Use local 'bitraam_data' directory")
     for chain in constants.NETS_LIST:
         parser.add_option(f"--{chain.cli_flag()}", action="store_true", dest=chain.config_key(), default=False, help=f"Use {chain.NET_NAME} chain")
     return parser

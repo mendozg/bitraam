@@ -418,7 +418,7 @@ class AbstractChannel(Logger, ABC):
                     # reconnect to trigger force close request
                     self.lnworker.peers[self.node_id].close_and_cleanup()
             else:
-                # remove zeroconf flag as we are now confirmed, this is to prevent an electrum server causing
+                # remove zeroconf flag as we are now confirmed, this is to prevent a bitraam server causing
                 # us to remove a channel later in update_unfunded_state by omitting its funding tx
                 self.remove_zeroconf_flag()
 

@@ -65,9 +65,9 @@ if is_pyinstaller:
     _file = open(sys.executable, 'rb')
 
 
-# when running from source, on Windows, also search for DLLs in inner 'electrum' folder
+# when running from source, on Windows, also search for DLLs in inner 'bitraam' folder
 if is_local and os.name == 'nt':  # fixme: duplicated between main script and __init__.py :(
-    os.add_dll_directory(os.path.join(os.path.dirname(__file__), 'electrum'))
+    os.add_dll_directory(os.path.join(os.path.dirname(__file__), 'bitraam'))
 
 
 def check_imports():
@@ -155,7 +155,7 @@ def init_cmdline(config_options, wallet_path, *, rpcserver: bool, config: 'Simpl
 
     if cmd.requires_wallet and not storage.file_exists():
         print_msg("Error: Wallet file not found.")
-        print_msg("Type 'electrum create' to create a new wallet, or provide a path to a wallet with the -w option")
+        print_msg("Type 'bitraam create' to create a new wallet, or provide a path to a wallet with the -w option")
         sys_exit(1)
 
     # important warning
@@ -297,7 +297,7 @@ def read_config(config_options: dict) -> SimpleConfig:
         if full_config_options.get("cmd") == 'gui':
             gui_name = full_config_options.get(SimpleConfig.GUI_NAME.key(), 'qt')
             try:
-                gui = __import__(f'electrum.gui.{gui_name}', fromlist=['electrum'])
+                gui = __import__(f'bitraam.gui.{gui_name}', fromlist=['bitraam'])
                 gui.standalone_exception_dialog(config_error)  # type: ignore
             except Exception as e:
                 print_stderr(f"Error showing standalone gui dialog: {e}")
@@ -329,7 +329,7 @@ def parse_command_line(simple_parser=False) -> Dict:
     if config_options.get('portable'):
         if is_local:
             # running from git clone or local source: put datadir next to main script
-            datadir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'electrum_data')
+            datadir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'bitraam_data')
         else:
             # Running a binary or installed source. The most generic but still reasonable thing
             # is to use the current working directory. (see #7732)
@@ -337,8 +337,8 @@ def parse_command_line(simple_parser=False) -> Dict:
             #       and we don't want to put the datadir inside a temp dir.
             # note: Re the portable .exe on Windows, when the user double-clicks it, CWD gets set
             #       to the parent dir, i.e. we will put the datadir next to the exe.
-            datadir = os.path.join(os.path.realpath(cwd), 'electrum_data')
-        config_options['electrum_path'] = datadir
+            datadir = os.path.join(os.path.realpath(cwd), 'bitraam_data')
+        config_options['bitraam_path'] = datadir
 
     if not config_options.get('verbosity'):
         warnings.simplefilter('ignore', DeprecationWarning)
@@ -449,7 +449,7 @@ def main():
         lockfile = daemon.get_lockfile(config)
         if os.path.exists(lockfile):
             print_stderr("Daemon already running (lockfile detected).")
-            print_stderr("Run 'electrum stop' to stop the daemon.")
+            print_stderr("Run 'bitraam stop' to stop the daemon.")
             sys.exit(1)
         # Initialise rpc credentials to random if not set yet. This would normally be done
         # later anyway, but we need to avoid the two sides of the fork setting conflicting random creds.
@@ -547,7 +547,7 @@ def handle_cmd(*, cmdname: str, config: 'SimpleConfig', config_options: dict):
             try:
                 result = daemon.request(config, 'run_cmdline', (config_options,), timeout)
             except daemon.DaemonNotRunning:
-                print_msg("Daemon not running; try 'electrum daemon -d'")
+                print_msg("Daemon not running; try 'bitraam daemon -d'")
                 if not cmd.requires_network:
                     print_msg("To run this command without a daemon, use --offline")
                 if cmd.name == "stop":  # remove lockfile if it exists, as daemon looks dead
@@ -575,7 +575,7 @@ def handle_cmd(*, cmdname: str, config: 'SimpleConfig', config_options: dict):
             lockfile = daemon.get_lockfile(config)
             if os.path.exists(lockfile):
                 print_stderr("Daemon already running (lockfile detected)")
-                print_stderr("Run 'electrum stop' to stop the daemon.")
+                print_stderr("Run 'bitraam stop' to stop the daemon.")
                 print_stderr("Run this command without --offline to interact with the daemon")
                 sys_exit(1)
             init_cmdline(config_options, wallet_path, rpcserver=False, config=config)

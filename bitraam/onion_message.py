@@ -605,13 +605,13 @@ class OnionMessageManager(Logger):
 
     def _path_id_from_payload_and_key(self, payload: dict, key: bytes) -> bytes:
         # TODO: use payload to determine prefix?
-        return b'electrum' + key
+        return b'bitraam' + key
 
     def _get_request_for_path_id(self, recipient_data: dict) -> Optional[Request]:
         path_id = recipient_data.get('path_id', {}).get('data')
         if not path_id:
             return None
-        if not path_id[:8] == b'electrum':
+        if not path_id[:8] == b'bitraam':
             self.logger.warning('not a reply to our request (unknown path_id prefix)')
             return None
         key = path_id[8:]

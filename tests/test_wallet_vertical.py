@@ -107,7 +107,7 @@ class TestWalletKeystoreAddressIntegrityForMainnet(ElectrumTestCase):
 
     def setUp(self):
         super().setUp()
-        self.config = SimpleConfig({'electrum_path': self.electrum_path})
+        self.config = SimpleConfig({'bitraam_path': self.bitraam_path})
 
     @mock.patch.object(wallet.Abstract_Wallet, 'save_db')
     async def test_electrum_seed_standard(self, mock_save_db):
@@ -790,7 +790,7 @@ class TestWalletKeystoreAddressIntegrityForTestnet(ElectrumTestCase):
 
     def setUp(self):
         super().setUp()
-        self.config = SimpleConfig({'electrum_path': self.electrum_path})
+        self.config = SimpleConfig({'bitraam_path': self.bitraam_path})
 
     @mock.patch.object(wallet.Abstract_Wallet, 'save_db')
     async def test_bip39_multisig_seed_p2sh_segwit_testnet(self, mock_save_db):
@@ -878,7 +878,7 @@ class TestWalletSending(ElectrumTestCase):
 
     def setUp(self):
         super().setUp()
-        self.config = SimpleConfig({'electrum_path': self.electrum_path})
+        self.config = SimpleConfig({'bitraam_path': self.bitraam_path})
 
     def create_standard_wallet_from_seed(self, seed_words, *, config=None, gap_limit=2):
         if config is None:
@@ -1221,7 +1221,7 @@ class TestWalletSending(ElectrumTestCase):
         class TmpConfig(tempfile.TemporaryDirectory):  # to avoid sub-tests side-effecting each other
             def __init__(self, *args, **kwargs):
                 super().__init__(*args, **kwargs)
-                self.config = SimpleConfig({'electrum_path': self.name})
+                self.config = SimpleConfig({'bitraam_path': self.name})
                 self.config.WALLET_COIN_CHOOSER_OUTPUT_ROUNDING = False
             def __enter__(self):
                 return self.config
@@ -2601,7 +2601,7 @@ class TestWalletSending(ElectrumTestCase):
     @mock.patch.object(wallet.Abstract_Wallet, 'save_db')
     async def test_dscancel(self, mock_save_db):
         self.maxDiff = None
-        config = SimpleConfig({'electrum_path': self.electrum_path})
+        config = SimpleConfig({'bitraam_path': self.bitraam_path})
         config.WALLET_COIN_CHOOSER_OUTPUT_ROUNDING = False
 
         for simulate_moving_txs in (False, True):
@@ -3459,7 +3459,7 @@ class TestWalletOfflineSigning(ElectrumTestCase):
 
     def setUp(self):
         super().setUp()
-        self.config = SimpleConfig({'electrum_path': self.electrum_path})
+        self.config = SimpleConfig({'bitraam_path': self.bitraam_path})
 
     @mock.patch.object(wallet.Abstract_Wallet, 'save_db')
     async def test_sending_offline_old_electrum_seed_online_mpk(self, mock_save_db):
@@ -4181,7 +4181,7 @@ class TestWalletCreationChecks(ElectrumTestCase):
 
     def setUp(self):
         super().setUp()
-        self.config = SimpleConfig({'electrum_path': self.electrum_path})
+        self.config = SimpleConfig({'bitraam_path': self.bitraam_path})
 
     @mock.patch.object(wallet.Abstract_Wallet, 'save_db')
     async def test_duplicate_masterkeys_in_multisig(self, mock_save_db):
@@ -4295,7 +4295,7 @@ class TestWalletHistory_SimpleRandomOrder(ElectrumTestCase):
 
     def setUp(self):
         super().setUp()
-        self.config = SimpleConfig({'electrum_path': self.electrum_path})
+        self.config = SimpleConfig({'bitraam_path': self.bitraam_path})
 
     def create_old_wallet(self):
         ks = keystore.from_old_mpk('e9d4b7866dd1e91c862aebf62a49548c7dbf7bcc6e4b7b8c9da820c7737968df9c09d5a3e271dc814a29981f81b3faaf2737b551ef5dcc6189cf0f8252c442b3')
@@ -4344,7 +4344,7 @@ class TestWalletHistory_EvilGapLimit(ElectrumTestCase):
     def setUp(self):
         super().setUp()
         self.config = SimpleConfig({
-            'electrum_path': self.electrum_path,
+            'bitraam_path': self.bitraam_path,
         })
         self.config.NETWORK_SKIPMERKLECHECK = True  # needed for Synchronizer to generate new addresses without SPV
 
@@ -4401,7 +4401,7 @@ class TestWalletHistory_DoubleSpend(ElectrumTestCase):
 
     def setUp(self):
         super().setUp()
-        self.config = SimpleConfig({'electrum_path': self.electrum_path})
+        self.config = SimpleConfig({'bitraam_path': self.bitraam_path})
 
     @mock.patch.object(wallet.Abstract_Wallet, 'save_db')
     async def test_restoring_wallet_without_manual_delete(self, mock_save_db):
@@ -4446,7 +4446,7 @@ class TestWalletHistory_HelperFns(ElectrumTestCase):
 
     def setUp(self):
         super().setUp()
-        self.config = SimpleConfig({'electrum_path': self.electrum_path})
+        self.config = SimpleConfig({'bitraam_path': self.bitraam_path})
 
     @mock.patch.object(wallet.Abstract_Wallet, 'save_db')
     async def test_get_tx_status_feerate_for_local_2of3_multisig_partial_tx(self, mock_save_db):
@@ -4518,7 +4518,7 @@ class TestImportedWallet(ElectrumTestCase):
 
     def setUp(self):
         super().setUp()
-        self.config = SimpleConfig({'electrum_path': self.electrum_path})
+        self.config = SimpleConfig({'bitraam_path': self.bitraam_path})
 
     @mock.patch.object(wallet.Abstract_Wallet, 'save_db')
     async def test_importing_and_deleting_addresses(self, mock_save_db):

@@ -646,7 +646,7 @@ class Daemon(Logger):
         self.logger.info(f'launching GUI: {gui_name}')
         try:
             try:
-                gui = __import__('electrum.gui.' + gui_name, fromlist=['electrum'])
+                gui = __import__('bitraam.gui.' + gui_name, fromlist=['bitraam'])
             except GuiImportError as e:
                 sys.exit(str(e))
             self.gui_object = gui.ElectrumGui(config=self.config, daemon=self, plugins=self._plugins)

@@ -67,7 +67,7 @@ class Plugin(RevealerPlugin):
 
     def __init__(self, parent, config, name):
         RevealerPlugin.__init__(self, parent, config, name)
-        self.base_dir = os.path.join(config.electrum_path(), 'revealer')
+        self.base_dir = os.path.join(config.bitraam_path(), 'revealer')
 
         if self.config.get('calibration_h') is None:
             self.config.set_key('calibration_h', 0)

@@ -15,9 +15,9 @@ from . import restore_wallet_from_text__for_unittest
 
 
 class WalletMock:
-    def __init__(self, electrum_path):
+    def __init__(self, bitraam_path):
         self.config = SimpleConfig({
-            'electrum_path': electrum_path,
+            'bitraam_path': bitraam_path,
             'decimal_point': 5
         })
         self.contacts = None
@@ -26,13 +26,13 @@ class WalletMock:
 class TestPaymentIdentifier(ElectrumTestCase):
     def setUp(self):
         super().setUp()
-        self.wallet = WalletMock(self.electrum_path)
+        self.wallet = WalletMock(self.bitraam_path)
 
         self.config = SimpleConfig({
-            'electrum_path': self.electrum_path,
+            'bitraam_path': self.bitraam_path,
             'decimal_point': 5
         })
-        self.wallet2_path = os.path.join(self.electrum_path, "somewallet2")
+        self.wallet2_path = os.path.join(self.bitraam_path, "somewallet2")
 
     def test_maybe_extract_lightning_payment_identifier(self):
         bolt11 = "lnbc1ps9zprzpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqsp5zyg3zyg3zyg3zyg3zyg3zyg3zyg3zyg3zyg3zyg3zyg3zyg3zygsdqq9qypqszpyrpe4tym8d3q87d43cgdhhlsrt78epu7u99mkzttmt2wtsx0304rrw50addkryfrd3vn3zy467vxwlmf4uz7yvntuwjr2hqjl9lw5cqwtp2dy"

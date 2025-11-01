@@ -102,7 +102,7 @@ class SeedWidget(QWidget):
         if options:
             self.seed_types = [
                 ChoiceItem(key=stype, label=label) for stype, label in (
-                    ('electrum', _('Electrum')),
+                    ('bitraam', _('Bitraam')),
                     ('bip39', _('BIP39 seed')),
                     ('slip39', _('SLIP39 seed')),
                 )
@@ -111,7 +111,7 @@ class SeedWidget(QWidget):
             assert len(self.seed_types)
             self.seed_type = self.seed_types[0].key
         else:
-            self.seed_type = 'electrum'
+            self.seed_type = 'bitraam'
 
         self.is_seed = is_seed
 

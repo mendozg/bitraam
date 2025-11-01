@@ -32,7 +32,7 @@ class TestCommands(ElectrumTestCase):
 
     def setUp(self):
         super().setUp()
-        self.config = SimpleConfig({'electrum_path': self.electrum_path})
+        self.config = SimpleConfig({'bitraam_path': self.bitraam_path})
 
     def test_setconfig_non_auth_number(self):
         self.assertEqual(7777, Commands._setconfig_normalize_value('rpcport', "7777"))
@@ -194,9 +194,9 @@ class TestCommandsTestnet(ElectrumTestCase):
 
     def setUp(self):
         super().setUp()
-        self.config = SimpleConfig({'electrum_path': self.electrum_path})
+        self.config = SimpleConfig({'bitraam_path': self.bitraam_path})
         self.config.NETWORK_OFFLINE = True
-        shutil.copytree(os.path.join(os.path.dirname(__file__), "fiat_fx_data"), os.path.join(self.electrum_path, "cache"))
+        shutil.copytree(os.path.join(os.path.dirname(__file__), "fiat_fx_data"), os.path.join(self.bitraam_path, "cache"))
         self.config.FX_EXCHANGE = "BitFinex"
         self.config.FX_CURRENCY = "EUR"
         self._default_default_timezone = electrum.util.DEFAULT_TIMEZONE

@@ -38,7 +38,7 @@ LOCALE_DIR = os.path.join(os.path.dirname(__file__), 'locale', 'locale')
 
 def _get_null_translations():
     """Returns a gettext Translations obj with translations explicitly disabled."""
-    return gettext.translation('electrum', fallback=True, class_=gettext.NullTranslations)
+    return gettext.translation('bitraam', fallback=True, class_=gettext.NullTranslations)
 
 
 # Set initial default language to None. i.e. translations explicitly disabled.
@@ -122,7 +122,7 @@ def set_language(x: Optional[str]) -> None:
         # we disable all translations and use the source strings.
         _language = _get_null_translations()
     else:
-        _language = gettext.translation('electrum', LOCALE_DIR, fallback=True, languages=[x])
+        _language = gettext.translation('bitraam', LOCALE_DIR, fallback=True, languages=[x])
 
 
 languages = {

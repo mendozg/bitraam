@@ -239,7 +239,7 @@ if [ -z "$RELEASEMANAGER" ] ; then
     else
         # TODO check somehow that RM had finished uploading
         sftp -oBatchMode=no -b - "$SSHUSER@uploadserver" <<-EOF
-           cd electrum-downloads-airlock
+           cd bitraam-downloads-airlock
            cd "$VERSION"
            mget *
            bye

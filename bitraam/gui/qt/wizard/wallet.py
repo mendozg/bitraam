@@ -460,7 +460,7 @@ class WCCreateSeed(WalletWizardComponent):
             self.wizard_data['seed'] = self.seed
             self.wizard_data['seed_type'] = self.seed_type
             self.wizard_data['seed_extend'] = self.seed_widget.is_ext
-            self.wizard_data['seed_variant'] = 'electrum'
+            self.wizard_data['seed_variant'] = 'bitraam'
 
     def create_seed(self):
         self.busy = True
@@ -469,7 +469,7 @@ class WCCreateSeed(WalletWizardComponent):
         self.seed_widget = SeedWidget(
             title=_('Your wallet generation seed is:'),
             seed=self.seed,
-            options=['ext', 'electrum'],
+            options=['ext', 'bitraam'],
             msg=True,
             parent=self,
             config=self.wizard.config,
@@ -589,9 +589,9 @@ class WCHaveSeed(WalletWizardComponent, Logger):
         self.can_passphrase = True
 
     def on_ready(self):
-        options = ['ext', 'electrum', 'bip39', 'slip39']
+        options = ['ext', 'bitraam', 'bip39', 'slip39']
         if self.wizard_data['wallet_type'] == '2fa':
-            options = ['ext', 'electrum']
+            options = ['ext', 'bitraam']
         else:
             if self.params and 'seed_options' in self.params:
                 options = self.params['seed_options']
@@ -653,7 +653,7 @@ class WCHaveSeed(WalletWizardComponent, Logger):
 
         cosigner_data['seed'] = self.seed_widget.get_seed()
         cosigner_data['seed_variant'] = self.seed_widget.seed_type
-        if self.seed_widget.seed_type == 'electrum':
+        if self.seed_widget.seed_type == 'bitraam':
             cosigner_data['seed_type'] = mnemonic.calc_seed_type(self.seed_widget.get_seed())
         else:
             cosigner_data['seed_type'] = self.seed_widget.seed_type

@@ -2005,13 +2005,13 @@ issue #3374. Users should upgrade to 3.0.5.
    minimize the number of transaction inputs.
  * Plugins are loaded independently of the GUI. As a result, Openalias,
    TrustedCoin and TREZOR wallets can be used with the command
-   line. Example: 'electrum payto <openalias> <amount>'
+   line. Example: 'bitraam payto <openalias> <amount>'
  * The command line has been refactored:
   - Arguments are parsed with argparse.
   - The inline help includes a description of options.
   - Some commands have been renamed. Notably, 'mktx' and 'payto' have
     been merged into a single command, with a --broadcast option.
-   Type 'electrum --help' for a complete overview.
+   Type 'bitraam --help' for a complete overview.
  * The command line accepts the '!' syntax to send the maximum
    amount available. It can be combined with the '--from' option.
    Example: 'payto <destination> ! --from <from_address>'
@@ -2066,10 +2066,10 @@ issue #3374. Users should upgrade to 3.0.5.
  * The network daemon must be started explicitly before using commands
    that require a connection
    Example:
-     electrum daemon start
-     electrum getaddressunspent <addr>
-     electrum daemon status
-     electrum daemon stop
+     bitraam daemon start
+     bitraam getaddressunspent <addr>
+     bitraam daemon status
+     bitraam daemon stop
    If a daemon is running, the GUI will use it.
 
 # Release 2.0.3 - bugfixes and minor GUI improvements
