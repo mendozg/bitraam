@@ -4,7 +4,7 @@
 set -e
 
 CONTRIB="$(dirname "$(readlink -e "$0")")"
-EL="$CONTRIB"/../electrum
+EL="$CONTRIB"/../bitraam
 
 if ! which protoc > /dev/null 2>&1; then
     echo "Please install 'protoc'"

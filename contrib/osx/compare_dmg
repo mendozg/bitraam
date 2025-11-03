@@ -10,7 +10,7 @@ UNSIGNED_DMG="$1"
 RELEASE_DMG="$2"
 CONTRIB_OSX="$(dirname "$(grealpath "$0")")"
 PROJECT_ROOT="$CONTRIB_OSX/../.."
-WORKSPACE="/tmp/electrum_compare_dmg"
+WORKSPACE="/tmp/bitraam_compare_dmg"
 WS_VOL1="$WORKSPACE/vol1"
 WS_VOL2="$WORKSPACE/vol2"
 
@@ -35,18 +35,18 @@ DMG_UNSIGNED_UNPACKED="$WORKSPACE/dmg1"
 DMG_RELEASE_UNPACKED="$WORKSPACE/dmg2"
 
 hdiutil attach -mountroot "$WS_VOL1" "$UNSIGNED_DMG"
-cp -r "$WS_VOL1"/Electrum "$DMG_UNSIGNED_UNPACKED"
-hdiutil detach "$WS_VOL1"/Electrum
+cp -r "$WS_VOL1"/Bitraam "$DMG_UNSIGNED_UNPACKED"
+hdiutil detach "$WS_VOL1"/Bitraam
 
 hdiutil attach -mountroot "$WS_VOL2" "$RELEASE_DMG"
-cp -r "$WS_VOL2"/Electrum "$DMG_RELEASE_UNPACKED"
-hdiutil detach "$WS_VOL2"/Electrum
+cp -r "$WS_VOL2"/Bitraam "$DMG_RELEASE_UNPACKED"
+hdiutil detach "$WS_VOL2"/Bitraam
 
 # copy signatures from RELEASE_DMG to UNSIGNED_DMG
 echo "Extracting signatures from release app..."
-QUIET="1" "$CONTRIB_OSX/extract_sigs.sh" "$DMG_RELEASE_UNPACKED"/Electrum.app
+QUIET="1" "$CONTRIB_OSX/extract_sigs.sh" "$DMG_RELEASE_UNPACKED"/Bitraam.app
 echo "Applying extracted signatures to unsigned app..."
-QUIET="1" "$CONTRIB_OSX/apply_sigs.sh" "$DMG_UNSIGNED_UNPACKED"/Electrum.app mac_extracted_sigs.tar.gz
+QUIET="1" "$CONTRIB_OSX/apply_sigs.sh" "$DMG_UNSIGNED_UNPACKED"/Bitraam.app mac_extracted_sigs.tar.gz
 
 rm mac_extracted_sigs.tar.gz
 rm -rf "$DMG_UNSIGNED_UNPACKED"

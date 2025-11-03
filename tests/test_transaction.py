@@ -2,21 +2,21 @@ import json
 import os
 from typing import NamedTuple, Union
 
-from electrum_ecc import ECPrivkey
+from bitraam_ecc import ECPrivkey
 
-from electrum import transaction, bitcoin
-from electrum.transaction import (convert_raw_tx_to_hex, tx_from_any, Transaction,
+from bitraam import transaction, bitcoin
+from bitraam.transaction import (convert_raw_tx_to_hex, tx_from_any, Transaction,
                                   PartialTransaction, TxOutpoint, PartialTxInput,
                                   PartialTxOutput, Sighash, match_script_against_template,
                                   SCRIPTPUBKEY_TEMPLATE_ANYSEGWIT, TxOutput, script_GetOp,
                                   MalformedBitcoinScript)
-from electrum.util import bfh
-from electrum.bitcoin import (deserialize_privkey, opcodes,
+from bitraam.util import bfh
+from bitraam.bitcoin import (deserialize_privkey, opcodes,
                               construct_script, construct_witness)
-from electrum import descriptor
+from bitraam import descriptor
 
 from .test_bitcoin import disable_ecdsa_r_value_grinding
-from . import ElectrumTestCase
+from . import BitraamTestCase
 
 signed_blob = '01000000012a5c9a94fcde98f5581cd00162c60a13936ceb75389ea65bf38633b424eb4031000000006c493046022100a82bbc57a0136751e5433f41cf000b3f1a99c6744775e76ec764fb78c54ee100022100f9e80b7de89de861dc6fb0c1429d5da72c2b6b2ee2406bc9bfb1beedd729d985012102e61d176da16edd1d258a200ad9759ef63adf8e14cd97f53227bae35cdb84d2f6ffffffff0140420f00000000001976a914230ac37834073a42146f11ef8414ae929feaafc388ac00000000'
 v2_blob = "0200000001191601a44a81e061502b7bfbc6eaa1cef6d1e6af5308ef96c9342f71dbf4b9b5000000006b483045022100a6d44d0a651790a477e75334adfb8aae94d6612d01187b2c02526e340a7fd6c8022028bdf7a64a54906b13b145cd5dab21a26bd4b85d6044e9b97bceab5be44c2a9201210253e8e0254b0c95776786e40984c1aa32a7d03efa6bdacdea5f421b774917d346feffffff026b20fa04000000001976a914024db2e87dd7cfd0e5f266c5f212e21a31d805a588aca0860100000000001976a91421919b94ae5cefcdf0271191459157cdb41c4cbf88aca6240700"
@@ -24,7 +24,7 @@ signed_segwit_blob = "01000000000101b66d722484f2db63e827ebf41d02684fed0c6550e850
 
 signed_blob_signatures = [bfh('3046022100a82bbc57a0136751e5433f41cf000b3f1a99c6744775e76ec764fb78c54ee100022100f9e80b7de89de861dc6fb0c1429d5da72c2b6b2ee2406bc9bfb1beedd729d98501'),]
 
-class TestBCDataStream(ElectrumTestCase):
+class TestBCDataStream(BitraamTestCase):
 
     def test_compact_size(self):
         s = transaction.BCDataStream()
@@ -83,7 +83,7 @@ class TestBCDataStream(ElectrumTestCase):
         self.assertFalse(s.can_read_more())
 
 
-class TestTransaction(ElectrumTestCase):
+class TestTransaction(BitraamTestCase):
     def test_match_against_script_template(self):
         script = construct_script([opcodes.OP_5, bytes(29)])
         self.assertTrue(match_script_against_template(script, SCRIPTPUBKEY_TEMPLATE_ANYSEGWIT))
@@ -873,7 +873,7 @@ class TestTransaction(ElectrumTestCase):
 # txns from Bitcoin Core ends <---
 
 
-class TestTransactionTestnet(ElectrumTestCase):
+class TestTransactionTestnet(BitraamTestCase):
     TESTNET = True
 
     def test_spending_op_cltv_p2sh(self):
@@ -944,7 +944,7 @@ class TestTransactionTestnet(ElectrumTestCase):
                          tx.serialize())
 
 
-class TestTransactionVerifySig(ElectrumTestCase):
+class TestTransactionVerifySig(BitraamTestCase):
 
     def test_verifysig_spending_uncompressed_p2pk(self):
         funding_tx_raw = "010000000001021b41471d6af3aa80ebe536dbf4f505a6d46af456131a8e12e1950171959b690e0f00000000fdffffff2ef29833a69863b31e884fc5e6f7b99a23b5601e14f0eb65905faa42fec0776d0000000000fdffffff02f96a070000000000160014e61b989a740056254b5f8061281ac96ca15d35e140420f00000000004341049afa8fb50f52104b381a673c6e4fb7fb54987271d0e948dd9a568bb2af6f9310a7a809ce06e09d1510e5836f20414596232e2c0be63715459fa3cf8e7092af05ac0247304402201fe20012c1c732a6a8f942c4e0feed5ed0bddfb94db736ec3d0c0d38f0f7f46a022021d690e6d2688b90b76002f4c3134981502d666211e85e8a6ca91e78405dfa3801210346fb31136ab48e6c648865264d32004b43643d01f0ba485cffac4bb0b3f739470247304402204a2473ab4b3bfc8e6b1a6b8675dc2c3d115d8c04f5df37f29779dca6d300d9db02205e72ebbccd018c67b86ae4da6b0e6222902a8de85915ed6115330b9328764b370121027a93ffc9444a12d99307318e2e538949072cb35b2aca344b8163795a022414c7d73a1400"
@@ -1057,7 +1057,7 @@ class TestTransactionVerifySig(ElectrumTestCase):
         self.assertFalse(spending_tx.verify_sig_for_txin(txin_index=0, pubkey_bytes=pubkey2, sig=sig2))
 
 
-class TestSighashBIP143(ElectrumTestCase):
+class TestSighashBIP143(BitraamTestCase):
     #These tests are taken from bip143, https://github.com/bitcoin/bips/blob/master/bip-0143.mediawiki
     #Input of transaction
     locktime=0
@@ -1122,7 +1122,7 @@ class TestSighashBIP143(ElectrumTestCase):
                          sig.hex())
 
 
-class TestSighashBIP341(ElectrumTestCase):
+class TestSighashBIP341(BitraamTestCase):
 
     def test_taproot_keypath_spending(self):
         test_vector_file = os.path.join(os.path.dirname(__file__), "bip-0341", "wallet-test-vectors.json")

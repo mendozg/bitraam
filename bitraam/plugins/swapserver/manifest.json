@@ -1,0 +1,6 @@
+{
+  "name": "swapserver",
+  "fullname": "SwapServer",
+  "description": "Submarine swap server for an Bitraam daemon.\n\nExample setup:\n\n  bitraam -o setconfig plugins.swapserver.enabled True\n  bitraam -o setconfig plugins.swapserver.port 5455\n  bitraam daemon -v\n\n",
+  "available_for": ["cmdline"]
+}

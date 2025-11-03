@@ -9,11 +9,11 @@ if TYPE_CHECKING:
     from PyInstaller.building.build_main import Analysis, PYZ, EXE, BUNDLE
 
 
-PACKAGE_NAME='Electrum.app'
-PYPKG='electrum'
-MAIN_SCRIPT='run_electrum'
+PACKAGE_NAME='Bitraam.app'
+PYPKG='bitraam'
+MAIN_SCRIPT='run_bitraam'
 PROJECT_ROOT = os.path.abspath(".")
-ICONS_FILE=f"{PROJECT_ROOT}/{PYPKG}/gui/icons/electrum.icns"
+ICONS_FILE=f"{PROJECT_ROOT}/{PYPKG}/gui/icons/bitraam.icns"
 
 
 VERSION = os.environ.get("ELECTRUM_VERSION")
@@ -138,6 +138,6 @@ app = BUNDLE(
                 'CFBundleURLSchemes': ['bitcoin', 'lightning', ],
             }],
         'LSMinimumSystemVersion': '11',
-        'NSCameraUsageDescription': 'Electrum would like to access the camera to scan for QR codes',
+        'NSCameraUsageDescription': 'Bitraam would like to access the camera to scan for QR codes',
     },
 )

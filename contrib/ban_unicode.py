@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# Copyright (C) 2025 The Electrum developers
+# Copyright (C) 2025 The Bitraam developers
 # Distributed under the MIT software license, see the accompanying
 # file LICENCE or http://www.opensource.org/licenses/mit-license.php
 #
@@ -19,7 +19,7 @@ project_root = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 os.chdir(project_root)
 
 EXCLUDE_PATH_PREFIX = {
-    "electrum/wordlist/",
+    "bitraam/wordlist/",
     "fastlane/",
     "tests/",
 }

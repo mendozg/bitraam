@@ -1,26 +1,26 @@
 from io import StringIO
 import json
 import os, sys
-from electrum.bitcoin import address_to_script
-from electrum.fee_policy import FixedFeePolicy
-from electrum.plugins.timelock_recovery.timelock_recovery import TimelockRecoveryContext
-from electrum.simple_config import SimpleConfig
-from electrum.storage import WalletStorage
-from electrum.transaction import PartialTxOutput
-from electrum.wallet import Wallet
-from electrum.wallet_db import WalletDB
+from bitraam.bitcoin import address_to_script
+from bitraam.fee_policy import FixedFeePolicy
+from bitraam.plugins.timelock_recovery.timelock_recovery import TimelockRecoveryContext
+from bitraam.simple_config import SimpleConfig
+from bitraam.storage import WalletStorage
+from bitraam.transaction import PartialTxOutput
+from bitraam.wallet import Wallet
+from bitraam.wallet_db import WalletDB
 
-from . import ElectrumTestCase
+from . import BitraamTestCase
 
 
-class TestTimelockRecovery(ElectrumTestCase):
+class TestTimelockRecovery(BitraamTestCase):
     TESTNET = True
 
     def setUp(self):
         super(TestTimelockRecovery, self).setUp()
-        self.config = SimpleConfig({'electrum_path': self.electrum_path})
+        self.config = SimpleConfig({'bitraam_path': self.bitraam_path})
 
-        self.wallet_path = os.path.join(self.electrum_path, "timelock_recovery_wallet")
+        self.wallet_path = os.path.join(self.bitraam_path, "timelock_recovery_wallet")
 
         self._saved_stdout = sys.stdout
         self._stdout_buffer = StringIO()

@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # env vars:
-# - WWW_DIR: path to "electrum-web" git clone
+# - WWW_DIR: path to "bitraam-web" git clone
 # - for signing the version announcement file:
 #   - ELECTRUM_SIGNING_ADDRESS (required)
 #   - ELECTRUM_SIGNING_WALLET (required)
@@ -26,7 +26,7 @@ fi
 
 
 if [ -z "$WWW_DIR" ] ; then
-    WWW_DIR=/opt/electrum-web
+    WWW_DIR=/opt/bitraam-web
 fi
 
 if [ -z "$ELECTRUM_SIGNING_WALLET" ] || [ -z "$ELECTRUM_SIGNING_ADDRESS" ]; then
@@ -34,7 +34,7 @@ if [ -z "$ELECTRUM_SIGNING_WALLET" ] || [ -z "$ELECTRUM_SIGNING_ADDRESS" ]; then
     exit 1
 fi
 
-VERSION=$("$CONTRIB"/print_electrum_version.py)
+VERSION=$("$CONTRIB"/print_bitraam_version.py)
 info "VERSION: $VERSION"
 
 ANDROID_VERSIONCODE_NULLARCH=$("$CONTRIB"/android/get_apk_versioncode.py "null")
@@ -46,7 +46,7 @@ set -x
 info "updating www repo"
 ./contrib/make_download "$WWW_DIR"
 info "signing the version announcement file"
-sig=$(./run_electrum -o signmessage $ELECTRUM_SIGNING_ADDRESS $VERSION -w $ELECTRUM_SIGNING_WALLET)
+sig=$(./run_bitraam -o signmessage $ELECTRUM_SIGNING_ADDRESS $VERSION -w $ELECTRUM_SIGNING_WALLET)
 # note: the contents of "extradata" are currently not signed. We could add another field, extradata_sigs,
 #       containing signature(s) for "extradata". extradata, being json, would have to be canonically
 #       serialized before signing.

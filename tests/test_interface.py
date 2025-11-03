@@ -5,24 +5,24 @@ from typing import Optional, Sequence, Iterable
 import aiorpcx
 from aiorpcx import RPCError
 
-import electrum
-from electrum.interface import ServerAddr, Interface, PaddedRSTransport
-from electrum import util, blockchain
-from electrum.util import OldTaskGroup, bfh
-from electrum.logging import Logger
-from electrum.simple_config import SimpleConfig
-from electrum.transaction import Transaction
-from electrum import constants
-from electrum.wallet import Abstract_Wallet
-from electrum.blockchain import Blockchain
-from electrum.bitcoin import script_to_scripthash
-from electrum.synchronizer import history_status
+import bitraam
+from bitraam.interface import ServerAddr, Interface, PaddedRSTransport
+from bitraam import util, blockchain
+from bitraam.util import OldTaskGroup, bfh
+from bitraam.logging import Logger
+from bitraam.simple_config import SimpleConfig
+from bitraam.transaction import Transaction
+from bitraam import constants
+from bitraam.wallet import Abstract_Wallet
+from bitraam.blockchain import Blockchain
+from bitraam.bitcoin import script_to_scripthash
+from bitraam.synchronizer import history_status
 
-from . import ElectrumTestCase
+from . import BitraamTestCase
 from . import restore_wallet_from_text__for_unittest
 
 
-class TestServerAddr(ElectrumTestCase):
+class TestServerAddr(BitraamTestCase):
 
     def test_from_str(self):
         self.assertEqual(ServerAddr(host="104.198.149.61", port=80, protocol="t"),
@@ -174,7 +174,7 @@ class ToyServerSession(aiorpcx.RPCSession, Logger):
             'protocol_max': '1.7.0',
             'protocol_min': '1.4.3',
             'pruning': None,
-            'server_version': 'ElectrumX 1.19.0',
+            'server_version': 'BitraamX 1.19.0',
             'hash_function': 'sha256',
         }
 
@@ -302,12 +302,12 @@ class ToyServerSession(aiorpcx.RPCSession, Logger):
         await self._send_notifications(touched_sh=touched_sh, height_changed=True)
 
 
-class TestInterface(ElectrumTestCase):
+class TestInterface(BitraamTestCase):
     REGTEST = True
 
     def setUp(self):
         super().setUp()
-        self.config = SimpleConfig({'electrum_path': self.electrum_path})
+        self.config = SimpleConfig({'bitraam_path': self.bitraam_path})
         self.config.NETWORK_SKIPMERKLECHECK = True
         self._orig_WAIT_FOR_BUFFER_GROWTH_SECONDS = PaddedRSTransport.WAIT_FOR_BUFFER_GROWTH_SECONDS
         PaddedRSTransport.WAIT_FOR_BUFFER_GROWTH_SECONDS = 0

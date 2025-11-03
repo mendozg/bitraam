@@ -17,7 +17,7 @@ _min_python_version_tuple = tuple(map(int, (MIN_PYTHON_VERSION.split("."))))
 
 
 if sys.version_info[:3] < _min_python_version_tuple:
-    sys.exit("Error: Electrum requires Python version >= %s..." % MIN_PYTHON_VERSION)
+    sys.exit("Error: Bitraam requires Python version >= %s..." % MIN_PYTHON_VERSION)
 
 with open('contrib/requirements/requirements.txt') as f:
     requirements = f.read().splitlines()
@@ -26,7 +26,7 @@ with open('contrib/requirements/requirements-hw.txt') as f:
     requirements_hw = f.read().splitlines()
 
 # load version.py; needlessly complicated alternative to "imp.load_source":
-version_spec = importlib.util.spec_from_file_location('version', 'electrum/version.py')
+version_spec = importlib.util.spec_from_file_location('version', 'bitraam/version.py')
 version_module = version = importlib.util.module_from_spec(version_spec)
 version_spec.loader.exec_module(version_module)
 
@@ -35,9 +35,9 @@ data_files = []
 if platform.system() in ['Linux', 'FreeBSD', 'DragonFly']:
     # note: we can't use absolute paths here. see #7787
     data_files += [
-        (os.path.join('share', 'applications'),               ['electrum.desktop']),
-        (os.path.join('share', 'pixmaps'),                    ['electrum/gui/icons/electrum.png']),
-        (os.path.join('share', 'icons/hicolor/128x128/apps'), ['electrum/gui/icons/electrum.png']),
+        (os.path.join('share', 'applications'),               ['bitraam.desktop']),
+        (os.path.join('share', 'pixmaps'),                    ['bitraam/gui/icons/bitraam.png']),
+        (os.path.join('share', 'icons/hicolor/128x128/apps'), ['bitraam/gui/icons/bitraam.png']),
     ]
 
 extras_require = {
@@ -56,27 +56,27 @@ extras_require['fast'] = extras_require['crypto']
 
 
 setup(
-    name="Electrum",
+    name="Bitraam",
     version=version.ELECTRUM_VERSION,
     python_requires='>={}'.format(MIN_PYTHON_VERSION),
     install_requires=requirements,
     extras_require=extras_require,
-    packages=(['electrum',]
-              + [('electrum.'+pkg) for pkg in
-                 find_packages('electrum', exclude=["tests"])]),
+    packages=(['bitraam',]
+              + [('bitraam.'+pkg) for pkg in
+                 find_packages('bitraam', exclude=["tests"])]),
     package_dir={
-        'electrum': 'electrum'
+        'bitraam': 'bitraam'
     },
     # Note: MANIFEST.in lists what gets included in the tar.gz, and the
     # package_data kwarg lists what gets put in site-packages when pip installing the tar.gz.
     # By specifying include_package_data=True, MANIFEST.in becomes responsible for both.
     include_package_data=True,
-    scripts=['electrum/electrum'],
+    scripts=['bitraam/bitraam'],
     data_files=data_files,
     description="Lightweight Bitcoin Wallet",
     author="Thomas Voegtlin",
-    author_email="thomasv@electrum.org",
+    author_email="thomasv@bitraam.org",
     license="MIT Licence",
-    url="https://electrum.org",
+    url="https://bitraam.org",
     long_description="""Lightweight Bitcoin Wallet""",
 )

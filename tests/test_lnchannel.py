@@ -1,4 +1,4 @@
-# Copyright (C) 2018 The Electrum developers
+# Copyright (C) 2018 The Bitraam developers
 # Copyright (C) 2015-2018 The Lightning Network Developers
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -29,20 +29,20 @@ from pprint import pformat
 import logging
 import dataclasses
 
-from electrum import bitcoin
-from electrum import lnpeer
-from electrum import lnchannel
-from electrum import lnutil
-from electrum import bip32 as bip32_utils
-from electrum.crypto import privkey_to_pubkey
-from electrum.lnutil import SENT, LOCAL, REMOTE, RECEIVED, UpdateAddHtlc
-from electrum.lnutil import effective_htlc_tx_weight
-from electrum.logging import console_stderr_handler
-from electrum.lnchannel import ChannelState
-from electrum.json_db import StoredDict
-from electrum.coinchooser import PRNG
+from bitraam import bitcoin
+from bitraam import lnpeer
+from bitraam import lnchannel
+from bitraam import lnutil
+from bitraam import bip32 as bip32_utils
+from bitraam.crypto import privkey_to_pubkey
+from bitraam.lnutil import SENT, LOCAL, REMOTE, RECEIVED, UpdateAddHtlc
+from bitraam.lnutil import effective_htlc_tx_weight
+from bitraam.logging import console_stderr_handler
+from bitraam.lnchannel import ChannelState
+from bitraam.json_db import StoredDict
+from bitraam.coinchooser import PRNG
 
-from . import ElectrumTestCase
+from . import BitraamTestCase
 
 one_bitcoin_in_msat = bitcoin.COIN * 1000
 
@@ -216,7 +216,7 @@ def create_test_channels(*, feerate=6000, local_msat=None, remote_msat=None,
     return alice, bob
 
 
-class TestFee(ElectrumTestCase):
+class TestFee(BitraamTestCase):
     """
     test
     https://github.com/lightningnetwork/lightning-rfc/blob/e0c436bd7a3ed6a028e1cb472908224658a14eca/03-transactions.md#requirements-2
@@ -231,7 +231,7 @@ class TestFee(ElectrumTestCase):
         self.assertIn(expected_value, [x.value for x in alice_channel.get_latest_commitment(LOCAL).outputs()])
 
 
-class TestChannel(ElectrumTestCase):
+class TestChannel(BitraamTestCase):
     maxDiff = 999
 
     def assertOutputExistsByValue(self, tx, amt_sat):
@@ -358,7 +358,7 @@ class TestChannel(ElectrumTestCase):
         self.assertEqual(bob_channel.included_htlcs(REMOTE, RECEIVED, 0), [])
         self.assertEqual(bob_channel.included_htlcs(REMOTE, RECEIVED, 1), [])
 
-        from electrum.lnutil import extract_ctn_from_tx_and_chan
+        from bitraam.lnutil import extract_ctn_from_tx_and_chan
         tx0 = str(alice_channel.force_close_tx())
         self.assertEqual(alice_channel.get_oldest_unrevoked_ctn(LOCAL), 0)
         self.assertEqual(extract_ctn_from_tx_and_chan(alice_channel.force_close_tx(), alice_channel), 0)
@@ -698,7 +698,7 @@ class TestChannelAnchors(TestChannel):
     TEST_ANCHOR_CHANNELS = True
 
 
-class TestAvailableToSpend(ElectrumTestCase):
+class TestAvailableToSpend(BitraamTestCase):
     def test_DesyncHTLCs(self):
         alice_channel, bob_channel = create_test_channels(anchor_outputs=self.TEST_ANCHOR_CHANNELS)
         self.assertEqual(499986152000 if not alice_channel.has_anchors() else 499980692000, alice_channel.available_to_spend(LOCAL))
@@ -806,7 +806,7 @@ class TestAvailableToSpendAnchors(TestAvailableToSpend):
     TEST_ANCHOR_CHANNELS = True
 
 
-class TestChanReserve(ElectrumTestCase):
+class TestChanReserve(BitraamTestCase):
     def setUp(self):
         alice_channel, bob_channel = create_test_channels(anchor_outputs=False)
         alice_min_reserve = int(.5 * one_bitcoin_in_msat // 1000)
@@ -940,7 +940,7 @@ class TestChanReserveAnchors(TestChanReserve):
     TEST_ANCHOR_CHANNELS = True
 
 
-class TestDust(ElectrumTestCase):
+class TestDust(BitraamTestCase):
     def test_DustLimit(self):
         """Test that addition of an HTLC below the dust limit changes the balances."""
         alice_channel, bob_channel = create_test_channels(anchor_outputs=self.TEST_ANCHOR_CHANNELS)

@@ -1,0 +1,24 @@
+# If you want Bitraam to appear in a Linux app launcher ("start menu"), install this by doing:
+# sudo desktop-file-install bitraam.desktop
+# Note: This assumes $HOME/.local/bin is in your $PATH
+
+[Desktop Entry]
+Comment=Lightweight Bitraam Client
+Exec=bitraam %u
+GenericName[en_US]=Bitraam Wallet
+GenericName=Bitraam Wallet
+Icon=bitraam
+Name[en_US]=Bitraam Wallet
+Name=Bitraam Wallet
+Categories=Finance;Network;
+StartupNotify=true
+StartupWMClass=bitraam
+Terminal=false
+Type=Application
+MimeType=x-scheme-handler/bitraam;x-scheme-handler/lightning;
+Actions=Testnet;
+Keywords=crypto;currency;BTC
+
+[Desktop Action Testnet]
+Exec=bitraam --testnet %u
+Name=Testnet mode

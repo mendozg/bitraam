@@ -6,7 +6,7 @@ Building macOS binaries
 
 - _Minimum supported target system (i.e. what end-users need): macOS 11_
 
-This guide explains how to build Electrum binaries for macOS systems.
+This guide explains how to build Bitraam binaries for macOS systems.
 
 
 ## Building the binary
@@ -20,7 +20,7 @@ Notes about compatibility with different macOS versions:
 - In general the binary is not guaranteed to run on an older version of macOS
   than what the build machine has. This is due to bundling the compiled Python into
   the [PyInstaller binary](https://github.com/pyinstaller/pyinstaller/issues/1191).
-- The [bundled version of Qt](https://github.com/spesmilo/electrum/issues/3685) also
+- The [bundled version of Qt](https://github.com/mendozg/bitraam/issues/3685) also
   imposes a minimum supported macOS version.
 - If you want to build binaries that conform to the macOS "Gatekeeper", so as to
   minimise the warnings users get, the binaries need to be codesigned with a
@@ -28,7 +28,7 @@ Notes about compatibility with different macOS versions:
   need to be notarized by Apple's central server. To be able to build
   binaries that Apple will notarize (due to the requirements on the binaries themselves,
   e.g. hardened runtime) the build machine needs at least macOS 10.14.
-  See [#6128](https://github.com/spesmilo/electrum/issues/6128).
+  See [#6128](https://github.com/mendozg/bitraam/issues/6128).
   - There are two tools that can be used to notarize a binary, both part of Xcode:
     the old `altool` and the newer `notarytool`. `altool`
     [was deprecated](https://developer.apple.com/news/?id=y5mjxqmn) by Apple.
@@ -43,8 +43,8 @@ We currently build the release binaries on macOS 11.7.10, and these seem to run 
 - We recommend creating a VM with a macOS guest, e.g. using VirtualBox,
   and building there.
 - The guest should run macOS 11.7.10 (that specific version).
-- The unix username should be `vagrant`, and `electrum` should be cloned directly
-  to the user's home dir: `/Users/vagrant/electrum`.
+- The unix username should be `vagrant`, and `bitraam` should be cloned directly
+  to the user's home dir: `/Users/vagrant/bitraam`.
 - Builders need to use the same version of Xcode; and note that
   full Xcode and Xcode commandline tools differ!
   We use the Xcode CLI tools as installed by brew. (version 13.2)
@@ -75,8 +75,8 @@ We currently build the release binaries on macOS 11.7.10, and these seem to run 
     ```
 - Installing extraneous brew packages can result in build differences.
   For example, pyinstaller seems to pick up and bundle brew-installed `libffi`.
-  So having a dedicated "electrum binary builder macOS VM" is recommended.
-- Make sure that you are building from a fresh clone of electrum
+  So having a dedicated "bitraam binary builder macOS VM" is recommended.
+- Make sure that you are building from a fresh clone of bitraam
   (or run e.g. `git clean -ffxd` to rm all local changes).
 
 
@@ -87,19 +87,19 @@ Install [`brew`](https://brew.sh/).
 Let brew install the Xcode CLI tools.
 
 
-#### 2. Build Electrum
+#### 2. Build Bitraam
 
-    cd electrum
+    cd bitraam
     ./contrib/osx/make_osx.sh
 
-This creates both a folder named Electrum.app and the .dmg file (both unsigned).
+This creates both a folder named Bitraam.app and the .dmg file (both unsigned).
 
 ##### 2.1. For release binaries, here be dragons
 
 If you want the binaries codesigned for macOS and notarised by Apple's central server,
 also run the `sign_osx.sh` script:
 
-    CODESIGN_CERT="Developer ID Application: Electrum Technologies GmbH (L6P37P7P56)" \
+    CODESIGN_CERT="Developer ID Application: Bitraam Technologies GmbH (L6P37P7P56)" \
     APPLE_TEAM_ID="L6P37P7P56" \
     APPLE_ID_USER="me@email.com" \
     APPLE_ID_PASSWORD="1234" \
@@ -117,7 +117,7 @@ repository.
 2. Use the provided `compare_dmg` script to compare the binary you built with
    the official release binary.
     ```
-    $ ./contrib/osx/compare_dmg dist/electrum-*.dmg electrum_dmg_official_release.dmg
+    $ ./contrib/osx/compare_dmg dist/bitraam-*.dmg bitraam_dmg_official_release.dmg
     ```
    The `compare_dmg` script is mostly only needed as the official release binary is
    codesigned and notarized. Otherwise, the built `.app` bundles should be byte-identical.
@@ -164,34 +164,34 @@ It contains a `.app`, which is codesigned AND notarized.
 
 Both the `.dmg` and the contained `.app` are codesigned:
 ```
-$ codesign --verify --deep --strict --verbose=2 $HOME/Desktop/electrum-4.5.8.dmg && echo "signed"
-/Users/vagrant/Desktop/electrum-4.5.8.dmg: valid on disk
-/Users/vagrant/Desktop/electrum-4.5.8.dmg: satisfies its Designated Requirement
+$ codesign --verify --deep --strict --verbose=2 $HOME/Desktop/bitraam-4.5.8.dmg && echo "signed"
+/Users/vagrant/Desktop/bitraam-4.5.8.dmg: valid on disk
+/Users/vagrant/Desktop/bitraam-4.5.8.dmg: satisfies its Designated Requirement
 signed
 ```
 ```
-$ codesign --verify --deep --strict --verbose=1 $HOME/Desktop/Electrum-4.5.8.app && echo "signed"
-/Users/vagrant/Desktop/Electrum-4.5.8.app: valid on disk
-/Users/vagrant/Desktop/Electrum-4.5.8.app: satisfies its Designated Requirement
+$ codesign --verify --deep --strict --verbose=1 $HOME/Desktop/Bitraam-4.5.8.app && echo "signed"
+/Users/vagrant/Desktop/Bitraam-4.5.8.app: valid on disk
+/Users/vagrant/Desktop/Bitraam-4.5.8.app: satisfies its Designated Requirement
 signed
 ```
 
-Also see `$ codesign -dvvv $HOME/Desktop/electrum-4.5.8.dmg`
+Also see `$ codesign -dvvv $HOME/Desktop/bitraam-4.5.8.dmg`
 
 ### How to check if a file is notarized?
 
 The outer `.dmg` is NOT notarized, but the inner `.app` is notarized:
 ```
-$ spctl -a -vvv -t install $HOME/Desktop/electrum-4.5.8.dmg
-/Users/vagrant/Desktop/electrum-4.5.8.dmg: rejected
+$ spctl -a -vvv -t install $HOME/Desktop/bitraam-4.5.8.dmg
+/Users/vagrant/Desktop/bitraam-4.5.8.dmg: rejected
 source=Unnotarized Developer ID
-origin=Developer ID Application: Electrum Technologies GmbH (L6P37P7P56)
+origin=Developer ID Application: Bitraam Technologies GmbH (L6P37P7P56)
 ```
 ```
-$ spctl -a -vvv -t install $HOME/Desktop/Electrum-4.5.8.app
-/Users/vagrant/Desktop/Electrum-4.5.8.app: accepted
+$ spctl -a -vvv -t install $HOME/Desktop/Bitraam-4.5.8.app
+/Users/vagrant/Desktop/Bitraam-4.5.8.app: accepted
 source=Notarized Developer ID
-origin=Developer ID Application: Electrum Technologies GmbH (L6P37P7P56)
+origin=Developer ID Application: Bitraam Technologies GmbH (L6P37P7P56)
 ```
 
 ### How to simulate the signing procedure?
@@ -213,18 +213,18 @@ You now have a self-signed certificate `signing_dummy` added to your `login` key
 
 #### To sign the executables with the self-signed certificate:
 
-Assuming you have the two unsigned outputs of `make_osx.sh` inside `~/electrum/dist`
-(e.g. `Electrum.app` and `electrum-4.5.4-1368-gc8db684cc-unsigned.dmg`).
+Assuming you have the two unsigned outputs of `make_osx.sh` inside `~/bitraam/dist`
+(e.g. `Bitraam.app` and `bitraam-4.5.4-1368-gc8db684cc-unsigned.dmg`).
 
-In `~/electrum` run:
+In `~/bitraam` run:
 
 `$ CODESIGN_CERT="signing_dummy" ./contrib/osx/sign_osx.sh`
 
-After `sign_osx.sh` finished, you will have a new `*.dmg` inside `electrum/dist`
+After `sign_osx.sh` finished, you will have a new `*.dmg` inside `bitraam/dist`
 (without the `-unsigned` postfix) which is signed with your certificate.
 
 #### To compare the unsigned executable with the self-signed executable:
 
 Running `compare_dmg` with `IS_NOTARIZED=false` should succeed:
 
-`$ IS_NOTARIZED=false ./electrum/contrib/osx/compare_dmg <unsigned executable> <self-signed executable>`
+`$ IS_NOTARIZED=false ./bitraam/contrib/osx/compare_dmg <unsigned executable> <self-signed executable>`

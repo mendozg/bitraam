@@ -13,43 +13,43 @@ from unittest import mock
 from typing import Iterable, NamedTuple, Tuple, List, Dict, Sequence
 
 from aiorpcx import timeout_after, TaskTimeout
-from electrum_ecc import ECPrivkey
+from bitraam_ecc import ECPrivkey
 
-import electrum
-import electrum.trampoline
-from electrum import bitcoin
-from electrum import util
-from electrum import constants
-from electrum.network import Network
-from electrum import simple_config, lnutil
-from electrum.lnaddr import lnencode, LnAddr, lndecode
-from electrum.bitcoin import COIN, sha256
-from electrum.transaction import Transaction
-from electrum.util import NetworkRetryManager, bfh, OldTaskGroup, EventListener, InvoiceError
-from electrum.lnpeer import Peer
-from electrum.lntransport import LNPeerAddr
-from electrum.crypto import privkey_to_pubkey
-from electrum.lnutil import Keypair, PaymentFailure, LnFeatures, HTLCOwner, PaymentFeeBudget
-from electrum.lnchannel import ChannelState, PeerState, Channel
-from electrum.lnrouter import LNPathFinder, PathEdge, LNPathInconsistent
-from electrum.channel_db import ChannelDB
-from electrum.lnworker import LNWallet, NoPathFound, SentHtlcInfo, PaySession
-from electrum.lnmsg import encode_msg, decode_msg
-from electrum import lnmsg
-from electrum.logging import console_stderr_handler, Logger
-from electrum.lnworker import PaymentInfo, RECEIVED
-from electrum.lnonion import OnionFailureCode, OnionRoutingFailure
-from electrum.lnutil import UpdateAddHtlc
-from electrum.lnutil import LOCAL, REMOTE
-from electrum.invoices import PR_PAID, PR_UNPAID, Invoice, LN_EXPIRY_NEVER
-from electrum.interface import GracefulDisconnect
-from electrum.simple_config import SimpleConfig
-from electrum.fee_policy import FeeTimeEstimates, FEE_ETA_TARGETS
-from electrum.mpp_split import split_amount_normal
+import bitraam
+import bitraam.trampoline
+from bitraam import bitcoin
+from bitraam import util
+from bitraam import constants
+from bitraam.network import Network
+from bitraam import simple_config, lnutil
+from bitraam.lnaddr import lnencode, LnAddr, lndecode
+from bitraam.bitcoin import COIN, sha256
+from bitraam.transaction import Transaction
+from bitraam.util import NetworkRetryManager, bfh, OldTaskGroup, EventListener, InvoiceError
+from bitraam.lnpeer import Peer
+from bitraam.lntransport import LNPeerAddr
+from bitraam.crypto import privkey_to_pubkey
+from bitraam.lnutil import Keypair, PaymentFailure, LnFeatures, HTLCOwner, PaymentFeeBudget
+from bitraam.lnchannel import ChannelState, PeerState, Channel
+from bitraam.lnrouter import LNPathFinder, PathEdge, LNPathInconsistent
+from bitraam.channel_db import ChannelDB
+from bitraam.lnworker import LNWallet, NoPathFound, SentHtlcInfo, PaySession
+from bitraam.lnmsg import encode_msg, decode_msg
+from bitraam import lnmsg
+from bitraam.logging import console_stderr_handler, Logger
+from bitraam.lnworker import PaymentInfo, RECEIVED
+from bitraam.lnonion import OnionFailureCode, OnionRoutingFailure
+from bitraam.lnutil import UpdateAddHtlc
+from bitraam.lnutil import LOCAL, REMOTE
+from bitraam.invoices import PR_PAID, PR_UNPAID, Invoice, LN_EXPIRY_NEVER
+from bitraam.interface import GracefulDisconnect
+from bitraam.simple_config import SimpleConfig
+from bitraam.fee_policy import FeeTimeEstimates, FEE_ETA_TARGETS
+from bitraam.mpp_split import split_amount_normal
 
 from .test_lnchannel import create_test_channels
 from .test_bitcoin import needs_test_with_all_chacha20_implementations
-from . import ElectrumTestCase
+from . import BitraamTestCase
 
 
 def keypair():
@@ -174,7 +174,7 @@ class MockLNWallet(Logger, EventListener, NetworkRetryManager[LNPeerAddr]):
         NetworkRetryManager.__init__(self, max_retry_delay_normal=1, init_retry_delay_normal=1)
         self.node_keypair = local_keypair
         self.payment_secret_key = os.urandom(32)  # does not need to be deterministic in tests
-        self._user_dir = tempfile.mkdtemp(prefix="electrum-lnpeer-test-")
+        self._user_dir = tempfile.mkdtemp(prefix="bitraam-lnpeer-test-")
         self.config = SimpleConfig({}, read_user_dir_function=lambda: self._user_dir)
         self.network = MockNetwork(tx_queue, config=self.config)
         self.taskgroup = OldTaskGroup()
@@ -523,7 +523,7 @@ def inject_chan_into_gossipdb(*, channel_db: ChannelDB, graph: Graph, node1name:
     channel_db.add_channel_update(chan_upd2_dict, verify=False)
 
 
-class TestPeer(ElectrumTestCase):
+class TestPeer(BitraamTestCase):
     TESTNET = True
 
     @classmethod
@@ -544,7 +544,7 @@ class TestPeer(ElectrumTestCase):
         for lnworker in self._lnworkers_created:
             shutil.rmtree(lnworker._user_dir)
         self._lnworkers_created.clear()
-        electrum.trampoline._TRAMPOLINE_NODES_UNITTESTS = {}
+        bitraam.trampoline._TRAMPOLINE_NODES_UNITTESTS = {}
         await super().asyncTearDown()
 
     @staticmethod
@@ -770,7 +770,7 @@ class TestPeerDirect(TestPeer):
             async with OldTaskGroup() as group:
                 await group.spawn(p1._message_loop())
                 await group.spawn(p2._message_loop())
-                with self.assertLogs('electrum', level='INFO') as logs:
+                with self.assertLogs('bitraam', level='INFO') as logs:
                     async with OldTaskGroup() as group2:
                         await group2.spawn(p1.reestablish_channel(chan_AB))
                         await group2.spawn(p2.reestablish_channel(chan_BA))
@@ -827,7 +827,7 @@ class TestPeerDirect(TestPeer):
             async with OldTaskGroup() as group:
                 await group.spawn(p1._message_loop())
                 await group.spawn(p2._message_loop())
-                with self.assertLogs('electrum', level='INFO') as logs:
+                with self.assertLogs('bitraam', level='INFO') as logs:
                     async with OldTaskGroup() as group2:
                         await group2.spawn(p1.reestablish_channel(chan_AB))
                         await group2.spawn(p2.reestablish_channel(chan_BA))
@@ -871,7 +871,7 @@ class TestPeerDirect(TestPeer):
         if test_trampoline:
             await self._activate_trampoline(w1)
             # declare bob as trampoline node
-            electrum.trampoline._TRAMPOLINE_NODES_UNITTESTS = {
+            bitraam.trampoline._TRAMPOLINE_NODES_UNITTESTS = {
                 'bob': LNPeerAddr(host="127.0.0.1", port=9735, pubkey=w2.node_keypair.pubkey),
             }
 
@@ -1058,7 +1058,7 @@ class TestPeerDirect(TestPeer):
         self.assertEqual(bob_init_balance_msat + num_payments * payment_value_msat, alice_channel.balance(HTLCOwner.REMOTE))
 
     async def test_payment_recv_mpp_confusion1(self):
-        """Regression test for https://github.com/spesmilo/electrum/security/advisories/GHSA-8r85-vp7r-hjxf"""
+        """Regression test for https://github.com/mendozg/bitraam/security/advisories/GHSA-8r85-vp7r-hjxf"""
         # This test checks that the following attack does not work:
         #   - Bob creates invoice1: 1 BTC, H1, S1
         #   - Bob creates invoice2: 1 BTC, H2, S2;  both given to attacker to pay
@@ -1132,7 +1132,7 @@ class TestPeerDirect(TestPeer):
             await f()
 
     async def test_payment_recv_mpp_confusion2(self):
-        """Regression test for https://github.com/spesmilo/electrum/security/advisories/GHSA-8r85-vp7r-hjxf"""
+        """Regression test for https://github.com/mendozg/bitraam/security/advisories/GHSA-8r85-vp7r-hjxf"""
         # This test checks that the following attack does not work:
         #   - Bob creates invoice: 1 BTC
         #   - Alice sends htlc1: 0.1 BTC  (total_msat=0.2 BTC)
@@ -1587,7 +1587,7 @@ class TestPeerForwarding(TestPeer):
 
         async def pay(lnaddr, pay_req):
             self.assertEqual(PR_UNPAID, graph.workers['alice'].get_payment_status(lnaddr.paymenthash))
-            with mock.patch('electrum.mpp_split.split_amount_normal',
+            with mock.patch('bitraam.mpp_split.split_amount_normal',
                                 side_effect=mocked_split_amount_normal):
                 result, log = await graph.workers['bob'].pay_invoice(pay_req)
             self.assertTrue(result)
@@ -1769,7 +1769,7 @@ class TestPeerForwarding(TestPeer):
                 self.assertEqual(None, graph.workers['alice'].get_preimage(lnaddr1.paymenthash))
             with self.subTest(msg="try to make Bob forward in trampoline mode"):
                 # declare Bob as trampoline forwarding node
-                electrum.trampoline._TRAMPOLINE_NODES_UNITTESTS = {
+                bitraam.trampoline._TRAMPOLINE_NODES_UNITTESTS = {
                     graph.workers['bob'].name: LNPeerAddr(host="127.0.0.1", port=9735, pubkey=graph.workers['bob'].node_keypair.pubkey),
                 }
                 await self._activate_trampoline(graph.workers['alice'])
@@ -1937,7 +1937,7 @@ class TestPeerForwarding(TestPeer):
 
     async def test_payment_multipart_trampoline_e2e(self):
         graph = self.prepare_chans_and_peers_in_graph(self.GRAPH_DEFINITIONS['square_graph'])
-        electrum.trampoline._TRAMPOLINE_NODES_UNITTESTS = {
+        bitraam.trampoline._TRAMPOLINE_NODES_UNITTESTS = {
             graph.workers['bob'].name: LNPeerAddr(host="127.0.0.1", port=9735, pubkey=graph.workers['bob'].node_keypair.pubkey),
             graph.workers['carol'].name: LNPeerAddr(host="127.0.0.1", port=9735, pubkey=graph.workers['carol'].node_keypair.pubkey),
         }
@@ -1952,7 +1952,7 @@ class TestPeerForwarding(TestPeer):
 
     async def test_payment_multipart_trampoline_legacy(self):
         graph = self.prepare_chans_and_peers_in_graph(self.GRAPH_DEFINITIONS['square_graph'])
-        electrum.trampoline._TRAMPOLINE_NODES_UNITTESTS = {
+        bitraam.trampoline._TRAMPOLINE_NODES_UNITTESTS = {
             graph.workers['bob'].name: LNPeerAddr(host="127.0.0.1", port=9735, pubkey=graph.workers['bob'].node_keypair.pubkey),
             graph.workers['carol'].name: LNPeerAddr(host="127.0.0.1", port=9735, pubkey=graph.workers['carol'].node_keypair.pubkey),
         }
@@ -2046,10 +2046,10 @@ class TestPeerForwarding(TestPeer):
         peers = graph.peers.values()
 
         # declare routing nodes as trampoline nodes
-        electrum.trampoline._TRAMPOLINE_NODES_UNITTESTS = {}
+        bitraam.trampoline._TRAMPOLINE_NODES_UNITTESTS = {}
         for tf_name in tf_names:
             peer_addr = LNPeerAddr(host="127.0.0.1", port=9735, pubkey=graph.workers[tf_name].node_keypair.pubkey)
-            electrum.trampoline._TRAMPOLINE_NODES_UNITTESTS[graph.workers[tf_name].name] = peer_addr
+            bitraam.trampoline._TRAMPOLINE_NODES_UNITTESTS[graph.workers[tf_name].name] = peer_addr
 
         await f()
 

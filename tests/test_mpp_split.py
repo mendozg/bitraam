@@ -1,14 +1,14 @@
 import random
 
-import electrum.mpp_split as mpp_split  # side effect for PART_PENALTY
-from electrum.lnutil import NoPathFound
+import bitraam.mpp_split as mpp_split  # side effect for PART_PENALTY
+from bitraam.lnutil import NoPathFound
 
-from . import ElectrumTestCase
+from . import BitraamTestCase
 
 PART_PENALTY = mpp_split.PART_PENALTY
 
 
-class TestMppSplit(ElectrumTestCase):
+class TestMppSplit(BitraamTestCase):
     def setUp(self):
         super().setUp()
         # to make tests reproducible:

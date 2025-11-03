@@ -6,22 +6,22 @@ import asyncio
 from typing import Optional
 from os import urandom
 
-from electrum import util
-from electrum.channel_db import NodeInfo
-from electrum.onion_message import is_onion_message_node
-from electrum.trampoline import create_trampoline_onion
-from electrum.util import bfh
-from electrum.lnutil import ShortChannelID, LnFeatures
-from electrum.lnonion import (OnionHopsDataSingle, new_onion_packet,
+from bitraam import util
+from bitraam.channel_db import NodeInfo
+from bitraam.onion_message import is_onion_message_node
+from bitraam.trampoline import create_trampoline_onion
+from bitraam.util import bfh
+from bitraam.lnutil import ShortChannelID, LnFeatures
+from bitraam.lnonion import (OnionHopsDataSingle, new_onion_packet,
                               process_onion_packet, _decode_onion_error, decode_onion_error,
                               OnionFailureCode)
-from electrum import bitcoin, lnrouter
-from electrum.constants import BitcoinTestnet
-from electrum.simple_config import SimpleConfig
-from electrum.lnrouter import (PathEdge, LiquidityHintMgr, DEFAULT_PENALTY_PROPORTIONAL_MILLIONTH,
+from bitraam import bitcoin, lnrouter
+from bitraam.constants import BitcoinTestnet
+from bitraam.simple_config import SimpleConfig
+from bitraam.lnrouter import (PathEdge, LiquidityHintMgr, DEFAULT_PENALTY_PROPORTIONAL_MILLIONTH,
                                DEFAULT_PENALTY_BASE_MSAT, fee_for_edge_msat, LNPaymentTRoute, TrampolineEdge)
 
-from . import ElectrumTestCase
+from . import BitraamTestCase
 from .test_bitcoin import needs_test_with_all_chacha20_implementations
 
 
@@ -44,14 +44,14 @@ def node_features(extra: LnFeatures = None) -> bytes:
     return lnf.to_bytes(8, 'big')
 
 
-class Test_LNRouter(ElectrumTestCase):
+class Test_LNRouter(BitraamTestCase):
     TESTNET = True
 
     cdb = None  # type: Optional[lnrouter.ChannelDB]
 
     def setUp(self):
         super().setUp()
-        self.config = SimpleConfig({'electrum_path': self.electrum_path})
+        self.config = SimpleConfig({'bitraam_path': self.bitraam_path})
         self.assertIsNone(self.cdb)  # sanity-check side effects from previous tests
 
     async def asyncTearDown(self):

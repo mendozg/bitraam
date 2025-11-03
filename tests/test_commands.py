@@ -8,31 +8,31 @@ from decimal import Decimal
 from os import urandom
 import shutil
 
-import electrum
-from electrum.commands import Commands, eval_bool
-from electrum import storage, wallet
-from electrum.lnworker import RecvMPPResolution
-from electrum.wallet import Abstract_Wallet
-from electrum.address_synchronizer import TX_HEIGHT_UNCONFIRMED
-from electrum.simple_config import SimpleConfig
-from electrum.submarine_swaps import SwapOffer, SwapFees, NostrTransport
-from electrum.transaction import Transaction, TxOutput, tx_from_any
-from electrum.util import UserFacingException, NotEnoughFunds
-from electrum.crypto import sha256
-from electrum.lnaddr import lndecode
-from electrum.daemon import Daemon
-from electrum import json_db
+import bitraam
+from bitraam.commands import Commands, eval_bool
+from bitraam import storage, wallet
+from bitraam.lnworker import RecvMPPResolution
+from bitraam.wallet import Abstract_Wallet
+from bitraam.address_synchronizer import TX_HEIGHT_UNCONFIRMED
+from bitraam.simple_config import SimpleConfig
+from bitraam.submarine_swaps import SwapOffer, SwapFees, NostrTransport
+from bitraam.transaction import Transaction, TxOutput, tx_from_any
+from bitraam.util import UserFacingException, NotEnoughFunds
+from bitraam.crypto import sha256
+from bitraam.lnaddr import lndecode
+from bitraam.daemon import Daemon
+from bitraam import json_db
 
-from . import ElectrumTestCase
+from . import BitraamTestCase
 from . import restore_wallet_from_text__for_unittest
 from .test_wallet_vertical import WalletIntegrityHelper
 
 
-class TestCommands(ElectrumTestCase):
+class TestCommands(BitraamTestCase):
 
     def setUp(self):
         super().setUp()
-        self.config = SimpleConfig({'electrum_path': self.electrum_path})
+        self.config = SimpleConfig({'bitraam_path': self.bitraam_path})
 
     def test_setconfig_non_auth_number(self):
         self.assertEqual(7777, Commands._setconfig_normalize_value('rpcport', "7777"))
@@ -47,18 +47,18 @@ class TestCommands(ElectrumTestCase):
         self.assertEqual(True, Commands._setconfig_normalize_value('show_console_tab', "True"))
 
     def test_setconfig_non_auth_list(self):
-        self.assertEqual(['file:///var/www/', 'https://electrum.org'],
-            Commands._setconfig_normalize_value('url_rewrite', "['file:///var/www/','https://electrum.org']"))
-        self.assertEqual(['file:///var/www/', 'https://electrum.org'],
-            Commands._setconfig_normalize_value('url_rewrite', '["file:///var/www/","https://electrum.org"]'))
+        self.assertEqual(['file:///var/www/', 'https://bitraam.org'],
+            Commands._setconfig_normalize_value('url_rewrite', "['file:///var/www/','https://bitraam.org']"))
+        self.assertEqual(['file:///var/www/', 'https://bitraam.org'],
+            Commands._setconfig_normalize_value('url_rewrite', '["file:///var/www/","https://bitraam.org"]'))
 
     def test_setconfig_auth(self):
         self.assertEqual("7777", Commands._setconfig_normalize_value('rpcuser', "7777"))
         self.assertEqual("7777", Commands._setconfig_normalize_value('rpcuser', '7777'))
         self.assertEqual("7777", Commands._setconfig_normalize_value('rpcpassword', '7777'))
         self.assertEqual("2asd", Commands._setconfig_normalize_value('rpcpassword', '2asd'))
-        self.assertEqual("['file:///var/www/','https://electrum.org']",
-            Commands._setconfig_normalize_value('rpcpassword', "['file:///var/www/','https://electrum.org']"))
+        self.assertEqual("['file:///var/www/','https://bitraam.org']",
+            Commands._setconfig_normalize_value('rpcpassword', "['file:///var/www/','https://bitraam.org']"))
 
     def test_setconfig_none(self):
         self.assertEqual(None, Commands._setconfig_normalize_value("somekey", "None"))
@@ -173,7 +173,7 @@ class TestCommands(ElectrumTestCase):
             await cmds.decrypt(pubkey, ciphertext+"trailinggarbage", wallet=wallet)
 
     def test_format_satoshis(self):
-        format_satoshis = electrum.commands.format_satoshis
+        format_satoshis = bitraam.commands.format_satoshis
         # input type is highly polymorphic:
         self.assertEqual(format_satoshis(None), None)
         self.assertEqual(format_satoshis(1), "0.00000001")
@@ -189,21 +189,21 @@ class TestCommands(ElectrumTestCase):
         self.assertEqual(format_satoshis(41754.681), "0.00041755")
 
 
-class TestCommandsTestnet(ElectrumTestCase):
+class TestCommandsTestnet(BitraamTestCase):
     TESTNET = True
 
     def setUp(self):
         super().setUp()
-        self.config = SimpleConfig({'electrum_path': self.electrum_path})
+        self.config = SimpleConfig({'bitraam_path': self.bitraam_path})
         self.config.NETWORK_OFFLINE = True
-        shutil.copytree(os.path.join(os.path.dirname(__file__), "fiat_fx_data"), os.path.join(self.electrum_path, "cache"))
+        shutil.copytree(os.path.join(os.path.dirname(__file__), "fiat_fx_data"), os.path.join(self.bitraam_path, "cache"))
         self.config.FX_EXCHANGE = "BitFinex"
         self.config.FX_CURRENCY = "EUR"
-        self._default_default_timezone = electrum.util.DEFAULT_TIMEZONE
-        electrum.util.DEFAULT_TIMEZONE = datetime.timezone.utc
+        self._default_default_timezone = bitraam.util.DEFAULT_TIMEZONE
+        bitraam.util.DEFAULT_TIMEZONE = datetime.timezone.utc
 
     def tearDown(self):
-        electrum.util.DEFAULT_TIMEZONE = self._default_default_timezone
+        bitraam.util.DEFAULT_TIMEZONE = self._default_default_timezone
         super().tearDown()
 
     async def asyncSetUp(self):
@@ -742,7 +742,7 @@ class TestCommandsTestnet(ElectrumTestCase):
         assert await cmds.export_lightning_preimage(payment_hash=os.urandom(32).hex(), wallet=w) is None
 
     @mock.patch.object(wallet.Abstract_Wallet, 'save_db')
-    @mock.patch('electrum.commands.LN_P2P_NETWORK_TIMEOUT', 0.001)
+    @mock.patch('bitraam.commands.LN_P2P_NETWORK_TIMEOUT', 0.001)
     async def test_add_peer(self, *mock_args):
         w = restore_wallet_from_text__for_unittest(
             'disagree rug lemon bean unaware square alone beach tennis exhibit fix mimic',

@@ -18,7 +18,7 @@ rm -rf signed/stripped
 mkdir -p signed >/dev/null 2>&1
 mkdir -p signed/stripped >/dev/null 2>&1
 
-version=$("$CONTRIB"/print_electrum_version.py)
+version=$("$CONTRIB"/print_bitraam_version.py)
 
 echo "Found $(ls dist/*.exe | wc -w) files to verify."
 
@@ -28,8 +28,8 @@ for mine in $(ls dist/*.exe); do
     if test -f "signed/$f"; then
         echo "Found file at signed/$f"
     else
-        echo "Downloading https://download.electrum.org/$version/$f"
-        wget -q "https://download.electrum.org/$version/$f" -O "signed/$f"
+        echo "Downloading https://download.bitraam.org/$version/$f"
+        wget -q "https://download.bitraam.org/$version/$f" -O "signed/$f"
     fi
     out="signed/stripped/$f"
     # Remove PE signature from signed binary

@@ -1,5 +1,5 @@
 # Copyright (c) 2018-2023 The HWI developers
-# Copyright (c) 2023 The Electrum developers
+# Copyright (c) 2023 The Bitraam developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 #
@@ -8,9 +8,9 @@
 from binascii import unhexlify
 import unittest
 
-import electrum_ecc as ecc
+import bitraam_ecc as ecc
 
-from electrum.descriptor import (
+from bitraam.descriptor import (
     parse_descriptor,
     MultisigDescriptor,
     SHDescriptor,
@@ -20,12 +20,12 @@ from electrum.descriptor import (
     WSHDescriptor,
     PubkeyProvider,
 )
-from electrum.util import bfh
+from bitraam.util import bfh
 
-from . import ElectrumTestCase, as_testnet
+from . import BitraamTestCase, as_testnet
 
 
-class TestDescriptor(ElectrumTestCase):
+class TestDescriptor(BitraamTestCase):
 
     @as_testnet
     def test_parse_descriptor_with_origin(self):

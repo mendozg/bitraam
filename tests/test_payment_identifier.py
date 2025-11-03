@@ -2,37 +2,37 @@ import os
 import asyncio
 from unittest.mock import patch
 
-from electrum import SimpleConfig
-from electrum.invoices import Invoice
-from electrum.payment_identifier import (maybe_extract_lightning_payment_identifier, PaymentIdentifier,
+from bitraam import SimpleConfig
+from bitraam.invoices import Invoice
+from bitraam.payment_identifier import (maybe_extract_lightning_payment_identifier, PaymentIdentifier,
                                          PaymentIdentifierType, PaymentIdentifierState,
                                          invoice_from_payment_identifier)
-from electrum.lnurl import LNURL6Data, LNURL3Data, LNURLError
-from electrum.transaction import PartialTxOutput
+from bitraam.lnurl import LNURL6Data, LNURL3Data, LNURLError
+from bitraam.transaction import PartialTxOutput
 
-from . import ElectrumTestCase
+from . import BitraamTestCase
 from . import restore_wallet_from_text__for_unittest
 
 
 class WalletMock:
-    def __init__(self, electrum_path):
+    def __init__(self, bitraam_path):
         self.config = SimpleConfig({
-            'electrum_path': electrum_path,
+            'bitraam_path': bitraam_path,
             'decimal_point': 5
         })
         self.contacts = None
 
 
-class TestPaymentIdentifier(ElectrumTestCase):
+class TestPaymentIdentifier(BitraamTestCase):
     def setUp(self):
         super().setUp()
-        self.wallet = WalletMock(self.electrum_path)
+        self.wallet = WalletMock(self.bitraam_path)
 
         self.config = SimpleConfig({
-            'electrum_path': self.electrum_path,
+            'bitraam_path': self.bitraam_path,
             'decimal_point': 5
         })
-        self.wallet2_path = os.path.join(self.electrum_path, "somewallet2")
+        self.wallet2_path = os.path.join(self.bitraam_path, "somewallet2")
 
     def test_maybe_extract_lightning_payment_identifier(self):
         bolt11 = "lnbc1ps9zprzpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqsp5zyg3zyg3zyg3zyg3zyg3zyg3zyg3zyg3zyg3zyg3zyg3zyg3zygsdqq9qypqszpyrpe4tym8d3q87d43cgdhhlsrt78epu7u99mkzttmt2wtsx0304rrw50addkryfrd3vn3zy467vxwlmf4uz7yvntuwjr2hqjl9lw5cqwtp2dy"
@@ -164,7 +164,7 @@ class TestPaymentIdentifier(ElectrumTestCase):
         self.assertEqual(PaymentIdentifierType.LNURL, pi.type)
         self.assertTrue(pi.need_resolve())
 
-    @patch('electrum.payment_identifier.request_lnurl')
+    @patch('bitraam.payment_identifier.request_lnurl')
     def test_lnurl_pay_resolve(self, mock_request_lnurl):
         """Test LNURL-pay (LNURL6) with mocked resolve"""
         valid_lnurl = 'LNURL1DP68GURN8GHJ7MRWVF5HGUEWD3HXZERYWFJHXUEWVDHK6TMVDE6HYMRS9ANRV46DXETQPJQCS4'
@@ -198,7 +198,7 @@ class TestPaymentIdentifier(ElectrumTestCase):
         self.assertEqual('Test payment', pi.lnurl_data.metadata_plaintext)
         self.assertEqual(100, pi.lnurl_data.comment_allowed)
 
-    @patch('electrum.payment_identifier.request_lnurl')
+    @patch('bitraam.payment_identifier.request_lnurl')
     def test_lnurl_withdraw_resolve(self, mock_request_lnurl):
         """Test LNURL-withdraw (LNURL3) with mocked resolve"""
         valid_lnurl = 'LNURL1DP68GURN8GHJ7MRWVF5HGUEWD3HXZERYWFJHXUEWVDHK6TM4WPNHYCTYV4EJ7DFCVGENSDPH8QCRZETXVGCXGCMPVFJR' \
@@ -232,7 +232,7 @@ class TestPaymentIdentifier(ElectrumTestCase):
         self.assertEqual(1000, pi.lnurl_data.min_withdrawable_sat)
         self.assertEqual(500000, pi.lnurl_data.max_withdrawable_sat)
 
-    @patch('electrum.payment_identifier.request_lnurl')
+    @patch('bitraam.payment_identifier.request_lnurl')
     def test_lnurl_resolve_error(self, mock_request_lnurl):
         """Test LNURL resolve error handling"""
         lnurl = 'LNURL1DP68GURN8GHJ7MRWVF5HGUEWD3HXZERYWFJHXUEWVDHK6TM4WPNHYCTYV4EJ7DFCVGENSDPH8QCRZETXVGCXGCMPVFJR' \

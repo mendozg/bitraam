@@ -1,4 +1,4 @@
-# Electrum AppArmor Profiles
+# Bitraam AppArmor Profiles
 AppArmor is a Mandatory Access Control (MAC) system which confines programs to a limited set of resources.
 AppArmor confinement is provided via profiles loaded into the kernel.
 
@@ -16,10 +16,10 @@ Verify that the profile is loaded:
 ```
 sudo apparmor_status
 ```
-Look for the entry corresponding to `electrum`
+Look for the entry corresponding to `bitraam`
 
 ## Usage 
-After installing the AppArmor profile, electrum will be restricted to the permissions specified in the profile.
+After installing the AppArmor profile, bitraam will be restricted to the permissions specified in the profile.
 
 ## Compatibility
 The help tab may not function as expected as browser permissions can be tricky (Tarball Binaries)

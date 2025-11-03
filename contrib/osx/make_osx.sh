@@ -5,8 +5,8 @@ set -e
 # Parameterize
 PYTHON_VERSION=3.12.10
 PY_VER_MAJOR="3.12"  # as it appears in fs paths
-PACKAGE=Electrum
-GIT_REPO=https://github.com/spesmilo/electrum
+PACKAGE=Bitraam
+GIT_REPO=https://github.com/mendozg/bitraam
 
 export GCC_STRIP_BINARIES="1"
 export PYTHONDONTWRITEBYTECODE=1  # don't create __pycache__/ folders with .pyc files
@@ -110,7 +110,7 @@ PYINSTALLER_COMMIT="306d4d92580fea7be7ff2c89ba112cdc6f73fac1"
     rm -fv PyInstaller/bootloader/Darwin-*/run* || true
     # add reproducible randomness. this ensures we build a different bootloader for each commit.
     # if we built the same one for all releases, that might also get anti-virus false positives
-    echo "const char *electrum_tag = \"tagged by Electrum@$ELECTRUM_COMMIT_HASH\";" >> ./bootloader/src/pyi_main.c
+    echo "const char *bitraam_tag = \"tagged by Bitraam@$ELECTRUM_COMMIT_HASH\";" >> ./bootloader/src/pyi_main.c
     pushd bootloader
     # compile bootloader
     python3 ./waf all CFLAGS="-static"
@@ -135,7 +135,7 @@ info "resetting git submodules."
 #       it is very useful here for reproducibility
 git submodule update --init --force
 
-info "preparing electrum-locale."
+info "preparing bitraam-locale."
 (
     if ! which msgfmt > /dev/null 2>&1; then
         brew install gettext
@@ -143,7 +143,7 @@ info "preparing electrum-locale."
     fi
     "$CONTRIB/locale/build_cleanlocale.sh"
     # we want the binary to have only compiled (.mo) locale files; not source (.po) files
-    rm -r "$PROJECT_ROOT/electrum/locale/locale"/*/electrum.po
+    rm -r "$PROJECT_ROOT/bitraam/locale/locale"/*/bitraam.po
 )
 
 
@@ -153,7 +153,7 @@ else
     info "Building libsecp256k1 dylib..."
     "$CONTRIB"/make_libsecp256k1.sh || fail "Could not build libsecp"
 fi
-cp -f "$DLL_TARGET_DIR"/libsecp256k1.*.dylib "$PROJECT_ROOT/electrum" || fail "Could not copy libsecp256k1 dylib"
+cp -f "$DLL_TARGET_DIR"/libsecp256k1.*.dylib "$PROJECT_ROOT/bitraam" || fail "Could not copy libsecp256k1 dylib"
 
 if [ ! -f "$DLL_TARGET_DIR/libzbar.0.dylib" ]; then
     info "Building ZBar dylib..."
@@ -161,7 +161,7 @@ if [ ! -f "$DLL_TARGET_DIR/libzbar.0.dylib" ]; then
 else
     info "Skipping ZBar build: reusing already built dylib."
 fi
-cp -f "$DLL_TARGET_DIR/libzbar.0.dylib" "$PROJECT_ROOT/electrum/" || fail "Could not copy ZBar dylib"
+cp -f "$DLL_TARGET_DIR/libzbar.0.dylib" "$PROJECT_ROOT/bitraam/" || fail "Could not copy ZBar dylib"
 
 if [ ! -f "$DLL_TARGET_DIR/libusb-1.0.dylib" ]; then
     info "Building libusb dylib..."
@@ -169,7 +169,7 @@ if [ ! -f "$DLL_TARGET_DIR/libusb-1.0.dylib" ]; then
 else
     info "Skipping libusb build: reusing already built dylib."
 fi
-cp -f "$DLL_TARGET_DIR/libusb-1.0.dylib" "$PROJECT_ROOT/electrum/" || fail "Could not copy libusb dylib"
+cp -f "$DLL_TARGET_DIR/libusb-1.0.dylib" "$PROJECT_ROOT/bitraam/" || fail "Could not copy libusb dylib"
 
 
 # opt out of compiling C extensions
@@ -199,9 +199,9 @@ python3 -m pip install --no-build-isolation --no-dependencies --no-binary :all: 
 info "Building $PACKAGE..."
 python3 -m pip install --no-build-isolation --no-dependencies \
     --cache-dir "$PIP_CACHE_DIR" --no-warn-script-location . > /dev/null || fail "Could not build $PACKAGE"
-# pyinstaller needs to be able to "import electrum_ecc", for which we need libsecp256k1:
+# pyinstaller needs to be able to "import bitraam_ecc", for which we need libsecp256k1:
 # (or could try "pip install -e" instead)
-cp "$DLL_TARGET_DIR"/libsecp256k1.*.dylib "$VENV_DIR/lib/python$PY_VER_MAJOR/site-packages/electrum_ecc/"
+cp "$DLL_TARGET_DIR"/libsecp256k1.*.dylib "$VENV_DIR/lib/python$PY_VER_MAJOR/site-packages/bitraam_ecc/"
 
 # strip debug symbols of some compiled libs
 # - hidapi (hid.cpython-39-darwin.so) in particular is not reproducible without this
@@ -211,7 +211,7 @@ find "$VENV_DIR/lib/python$PY_VER_MAJOR/site-packages/" -type f -name '*.so' -pr
 info "Faking timestamps..."
 find . -exec touch -t '200101220000' {} + || true
 
-# note: no --dirty, as we have dirtied electrum/locale/ ourselves.
+# note: no --dirty, as we have dirtied bitraam/locale/ ourselves.
 VERSION=$(git describe --tags --always)
 
 info "Building binary"
@@ -221,7 +221,7 @@ info "Finished building unsigned dist/${PACKAGE}.app. This hash should be reprod
 find "dist/${PACKAGE}.app" -type f -print0 | sort -z | xargs -0 shasum -a 256 | shasum -a 256
 
 info "Creating unsigned .DMG"
-hdiutil create -fs HFS+ -volname $PACKAGE -srcfolder dist/$PACKAGE.app dist/electrum-$VERSION-unsigned.dmg || fail "Could not create .DMG"
+hdiutil create -fs HFS+ -volname $PACKAGE -srcfolder dist/$PACKAGE.app dist/bitraam-$VERSION-unsigned.dmg || fail "Could not create .DMG"
 
 info "App was built successfully but was not code signed. Users may get security warnings from macOS."
 info "Now you also need to run sign_osx.sh to codesign/notarize the binary."

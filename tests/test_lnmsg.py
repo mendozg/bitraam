@@ -1,20 +1,20 @@
 import io
 
-from electrum.lnmsg import (read_bigsize_int, write_bigsize_int, FieldEncodingNotMinimal,
+from bitraam.lnmsg import (read_bigsize_int, write_bigsize_int, FieldEncodingNotMinimal,
                             UnexpectedEndOfStream, LNSerializer, UnknownMandatoryTLVRecordType,
                             MalformedMsg, MsgTrailingGarbage, MsgInvalidFieldOrder, encode_msg,
                             decode_msg, UnexpectedFieldSizeForEncoder, OnionWireSerializer,
                             UnknownMsgType)
-from electrum.lnonion import OnionRoutingFailure
-from electrum.util import bfh
-from electrum.lnutil import ShortChannelID, LnFeatures
-from electrum.channel_db import NodeInfo
-from electrum import constants
+from bitraam.lnonion import OnionRoutingFailure
+from bitraam.util import bfh
+from bitraam.lnutil import ShortChannelID, LnFeatures
+from bitraam.channel_db import NodeInfo
+from bitraam import constants
 
-from . import ElectrumTestCase
+from . import BitraamTestCase
 
 
-class TestLNMsg(ElectrumTestCase):
+class TestLNMsg(BitraamTestCase):
     TESTNET = True
 
     def test_write_bigsize_int(self):

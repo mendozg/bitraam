@@ -1,13 +1,13 @@
-from electrum import i18n
-from electrum.i18n import _ensure_translation_keeps_format_string_syntax_similar
+from bitraam import i18n
+from bitraam.i18n import _ensure_translation_keeps_format_string_syntax_similar
 
-from . import ElectrumTestCase
+from . import BitraamTestCase
 
 
 syntax_check_decorator = _ensure_translation_keeps_format_string_syntax_similar
 
 
-class TestSyntaxChecks(ElectrumTestCase):
+class TestSyntaxChecks(BitraamTestCase):
     # convention: source strings are lowercase, dest strings are uppercase
 
     def test_no_format(self):

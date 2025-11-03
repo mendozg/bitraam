@@ -19,7 +19,7 @@ except ImportError as e:
 project_root = os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 os.chdir(project_root)
 
-locale_dir = os.path.join(project_root, "electrum", "locale")
+locale_dir = os.path.join(project_root, "bitraam", "locale")
 if not os.path.exists(os.path.join(locale_dir, "locale")):
     raise Exception(f"missing git submodule for locale? {locale_dir}")
 
@@ -45,7 +45,7 @@ except (subprocess.CalledProcessError, OSError) as e1:
         raise Exception("missing Qt lupdate/convert tools. Maybe try 'apt install qt6-l10n-tools'")
 
 
-cmd = "find electrum -type f -name '*.py' -o -name '*.kv'"
+cmd = "find bitraam -type f -name '*.py' -o -name '*.kv'"
 files = subprocess.check_output(cmd, shell=True)
 
 with open("app.fil", "wb") as f:
@@ -63,7 +63,7 @@ subprocess.check_output(cmd)
 
 
 # add QML translations
-cmd = "find electrum/gui/qml -type f -name '*.qml'"
+cmd = "find bitraam/gui/qml -type f -name '*.qml'"
 files = subprocess.check_output(cmd, shell=True)
 
 with open(f"{build_dir}/qml.lst", "wb") as f:
@@ -82,8 +82,8 @@ subprocess.check_output(cmd)
 
 print("Fixing some paths in messages_qml.pot")
 #  sed from " ../../gui/qml/"
-#      to   " electrum/gui/qml/"
-cmd = ["sed", "-i", r"s/ ..\/..\/gui\/qml\// electrum\/gui\/qml\//g", f"{build_dir}/messages_qml.pot"]
+#      to   " bitraam/gui/qml/"
+cmd = ["sed", "-i", r"s/ ..\/..\/gui\/qml\// bitraam\/gui\/qml\//g", f"{build_dir}/messages_qml.pot"]
 subprocess.check_output(cmd)
 
 cmd = ["msgcat", "-u", "-o", f"{build_dir}/messages.pot", f"{build_dir}/messages_gettext.pot", f"{build_dir}/messages_qml.pot"]
@@ -92,7 +92,7 @@ subprocess.check_output(cmd)
 
 
 # prepare uploading to crowdin
-os.chdir(os.path.join(project_root, "electrum"))
+os.chdir(os.path.join(project_root, "bitraam"))
 
 crowdin_api_key = None
 filename = os.path.expanduser('~/.crowdin_api_key')
@@ -106,10 +106,10 @@ if not crowdin_api_key:
     sys.exit(1)
 print('Found crowdin_api_key. Will push updated source-strings to crowdin.')
 
-crowdin_project_id = 20482  # for "Electrum" project on crowdin
+crowdin_project_id = 20482  # for "Bitraam" project on crowdin
 locale_file_name = os.path.join(build_dir, "messages.pot")
 crowdin_file_name = "messages.pot"
-crowdin_file_id = 68  # for "/electrum-client/messages.pot"
+crowdin_file_id = 68  # for "/bitraam-client/messages.pot"
 global_headers = {"Authorization": "Bearer {}".format(crowdin_api_key)}
 
 # client.storages.add_storage(f)

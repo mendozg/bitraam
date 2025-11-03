@@ -6,10 +6,10 @@ import jsonpatch
 from jsonpatch import JsonPatchException
 from jsonpointer import JsonPointerException
 
-from . import ElectrumTestCase
+from . import BitraamTestCase
 
 
-class TestJsonpatch(ElectrumTestCase):
+class TestJsonpatch(BitraamTestCase):
 
     async def test_op_replace(self):
         data1 = {'foo': 'bar', 'numbers': [1, 3, 4, 8], 'dictlevelA1': {'secret1': 2, 'secret2': 4, 'secret3': 6}}

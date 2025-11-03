@@ -7,12 +7,12 @@ import shutil
 import functools
 import inspect
 
-import electrum
-import electrum.logging
-from electrum import constants
-from electrum import util
-from electrum.logging import Logger
-from electrum.wallet import restore_wallet_from_text
+import bitraam
+import bitraam.logging
+from bitraam import constants
+from bitraam import util
+from bitraam.logging import Logger
+from bitraam.wallet import restore_wallet_from_text
 
 
 # Set this locally to make the test suite run faster.
@@ -22,12 +22,12 @@ from electrum.wallet import restore_wallet_from_text
 FAST_TESTS = False
 
 
-electrum.logging._configure_stderr_logging(verbosity="*")
+bitraam.logging._configure_stderr_logging(verbosity="*")
 
-electrum.util.AS_LIB_USER_I_WANT_TO_MANAGE_MY_OWN_ASYNCIO_LOOP = True
+bitraam.util.AS_LIB_USER_I_WANT_TO_MANAGE_MY_OWN_ASYNCIO_LOOP = True
 
 
-class ElectrumTestCase(unittest.IsolatedAsyncioTestCase, Logger):
+class BitraamTestCase(unittest.IsolatedAsyncioTestCase, Logger):
     """Base class for our unit tests."""
 
     TESTNET = False
@@ -64,7 +64,7 @@ class ElectrumTestCase(unittest.IsolatedAsyncioTestCase, Logger):
             # or if a prior test raised  during `setUp` or `asyncSetUp` and never released the lock.
             raise Exception("timed out waiting for test_lock")
         super().setUp()
-        self.electrum_path = tempfile.mkdtemp(prefix="electrum-unittest-base-")
+        self.bitraam_path = tempfile.mkdtemp(prefix="bitraam-unittest-base-")
         assert util._asyncio_event_loop is None, "global event loop already set?!"
 
     async def asyncSetUp(self):
@@ -77,7 +77,7 @@ class ElectrumTestCase(unittest.IsolatedAsyncioTestCase, Logger):
 
     def tearDown(self):
         util.callback_mgr.clear_all_callbacks()
-        shutil.rmtree(self.electrum_path)
+        shutil.rmtree(self.bitraam_path)
         super().tearDown()
         util._asyncio_event_loop = None  # cleared here, at the ~last possible moment. asyncTearDown is too early.
         self._test_lock.release()

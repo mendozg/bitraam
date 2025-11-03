@@ -5,26 +5,26 @@ import time
 from functools import partial
 import logging
 
-import electrum_ecc as ecc
-from electrum_ecc import ECPrivkey
+import bitraam_ecc as ecc
+from bitraam_ecc import ECPrivkey
 
-from electrum import SimpleConfig
-from electrum.lnmsg import decode_msg, OnionWireSerializer
-from electrum.lnonion import (
+from bitraam import SimpleConfig
+from bitraam.lnmsg import decode_msg, OnionWireSerializer
+from bitraam.lnonion import (
     OnionHopsDataSingle, OnionPacket,
     process_onion_packet, get_bolt04_onion_key, encrypt_onionmsg_data_tlv,
     get_shared_secrets_along_route, new_onion_packet, ONION_MESSAGE_LARGE_SIZE,
     HOPS_DATA_SIZE, InvalidPayloadSize)
-from electrum.crypto import get_ecdh, privkey_to_pubkey
-from electrum.lnutil import LnFeatures, Keypair
-from electrum.onion_message import (
+from bitraam.crypto import get_ecdh, privkey_to_pubkey
+from bitraam.lnutil import LnFeatures, Keypair
+from bitraam.onion_message import (
     blinding_privkey, create_blinded_path, encrypt_onionmsg_tlv_hops_data,
     OnionMessageManager, NoRouteFound, Timeout
 )
-from electrum.util import bfh, read_json_file, OldTaskGroup, get_asyncio_loop
-from electrum.logging import console_stderr_handler
+from bitraam.util import bfh, read_json_file, OldTaskGroup, get_asyncio_loop
+from bitraam.logging import console_stderr_handler
 
-from . import ElectrumTestCase, test_lnpeer
+from . import BitraamTestCase, test_lnpeer
 from .test_lnpeer import PutIntoOthersQueueTransport, PeerInTests, keypair
 
 TIME_STEP = 0.01  # run tests 100 x faster
@@ -55,7 +55,7 @@ BLINDING_OVERRIDE_SECRET = bfh(ALICE_TLVS['blinding_override_secret'])
 SESSION_KEY = bfh(test_vectors['generate']['session_key'])
 
 
-class TestOnionMessage(ElectrumTestCase):
+class TestOnionMessage(BitraamTestCase):
 
     def test_path_pubkeys_blinded_path_appended(self):
 
@@ -107,7 +107,7 @@ class TestOnionMessage(ElectrumTestCase):
         self.assertEqual(packet.to_bytes(), ONION_MESSAGE_PACKET)
 
     def test_onion_message_payload_size(self):
-        # Note: payload size is not _strictly_ limited to (1300+66, 32768+66), but Electrum only generates these sizes
+        # Note: payload size is not _strictly_ limited to (1300+66, 32768+66), but Bitraam only generates these sizes
         # However, the spec allows for other payload sizes.
         # https://github.com/lightning/bolts/blob/master/04-onion-routing.md
         # "SHOULD set onion_message_packet len to 1366 or 32834."
@@ -300,7 +300,7 @@ class MockPeer:
             self.on_send_message(*args, **kwargs)
 
 
-class TestOnionMessageManager(ElectrumTestCase):
+class TestOnionMessageManager(BitraamTestCase):
 
     @classmethod
     def setUpClass(cls):
@@ -343,7 +343,7 @@ class TestOnionMessageManager(ElectrumTestCase):
             key=rkey)
 
         t3_result = await t3
-        self.assertEqual(t3_result, ({'path_id': {'data': b'electrum' + rkey}}, {}))
+        self.assertEqual(t3_result, ({'path_id': {'data': b'bitraam' + rkey}}, {}))
 
     async def run_test4(self, t, rkey):
         t4 = t.submit_send(
@@ -352,7 +352,7 @@ class TestOnionMessageManager(ElectrumTestCase):
             key=rkey)
 
         t4_result = await t4
-        self.assertEqual(t4_result, ({'path_id': {'data': b'electrum' + rkey}}, {}))
+        self.assertEqual(t4_result, ({'path_id': {'data': b'bitraam' + rkey}}, {}))
 
     async def run_test5(self, t):
         t5 = t.submit_send(
@@ -372,11 +372,11 @@ class TestOnionMessageManager(ElectrumTestCase):
             time.sleep(2*TIME_STEP)
 
         def withreply(key, *args, **kwargs):
-            t.on_onion_message_received({'path_id': {'data': b'electrum' + key}}, {})
+            t.on_onion_message_received({'path_id': {'data': b'bitraam' + key}}, {})
 
         def slowwithreply(key, *args, **kwargs):
             time.sleep(2*TIME_STEP)
-            t.on_onion_message_received({'path_id': {'data': b'electrum' + key}}, {})
+            t.on_onion_message_received({'path_id': {'data': b'bitraam' + key}}, {})
 
         rkey1 = bfh('0102030405060708')
         rkey2 = bfh('0102030405060709')

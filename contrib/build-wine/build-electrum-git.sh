@@ -1,7 +1,7 @@
 #!/bin/bash
 
-NAME_ROOT=electrum
-PROJECT_ROOT="$WINEPREFIX/drive_c/electrum"
+NAME_ROOT=bitraam
+PROJECT_ROOT="$WINEPREFIX/drive_c/bitraam"
 
 export PYTHONDONTWRITEBYTECODE=1  # don't create __pycache__/ folders with .pyc files
 
@@ -16,11 +16,11 @@ pushd "$PROJECT_ROOT"
 VERSION=$(git describe --tags --dirty --always)
 info "Last commit: $VERSION"
 
-info "preparing electrum-locale."
+info "preparing bitraam-locale."
 (
     "$CONTRIB/locale/build_cleanlocale.sh"
     # we want the binary to have only compiled (.mo) locale files; not source (.po) files
-    rm -r "$PROJECT_ROOT/electrum/locale/locale"/*/electrum.po
+    rm -r "$PROJECT_ROOT/bitraam/locale/locale"/*/bitraam.po
 )
 
 find -exec touch -h -d '2000-11-11T11:11:11+00:00' {} +
@@ -50,11 +50,11 @@ $WINE_PYTHON -m pip install --no-build-isolation --no-dependencies --no-warn-scr
 
 pushd "$PROJECT_ROOT"
 # see https://github.com/pypa/pip/issues/2195 -- pip makes a copy of the entire directory
-info "Pip installing Electrum. This might take a long time if the project folder is large."
+info "Pip installing Bitraam. This might take a long time if the project folder is large."
 $WINE_PYTHON -m pip install --no-build-isolation --no-dependencies --no-warn-script-location .
-# pyinstaller needs to be able to "import electrum_ecc", for which we need libsecp256k1:
+# pyinstaller needs to be able to "import bitraam_ecc", for which we need libsecp256k1:
 # (or could try "pip install -e" instead)
-cp electrum/libsecp256k1-*.dll "$WINEPREFIX/drive_c/python3/Lib/site-packages/electrum_ecc/"
+cp bitraam/libsecp256k1-*.dll "$WINEPREFIX/drive_c/python3/Lib/site-packages/bitraam_ecc/"
 popd
 
 
@@ -70,11 +70,11 @@ find -exec touch -h -d '2000-11-11T11:11:11+00:00' {} +
 popd
 
 info "building NSIS installer"
-# $VERSION could be passed to the electrum.nsi script, but this would require some rewriting in the script itself.
-makensis -DPRODUCT_VERSION=$VERSION electrum.nsi
+# $VERSION could be passed to the bitraam.nsi script, but this would require some rewriting in the script itself.
+makensis -DPRODUCT_VERSION=$VERSION bitraam.nsi
 
 cd dist
-mv electrum-setup.exe $NAME_ROOT-$VERSION-setup.exe
+mv bitraam-setup.exe $NAME_ROOT-$VERSION-setup.exe
 cd ..
 
 info "Padding binaries to 8-byte boundaries, and fixing COFF image checksum in PE header"
@@ -119,4 +119,4 @@ EOF
     done
 )
 
-sha256sum dist/electrum*.exe
+sha256sum dist/bitraam*.exe

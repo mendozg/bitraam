@@ -3,7 +3,7 @@
 set -e
 
 PROJECT_ROOT="$(dirname "$(readlink -e "$0")")/../.."
-LOCALE="$PROJECT_ROOT/electrum/locale/"
+LOCALE="$PROJECT_ROOT/bitraam/locale/"
 
 cd "$PROJECT_ROOT"
 
@@ -22,7 +22,7 @@ fail=0
 
 
 if [ $(date +%s -d "2 weeks ago") -gt $(get_git_mtime "$LOCALE") ]; then
-    echo "Last update from electrum-locale is older than 2 weeks."\
+    echo "Last update from bitraam-locale is older than 2 weeks."\
          "Please update it to incorporate the latest translations from crowdin."
     fail=1
 fi

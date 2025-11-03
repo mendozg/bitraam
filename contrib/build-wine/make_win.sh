@@ -25,7 +25,7 @@ export CONTRIB="$here/.."
 export PROJECT_ROOT="$CONTRIB/.."
 export CACHEDIR="$here/.cache/$WIN_ARCH/build"
 export PIP_CACHE_DIR="$here/.cache/$WIN_ARCH/wine_pip_cache"
-export WINE_PIP_CACHE_DIR="c:/electrum/contrib/build-wine/.cache/$WIN_ARCH/wine_pip_cache"
+export WINE_PIP_CACHE_DIR="c:/bitraam/contrib/build-wine/.cache/$WIN_ARCH/wine_pip_cache"
 export DLL_TARGET_DIR="$CACHEDIR/dlls"
 
 export WINEPREFIX="/opt/wine64"
@@ -94,6 +94,6 @@ find -exec touch -h -d '2000-11-11T11:11:11+00:00' {} +
 popd
 ls -l /opt/wine64/drive_c/python*
 
-"$here/build-electrum-git.sh" || fail "build-electrum-git failed"
+"$here/build-bitraam-git.sh" || fail "build-bitraam-git failed"
 
 info "Done."

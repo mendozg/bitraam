@@ -1,9 +1,9 @@
-from electrum.fee_policy import FeeHistogram
+from bitraam.fee_policy import FeeHistogram
 
-from . import ElectrumTestCase
+from . import BitraamTestCase
 
 
-class Test_FeeHistogram(ElectrumTestCase):
+class Test_FeeHistogram(BitraamTestCase):
 
     def setUp(self):
         super(Test_FeeHistogram, self).setUp()

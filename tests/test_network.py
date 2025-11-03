@@ -3,15 +3,15 @@ import tempfile
 import unittest
 from typing import List
 
-from electrum import constants
-from electrum.simple_config import SimpleConfig
-from electrum import blockchain
-from electrum.interface import Interface, ServerAddr, ChainResolutionMode
-from electrum.crypto import sha256
-from electrum.util import OldTaskGroup
-from electrum import util
+from bitraam import constants
+from bitraam.simple_config import SimpleConfig
+from bitraam import blockchain
+from bitraam.interface import Interface, ServerAddr, ChainResolutionMode
+from bitraam.crypto import sha256
+from bitraam.util import OldTaskGroup
+from bitraam import util
 
-from . import ElectrumTestCase
+from . import BitraamTestCase
 
 
 CRM = ChainResolutionMode
@@ -83,7 +83,7 @@ class MockInterface(Interface):
         return
 
 
-class TestHeaderChainResolution(ElectrumTestCase):
+class TestHeaderChainResolution(BitraamTestCase):
 
     @classmethod
     def setUpClass(cls):
@@ -101,7 +101,7 @@ class TestHeaderChainResolution(ElectrumTestCase):
 
     async def asyncSetUp(self):
         await super().asyncSetUp()
-        self.config = SimpleConfig({'electrum_path': self.electrum_path})
+        self.config = SimpleConfig({'bitraam_path': self.bitraam_path})
         self.interface = MockInterface(self.config)
 
     async def test_catchup_one_block_behind(self):

@@ -52,7 +52,7 @@ Typically, the build flow is:
     are *not* reproducible.
 
     When non-empty, it should be set to a git ref. We will create a fresh git clone
-    checked out at that reference in `/tmp/electrum_build/`, and build there.
+    checked out at that reference in `/tmp/bitraam_build/`, and build there.
 
 - `ELECBUILD_NOCACHE=1`
 

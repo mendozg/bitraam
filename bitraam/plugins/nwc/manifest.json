@@ -1,0 +1,9 @@
+{
+  "name": "nwc",
+  "fullname": "Nostr Wallet Connect",
+  "description": "This plugin allows remote control of Bitraam lightning wallets via Nostr NIP-47.",
+  "author": "The Bitraam Developers",
+  "available_for": ["cmdline", "qt"],
+  "icon":"nwc.png",
+  "version": "0.0.1"
+}

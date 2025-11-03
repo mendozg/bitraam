@@ -24,9 +24,9 @@ export BUILD_TIME         := $(shell LC_ALL=C TZ=UTC date +'%H:%M:%S' -d @$(SOUR
 
 prepare:
 	# running pre build setup
-	# copy electrum to main.py
+	# copy bitraam to main.py
 	@cp buildozer_$(ELEC_APK_GUI).spec ../../buildozer.spec
-	@cp ../../run_electrum ../../main.py
+	@cp ../../run_bitraam ../../main.py
 apk:
 	@make prepare
 	@-cd ../..; buildozer android debug
@@ -37,7 +37,7 @@ release:
 	@make clean
 clean:
 	# Cleaning up
-	# rename main.py to electrum
+	# rename main.py to bitraam
 	@-rm ../../main.py
 	# remove buildozer.spec
 	@-rm ../../buildozer.spec

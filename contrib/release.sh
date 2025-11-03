@@ -8,7 +8,7 @@
 # - builds all reproducible binaries,
 # - downloads binaries built by the release manager (from airlock if SFTPUSER, else from website),
 #   compares and signs them,
-# - and then uploads sigs (if SFTPUSER), else they can be submitted as PR to spesmilo/electrum-signatures
+# - and then uploads sigs (if SFTPUSER), else they can be submitted as PR to spesmilo/bitraam-signatures
 # Note: the .dmg should be built separately beforehand and copied into dist/
 #       (as it is built on a separate machine)
 #
@@ -20,7 +20,7 @@
 #
 # Note: steps before doing a new release:
 # - update locale:
-#     1. cd /opt/electrum-locale && ./update.py && git push
+#     1. cd /opt/bitraam-locale && ./update.py && git push
 #     2. cd to the submodule dir, and git pull
 #     3. cd .. && git push
 # - update RELEASE-NOTES and version.py
@@ -34,7 +34,7 @@
 # - now airlock contains new binaries and two sigs for each
 # - deploy.sh will verify sigs and move binaries across airlock
 # - new binaries are now publicly available on uploadserver, but not linked from website yet
-# - other BUILDERS can now also try to reproduce binaries and open PRs with sigs against spesmilo/electrum-signatures
+# - other BUILDERS can now also try to reproduce binaries and open PRs with sigs against spesmilo/bitraam-signatures
 #   - these PRs can get merged as they come
 #   - run add_cosigner
 # - after some time, RM can run release_www.sh to create and commit website-update
@@ -84,7 +84,7 @@ if [ ! -z "$RELEASEMANAGER" ] ; then
 fi
 
 
-VERSION=$("$CONTRIB"/print_electrum_version.py)
+VERSION=$("$CONTRIB"/print_bitraam_version.py)
 info "VERSION: $VERSION"
 REV=$(git describe --tags)
 info "REV: $REV"
@@ -102,7 +102,7 @@ fi
 set -x
 
 # create tarball
-tarball="Electrum-$VERSION.tar.gz"
+tarball="Bitraam-$VERSION.tar.gz"
 if test -f "dist/$tarball"; then
     info "file exists: $tarball"
 else
@@ -110,7 +110,7 @@ else
 fi
 
 # create source-only tarball
-srctarball="Electrum-sourceonly-$VERSION.tar.gz"
+srctarball="Bitraam-sourceonly-$VERSION.tar.gz"
 if test -f "dist/$srctarball"; then
     info "file exists: $srctarball"
 else
@@ -118,7 +118,7 @@ else
 fi
 
 # appimage
-appimage="electrum-$REV-x86_64.AppImage"
+appimage="bitraam-$REV-x86_64.AppImage"
 if test -f "dist/$appimage"; then
     info "file exists: $appimage"
 else
@@ -127,9 +127,9 @@ fi
 
 
 # windows
-win1="electrum-$REV.exe"
-win2="electrum-$REV-portable.exe"
-win3="electrum-$REV-setup.exe"
+win1="bitraam-$REV.exe"
+win2="bitraam-$REV-portable.exe"
+win3="bitraam-$REV-setup.exe"
 if test -f "dist/$win1"; then
     info "file exists: $win1"
 else
@@ -150,13 +150,13 @@ else
 fi
 
 # android
-apk1="Electrum-$VERSION-armeabi-v7a-release.apk"
-apk2="Electrum-$VERSION-arm64-v8a-release.apk"
-apk3="Electrum-$VERSION-x86_64-release.apk"
+apk1="Bitraam-$VERSION-armeabi-v7a-release.apk"
+apk2="Bitraam-$VERSION-arm64-v8a-release.apk"
+apk3="Bitraam-$VERSION-x86_64-release.apk"
 for arch in armeabi-v7a arm64-v8a x86_64
 do
-    apk="Electrum-$VERSION-$arch-release.apk"
-    apk_unsigned="Electrum-$VERSION-$arch-release-unsigned.apk"
+    apk="Bitraam-$VERSION-$arch-release.apk"
+    apk_unsigned="Bitraam-$VERSION-$arch-release-unsigned.apk"
     if test -f "dist/$apk"; then
         info "file exists: $apk"
     else
@@ -172,7 +172,7 @@ done
 
 # the macos binary is built on a separate machine.
 # the file that needs to be copied over is the codesigned release binary (regardless of builder role)
-dmg="electrum-$VERSION.dmg"
+dmg="bitraam-$VERSION.dmg"
 if ! test -f "dist/$dmg"; then
     if [ ! -z "$RELEASEMANAGER" ] ; then  # RM
         fail "dmg is missing, aborting. Please build and codesign the dmg on a mac and copy it over."
@@ -214,7 +214,7 @@ if [ -z "$RELEASEMANAGER" ] ; then
 
     if [ -z "$SSHUSER" ]; then
         info "No SFTP access, downloading binaries from website"
-        BASE_URL="https://download.electrum.org/$VERSION"
+        BASE_URL="https://download.bitraam.org/$VERSION"
         FILES_TO_DOWNLOAD=(
             "$tarball"
             "$srctarball"
@@ -239,7 +239,7 @@ if [ -z "$RELEASEMANAGER" ] ; then
     else
         # TODO check somehow that RM had finished uploading
         sftp -oBatchMode=no -b - "$SSHUSER@uploadserver" <<-EOF
-           cd electrum-downloads-airlock
+           cd bitraam-downloads-airlock
            cd "$VERSION"
            mget *
            bye
@@ -287,7 +287,7 @@ EOF
     done
 
     if [ -z "$SSHUSER" ]; then
-        info "Signing successfully, now open a pull request with your signatures to spesmilo/electrum-signatures"
+        info "Signing successfully, now open a pull request with your signatures to spesmilo/bitraam-signatures"
         exit 0
     else
         # upload sigs

@@ -1,14 +1,14 @@
-from electrum.coinchooser import CoinChooserPrivacy
-from electrum.util import NotEnoughFunds
-from electrum.transaction import PartialTxInput, TxOutpoint, Transaction, PartialTxOutput
-from electrum.fee_policy import FeePolicy, FixedFeePolicy
+from bitraam.coinchooser import CoinChooserPrivacy
+from bitraam.util import NotEnoughFunds
+from bitraam.transaction import PartialTxInput, TxOutpoint, Transaction, PartialTxOutput
+from bitraam.fee_policy import FeePolicy, FixedFeePolicy
 from functools import partial
 from typing import Optional
 
-from . import ElectrumTestCase
+from . import BitraamTestCase
 
 
-class TestCoinChooser(ElectrumTestCase):
+class TestCoinChooser(BitraamTestCase):
 
     @staticmethod
     def get_dummy_txin_1_284_474_sat() -> PartialTxInput:

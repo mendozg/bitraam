@@ -1,20 +1,20 @@
 import os
 
-from electrum.simple_config import SimpleConfig
-from electrum.wallet import Abstract_Wallet
-from electrum.daemon import Daemon
+from bitraam.simple_config import SimpleConfig
+from bitraam.wallet import Abstract_Wallet
+from bitraam.daemon import Daemon
 
-from . import ElectrumTestCase
+from . import BitraamTestCase
 from . import restore_wallet_from_text__for_unittest
 
 
-class TestContacts(ElectrumTestCase):
+class TestContacts(BitraamTestCase):
     TESTNET = True
 
     def setUp(self):
         super().setUp()
-        self.config = SimpleConfig({'electrum_path': self.electrum_path})
-        self.wallet_path = os.path.join(self.electrum_path, "somewallet1")
+        self.config = SimpleConfig({'bitraam_path': self.bitraam_path})
+        self.wallet_path = os.path.join(self.bitraam_path, "somewallet1")
 
     async def test_saving_contacts(self):
         text = 'cross end slow expose giraffe fuel track awake turtle capital ranch pulp'

@@ -1,0 +1,110 @@
+import os
+import signal
+import sys
+import threading
+from typing import TYPE_CHECKING
+
+try:
+    import PyQt6
+except Exception as e:
+    from bitraam import GuiImportError
+    raise GuiImportError(
+        "Error: Could not import PyQt6. On Linux systems, "
+        "you may try 'sudo apt-get install python3-pyqt6'") from e
+
+try:
+    import PyQt6.QtQml
+except Exception as e:
+    from bitraam import GuiImportError
+    raise GuiImportError(
+        "Error: Could not import PyQt6.QtQml. On Linux systems, "
+        "you may try 'sudo apt-get install python3-pyqt6.qtquick'") from e
+
+from PyQt6.QtCore import (Qt, QCoreApplication, QLocale, QTimer, QT_VERSION_STR, PYQT_VERSION_STR)
+from PyQt6.QtGui import QGuiApplication
+
+from bitraam.plugin import run_hook
+from bitraam.util import profiler
+from bitraam.logging import Logger
+from bitraam.gui import BaseBitraamGui
+from bitraam.gui.common_qt.i18n import BitraamTranslator
+
+
+if TYPE_CHECKING:
+    from bitraam.daemon import Daemon
+    from bitraam.simple_config import SimpleConfig
+    from bitraam.plugin import Plugins
+
+from .qeapp import BitraamQmlApplication, Exception_Hook
+
+
+class BitraamGui(BaseBitraamGui, Logger):
+    @profiler
+    def __init__(self, config: 'SimpleConfig', daemon: 'Daemon', plugins: 'Plugins'):
+        BaseBitraamGui.__init__(self, config=config, daemon=daemon, plugins=plugins)
+        Logger.__init__(self)
+
+        # uncomment to debug plugin and import tracing
+        # os.environ['QML_IMPORT_TRACE'] = '1'
+        # os.environ['QT_DEBUG_PLUGINS'] = '1'
+
+        os.environ['QT_ANDROID_DISABLE_ACCESSIBILITY'] = '1'
+
+        # set default locale to en_GB. This is for l10n (e.g. number formatting, number input etc),
+        # but not for i18n, which is handled by the Translator
+        # this can be removed once the backend wallet is fully l10n aware
+        QLocale.setDefault(QLocale('en_GB'))
+
+        self.logger.info(f"Qml GUI starting up... Qt={QT_VERSION_STR}, PyQt={PYQT_VERSION_STR}")
+        self.logger.info("CWD=%s" % os.getcwd())
+        # Uncomment this call to verify objects are being properly
+        # GC-ed when windows are closed
+        #plugins.add_jobs([DebugMem([Abstract_Wallet, SPV, Synchronizer,
+        #                            BitraamWindow], interval=5)])
+
+        if hasattr(Qt, "AA_ShareOpenGLContexts"):
+            QCoreApplication.setAttribute(Qt.AA_ShareOpenGLContexts)
+        if hasattr(QGuiApplication, 'setDesktopFileName'):
+            QGuiApplication.setDesktopFileName('bitraam')
+
+        if "QT_QUICK_CONTROLS_STYLE" not in os.environ:
+            os.environ["QT_QUICK_CONTROLS_STYLE"] = "Material"
+
+        self.gui_thread = threading.current_thread()
+        self.app = BitraamQmlApplication(sys.argv, config=config, daemon=daemon, plugins=plugins)
+        self.translator = BitraamTranslator()
+        self.app.installTranslator(self.translator)
+
+        # timer
+        self.timer = QTimer(self.app)
+        self.timer.setSingleShot(False)
+        self.timer.setInterval(500)  # msec
+        self.timer.timeout.connect(lambda: None)  # periodically enter python scope
+
+        # hook for crash reporter
+        Exception_Hook.maybe_setup(slot=self.app.appController.crash)
+
+        # Initialize any QML plugins
+        run_hook('init_qml', self.app)
+        self.app.engine.load('bitraam/gui/qml/components/main.qml')
+
+    def close(self):
+        self.app.quit()
+
+    def main(self):
+        if not self.app._valid:
+            return
+
+        self.timer.start()
+        signal.signal(signal.SIGINT, lambda *args: self._handle_sigint())
+
+        self.logger.info('Entering main loop')
+        self.app.exec()
+
+    def _handle_sigint(self):
+        self.app.appController.wantClose = True
+        self.stop()
+
+    def stop(self):
+        self.logger.info('closing GUI')
+        self.app.quit()

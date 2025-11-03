@@ -1,4 +1,4 @@
-# Running Electrum from source on macOS (development version)
+# Running Bitraam from source on macOS (development version)
 
 ## Prerequisites
 
@@ -10,28 +10,28 @@
 
 ### 1. Check out the code from GitHub:
 ```
-$ git clone https://github.com/spesmilo/electrum.git
-$ cd electrum
+$ git clone https://github.com/mendozg/bitraam.git
+$ cd bitraam
 $ git submodule update --init
 ```
 
 ### 2. Prepare for compiling libsecp256k1
 
-To be able to build the `electrum-ecc` package from source
-(which is pulled in when installing Electrum in the next step),
+To be able to build the `bitraam-ecc` package from source
+(which is pulled in when installing Bitraam in the next step),
 you need:
 ```
 $ brew install autoconf automake libtool coreutils
 ```
 
-### 3. Install Electrum
+### 3. Install Bitraam
 
 Run install (this should install the dependencies):
 ```
 $ python3 -m pip install --user -e ".[gui,crypto]"
 ```
 
-### 4. Run electrum:
+### 4. Run bitraam:
 ```
-$ ./run_electrum
+$ ./run_bitraam
 ```

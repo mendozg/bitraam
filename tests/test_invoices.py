@@ -1,27 +1,27 @@
 import os
 import time
 
-from electrum.simple_config import SimpleConfig
-from electrum.wallet import Standard_Wallet, Abstract_Wallet
-from electrum.invoices import PR_UNPAID, PR_PAID, PR_UNCONFIRMED, BaseInvoice, Invoice, LN_EXPIRY_NEVER
-from electrum.address_synchronizer import TX_HEIGHT_UNCONFIRMED
-from electrum.transaction import Transaction, PartialTxOutput
-from electrum.util import TxMinedInfo, InvoiceError
-from electrum.fee_policy import FixedFeePolicy
+from bitraam.simple_config import SimpleConfig
+from bitraam.wallet import Standard_Wallet, Abstract_Wallet
+from bitraam.invoices import PR_UNPAID, PR_PAID, PR_UNCONFIRMED, BaseInvoice, Invoice, LN_EXPIRY_NEVER
+from bitraam.address_synchronizer import TX_HEIGHT_UNCONFIRMED
+from bitraam.transaction import Transaction, PartialTxOutput
+from bitraam.util import TxMinedInfo, InvoiceError
+from bitraam.fee_policy import FixedFeePolicy
 
-from . import ElectrumTestCase
+from . import BitraamTestCase
 from . import restore_wallet_from_text__for_unittest
 
 
-class TestWalletPaymentRequests(ElectrumTestCase):
+class TestWalletPaymentRequests(BitraamTestCase):
     """test 'incoming' invoices"""
     TESTNET = True
 
     def setUp(self):
         super().setUp()
-        self.config = SimpleConfig({'electrum_path': self.electrum_path})
-        self.wallet1_path = os.path.join(self.electrum_path, "somewallet1")
-        self.wallet2_path = os.path.join(self.electrum_path, "somewallet2")
+        self.config = SimpleConfig({'bitraam_path': self.bitraam_path})
+        self.wallet1_path = os.path.join(self.bitraam_path, "somewallet1")
+        self.wallet2_path = os.path.join(self.bitraam_path, "somewallet2")
         self._orig_get_cur_time = BaseInvoice._get_cur_time
 
     def tearDown(self):
@@ -221,7 +221,7 @@ class TestWalletPaymentRequests(ElectrumTestCase):
         self.assertEqual(pr2, wallet1.get_request_by_addr(addr1))
 
 
-class TestBaseInvoice(ElectrumTestCase):
+class TestBaseInvoice(BitraamTestCase):
     TESTNET = True
 
     async def test_arg_validation(self):

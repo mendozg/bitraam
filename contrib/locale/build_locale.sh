@@ -26,5 +26,5 @@ mkdir -p "$DST_DIR"
 for i in *; do
     dir="$DST_DIR/$i/LC_MESSAGES"
     mkdir -p "$dir"
-    (msgfmt --output-file="$dir/electrum.mo" "$i/electrum.po" || true)
+    (msgfmt --output-file="$dir/bitraam.mo" "$i/bitraam.po" || true)
 done

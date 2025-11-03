@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from electrum import lnurl
+from bitraam import lnurl
 
 
 class TestLnurl(TestCase):

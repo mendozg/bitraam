@@ -55,35 +55,35 @@
    we are not a custodial service or a money transmitter. The Terms of
    Use screen also makes it clear that all issues are to be resolved
    in public, and that there is no user support via private channels.
- * Nostr support: (using new dependency: electrum-aionostr)
-   Electrum now uses Nostr in the context of submarine swaps,
-   and in several plugins. Electrum will not connect to Nostr
+ * Nostr support: (using new dependency: bitraam-aionostr)
+   Bitraam now uses Nostr in the context of submarine swaps,
+   and in several plugins. Bitraam will not connect to Nostr
    by default, only if required.
- * Submarine swaps over Nostr: The Electrum client will connect to
+ * Submarine swaps over Nostr: The Bitraam client will connect to
    Nostr in order to discover submarine swap providers, and to perform
    related RPCs. This means that:
-    - Anyone can become a swap provider (you need to run an Electrum
+    - Anyone can become a swap provider (you need to run an Bitraam
       daemon with the 'swapserver' plugin). Submarine swap providers
       advertise their fees and their liquidity on Nostr.
-      See https://electrum.readthedocs.io/en/latest/swapserver.html
+      See https://bitraam.readthedocs.io/en/latest/swapserver.html
       for set-up documentation.
     - Submarine swap providers do not need to provide an HTTP
       endpoint, since RPCs are performed via Nostr. They also do not
       need to have public lightning channels.
     - Because a decentralized service needs to be trustless, the
       option to perform zero-confirmation swaps has been removed from
-      Electrum.
-    Note that Electrum connections to Nostr relays are only initiated
+      Bitraam.
+    Note that Bitraam connections to Nostr relays are only initiated
     when the user uses the swap service, and the nostr public key used
     by the client is ephemeral. In contrast, swap providers use a
     persisted identity.
  * Third-party plugins:
-   - Electrum supports the installation of plugins distributed by
+   - Bitraam supports the installation of plugins distributed by
      third-parties as ZIP files. While it has long been possible to
-     install third-party plugins when running Electrum from python
+     install third-party plugins when running Bitraam from python
      sources, the same is now possible when using desktop binaries
      (Windows, MacOS, Linux). Third-party plugins are installed as ZIP
-     files in the user's electrum data directory.
+     files in the user's bitraam data directory.
    - In order to prevent plugin installation by malware, third-party
      plugins can only be enabled if the user enters a plugin
      authorization password (distinct from the wallet password).
@@ -104,7 +104,7 @@
    - migrate from Qt5 to Qt6 (#9189)
    - new: screenshot "protection" on Windows (#9898). Inspired by Windows
      Recall, by default screenshots will contain black rectangles in
-     place of the Electrum windows, to try to avoid leaking secret keys.
+     place of the Bitraam windows, to try to avoid leaking secret keys.
      This is opt-out using a config variable.
    - exposed option to connect to only a single server (--oneserver)
    - Wallet file encryption:
@@ -150,7 +150,7 @@
    'accounting addresses' (in orange).
  * New plugins:
    - Nostr Wallet Connect: This plugin allows remote control of
-     Electrum lightning wallets via Nostr NIP-47. (#9675)
+     Bitraam lightning wallets via Nostr NIP-47. (#9675)
    - Nostr Cosigner: This plugin facilitates the exchange of
      PSBTs between cosigners of a multisig wallet. It replaces the
      former 'Cosigner pool' plugin. Instead of relying on a central
@@ -188,7 +188,7 @@
    - replace QR code scanning library to make scanning fun again (#9983)
    - properly ask for (notification) OS permission access. (#9682)
    - add option to prevent the app touching the screen brightness (#9321)
- * Electrum protocol: add padding and some noise to messages (#9875)
+ * Bitraam protocol: add padding and some noise to messages (#9875)
  * Hardware wallets:
    - Coldcard: add feature to upload multisig wallet configuration to Coldcard via USB.
    - KeepKey: we now vendor our fork of keepkeylib,
@@ -204,9 +204,9 @@
      - Linux AppImage: x86_64, glibc 2.31 ("debian 11"-equivalent)
  * Dependencies:
    - the minimum required python version was increased: 3.8->3.10 (#9418)
-   - new first-party dep: electrum-aionostr
+   - new first-party dep: bitraam-aionostr
      - forked the seemingly unmaintained davestgermain/aionostr library
-   - new first-party dep: electrum-ecc
+   - new first-party dep: bitraam-ecc
      - split out our existing libsecp256k1 python bindings into
        this separate package
 
@@ -220,7 +220,7 @@
  * General:
    - new: add new historical exchange rate providers: Bitfinex and Bitstamp
    - fix: wizard regression: 2fa wallet setup erroring (#9253)
-   - fix: python 3.13 compat: could not connect to some self-signed electrum
+   - fix: python 3.13 compat: could not connect to some self-signed bitraam
      servers with weird TLS certs. As workaround, set pre-3.13 behaviour (#9258)
  * Lightning:
    - fix: send update_fee right away after channel_reestablish (3a465593)
@@ -436,8 +436,8 @@
  * Lightning:
    - security fix: multiple lightning-related security issues have
      been fixed. See disclosures:
-     - https://github.com/spesmilo/electrum/security/advisories/GHSA-9gpc-prj9-89x7
-     - https://github.com/spesmilo/electrum/security/advisories/GHSA-8r85-vp7r-hjxf
+     - https://github.com/mendozg/bitraam/security/advisories/GHSA-9gpc-prj9-89x7
+     - https://github.com/mendozg/bitraam/security/advisories/GHSA-8r85-vp7r-hjxf
    - fix: cannot sweep from channel after local-force-close, if using
      imported channel backup (#8536). Fixing this required adding a
      new field (local_payment_pubkey) to the channel backup
@@ -445,8 +445,8 @@
      (v0->v1). Both v0 and v1 can be imported, and we only export v1
      backups. When you force close a channel, the GUI will prompt you
      to save a backup. In that case, you must export the backup using
-     the updated Electrum, and not rely on a backup made with an older
-     release of Electrum.  Note that if you request a force close from
+     the updated Bitraam, and not rely on a backup made with an older
+     release of Bitraam.  Note that if you request a force close from
      the remote node or co-op close, you do not need to save a channel
      backup.
    - fix: we would sometimes attempt sending MPP even if not supported
@@ -484,10 +484,10 @@
 
 # Release 4.4.3 (May 11, 2023)
  * Intentionally break multisig wallets that have heterogeneous master
-   keys. Versions 4.4.0 to 4.4.2 of Electrum for Android did not check
+   keys. Versions 4.4.0 to 4.4.2 of Bitraam for Android did not check
    that master keys used the same script type. This may have resulted
    in the creation of multisig wallets that cannot be spent from
-   with any existing version of Electrum. It is not sure whether any
+   with any existing version of Bitraam. It is not sure whether any
    users are affected by this; if there are any, we will publish
    instructions on how to spend those coins (#8417, #8418).
  * Qt GUI:
@@ -623,7 +623,7 @@
  * Qt wizard: fix QR code not shown during 2fa wallet creation (#8071)
  * rework Tor-socks-proxy detection to reduce Tor-log-spam (#7317)
  * Android: add setting to enable debug logs (#7409)
- * fix payserver (merchant) js for electrum 4.3 invoice api (0fc90e07)
+ * fix payserver (merchant) js for bitraam 4.3 invoice api (0fc90e07)
  * bip21: more robust handling of URIs that include a "lightning" key
    (ac1d53f0, 2fd762c3, #8047)
 
@@ -735,10 +735,10 @@
    - keepkey: fix pairing with device using a workaround (#7779)
  * fix AppImage failing to run on certain systems (#7784)
  * fix "Automated BIP39 recovery" not scanning change paths (#7804)
- * bypass network proxy for localhost electrum server (#3126)
+ * bypass network proxy for localhost bitraam server (#3126)
  * security fix: remove support of "file://" URIs from BIP70 payment
    requests, which could be used to trigger "open()" on arbitrary files
-   (see https://github.com/spesmilo/electrum/security/advisories/GHSA-4fh4-hx35-r355)
+   (see https://github.com/mendozg/bitraam/security/advisories/GHSA-4fh4-hx35-r355)
 
 
 # Release 4.2.1 - (March 26, 2022)
@@ -841,7 +841,7 @@
  * imported wallets: when enabling the "Use change addresses" option,
    change will now be sent to a random unused imported address. (#7330)
    As before, by default, change is sent back to the "from address".
- * seed generation: make sure newly created electrum seeds don't have
+ * seed generation: make sure newly created bitraam seeds don't have
    correct bip39 checksum by chance (#6001)
  * other minor fixes
 
@@ -870,7 +870,7 @@
 This version is our second major release with support for the
 Lightning Network. While our initial Lightning release was mostly
 about implementing the protocol, this release brings features that are
-specifically aimed at keeping Electrum lightweight and trustless,
+specifically aimed at keeping Bitraam lightweight and trustless,
 while avoiding single points of failure. Most of the features listed
 below are user-visible.
  * The wallet creation wizard no longer asks for a seed type, and
@@ -896,7 +896,7 @@ below are user-visible.
      recovered. This assumes that the remote node is still online, did
      not lose its data, and accepts to force close the channel.
    - This option is only available for standard wallets with an
-     Electrum seed. It is not available for hardware wallets, because
+     Bitraam seed. It is not available for hardware wallets, because
      it requires a deterministic derivation of the nodeID. It is also
      not available in watching-only wallets, for the same reason. If a
      wallet can have recoverable channels but has an old nodeID, users
@@ -906,9 +906,9 @@ below are user-visible.
      NodeID plus 4 magic bytes) and is encrypted so that only the
      wallet that owns it can decrypt it. However, blockchain analysis
      will be able to tell that the transaction was probably created by
-     Electrum.
+     Bitraam.
    - If the 'use recoverable channels' option is enabled, other nodes
-     cannot open a channel to Electrum.
+     cannot open a channel to Bitraam.
    - If a channel is force-closed, the information in the on-chain
      backup is not sufficient to retrieve the funds in the to_local
      output, in case the wallet is lost in a boating accident before
@@ -919,7 +919,7 @@ below are user-visible.
    that they do not have to download the entire network
    graph. Trampoline routing was originally proposed by Bastien
    Teinturier and is used in the Phoenix wallet. Here is how
-   Trampoline works in Electrum:
+   Trampoline works in Bitraam:
    - Trampoline is enabled by default, in order to prevent unwanted
      download of the network gossip. If trampoline is disabled, the
      gossip will be downloaded, regardless of the existence of
@@ -928,7 +928,7 @@ below are user-visible.
      list of available trampolines is hardcoded in the client (it will
      remain so until support for trampoline routing is announced in
      gossip). 3 trampoline nodes are currently available on mainnet:
-     ACINQ, Electrum and Hodlister.
+     ACINQ, Bitraam and Hodlister.
    - If Trampoline is enabled:
       - payments use trampoline routing.
       - gossip is disabled.
@@ -938,11 +938,11 @@ below are user-visible.
    - There are two types of trampoline payments: legacy and trampoline
      end-to-end. Legacy payments are possible with any receiver, but
      they offer less privacy than end-to-end trampoline
-     payments. Electrum decides whether to perform legacy or
+     payments. Bitraam decides whether to perform legacy or
      end-to-end based on the features in the invoice:
-       - OPTION_TRAMPOLINE_ROUTING_OPT (bit 25) for Electrum
+       - OPTION_TRAMPOLINE_ROUTING_OPT (bit 25) for Bitraam
        - OPTION_TRAMPOLINE_ROUTING_OPT_ECLAIR (bit 51) for Eclair/Phoenix
-   - When performing a legacy payment, Electrum will add a second
+   - When performing a legacy payment, Bitraam will add a second
      trampoline node to the route in order to protect the privacy of
      the payer and payee. It will fall back to a single trampoline if
      the two-trampoline strategy has failed for all trampolines.
@@ -978,7 +978,7 @@ below are user-visible.
    on-chain transaction will be performed (sending a payment, opening
    a channel, initiating a submarine swap)
  * BIP-0350: use bech32m for witness version 1+ addresses (4315fa43).
-   We have supported sending to any witness version since Electrum
+   We have supported sending to any witness version since Bitraam
    3.0, using BIP-0173 (bech32) addresses. BIP-0350 makes a breaking
    change in address encoding, and recommends using a new encoding
    (bech32m) for sending to witness version 1 and later.
@@ -1018,7 +1018,7 @@ below are user-visible.
    - bugfix: during LN channel opening, if the client crashed at the
      wrong moment, the channel might not get fully persisted to disk,
      and would need manual console-tinkering to recover (#6656)
-   - Lightning is enabled by default. Electrum will not connect to
+   - Lightning is enabled by default. Bitraam will not connect to
      the Lightning Network until the user opens a channel. (#6639)
    - smarter node recommendation (to open channels with) (#6705)
  * user interface: some minor changes that aim to improve usability
@@ -1064,13 +1064,13 @@ below are user-visible.
 
 # Release 4.0.1 - (July 3, 2020)
  * Lightning Network support (experimental)
-   - Our implementation of Lightning relies on Electrum servers to
+   - Our implementation of Lightning relies on Bitraam servers to
      query channel states. Since servers can lie about the state of a
      channel, users should either use a server that they trust, or
      setup a private watchtower (see below). A watchtower is also
      recommended for lightning wallets that remain offline for
      extended periods of time (the default CSV 'to_self_delay' is 1
-     week). Please note that Electrum Personal Server (EPS) cannot be
+     week). Please note that Bitraam Personal Server (EPS) cannot be
      used with lightning wallets, because channels funding addresses
      are arbitrary.
    - Lightning funds cannot be restored from seed. Instead, users need
@@ -1097,20 +1097,20 @@ below are user-visible.
      We do not serve gossip queries, only consume them.
    - Submarine swaps: the GUI integrates a service that offers
      atomically exchanging on-chain and lightning bitcoins for a fee.
-     Electrum Technologies runs a central server for this, powered by
+     Bitraam Technologies runs a central server for this, powered by
      the Boltz backend.
-   - Watchtowers: Electrum can run a local watchtower (GUI setting),
+   - Watchtowers: Bitraam can run a local watchtower (GUI setting),
      or it can connect to a remote watchtower. A watchtower contains
      pre-signed transactions and does not need your private keys. A
-     local watchtower will watch your channels whenever an Electrum
+     local watchtower will watch your channels whenever an Bitraam
      instance is running, without needing access to your wallet file.
-     An Electrum daemon can be configured to be used as a remote
+     An Bitraam daemon can be configured to be used as a remote
      watchtower by setting 'watchtower_address', 'watchtower_user' and
      'watchtower_password'.
  * Partially Signed Bitcoin Transactions (PSBT, BIP-174) are supported
-   (#5721). The previous Electrum partial transaction format is no
+   (#5721). The previous Bitraam partial transaction format is no
    longer supported, i.e. this is an incompatible change. Users should
-   make sure that all instances of Electrum they use to co-sign or
+   make sure that all instances of Bitraam they use to co-sign or
    offline sign, are updated together.
  * Hardware wallets: several fixes in general; notable changes:
    - The BitBox02 is now supported (#5993)
@@ -1129,7 +1129,7 @@ below are user-visible.
    - Editable tx preview dialog that allows e.g. changing the locktime,
      toggling RBF, and manual coinjoins.
  * HTTP PayServer: The configuration of a bitcoin-accepting website
-   using Electrum has been simplified and requires fewer steps (see
+   using Bitraam has been simplified and requires fewer steps (see
    documentation). The Payserver supports BIP70 and Lightning payments.
  * Android:
    - We now build two APKs, one for ARMv7 and one for ARMv8
@@ -1235,9 +1235,9 @@ below are user-visible.
  * CoinChooser: performance of creating transactions has been improved
    significantly for large wallets. (d56917f4)
  * Importing/sweeping WIF keys: stricter checks (#4638, #5290)
- * Electrum protocol: the client's "user agent" has been changed from
-   "3.3.5" to "electrum/3.3.5". Other libraries connecting to servers
-   can consider not "spoofing" to be Electrum. (#5246)
+ * Bitraam protocol: the client's "user agent" has been changed from
+   "3.3.5" to "bitraam/3.3.5". Other libraries connecting to servers
+   can consider not "spoofing" to be Bitraam. (#5246)
  * Several other minor bugfixes and usability improvements.
 
 
@@ -1261,7 +1261,7 @@ below are user-visible.
 
  * Do not expose users to server error messages (#4968)
  * Notify users of new releases. Release announcements must be signed,
-   and they are verified byElectrum using a hardcoded Bitcoin address.
+   and they are verified byBitraam using a hardcoded Bitcoin address.
  * Hardware wallet fixes (#4991, #4993, #5006)
  * Display only QR code in QRcode Window
  * Fixed code signing on MacOS
@@ -1370,7 +1370,7 @@ below are user-visible.
  * The partial transaction format has been incompatibly changed. This
    was needed as for partial transactions the scriptSig/witness has to
    be parsed, but for signed transactions we did not want to do the
-   parsing.  Users should make sure that all instances of Electrum
+   parsing.  Users should make sure that all instances of Bitraam
    they use to co-sign or offline sign, are updated together.
  * Signing of partial transactions created with online imported
    addresses wallets now supports significantly more
@@ -1452,7 +1452,7 @@ below are user-visible.
    estimates from Bitcoin Core are still available. Note that miners
    could exploit this feature, if they conspired and filled the memory
    pool with expensive transactions that never get mined. However,
-   since the Electrum client already trusts an Electrum server with
+   since the Bitraam client already trusts an Bitraam server with
    fee estimates, activating this feature does not introduce any new
    vulnerability. In addition, the client uses a hard threshold to
    protect itself from servers sending excessive fee estimates. In
@@ -1509,11 +1509,11 @@ below are user-visible.
    on mainnet. For the mainnet prefixes {x,y,Y,z,Z}|{pub,prv}, the
    corresponding testnet prefixes are   {t,u,U,v,V}|{pub,prv}.
    More details and exact version bytes are specified at:
-   https://github.com/spesmilo/electrum-docs/blob/master/xpub_version_bytes.rst
+   https://github.com/mendozg/bitraam-docs/blob/master/xpub_version_bytes.rst
    Note that due to this change, testnet wallet files created with previous
-   versions of Electrum must be considered broken, and they need to be
+   versions of Bitraam must be considered broken, and they need to be
    recreated from seed words.
- * A new version of the Electrum protocol is required by the client
+ * A new version of the Bitraam protocol is required by the client
    (version 1.2). Servers using older versions of the protocol will
    not be displayed in the GUI.
 
@@ -1534,7 +1534,7 @@ issue #3374. Users should upgrade to 3.0.5.
 # Release 3.0.4 : (Security update)
 
  * Fix a vulnerability caused by Cross-Origin Resource Sharing (CORS)
-   in the JSONRPC interface. Previous versions of Electrum are
+   in the JSONRPC interface. Previous versions of Bitraam are
    vulnerable to port scanning and deanonimization attacks from
    malicious websites. Wallets that are not password-protected are
    vulnerable to theft.
@@ -1544,7 +1544,7 @@ issue #3374. Users should upgrade to 3.0.5.
 # Release 3.0.3
   * Qt GUI: sweeping now uses the Send tab, allowing fees to be set
   * Windows: if using the installer binary, there is now a separate shortcut
-    for "Electrum Testnet"
+    for "Bitraam Testnet"
   * Digital Bitbox: added support for p2sh-segwit
   * OS notifications for incoming transactions
   * better transaction size estimation:
@@ -1591,7 +1591,7 @@ issue #3374. Users should upgrade to 3.0.5.
       ends up being rejected or substantially modified, your wallet
       may have to be restored from seed. This will not affect funds
       sent to bech32 addresses, and it will not affect the capacity of
-      Electrum to spend these funds.
+      Bitraam to spend these funds.
 
     - Segwit scripts embedded in p2sh are supported with hardware
       wallets or bip39 seeds. To create a segwit-in-p2sh wallet,
@@ -1625,7 +1625,7 @@ issue #3374. Users should upgrade to 3.0.5.
       it is not possible to import a p2sh private key and associate it
       to a p2pkh address.
 
-  * A new version of the Electrum protocol is required by the client
+  * A new version of the Bitraam protocol is required by the client
     (version 1.1). Servers using older versions of the protocol will
     not be displayed in the GUI.
 
@@ -1653,7 +1653,7 @@ issue #3374. Users should upgrade to 3.0.5.
   * command-line option for locktime
 
 # Release 2.9 - Independence (July 27th, 2017)
-  * Multiple Chain Validation: Electrum will download and validate
+  * Multiple Chain Validation: Bitraam will download and validate
     block headers sent by servers that may follow different branches
     of a fork in the Bitcoin blockchain. Instead of a linear sequence,
     block headers are organized in a tree structure. Branching points
@@ -1701,7 +1701,7 @@ issue #3374. Users should upgrade to 3.0.5.
     wallet password. Once the wallet is decrypted, only the public key
     is retained in memory, in order to save the encrypted file.
   * The daemon requires wallets to be explicitly loaded before
-    commands can use them. Wallets can be loaded using: 'electrum
+    commands can use them. Wallets can be loaded using: 'bitraam
     daemon load_wallet [-w path]'. This command will require a
     password if the wallet is encrypted.
   * Invoices and contacts are stored in the wallet file and are no
@@ -1781,8 +1781,8 @@ issue #3374. Users should upgrade to 3.0.5.
 
 # Release 2.7.6
  * Fixes a critical bug with imported private keys (issue #1966). Keys
-   imported in Electrum 2.7.x were not encrypted, even if the wallet
-   had a password. If you imported private keys using Electrum 2.7.x,
+   imported in Bitraam 2.7.x were not encrypted, even if the wallet
+   had a password. If you imported private keys using Bitraam 2.7.x,
    you will need to import those keys again. If you imported keys in
    2.6 and converted with 2.7.x, you don't need to do anything, but
    you still need to upgrade in order to be able to spend.
@@ -1820,10 +1820,10 @@ issue #3374. Users should upgrade to 3.0.5.
  * The wallet file format has been upgraded. This upgrade is not
    backward compatible, which means that a wallet upgraded to the 2.7
    format will not be readable by earlier versions of
-   Electrum. Multiple accounts inside the same wallet are not
+   Bitraam. Multiple accounts inside the same wallet are not
    supported in the new format; the Qt GUI will propose to split any
    wallet that has several accounts. Make sure that you have saved
-   your seed phrase before you upgrade Electrum.
+   your seed phrase before you upgrade Bitraam.
  * This version introduces a separation between wallets types and
    keystores types. 'Wallet type' defines the type of Bitcoin contract
    used in the wallet, while 'keystore type' refers to the method used
@@ -1933,8 +1933,8 @@ issue #3374. Users should upgrade to 3.0.5.
  * Low-S values are used in signatures (BIP 62).
  * The Kivy GUI has been merged into master.
  * The Qt GUI supports multiple windows in the same process. When a
-   new Electrum instance is started, it checks for an already running
-   Electrum process, and connects to it.
+   new Bitraam instance is started, it checks for an already running
+   Bitraam process, and connects to it.
  * The network layer uses select(), so all server communication is
    handled by a single thread. Moreover, the synchronizer, verifier,
    and exchange rate plugin now run as separate jobs within the
@@ -1967,7 +1967,7 @@ issue #3374. Users should upgrade to 3.0.5.
    uses DNSSEC.
  * The DNSSEC verification code was rewritten. The previous code,
    which was part of the OpenAlias plugin, is vulnerable and should
-   not be trusted (Electrum 2.0 to 2.3).
+   not be trusted (Bitraam 2.0 to 2.3).
  * Payment requests can be signed using Bitcoin addresses stored
    in DNS (OpenAlias). The identity of the requestor is verified using
    DNSSEC.
@@ -2005,13 +2005,13 @@ issue #3374. Users should upgrade to 3.0.5.
    minimize the number of transaction inputs.
  * Plugins are loaded independently of the GUI. As a result, Openalias,
    TrustedCoin and TREZOR wallets can be used with the command
-   line. Example: 'electrum payto <openalias> <amount>'
+   line. Example: 'bitraam payto <openalias> <amount>'
  * The command line has been refactored:
   - Arguments are parsed with argparse.
   - The inline help includes a description of options.
   - Some commands have been renamed. Notably, 'mktx' and 'payto' have
     been merged into a single command, with a --broadcast option.
-   Type 'electrum --help' for a complete overview.
+   Type 'bitraam --help' for a complete overview.
  * The command line accepts the '!' syntax to send the maximum
    amount available. It can be combined with the '--from' option.
    Example: 'payto <destination> ! --from <from_address>'
@@ -2021,7 +2021,7 @@ issue #3374. Users should upgrade to 3.0.5.
    following commands: 'addrequest', 'rmrequest', 'listrequests'.
    Payment requests can be signed with a SSL certificate, and published
    as bip70 files in a public web directory. To see the relevant
-   configuration variables, type 'electrum addrequest --help'
+   configuration variables, type 'bitraam addrequest --help'
  * Commands can be called with jsonrpc, using the 'jsonrpc' gui. The
    jsonrpc interface may be called by php.
 
@@ -2066,10 +2066,10 @@ issue #3374. Users should upgrade to 3.0.5.
  * The network daemon must be started explicitly before using commands
    that require a connection
    Example:
-     electrum daemon start
-     electrum getaddressunspent <addr>
-     electrum daemon status
-     electrum daemon stop
+     bitraam daemon start
+     bitraam getaddressunspent <addr>
+     bitraam daemon status
+     bitraam daemon stop
    If a daemon is running, the GUI will use it.
 
 # Release 2.0.3 - bugfixes and minor GUI improvements
@@ -2099,13 +2099,13 @@ issue #3374. Users should upgrade to 3.0.5.
  * Before you upgrade, make sure you have saved your wallet seed on
    paper.
 
- * Documentation is now hosted on a wiki: http://electrum.orain.org
+ * Documentation is now hosted on a wiki: http://bitraam.orain.org
 
  * New seed derivation method (not compatible with BIP39). The seed
    phrase includes a version number, that refers to the wallet
    structure. The version number also serves as a checksum, and it
    will prevent the import of seeds from incompatible wallets. Old
-   Electrum seeds are still supported.
+   Bitraam seeds are still supported.
 
  * New address derivation (BIP32). Standard wallets are single account
    and use a gap limit of 20.
@@ -2146,7 +2146,7 @@ issue #3374. Users should upgrade to 3.0.5.
  * The 'Send' tab in the Qt GUI supports transactions with multiple
    outputs, and raw hexadecimal scripts.
 
- * The GUI can connect to the Electrum daemon: "electrum -d" will
+ * The GUI can connect to the Bitraam daemon: "bitraam -d" will
    start the daemon if it is not already running, and the GUI will
    connect to it. The daemon can serve several clients. It times out
    if no client uses if for more than 5 minutes.
@@ -2156,7 +2156,7 @@ issue #3374. Users should upgrade to 3.0.5.
    addresses in the wizard dialog.
 
  * New file format: Wallets files are saved as JSON. Note that new
-   wallet files cannot be read by older versions of Electrum. Old
+   wallet files cannot be read by older versions of Bitraam. Old
    wallet files will be converted to the new format; this operation
    may take some time, because public keys will be derived for each
    address of your wallet.
@@ -2176,7 +2176,7 @@ issue #3374. Users should upgrade to 3.0.5.
 
 # Release 1.9.8
 
-* Electrum servers were upgraded to version 0.9. The new server stores
+* Bitraam servers were upgraded to version 0.9. The new server stores
   a Patrica tree of all UTXOs, an idea proposed by Alan Reiner in the
   bitcointalk forum. This property allows the client to directly
   request the balance of any address. The new commands are:
@@ -2188,7 +2188,7 @@ issue #3374. Users should upgrade to 3.0.5.
   a daemon, that remains connected and handles subsequent
   commands. The daemon terminates itself if it remains unused for more
   than one minute. The purpose of this is to make scripting more
-  efficient. For example, a bash script using many electrum commands
+  efficient. For example, a bash script using many bitraam commands
   will open only one connection.
 
 # Release 1.9.7
@@ -2284,23 +2284,23 @@ bugfixes: connection problems, transactions staying unverified
 # Release 1.7
 
 * The Classic GUI can be extended with plugins. Developers who want to
-add new features or third-party services to Electrum are invited to
+add new features or third-party services to Bitraam are invited to
 write plugins. Some previously existing and non-essential features of
-Electrum (point-of-sale mode, qrcode scanner) were removed from the
+Bitraam (point-of-sale mode, qrcode scanner) were removed from the
 core and are now available as plugins.
 
 * The wallet waits for 2 confirmations before creating new
 addresses. This makes recovery from seed more robust. Note that it
-might create unwanted gaps if you use Electrum 1.7 together with older
-versions of Electrum.
+might create unwanted gaps if you use Bitraam 1.7 together with older
+versions of Bitraam.
 
 * An interactive Python console replaces the 'Wall' tab. The provided
 python environment gives users access to the wallet and gui. Most
-electrum commands are available as python function in the
+bitraam commands are available as python function in the
 console. Custom scripts an be loaded with a "run(filename)"
 command. Tab-completions are available.
 
-* The location of the Electrum folder in Windows changed from
+* The location of the Bitraam folder in Windows changed from
 LOCALAPPDATA to APPDATA. Discussion on this topic can be found here:
 https://bitcointalk.org/index.php?topic=144575.0
 

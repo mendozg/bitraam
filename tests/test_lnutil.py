@@ -2,9 +2,9 @@ import os
 import json
 from typing import Dict, List
 
-from electrum import bitcoin
-from electrum.json_db import StoredDict
-from electrum.lnutil import (
+from bitraam import bitcoin
+from bitraam.json_db import StoredDict
+from bitraam.lnutil import (
     RevocationStore, get_per_commitment_secret_from_seed, make_offered_htlc, make_received_htlc, make_commitment,
     make_htlc_tx_witness, make_htlc_tx_output, make_htlc_tx_inputs, secret_to_pubkey, derive_blinded_pubkey,
     derive_privkey, derive_pubkey, make_htlc_tx, extract_ctn_from_tx, get_compressed_pubkey_from_bech32,
@@ -12,13 +12,13 @@ from electrum.lnutil import (
     IncompatibleLightningFeatures, ChannelType, offered_htlc_trim_threshold_sat, received_htlc_trim_threshold_sat,
     ImportedChannelBackupStorage, list_enabled_ln_feature_bits
 )
-from electrum.util import bfh, MyEncoder
-from electrum.transaction import Transaction, PartialTransaction, Sighash
-from electrum.lnworker import LNWallet
-from electrum.wallet import Standard_Wallet
-from electrum.simple_config import SimpleConfig
+from bitraam.util import bfh, MyEncoder
+from bitraam.transaction import Transaction, PartialTransaction, Sighash
+from bitraam.lnworker import LNWallet
+from bitraam.wallet import Standard_Wallet
+from bitraam.simple_config import SimpleConfig
 
-from . import ElectrumTestCase, as_testnet
+from . import BitraamTestCase, as_testnet
 from . import restore_wallet_from_text__for_unittest
 from .test_bitcoin import disable_ecdsa_r_value_grinding
 
@@ -87,7 +87,7 @@ TEST_HTLCS = [
 ]
 
 
-class TestLNUtil(ElectrumTestCase):
+class TestLNUtil(BitraamTestCase):
     def test_shachain_store(self):
         tests = [
             {
@@ -799,7 +799,7 @@ class TestLNUtil(ElectrumTestCase):
     def test_commitment_tx_anchors_test_vectors(self):
         # this test is only valid for the original anchor output test vectors (not anchors-zero-fee-htlcs),
         # therefore we patch the effective htlc tx weight to result in a finite weight
-        from electrum import lnutil
+        from bitraam import lnutil
         effective_htlc_tx_weight_original = lnutil.effective_htlc_tx_weight
 
         def effective_htlc_tx_weight_patched(success: bool, has_anchors: bool):
@@ -1069,7 +1069,7 @@ class TestLNUtil(ElectrumTestCase):
     @as_testnet
     async def test_decode_imported_channel_backup_v0(self):
         encrypted_cb = "channel_backup:Adn87xcGIs9H2kfp4VpsOaNKWCHX08wBoqq37l1cLYKGlJamTeoaLEwpJA81l1BXF3GP/mRxqkY+whZG9l51G8izIY/kmMSvnh0DOiZEdwaaT/1/MwEHfsEomruFqs+iW24SFJPHbMM7f80bDtIxcLfZkKmgcKBAOlcqtq+dL3U3yH74S8BDDe2L4snaxxpCjF0JjDMBx1UR/28D+QlIi+lbvv1JMaCGXf+AF1+3jLQf8+lVI+rvFdyArws6Ocsvjf+ANQeSGUwW6Nb2xICQcMRgr1DO7bO4pgGu408eYRr2v3ayJBVtnKwSwd49gF5SDSjTDAO4CCM0uj9H5RxyzH7fqotkd9J80MBr84RiBXAeXKz+Ap8608/FVqgQ9BOcn6LhuAQdE5zXpmbQyw5jUGkPvHuseR+rzthzncy01odUceqTNg=="
-        config = SimpleConfig({'electrum_path': self.electrum_path})
+        config = SimpleConfig({'bitraam_path': self.bitraam_path})
         d = restore_wallet_from_text__for_unittest("9dk", path=None, config=config)
         wallet1 = d['wallet']  # type: Standard_Wallet
         decoded_cb = ImportedChannelBackupStorage.from_encrypted_str(encrypted_cb, password=wallet1.get_fingerprint())
@@ -1081,7 +1081,7 @@ class TestLNUtil(ElectrumTestCase):
                 is_initiator=True,
                 node_id=bfh('02bf82e22f99dcd7ac1de4aad5152ce48f0694c46ec582567f379e0adbf81e2d0f'),
                 privkey=bfh('7e634853dc47f0bc2f2e0d1054b302fcb414371ddbd889f29ba8aa4e8b62c772'),
-                host='lightning.electrum.org',
+                host='lightning.bitraam.org',
                 port=9739,
                 channel_seed=bfh('ce9bad44ff8521d9f57fd202ad7cdedceb934f0056f42d0f3aa7a576b505332a'),
                 local_delay=1008,
@@ -1097,7 +1097,7 @@ class TestLNUtil(ElectrumTestCase):
     @as_testnet
     async def test_decode_imported_channel_backup_v1(self):
         encrypted_cb = "channel_backup:AVYIedu0qSLfY2M2bBxF6dA4RAxcmobp+3h9mxALWWsv5X7hhNg0XYOKNd11FE6BJOZgZnIZ4CCAlHtLNj0/9S5GbNhbNZiQXxeHMwC1lHvtjawkwSejIJyOI52DkDFHBAGZRd4fJjaPJRHnUizWfySVR4zjd08lTinpoIeL7C7tXBW1N6YqceqV7RpeoywlBXJtFfCCuw0hnUKgq3SMlBKapkNAIgGrg15aIHNcYeENxCxr5FD1s7DIwFSECqsBVnu/Ogx2oii8BfuxqJq8vuGq4Ib/BVaSVtdb2E1wklAor/CG0p9Fg9mFWND98JD+64nz9n/knPFFyHxTXErn+ct3ZcStsLYynWKUIocgu38PtzCJ7r5ivqOw4O49fbbzdjcgMUGklPYxjuinETneCo+dCPa1uepOGTqeOYmnjVYtYZYXOlWV1F5OtNoM7MwwJjAbz84="
-        config = SimpleConfig({'electrum_path': self.electrum_path})
+        config = SimpleConfig({'bitraam_path': self.bitraam_path})
         d = restore_wallet_from_text__for_unittest("9dk", path=None, config=config)
         wallet1 = d['wallet']  # type: Standard_Wallet
         decoded_cb = ImportedChannelBackupStorage.from_encrypted_str(encrypted_cb, password=wallet1.get_fingerprint())

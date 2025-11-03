@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from electrum.bitcoin import hash_encode
-from electrum.transaction import Transaction
-from electrum.util import bfh
-from electrum.verifier import SPV, InnerNodeOfSpvProofIsValidTx
+from bitraam.bitcoin import hash_encode
+from bitraam.transaction import Transaction
+from bitraam.util import bfh
+from bitraam.verifier import SPV, InnerNodeOfSpvProofIsValidTx
 
-from . import ElectrumTestCase
+from . import BitraamTestCase
 
 
 MERKLE_BRANCH = [
@@ -19,7 +19,7 @@ VALID_64_BYTE_TX = ('0200000001cb659c5528311901a7aada7db817bd6e3ce2f05d1c62c385b
 assert len(VALID_64_BYTE_TX) == 128
 
 
-class VerifierTestCase(ElectrumTestCase):
+class VerifierTestCase(BitraamTestCase):
     # these tests are regarding the attack described in
     # https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2018-June/016105.html
     TESTNET = True

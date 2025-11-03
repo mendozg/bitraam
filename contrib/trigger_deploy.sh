@@ -18,7 +18,7 @@ if [ "$TRIGGERVERSION" == "website" ]; then
     touch trigger_website
     echo "uploading file: trigger_website..."
     sftp -oBatchMode=no -b - "$SSHUSER@uploadserver" << !
-       cd electrum-downloads-airlock
+       cd bitraam-downloads-airlock
        mput trigger_website
        bye
 !
@@ -27,7 +27,7 @@ else
     printf "$TRIGGERVERSION" > trigger_binaries
     echo "uploading file: trigger_binaries..."
     sftp -oBatchMode=no -b - "$SSHUSER@uploadserver" << !
-       cd electrum-downloads-airlock
+       cd bitraam-downloads-airlock
        mput trigger_binaries
        bye
 !
