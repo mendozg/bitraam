@@ -1,9 +1,9 @@
-[submodule "electrum/locale"]
+[submodule "bitraam/locale"]
 	path = bitraam/locale
 	url = https://github.com/mendozg/electrum-locale
-[submodule "electrum/www"]
+[submodule "bitraam/www"]
 	path = bitraam/plugins/payserver/www
 	url = https://github.com/mendozg/electrum-http.git
-[submodule "electrum/plugins/keepkey/keepkeylib"]
+[submodule "bitraam/plugins/keepkey/keepkeylib"]
 	path = bitraam/plugins/keepkey/keepkeylib
 	url = https://github.com/mendozg/electrum-keepkeylib.git
