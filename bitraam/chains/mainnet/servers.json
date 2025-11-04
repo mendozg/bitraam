@@ -3,12 +3,12 @@
         "pruning": "-",
         "s": "50018",
         "t": "50016",
-        "version": "1.4.2"
+        "version": "1.4"
     },
         "electrumserver02.bitraam.org": {
         "pruning": "-",
         "s": "50018",
         "t": "50016",
-        "version": "1.4.2"
+        "version": "1.4"
     }
 }

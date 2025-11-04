@@ -324,7 +324,7 @@ def construct_script(
 
 
 def relayfee(network: 'Network' = None) -> int:
-    """Returns feerate in sat/kbyte."""
+    """Returns feerate in sit/kbyte."""
     from .fee_policy import FEERATE_MIN_RELAY, FEERATE_DEFAULT_RELAY, FEERATE_MAX_RELAY
     if network and network.relay_fee is not None:
         fee = network.relay_fee
