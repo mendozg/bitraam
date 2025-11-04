@@ -12,15 +12,15 @@
   <id>org.bitraam.bitraam</id>
 
   <name>Bitraam</name>
-  <summary>Bitcoin Wallet</summary>
+  <summary>Bitraam Wallet</summary>
 
   <metadata_license>MIT</metadata_license>
   <project_license>MIT</project_license>
 
   <description>
     <p>
-      Bitraam is a lightweight Bitcoin wallet focused on speed, with low resource usage and simplifying Bitcoin.
-      Startup times are instant because it operates in conjunction with high-performance servers that handle the most complicated parts of the Bitcoin system.
+      Bitraam is a lightweight Bitraam wallet focused on speed, with low resource usage and simplifying Bitraam.
+      Startup times are instant because it operates in conjunction with high-performance servers that handle the most complicated parts of the Bitraam system.
     </p>
   </description>
 

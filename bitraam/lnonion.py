@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Bitraam - lightweight Bitcoin client
+# Bitraam - lightweight Bitraam client
 # Copyright (C) 2018 The Bitraam developers
 #
 # Permission is hereby granted, free of charge, to any person

@@ -484,7 +484,7 @@ Item {
         }
     }
 
-    Bitcoin {
+    Bitraam {
         id: bitcoin
     }
 

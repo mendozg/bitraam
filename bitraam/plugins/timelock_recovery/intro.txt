@@ -1,9 +1,9 @@
 Timelock Recovery is a mechanism which, in case of a catastrophic event
-(death or loss of your master key), can send your Bitcoin to a secondary wallet of your choice
+(death or loss of your master key), can send your Bitraam to a secondary wallet of your choice
 within a time-window (i.e. 90 days).
 <br />
 During that time-window, you can see that the Timelock Recovery mechanism has been triggered (a
-transaction from your wallet to itself is created on the Bitcoin blockchain), and if this
+transaction from your wallet to itself is created on the Bitraam blockchain), and if this
 has happened against your will, you can use your master key to cancel the process (by moving
 the funds elsewhere before the time-window expires).
 <br />
@@ -28,7 +28,7 @@ Timelock Recovery plans do not require any involvement of a third party.
 However, two precautions should be taken:
 <ol>
     <li>
-        Due to the way Bitcoin transactions and UTXOs work, spending funds from the wallet might break
+        Due to the way Bitraam transactions and UTXOs work, spending funds from the wallet might break
         the entire Timelock Recovery plan.
     </li>
     <li>

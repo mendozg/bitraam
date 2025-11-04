@@ -252,8 +252,8 @@ class TestChannel(BitraamTestCase):
     def setUp(self):
         super().setUp()
         # Create a test channel which will be used for the duration of this
-        # unittest. The channel will be funded evenly with Alice having 5 BTC,
-        # and Bob having 5 BTC.
+        # unittest. The channel will be funded evenly with Alice having 5 BRM,
+        # and Bob having 5 BRM.
         self.alice_channel, self.bob_channel = create_test_channels(anchor_outputs=self.TEST_ANCHOR_CHANNELS)
 
         self.paymentPreimage = b"\x01" * 32
@@ -536,9 +536,9 @@ class TestChannel(BitraamTestCase):
         self.assertEqual(one_bitcoin_in_msat, received)
         alice_channel.receive_revocation(bobRevocation2)
 
-        # At this point, Bob should have 6 BTC settled, with Alice still having
-        # 4 BTC. Alice's channel should show 1 BTC sent and Bob's channel
-        # should show 1 BTC received. They should also be at commitment height
+        # At this point, Bob should have 6 BRM settled, with Alice still having
+        # 4 BRM. Alice's channel should show 1 BRM sent and Bob's channel
+        # should show 1 BRM received. They should also be at commitment height
         # two, with the revocation window extended by 1 (5).
         mSatTransferred = one_bitcoin_in_msat
         self.assertEqual(alice_channel.total_msat(SENT), mSatTransferred, "alice satoshis sent incorrect")
@@ -681,8 +681,8 @@ class TestChannel(BitraamTestCase):
         self.alice_channel.add_htlc(self.htlc)
         # now there are three htlcs (one was in setUp)
 
-        # Alice now has an available balance of 2 BTC. We'll add a new HTLC of
-        # value 2 BTC, which should make Alice's balance negative (since she
+        # Alice now has an available balance of 2 BRM. We'll add a new HTLC of
+        # value 2 BRM, which should make Alice's balance negative (since she
         # has to pay a commitment fee).
         new = dataclasses.replace(
             self.htlc,
@@ -723,12 +723,12 @@ class TestAvailableToSpend(BitraamTestCase):
         alice_channel.receive_fail_htlc(alice_idx, error_bytes=None)
         self.assertEqual(89984088000 if not alice_channel.has_anchors() else 89978628000, alice_channel.available_to_spend(LOCAL))
         self.assertEqual(500000000000, bob_channel.available_to_spend(LOCAL))
-        # Alice now has gotten all her original balance (5 BTC) back, however,
+        # Alice now has gotten all her original balance (5 BRM) back, however,
         # adding a new HTLC at this point SHOULD fail, since if she adds the
         # HTLC and signs the next state, Bob cannot assume she received the
         # FailHTLC, and must assume she doesn't have the necessary balance
         # available.
-        # We try adding an HTLC of value 1 BTC, which should fail because the
+        # We try adding an HTLC of value 1 BRM, which should fail because the
         # balance is unavailable.
         htlc = UpdateAddHtlc(
             payment_hash=paymentHash,
@@ -768,7 +768,7 @@ class TestAvailableToSpend(BitraamTestCase):
             cltv_abs=5,
             timestamp=0,
         )
-        # put 10mBTC inflight a->b
+        # put 10mBRM inflight a->b
         alice_idx1 = alice_channel.add_htlc(htlc).htlc_id
         bob_idx1 = bob_channel.receive_htlc(htlc).htlc_id
         force_state_transition(alice_channel, bob_channel)
@@ -786,7 +786,7 @@ class TestAvailableToSpend(BitraamTestCase):
             cltv_abs=5,
             timestamp=0,
         )
-        # try to add another 15mBTC HTLC while 15mBTC already inflight
+        # try to add another 15mBRM HTLC while 15mBRM already inflight
         with self.assertRaises(lnutil.PaymentFailure):
             alice_idx2 = alice_channel.add_htlc(htlc2).htlc_id
 
@@ -870,8 +870,8 @@ class TestChanReserve(BitraamTestCase):
     def part2(self):
         paymentPreimage = b"\x01" * 32
         paymentHash = bitcoin.sha256(paymentPreimage)
-        # Now we'll add HTLC of 3.5 BTC to Alice's commitment, this should put
-        # Alice's balance at 1.5 BTC.
+        # Now we'll add HTLC of 3.5 BRM to Alice's commitment, this should put
+        # Alice's balance at 1.5 BRM.
         #
         # Resulting balances:
         #	Alice:	1.5
@@ -883,7 +883,7 @@ class TestChanReserve(BitraamTestCase):
         )
         self.alice_channel.add_htlc(htlc)
         self.bob_channel.receive_htlc(htlc)
-        # Add a second HTLC of 1 BTC. This should fail because it will take
+        # Add a second HTLC of 1 BRM. This should fail because it will take
         # Alice's balance all the way down to her channel reserve, but since
         # she is the initiator the additional transaction fee makes her
         # balance dip below.
@@ -894,7 +894,7 @@ class TestChanReserve(BitraamTestCase):
             self.bob_channel.receive_htlc(htlc)
 
     def part3(self):
-        # Add a HTLC of 2 BTC to Alice, and the settle it.
+        # Add a HTLC of 2 BRM to Alice, and the settle it.
         # Resulting balances:
         #	Alice:	3.0
         #	Bob:	7.0
@@ -918,7 +918,7 @@ class TestChanReserve(BitraamTestCase):
         self.check_bals(one_bitcoin_in_msat * 3
                         - self.alice_channel.get_next_fee(LOCAL),
                         one_bitcoin_in_msat * 7)
-        # And now let Bob add an HTLC of 1 BTC. This will take Bob's balance
+        # And now let Bob add an HTLC of 1 BRM. This will take Bob's balance
         # all the way down to his channel reserve, but since he is not paying
         # the fee this is okay.
         htlc = dataclasses.replace(htlc, amount_msat=one_bitcoin_in_msat)

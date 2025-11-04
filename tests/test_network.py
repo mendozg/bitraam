@@ -88,12 +88,12 @@ class TestHeaderChainResolution(BitraamTestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        constants.BitcoinRegtest.set_as_network()
+        constants.BitraamRegtest.set_as_network()
 
     @classmethod
     def tearDownClass(cls):
         super().tearDownClass()
-        constants.BitcoinMainnet.set_as_network()
+        constants.BitraamMainnet.set_as_network()
 
     def tearDown(self):
         blockchain.blockchains = {}
@@ -265,5 +265,5 @@ class TestHeaderChainResolution(BitraamTestCase):
 
 
 if __name__ == "__main__":
-    constants.BitcoinRegtest.set_as_network()
+    constants.BitraamRegtest.set_as_network()
     unittest.main()

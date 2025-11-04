@@ -6,7 +6,7 @@ from bitraam.i18n import _
 from bitraam.lnchannel import Channel
 
 from .util import WindowModalDialog, Buttons, OkButton, CancelButton, WWLabel
-from .amountedit import BTCAmountEdit
+from .amountedit import BRMAmountEdit
 
 if TYPE_CHECKING:
     from .main_window import BitraamWindow
@@ -23,7 +23,7 @@ class RebalanceDialog(WindowModalDialog):
         vbox = QVBoxLayout(self)
         vbox.addWidget(WWLabel(_('Rebalance your channels in order to increase your sending or receiving capacity') + ':'))
         grid = QGridLayout()
-        self.amount_e = BTCAmountEdit(self.window.get_decimal_point)
+        self.amount_e = BRMAmountEdit(self.window.get_decimal_point)
         self.amount_e.setAmount(amount_sat)
         self.amount_e.textChanged.connect(self.on_amount)
         self.rev_button = QPushButton(u'\U000021c4')

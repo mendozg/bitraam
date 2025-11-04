@@ -221,7 +221,7 @@ WizardComponent {
         }
     }
 
-    Bitcoin {
+    Bitraam {
         id: bitcoin
     }
 

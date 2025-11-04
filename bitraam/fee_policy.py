@@ -436,6 +436,6 @@ class FeeTimeEstimates:
             if fee is not None:
                 fee = int(fee)
         # fallback for regtest
-        if fee is None and constants.net is constants.BitcoinRegtest:
+        if fee is None and constants.net is constants.BitraamRegtest:
             return FEERATE_REGTEST_STATIC_FEE
         return fee

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# Bitraam - lightweight Bitcoin client
+# Bitraam - lightweight Bitraam client
 # Copyright (C) 2011 Thomas Voegtlin
 #
 # Permission is hereby granted, free of charge, to any person
@@ -45,7 +45,7 @@ from .bip32 import BIP32Node
 from .util import to_bytes, bfh, chunks, is_hex_str, parse_max_spend
 from .bitcoin import (
     TYPE_ADDRESS, TYPE_SCRIPT, hash_160, hash160_to_p2sh, hash160_to_p2pkh, hash_to_segwit_addr, var_int,
-    TOTAL_COIN_SUPPLY_LIMIT_IN_BTC, COIN, opcodes, base_decode, base_encode, construct_witness, construct_script,
+    TOTAL_COIN_SUPPLY_LIMIT_IN_BRM, COIN, opcodes, base_decode, base_encode, construct_witness, construct_script,
     taproot_tweak_seckey
 )
 from .crypto import sha256d, sha256
@@ -86,7 +86,7 @@ class PSBTInputConsistencyFailure(SerializationError):
     pass
 
 
-class MalformedBitcoinScript(Exception):
+class MalformedBitraamScript(Exception):
     pass
 
 
@@ -554,7 +554,7 @@ class TxInput:
 
 
 class BCDataStream(object):
-    """Workalike python implementation of Bitcoin's CDataStream class."""
+    """Workalike python implementation of Bitraam's CDataStream class."""
 
     def __init__(self):
         self.input = None  # type: Optional[bytearray]
@@ -576,7 +576,7 @@ class BCDataStream(object):
         # 0 to 252 :  1-byte-length followed by bytes (if any)
         # 253 to 65,535 : byte'253' 2-byte-length followed by bytes
         # 65,536 to 4,294,967,295 : byte '254' 4-byte-length followed by bytes
-        # ... and the Bitcoin client is coded to understand:
+        # ... and the Bitraam client is coded to understand:
         # greater than 4,294,967,295 : byte '255' 8-byte-length followed by bytes of string
         # ... but I don't think it actually handles any strings that big.
         if self.input is None:
@@ -686,18 +686,18 @@ def script_GetOp(_bytes : bytes):
             nSize = opcode
             if opcode == opcodes.OP_PUSHDATA1:
                 try: nSize = _bytes[i]
-                except IndexError: raise MalformedBitcoinScript()
+                except IndexError: raise MalformedBitraamScript()
                 i += 1
             elif opcode == opcodes.OP_PUSHDATA2:
                 try: (nSize,) = struct.unpack_from('<H', _bytes, i)
-                except struct.error: raise MalformedBitcoinScript()
+                except struct.error: raise MalformedBitraamScript()
                 i += 2
             elif opcode == opcodes.OP_PUSHDATA4:
                 try: (nSize,) = struct.unpack_from('<I', _bytes, i)
-                except struct.error: raise MalformedBitcoinScript()
+                except struct.error: raise MalformedBitraamScript()
                 i += 4
             if i + nSize > len(_bytes):
-                raise MalformedBitcoinScript(
+                raise MalformedBitraamScript(
                     f"Push of data element that is larger than remaining data: {nSize} vs {len(_bytes) - i}")
             vch = _bytes[i:i + nSize]
             i += nSize
@@ -791,7 +791,7 @@ def match_script_against_template(script, template, debug=False) -> bool:
     if isinstance(script, (bytes, bytearray)):
         try:
             script = [x for x in script_GetOp(script)]
-        except MalformedBitcoinScript:
+        except MalformedBitraamScript:
             if debug:
                 _logger.debug(f"malformed script")
             return False
@@ -820,7 +820,7 @@ def get_script_type_from_output_script(scriptpubkey: bytes) -> Optional[str]:
         return None
     try:
         decoded = [x for x in script_GetOp(scriptpubkey)]
-    except MalformedBitcoinScript:
+    except MalformedBitraamScript:
         return None
     if match_script_against_template(decoded, SCRIPTPUBKEY_TEMPLATE_P2PK):
         return 'p2pk'
@@ -840,7 +840,7 @@ def get_script_type_from_output_script(scriptpubkey: bytes) -> Optional[str]:
 def get_address_from_output_script(_bytes: bytes, *, net=None) -> Optional[str]:
     try:
         decoded = [x for x in script_GetOp(_bytes)]
-    except MalformedBitcoinScript:
+    except MalformedBitraamScript:
         return None
 
     # p2pkh
@@ -882,7 +882,7 @@ def parse_witness(vds: BCDataStream, txin: TxInput) -> None:
 
 def parse_output(vds: BCDataStream) -> TxOutput:
     value = vds.read_int64()
-    if value > TOTAL_COIN_SUPPLY_LIMIT_IN_BTC * COIN:
+    if value > TOTAL_COIN_SUPPLY_LIMIT_IN_BRM * COIN:
         raise SerializationError('invalid output amount (too large)')
     if value < 0:
         raise SerializationError('invalid output amount (negative)')
@@ -1182,7 +1182,7 @@ class Transaction:
         return bfh(self.serialize())
 
     def serialize_to_network(self, *, estimate_size=False, include_sigs=True, force_legacy=False) -> str:
-        """Serialize the transaction as used on the Bitcoin network, into hex.
+        """Serialize the transaction as used on the Bitraam network, into hex.
         `include_sigs` signals whether to include scriptSigs and witnesses.
         `force_legacy` signals to use the pre-segwit format
         note: (not include_sigs) implies force_legacy
@@ -1992,7 +1992,7 @@ class PartialTxInput(TxInput, PSBTSection):
                     return False
                 try:
                     decoded = [x for x in script_GetOp(self.redeem_script)]
-                except MalformedBitcoinScript:
+                except MalformedBitraamScript:
                     decoded = None
                 # witness version 0
                 if match_script_against_template(decoded, SCRIPTPUBKEY_TEMPLATE_WITNESS_V0):

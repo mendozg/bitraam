@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- mode: python -*-
 #
-# Bitraam - lightweight Bitcoin client
+# Bitraam - lightweight Bitraam client
 # Copyright (C) 2016  The Bitraam developers
 #
 # Permission is hereby granted, free of charge, to any person

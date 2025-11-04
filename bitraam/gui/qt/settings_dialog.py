@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# Bitraam - lightweight Bitcoin client
+# Bitraam - lightweight Bitraam client
 # Copyright (C) 2012 thomasv@gitorious
 #
 # Permission is hereby granted, free of charge, to any person
@@ -94,19 +94,19 @@ class SettingsDialog(QDialog, QtEventListener):
                 self.need_restart = True
         lang_combo.currentIndexChanged.connect(on_lang)
 
-        nz_label = HelpLabel.from_configvar(self.config.cv.BTC_AMOUNTS_FORCE_NZEROS_AFTER_DECIMAL_POINT)
+        nz_label = HelpLabel.from_configvar(self.config.cv.BRM_AMOUNTS_FORCE_NZEROS_AFTER_DECIMAL_POINT)
         nz = QSpinBox()
         nz.setMinimum(0)
         nz.setMaximum(self.config.decimal_point)
         nz.setValue(self.config.num_zeros)
-        if not self.config.cv.BTC_AMOUNTS_FORCE_NZEROS_AFTER_DECIMAL_POINT.is_modifiable():
+        if not self.config.cv.BRM_AMOUNTS_FORCE_NZEROS_AFTER_DECIMAL_POINT.is_modifiable():
             for w in [nz, nz_label]: w.setEnabled(False)
 
         def on_nz():
             value = nz.value()
             if self.config.num_zeros != value:
                 self.config.num_zeros = value
-                self.config.BTC_AMOUNTS_FORCE_NZEROS_AFTER_DECIMAL_POINT = value
+                self.config.BRM_AMOUNTS_FORCE_NZEROS_AFTER_DECIMAL_POINT = value
                 self.app.refresh_tabs_signal.emit()
                 self.app.update_status_signal.emit()
         nz.valueChanged.connect(on_nz)
@@ -178,14 +178,14 @@ class SettingsDialog(QDialog, QtEventListener):
         self.alias_e.editingFinished.connect(self.on_alias_edit)
 
 
-        msat_cb = checkbox_from_configvar(self.config.cv.BTC_AMOUNTS_PREC_POST_SAT)
-        msat_cb.setChecked(self.config.BTC_AMOUNTS_PREC_POST_SAT > 0)
+        msat_cb = checkbox_from_configvar(self.config.cv.BRM_AMOUNTS_PREC_POST_SAT)
+        msat_cb.setChecked(self.config.BRM_AMOUNTS_PREC_POST_SAT > 0)
 
         def on_msat_checked(_x):
             prec = 3 if msat_cb.isChecked() else 0
             if self.config.amt_precision_post_satoshi != prec:
                 self.config.amt_precision_post_satoshi = prec
-                self.config.BTC_AMOUNTS_PREC_POST_SAT = prec
+                self.config.BRM_AMOUNTS_PREC_POST_SAT = prec
                 self.app.refresh_tabs_signal.emit()
 
         msat_cb.stateChanged.connect(on_msat_checked)
@@ -193,7 +193,7 @@ class SettingsDialog(QDialog, QtEventListener):
         # units
         units = base_units_list
         msg = (_('Base unit of your wallet.')
-               + '\n1 BTC = 1000 mBTC. 1 mBTC = 1000 bits. 1 bit = 100 sat.\n'
+               + '\n1 BRM = 1000 mBRM. 1 mBRM = 1000 bits. 1 bit = 100 sat.\n'
                + _('This setting affects the Send tab, and all balance related fields.'))
         unit_label = HelpLabel(_('Base unit') + ':', msg)
         unit_combo = QComboBox()
@@ -211,14 +211,14 @@ class SettingsDialog(QDialog, QtEventListener):
             self.app.refresh_amount_edits_signal.emit()
         unit_combo.currentIndexChanged.connect(lambda x: on_unit(x, nz))
 
-        thousandsep_cb = checkbox_from_configvar(self.config.cv.BTC_AMOUNTS_ADD_THOUSANDS_SEP)
-        thousandsep_cb.setChecked(self.config.BTC_AMOUNTS_ADD_THOUSANDS_SEP)
+        thousandsep_cb = checkbox_from_configvar(self.config.cv.BRM_AMOUNTS_ADD_THOUSANDS_SEP)
+        thousandsep_cb.setChecked(self.config.BRM_AMOUNTS_ADD_THOUSANDS_SEP)
 
         def on_set_thousandsep(_x):
             checked = thousandsep_cb.isChecked()
             if self.config.amt_add_thousands_sep != checked:
                 self.config.amt_add_thousands_sep = checked
-                self.config.BTC_AMOUNTS_ADD_THOUSANDS_SEP = checked
+                self.config.BRM_AMOUNTS_ADD_THOUSANDS_SEP = checked
                 self.app.refresh_tabs_signal.emit()
         thousandsep_cb.stateChanged.connect(on_set_thousandsep)
 

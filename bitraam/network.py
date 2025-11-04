@@ -1,4 +1,4 @@
-# Bitraam - Lightweight Bitcoin Client
+# Bitraam - Lightweight Bitraam Client
 # Copyright (c) 2011-2016 Thomas Voegtlin
 #
 # Permission is hereby granted, free of charge, to any person

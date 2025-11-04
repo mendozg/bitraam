@@ -79,7 +79,7 @@ WizardComponent {
         bitcoin.generateSeed(wizard_data['seed_type'])
     }
 
-    Bitcoin {
+    Bitraam {
         id: bitcoin
         onGeneratedSeedChanged: {
             seedtext.text = generatedSeed

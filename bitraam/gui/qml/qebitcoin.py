@@ -14,7 +14,7 @@ from bitraam.old_mnemonic import wordlist as old_wordlist
 from bitraam.bitcoin import is_address
 
 
-class QEBitcoin(QObject):
+class QEBitraam(QObject):
     _logger = get_logger(__name__)
 
     generatedSeedChanged = pyqtSignal()

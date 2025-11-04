@@ -27,13 +27,13 @@ async def get_history(self: 'Commands', wallet: 'Abstract_Wallet' = None, plugin
         [
             {
                 "date": "2025-09-04",
-                "label": "Forward swap 0.2018 mBTC",
+                "label": "Forward swap 0.2018 mBRM",
                 "timestamp": 1756982141,  # unix timestamp
                 "return_sat": -205  # value in satoshi that has been earned or lost with this swap
             },
             {
                 "date": "2025-09-04",
-                "label": "Reverse swap 0.30406 mBTC",
+                "label": "Reverse swap 0.30406 mBRM",
                 "timestamp": 1756983236,
                 "return_sat": 64
             }

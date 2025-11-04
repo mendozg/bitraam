@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Bitraam - lightweight Bitcoin client
+# Bitraam - lightweight Bitraam client
 # Copyright (C) 2011 thomasv@gitorious
 #
 # Permission is hereby granted, free of charge, to any person
@@ -30,7 +30,7 @@ from enum import IntEnum, Enum
 import electrum_ecc as ecc
 from electrum_ecc.util import bip340_tagged_hash
 
-from .util import bfh, BitcoinException, assert_bytes, to_bytes, inv_dict, is_hex_str, classproperty
+from .util import bfh, BitraamException, assert_bytes, to_bytes, inv_dict, is_hex_str, classproperty
 from . import segwit_addr
 from . import constants
 from .crypto import sha256d, sha256, hash_160
@@ -44,7 +44,7 @@ if TYPE_CHECKING:
 
 COINBASE_MATURITY = 100
 COIN = 100000000
-TOTAL_COIN_SUPPLY_LIMIT_IN_BTC = 21000000
+TOTAL_COIN_SUPPLY_LIMIT_IN_BRM = 21000000
 
 NLOCKTIME_MIN = 0
 NLOCKTIME_BLOCKHEIGHT_MAX = 500_000_000 - 1
@@ -199,7 +199,7 @@ class opcodes(IntEnum):
 
 
 def script_num_to_bytes(i: int) -> bytes:
-    """See CScriptNum in Bitcoin Core.
+    """See CScriptNum in Bitraam Core.
     Encodes an integer as bytes, to be used in script.
 
     ported from https://github.com/bitcoin/bitcoin/blob/8cbc5c4be4be22aca228074f087a374a7ec38be8/src/script/script.h#L326
@@ -439,11 +439,11 @@ def script_to_address(script: bytes, *, net=None) -> Optional[str]:
 def address_to_script(addr: str, *, net=None) -> bytes:
     if net is None: net = constants.net
     if not is_address(addr, net=net):
-        raise BitcoinException(f"invalid bitcoin address: {addr}")
+        raise BitraamException(f"invalid bitcoin address: {addr}")
     witver, witprog = segwit_addr.decode_segwit_address(net.SEGWIT_HRP, addr)
     if witprog is not None:
         if not (0 <= witver <= 16):
-            raise BitcoinException(f'impossible witness version: {witver}')
+            raise BitraamException(f'impossible witness version: {witver}')
         return construct_script([witver, bytes(witprog)])
     addrtype, hash_160_ = b58_address_to_hash160(addr)
     if addrtype == net.ADDRTYPE_P2PKH:
@@ -451,7 +451,7 @@ def address_to_script(addr: str, *, net=None) -> bytes:
     elif addrtype == net.ADDRTYPE_P2SH:
         script = construct_script([opcodes.OP_HASH160, hash_160_, opcodes.OP_EQUAL])
     else:
-        raise BitcoinException(f'unknown address type: {addrtype}')
+        raise BitraamException(f'unknown address type: {addrtype}')
     return script
 
 
@@ -470,7 +470,7 @@ def address_to_payload(addr: str, *, net=None) -> Tuple[OnchainOutputType, bytes
     """Return (type, pubkey hash / witness program) for an address."""
     if net is None: net = constants.net
     if not is_address(addr, net=net):
-        raise BitcoinException(f"invalid bitcoin address: {addr}")
+        raise BitraamException(f"invalid bitcoin address: {addr}")
     witver, witprog = segwit_addr.decode_segwit_address(net.SEGWIT_HRP, addr)
     if witprog is not None:
         if witver == 0:
@@ -479,20 +479,20 @@ def address_to_payload(addr: str, *, net=None) -> Tuple[OnchainOutputType, bytes
             elif len(witprog) == 32:
                 return OnchainOutputType.WITVER0_P2WSH, bytes(witprog)
             else:
-                raise BitcoinException(f"unexpected length for segwit witver=0 witprog: len={len(witprog)}")
+                raise BitraamException(f"unexpected length for segwit witver=0 witprog: len={len(witprog)}")
         elif witver == 1:
             if len(witprog) == 32:
                 return OnchainOutputType.WITVER1_P2TR, bytes(witprog)
             else:
-                raise BitcoinException(f"unexpected length for segwit witver=1 witprog: len={len(witprog)}")
+                raise BitraamException(f"unexpected length for segwit witver=1 witprog: len={len(witprog)}")
         else:
-            raise BitcoinException(f"not implemented handling for witver={witver}")
+            raise BitraamException(f"not implemented handling for witver={witver}")
     addrtype, hash_160_ = b58_address_to_hash160(addr)
     if addrtype == net.ADDRTYPE_P2PKH:
         return OnchainOutputType.P2PKH, hash_160_
     elif addrtype == net.ADDRTYPE_P2SH:
         return OnchainOutputType.P2SH, hash_160_
-    raise BitcoinException(f"unknown address type: {addrtype}")
+    raise BitraamException(f"unknown address type: {addrtype}")
 
 
 def address_to_scripthash(addr: str, *, net=None) -> str:
@@ -524,7 +524,7 @@ assert len(__b43chars) == 43
 __b43chars_inv = inv_dict(dict(enumerate(__b43chars)))
 
 
-class BaseDecodeError(BitcoinException): pass
+class BaseDecodeError(BitraamException): pass
 
 
 def base_encode(v: bytes, *, base: int) -> str:
@@ -642,7 +642,7 @@ def deserialize_privkey(key: str) -> Tuple[str, bytes, bool]:
     if ':' in key:
         txin_type, key = key.split(sep=':', maxsplit=1)
         if txin_type not in WIF_SCRIPT_TYPES:
-            raise BitcoinException('unknown script type: {}'.format(txin_type))
+            raise BitraamException('unknown script type: {}'.format(txin_type))
     try:
         vch = DecodeBase58Check(key)
     except Exception as e:
@@ -655,24 +655,24 @@ def deserialize_privkey(key: str) -> Tuple[str, bytes, bool]:
         try:
             txin_type = WIF_SCRIPT_TYPES_INV[prefix_value]
         except KeyError as e:
-            raise BitcoinException('invalid prefix ({}) for WIF key (1)'.format(vch[0])) from None
+            raise BitraamException('invalid prefix ({}) for WIF key (1)'.format(vch[0])) from None
     else:
         # all other keys must have a fixed first byte
         if vch[0] != constants.net.WIF_PREFIX:
-            raise BitcoinException('invalid prefix ({}) for WIF key (2)'.format(vch[0]))
+            raise BitraamException('invalid prefix ({}) for WIF key (2)'.format(vch[0]))
 
     if len(vch) not in [33, 34]:
-        raise BitcoinException('invalid vch len for WIF key: {}'.format(len(vch)))
+        raise BitraamException('invalid vch len for WIF key: {}'.format(len(vch)))
     compressed = False
     if len(vch) == 34:
         if vch[33] == 0x01:
             compressed = True
         else:
-            raise BitcoinException(f'invalid WIF key. length suggests compressed pubkey, '
+            raise BitraamException(f'invalid WIF key. length suggests compressed pubkey, '
                                    f'but last byte is {vch[33]} != 0x01')
 
     if is_segwit_script_type(txin_type) and not compressed:
-        raise BitcoinException('only compressed public keys can be used in segwit scripts')
+        raise BitraamException('only compressed public keys can be used in segwit scripts')
 
     secret_bytes = vch[1:33]
     # we accept secrets outside curve range; cast into range here:
@@ -862,7 +862,7 @@ def control_block_for_taproot_script_spend(
 # user message signing
 def usermessage_magic(message: bytes) -> bytes:
     length = var_int(len(message))
-    return b"\x18Bitcoin Signed Message:\n" + length + message
+    return b"\x18Bitraam Signed Message:\n" + length + message
 
 
 def ecdsa_sign_usermessage(ec_privkey, message: Union[bytes, str], *, is_compressed: bool) -> bytes:

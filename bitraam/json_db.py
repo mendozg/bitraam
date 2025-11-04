@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# Bitraam - lightweight Bitcoin client
+# Bitraam - lightweight Bitraam client
 # Copyright (C) 2019 The Bitraam Developers
 #
 # Permission is hereby granted, free of charge, to any person

@@ -126,7 +126,7 @@ class UpdateCheckThread(QThread, Logger):
                     msg = version_num.encode('utf-8')
                     if verify_usermessage_with_address(
                         address=address, sig65=sig, message=msg,
-                        net=constants.BitcoinMainnet
+                        net=constants.BitraamMainnet
                     ):
                         self.logger.info(f"valid sig for version announcement '{version_num}' from address '{address}'")
                         break

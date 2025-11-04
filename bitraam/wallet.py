@@ -1,4 +1,4 @@
-# Bitraam - lightweight Bitcoin client
+# Bitraam - lightweight Bitraam client
 # Copyright (C) 2015 Thomas Voegtlin
 #
 # Permission is hereby granted, free of charge, to any person
@@ -51,7 +51,7 @@ from .bip32 import BIP32Node, convert_bip32_intpath_to_strpath, convert_bip32_st
 from .logging import get_logger, Logger
 from .util import (
     NotEnoughFunds, UserCancelled, profiler, OldTaskGroup, format_fee_satoshis,
-    WalletFileException, BitcoinException, InvalidPassword, format_time, timestamp_to_datetime,
+    WalletFileException, BitraamException, InvalidPassword, format_time, timestamp_to_datetime,
     Satoshis, Fiat, TxMinedInfo, quantize_feerate, OrderedDictWithIndex, multisig_type, parse_max_spend,
     OnchainHistoryItem, read_json_file, write_json_file, UserFacingException, FileImportFailed, EventListener,
     event_listener
@@ -1604,7 +1604,7 @@ class Abstract_Wallet(ABC, Logger, EventListener):
                 out = {
                     'date': date,
                     'block_height': height,
-                    'BTC_balance': Satoshis(balance),
+                    'BRM_balance': Satoshis(balance),
                 }
                 if show_fiat:
                     ap = self.acquisition_price(coins, fx.timestamp_rate, fx.ccy)
@@ -1613,14 +1613,14 @@ class Abstract_Wallet(ABC, Logger, EventListener):
                     out['liquidation_price'] = Fiat(lp, fx.ccy)
                     out['unrealized_gains'] = Fiat(lp - ap, fx.ccy)
                     out['fiat_balance'] = Fiat(fx.historical_value(balance, date), fx.ccy)
-                    out['BTC_fiat_price'] = Fiat(fx.historical_value(COIN, date), fx.ccy)
+                    out['BRM_fiat_price'] = Fiat(fx.historical_value(COIN, date), fx.ccy)
                 return out
 
             summary_start = summary_point(start_timestamp, start_height, start_balance, start_coins)
             summary_end = summary_point(end_timestamp, end_height, end_balance, end_coins)
             flow = {
-                'BTC_incoming': Satoshis(income),
-                'BTC_outgoing': Satoshis(expenditures)
+                'BRM_incoming': Satoshis(income),
+                'BRM_outgoing': Satoshis(expenditures)
             }
             if show_fiat:
                 flow['fiat_currency'] = fx.ccy
@@ -3699,7 +3699,7 @@ class Imported_Wallet(Simple_Wallet):
         if good_addr and good_addr[0] == address:
             return address
         else:
-            raise BitcoinException(str(bad_addr[0][1]))
+            raise BitraamException(str(bad_addr[0][1]))
 
     def delete_address(self, address: str) -> None:
         if not self.db.has_imported_address(address):
@@ -3806,7 +3806,7 @@ class Imported_Wallet(Simple_Wallet):
         if good_addr:
             return good_addr[0]
         else:
-            raise BitcoinException(str(bad_keys[0][1]))
+            raise BitraamException(str(bad_keys[0][1]))
 
     def get_txin_type(self, address):
         return self.db.get_imported_address(address).get('type', 'address')

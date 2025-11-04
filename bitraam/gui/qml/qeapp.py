@@ -30,7 +30,7 @@ from .qenetwork import QENetwork
 from .qewallet import QEWallet
 from .qeqr import QEQRParser, QEQRImageProvider, QEQRImageProviderHelper
 from .qeqrscanner import QEQRScanner
-from .qebitcoin import QEBitcoin
+from .qebitcoin import QEBitraam
 from .qefx import QEFX
 from .qetxfinalizer import QETxFinalizer, QETxRbfFeeBumper, QETxCpfpFeeBumper, QETxCanceller, QETxSweepFinalizer, FeeSlider
 from .qeinvoice import QEInvoice, QEInvoiceParser
@@ -485,7 +485,7 @@ class BitraamQmlApplication(QGuiApplication):
         qmlRegisterType(QSortFilterProxyModel, 'org.bitraam', 1, 0, 'QSortFilterProxyModel')
 
         qmlRegisterType(QEWallet, 'org.bitraam', 1, 0, 'Wallet')
-        qmlRegisterType(QEBitcoin, 'org.bitraam', 1, 0, 'Bitcoin')
+        qmlRegisterType(QEBitraam, 'org.bitraam', 1, 0, 'Bitraam')
         qmlRegisterType(QEQRParser, 'org.bitraam', 1, 0, 'QRParser')
         qmlRegisterType(QEQRScanner, 'org.bitraam', 1, 0, 'QRScanner')
         qmlRegisterType(QEFX, 'org.bitraam', 1, 0, 'FX')

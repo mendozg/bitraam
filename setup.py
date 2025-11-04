@@ -73,10 +73,10 @@ setup(
     include_package_data=True,
     scripts=['bitraam/bitraam'],
     data_files=data_files,
-    description="Lightweight Bitcoin Wallet",
+    description="Lightweight Bitraam Wallet",
     author="Thomas Voegtlin",
     author_email="thomasv@bitraam.org",
     license="MIT Licence",
     url="https://bitraam.org",
-    long_description="""Lightweight Bitcoin Wallet""",
+    long_description="""Lightweight Bitraam Wallet""",
 )

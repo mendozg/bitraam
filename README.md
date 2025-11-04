@@ -1,4 +1,4 @@
-# Electrum - Lightweight Bitcoin client
+# Electrum - Lightweight Bitraam client
 
 ```
 Licence: MIT Licence

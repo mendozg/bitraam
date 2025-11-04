@@ -818,7 +818,7 @@ class SwapManager(Logger):
             tx: PartialTransaction = None,
             channels = None,
     ) -> Optional[str]:
-        """send on-chain BTC, receive on Lightning
+        """send on-chain BRM, receive on Lightning
 
         Old (removed) flow:
         - User generates an LN invoice with RHASH, and knows preimage.
@@ -1045,7 +1045,7 @@ class SwapManager(Logger):
         payment_hash = sha256(preimage)
         request_data = {
             "type": "reversesubmarine",
-            "pairId": "BTC/BTC",
+            "pairId": "BRM/BRM",
             "invoiceAmount": lightning_amount_sat,
             "preimageHash": payment_hash.hex(),
             "claimPublicKey": our_pubkey.hex(),
@@ -1391,7 +1391,7 @@ class SwapManager(Logger):
         # requesting a normal swap (old protocol) will raise an exception
         #request = await r.json()
         req_type = request['type']
-        assert request['pairId'] == 'BTC/BTC'
+        assert request['pairId'] == 'BRM/BRM'
         if req_type == 'reversesubmarine':
             lightning_amount_sat=request['invoiceAmount']
             payment_hash=bytes.fromhex(request['preimageHash'])
@@ -1570,8 +1570,8 @@ class HttpTransport(SwapServerTransport):
         response = await self.send_request_to_server('getpairs', None)
         try:
             assert response.get('htlcFirst') is True
-            fees = response['pairs']['BTC/BTC']['fees']
-            limits = response['pairs']['BTC/BTC']['limits']
+            fees = response['pairs']['BRM/BRM']['fees']
+            limits = response['pairs']['BRM/BRM']['limits']
             pairs = SwapFees(
                 percentage=fees['percentage'],
                 mining_fee=fees['minerFees']['baseAsset']['mining_fee'],

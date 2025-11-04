@@ -191,7 +191,7 @@ WizardComponent {
         }
     }
 
-    Bitcoin {
+    Bitraam {
         id: bitcoin
         onValidationMessageChanged: {
             validationtext.text = validationMessage

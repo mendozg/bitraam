@@ -153,7 +153,7 @@ ElDialog {
 
     }
 
-    Bitcoin {
+    Bitraam {
         id: bitcoin
     }
 }

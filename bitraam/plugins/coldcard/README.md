@@ -15,7 +15,7 @@ PIN. Initial setup, and seed generation must be done offline.
 
 Coldcard uses the standard for unsigned transactions:
 
-PSBT = Partially Signed Bitcoin Transaction = BIP174
+PSBT = Partially Signed Bitraam Transaction = BIP174
 
 The Coldcard can be used 100% offline: it can generate a skeleton
 Bitraam wallet and save it to MicroSD card. Transport that file

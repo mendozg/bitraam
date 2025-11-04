@@ -14,7 +14,7 @@ from bitraam.util import InvoiceError, ChoiceItem
 from bitraam.invoices import pr_expiration_values
 from bitraam.logging import Logger
 
-from .amountedit import AmountEdit, BTCAmountEdit, SizedFreezableLineEdit
+from .amountedit import AmountEdit, BRMAmountEdit, SizedFreezableLineEdit
 from .qrcodewidget import QRCodeWidget
 from .util import read_QIcon, WWLabel, MessageBoxMixin, MONOSPACE_FONT, get_icon_qrcode
 
@@ -51,7 +51,7 @@ class ReceiveTab(QWidget, MessageBoxMixin, Logger):
         grid.addWidget(QLabel(_('Description')), 0, 0)
         grid.addWidget(self.receive_message_e, 0, 1, 1, 4)
 
-        self.receive_amount_e = BTCAmountEdit(self.window.get_decimal_point)
+        self.receive_amount_e = BRMAmountEdit(self.window.get_decimal_point)
         grid.addWidget(QLabel(_('Requested amount')), 1, 0)
         grid.addWidget(self.receive_amount_e, 1, 1)
 
@@ -276,7 +276,7 @@ class ReceiveTab(QWidget, MessageBoxMixin, Logger):
 
     def get_tab_data(self):
         if self.URI:
-            out = self.URI, self.URI, self.URI_help, _('Bitcoin URI')
+            out = self.URI, self.URI, self.URI_help, _('Bitraam URI')
         elif self.addr:
             out = self.addr, self.addr, self.address_help, _('Address')
         else:

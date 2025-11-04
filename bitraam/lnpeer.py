@@ -2412,7 +2412,7 @@ class Peer(Logger, EventListener):
                 assert low_fee < high_fee, (low_fee, high_fee)
                 return not (low_fee < chan_feerate < high_fee)
         if not chan.constraints.is_initiator:
-            if constants.net is not constants.BitcoinRegtest:
+            if constants.net is not constants.BitraamRegtest:
                 chan_feerate = chan.get_latest_feerate(LOCAL)
                 ratio = chan_feerate / update_feerate_per_kw
                 if ratio < 0.5:

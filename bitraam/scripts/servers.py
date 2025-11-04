@@ -8,7 +8,7 @@ from bitraam.util import create_and_start_event_loop, log_exceptions
 from bitraam import constants
 
 # testnet?
-#constants.BitcoinTestnet.set_as_network()
+#constants.BitraamTestnet.set_as_network()
 config = SimpleConfig({'testnet': False})
 
 loop, stopping_fut, loop_thread = create_and_start_event_loop()

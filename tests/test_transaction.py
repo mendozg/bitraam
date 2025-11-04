@@ -9,7 +9,7 @@ from bitraam.transaction import (convert_raw_tx_to_hex, tx_from_any, Transaction
                                   PartialTransaction, TxOutpoint, PartialTxInput,
                                   PartialTxOutput, Sighash, match_script_against_template,
                                   SCRIPTPUBKEY_TEMPLATE_ANYSEGWIT, TxOutput, script_GetOp,
-                                  MalformedBitcoinScript)
+                                  MalformedBitraamScript)
 from bitraam.util import bfh
 from bitraam.bitcoin import (deserialize_privkey, opcodes,
                               construct_script, construct_witness)
@@ -95,11 +95,11 @@ class TestTransaction(BitraamTestCase):
     def test_script_GetOp(self):
         # TODO add more test cases for script_GetOp
         # cases from https://github.com/bitcoinj/bitcoinj/blob/09defa626648687f8bd6ea7d197818249eebd3c8/core/src/test/resources/org/bitcoinj/script/script_tests.json#L721-L723
-        with self.assertRaises(MalformedBitcoinScript):
+        with self.assertRaises(MalformedBitraamScript):
             [x for x in script_GetOp(bfh("4c01"))]            # PUSHDATA1 with not enough bytes
-        with self.assertRaises(MalformedBitcoinScript):
+        with self.assertRaises(MalformedBitraamScript):
             [x for x in script_GetOp(bfh("4d0200ff"))]        # PUSHDATA2 with not enough bytes
-        with self.assertRaises(MalformedBitcoinScript):
+        with self.assertRaises(MalformedBitraamScript):
             [x for x in script_GetOp(bfh("4e03000000ffff"))]  # PUSHDATA4 with not enough bytes
 
     def test_tx_update_signatures(self):
@@ -407,7 +407,7 @@ class TestTransaction(BitraamTestCase):
         self._run_naive_tests_on_tx(raw_tx, txid)
 
 
-# these transactions are from Bitcoin Core unit tests --->
+# these transactions are from Bitraam Core unit tests --->
 # https://github.com/bitcoin/bitcoin/blob/11376b5583a283772c82f6d32d0007cdbf5b8ef0/src/test/data/tx_valid.json
 
     def test_txid_bitcoin_core_0001(self):
@@ -870,7 +870,7 @@ class TestTransaction(BitraamTestCase):
         txid = '45d17fb7db86162b2b6ca29fa4e163acf0ef0b54110e49b819bda1f948d423a3'
         self._run_naive_tests_on_tx(raw_tx, txid)
 
-# txns from Bitcoin Core ends <---
+# txns from Bitraam Core ends <---
 
 
 class TestTransactionTestnet(BitraamTestCase):

@@ -20,7 +20,7 @@ from . import util
 from .util import (WindowModalDialog, Buttons, OkButton, CancelButton,
                    EnterButton, ColorScheme, WWLabel, read_QIcon, IconLabel, char_width_in_lineedit)
 from .util import qt_event_listener, QtEventListener
-from .amountedit import BTCAmountEdit
+from .amountedit import BRMAmountEdit
 from .fee_slider import FeeSlider, FeeComboBox
 from .my_treeview import create_toolbar_with_menu, MyTreeView
 
@@ -69,8 +69,8 @@ class SwapDialog(WindowModalDialog, QtEventListener):
         self.server_button.clicked.connect(lambda: self.choose_swap_server(transport))
         self.server_button.setEnabled(not self.config.SWAPSERVER_URL)
         self.description_label = WWLabel(self.get_description())
-        self.send_amount_e = BTCAmountEdit(self.window.get_decimal_point)
-        self.recv_amount_e = BTCAmountEdit(self.window.get_decimal_point)
+        self.send_amount_e = BRMAmountEdit(self.window.get_decimal_point)
+        self.recv_amount_e = BRMAmountEdit(self.window.get_decimal_point)
         self.max_button = EnterButton(_("Max"), self.spend_max)
         btn_width = 10 * char_width_in_lineedit()
         self.max_button.setFixedWidth(btn_width)

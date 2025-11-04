@@ -5,7 +5,7 @@ from typing import Optional
 
 from . import bitcoin
 from .util import format_satoshis_plain
-from .bitcoin import COIN, TOTAL_COIN_SUPPLY_LIMIT_IN_BTC
+from .bitcoin import COIN, TOTAL_COIN_SUPPLY_LIMIT_IN_BRM
 from .lnaddr import lndecode, LnDecodeException
 
 # note: when checking against these, use .lower() to support case-insensitivity
@@ -13,24 +13,24 @@ BITCOIN_BIP21_URI_SCHEME = 'bitcoin'
 LIGHTNING_URI_SCHEME = 'lightning'
 
 
-class InvalidBitcoinURI(Exception):
+class InvalidBitraamURI(Exception):
     pass
 
 
 def parse_bip21_URI(uri: str) -> dict:
-    """Raises InvalidBitcoinURI on malformed URI."""
+    """Raises InvalidBitraamURI on malformed URI."""
 
     if not isinstance(uri, str):
-        raise InvalidBitcoinURI(f"expected string, not {repr(uri)}")
+        raise InvalidBitraamURI(f"expected string, not {repr(uri)}")
 
     if ':' not in uri:
         if not bitcoin.is_address(uri):
-            raise InvalidBitcoinURI("Not a bitcoin address")
+            raise InvalidBitraamURI("Not a bitcoin address")
         return {'address': uri}
 
     u = urllib.parse.urlparse(uri)
     if u.scheme.lower() != BITCOIN_BIP21_URI_SCHEME:
-        raise InvalidBitcoinURI("Not a bitcoin URI")
+        raise InvalidBitraamURI("Not a bitcoin URI")
     address = u.path
 
     # python for android fails to parse query
@@ -42,15 +42,15 @@ def parse_bip21_URI(uri: str) -> dict:
 
     for k, v in pq.items():
         if len(v) != 1:
-            raise InvalidBitcoinURI(f'Duplicate Key: {repr(k)}')
+            raise InvalidBitraamURI(f'Duplicate Key: {repr(k)}')
         if k.startswith('req-'):
             # we have no support for any req-* query parameters
-            raise InvalidBitcoinURI(f'Unsupported Key: {repr(k)}')
+            raise InvalidBitraamURI(f'Unsupported Key: {repr(k)}')
 
     out = {k: v[0] for k, v in pq.items()}
     if address:
         if not bitcoin.is_address(address):
-            raise InvalidBitcoinURI(f"Invalid bitcoin address: {address}")
+            raise InvalidBitraamURI(f"Invalid bitcoin address: {address}")
         out['address'] = address
     if 'amount' in out:
         am = out['amount']
@@ -61,11 +61,11 @@ def parse_bip21_URI(uri: str) -> dict:
                 amount = Decimal(m.group(1)) * pow(Decimal(10), k)
             else:
                 amount = Decimal(am) * COIN
-            if amount > TOTAL_COIN_SUPPLY_LIMIT_IN_BTC * COIN or amount <= 0:
-                raise InvalidBitcoinURI(f"amount is out-of-bounds: {amount!r} BTC")
+            if amount > TOTAL_COIN_SUPPLY_LIMIT_IN_BRM * COIN or amount <= 0:
+                raise InvalidBitraamURI(f"amount is out-of-bounds: {amount!r} BRM")
             out['amount'] = int(amount)
         except Exception as e:
-            raise InvalidBitcoinURI(f"failed to parse 'amount' field: {repr(e)}") from e
+            raise InvalidBitraamURI(f"failed to parse 'amount' field: {repr(e)}") from e
     if 'message' in out:
         out['message'] = out['message']
         out['memo'] = out['message']
@@ -73,32 +73,32 @@ def parse_bip21_URI(uri: str) -> dict:
         try:
             out['time'] = int(out['time'])
         except Exception as e:
-            raise InvalidBitcoinURI(f"failed to parse 'time' field: {repr(e)}") from e
+            raise InvalidBitraamURI(f"failed to parse 'time' field: {repr(e)}") from e
     if 'exp' in out:
         try:
             out['exp'] = int(out['exp'])
         except Exception as e:
-            raise InvalidBitcoinURI(f"failed to parse 'exp' field: {repr(e)}") from e
+            raise InvalidBitraamURI(f"failed to parse 'exp' field: {repr(e)}") from e
     if 'sig' in out:
         try:
             out['sig'] = bitcoin.base_decode(out['sig'], base=58).hex()
         except Exception as e:
-            raise InvalidBitcoinURI(f"failed to parse 'sig' field: {repr(e)}") from e
+            raise InvalidBitraamURI(f"failed to parse 'sig' field: {repr(e)}") from e
     if 'lightning' in out:
         try:
             lnaddr = lndecode(out['lightning'])
         except LnDecodeException as e:
-            raise InvalidBitcoinURI(f"Failed to decode 'lightning' field: {e!r}") from e
+            raise InvalidBitraamURI(f"Failed to decode 'lightning' field: {e!r}") from e
         amount_sat = out.get('amount')
         if amount_sat:
             # allow small leeway due to msat precision
             if lnaddr.get_amount_sat() is None or abs(amount_sat - int(lnaddr.get_amount_sat())) > 1:
-                raise InvalidBitcoinURI("Inconsistent lightning field in bip21: amount")
+                raise InvalidBitraamURI("Inconsistent lightning field in bip21: amount")
         address = out.get('address')
         ln_fallback_addr = lnaddr.get_fallback_address()
         if address and ln_fallback_addr:
             if ln_fallback_addr != address:
-                raise InvalidBitcoinURI("Inconsistent lightning field in bip21: address")
+                raise InvalidBitraamURI("Inconsistent lightning field in bip21: address")
 
     return out
 

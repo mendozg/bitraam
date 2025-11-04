@@ -45,7 +45,7 @@ try:
     from ledger_bitcoin.btchip.btchip import btchip
     from ledger_bitcoin.btchip.btchipUtils import compress_public_key
     from ledger_bitcoin.btchip.bitcoinTransaction import bitcoinTransaction
-    from ledger_bitcoin.btchip.btchipException import BTChipException
+    from ledger_bitcoin.btchip.btchipException import BRMhipException
 
     LEDGER_BITCOIN = True
 except ImportError as e:
@@ -57,7 +57,7 @@ except ImportError as e:
 
 MSG_NEEDS_FW_UPDATE_GENERIC = _('Firmware version too old. Please update at') + \
     ' https://www.ledger.com'
-MSG_NEEDS_FW_UPDATE_SEGWIT = _('Firmware version (or "Bitcoin" app) too old for Segwit support. Please update at') + \
+MSG_NEEDS_FW_UPDATE_SEGWIT = _('Firmware version (or "Bitraam" app) too old for Segwit support. Please update at') + \
     ' https://www.ledger.com'
 MULTI_OUTPUT_SUPPORT = '1.1.4'
 SEGWIT_SUPPORT = '1.1.10'
@@ -240,9 +240,9 @@ def get_bip44_purpose(addrtype: 'AddressType') -> int:
 
 def get_bip44_chain(chain: 'Chain') -> int:
     """
-    Determine the BIP 44 coin type based on the Bitcoin chain type.
+    Determine the BIP 44 coin type based on the Bitraam chain type.
 
-    For the Bitcoin mainnet chain, this returns 0. For the other chains, this returns 1.
+    For the Bitraam mainnet chain, this returns 0. For the other chains, this returns 1.
 
     :param chain: The chain
     """
@@ -476,7 +476,7 @@ class Ledger_Client_Legacy(Ledger_Client):
         try:
             client.getVerifyPinRemainingAttempts()
             return True
-        except BTChipException as e:
+        except BRMhipException as e:
             if e.sw == 0x6d00:
                 return False
             raise e
@@ -485,7 +485,7 @@ class Ledger_Client_Legacy(Ledger_Client):
         try:
             # Invalid SET OPERATION MODE to verify the PIN status
             client.dongle.exchange(bytearray([0xe0, 0x26, 0x00, 0x00, 0x01, 0xAB]))
-        except BTChipException as e:
+        except BRMhipException as e:
             if (e.sw == 0x6982):
                 return False
             if (e.sw == 0x6A80):
@@ -528,7 +528,7 @@ class Ledger_Client_Legacy(Ledger_Client):
         segwitNative = txin_type == 'p2wpkh'
         try:
             self.dongleObject.getWalletPublicKey(address_path, showOnScreen=True, segwit=segwit, segwitNative=segwitNative)
-        except BTChipException as e:
+        except BRMhipException as e:
             if e.sw == 0x6985:  # cancelled by user
                 pass
             elif e.sw == 0x6982:
@@ -705,7 +705,7 @@ class Ledger_Client_Legacy(Ledger_Client):
         except UserWarning:
             self.handler.show_error(_('Cancelled by user'))
             return
-        except BTChipException as e:
+        except BRMhipException as e:
             if e.sw in (0x6985, 0x6d00):  # cancelled by user
                 return
             elif e.sw == 0x6982:
@@ -738,7 +738,7 @@ class Ledger_Client_Legacy(Ledger_Client):
             info = self.dongleObject.signMessagePrepare(address_path, message)
             pin = ""
             signature = self.dongleObject.signMessageSign(pin)
-        except BTChipException as e:
+        except BRMhipException as e:
             if e.sw == 0x6a80:
                 self.give_error("Unfortunately, this message cannot be signed by the Ledger wallet. "
                                 "Only alphanumerical messages shorter than 140 characters are supported. "

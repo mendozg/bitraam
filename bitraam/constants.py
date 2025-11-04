@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Bitraam - lightweight Bitcoin client
+# Bitraam - lightweight Bitraam client
 # Copyright (C) 2018 The Bitraam developers
 #
 # Permission is hereby granted, free of charge, to any person
@@ -136,7 +136,7 @@ class AbstractNet:
         return cls.NET_NAME
 
 
-class BitcoinMainnet(AbstractNet):
+class BitraamMainnet(AbstractNet):
 
     NET_NAME = "mainnet"
     TESTNET = False
@@ -178,7 +178,7 @@ class BitcoinMainnet(AbstractNet):
         return None
 
 
-class BitcoinTestnet(AbstractNet):
+class BitraamTestnet(AbstractNet):
 
     NET_NAME = "testnet"
     TESTNET = True
@@ -214,14 +214,14 @@ class BitcoinTestnet(AbstractNet):
     ]
 
 
-class BitcoinTestnet4(BitcoinTestnet):
+class BitraamTestnet4(BitraamTestnet):
 
     NET_NAME = "testnet4"
     GENESIS = "00000000da84f2bafbbc53dee25a72ae507ff4914b867c565be350b0da8bf043"
     LN_DNS_SEEDS = []
 
 
-class BitcoinRegtest(BitcoinTestnet):
+class BitraamRegtest(BitraamTestnet):
 
     NET_NAME = "regtest"
     SEGWIT_HRP = "bcrt"
@@ -230,7 +230,7 @@ class BitcoinRegtest(BitcoinTestnet):
     LN_DNS_SEEDS = []
 
 
-class BitcoinSimnet(BitcoinTestnet):
+class BitraamSimnet(BitraamTestnet):
 
     NET_NAME = "simnet"
     WIF_PREFIX = 0x64
@@ -242,7 +242,7 @@ class BitcoinSimnet(BitcoinTestnet):
     LN_DNS_SEEDS = []
 
 
-class BitcoinSignet(BitcoinTestnet):
+class BitraamSignet(BitraamTestnet):
 
     NET_NAME = "signet"
     BOLT11_HRP = "tbs"
@@ -250,7 +250,7 @@ class BitcoinSignet(BitcoinTestnet):
     LN_DNS_SEEDS = []
 
 
-class BitcoinMutinynet(BitcoinTestnet):
+class BitraamMutinynet(BitraamTestnet):
 
     NET_NAME = "mutinynet"
     BOLT11_HRP = "tbs"
@@ -267,4 +267,4 @@ assert len(NETS_LIST) == len(set([chain.cli_flag() for chain in NETS_LIST])), "c
 assert len(NETS_LIST) == len(set([chain.config_key() for chain in NETS_LIST])), "config_key must be unique for each concrete AbstractNet"
 
 # don't import net directly, import the module instead (so that net is singleton)
-net = BitcoinMainnet  # type: Type[AbstractNet]
+net = BitraamMainnet  # type: Type[AbstractNet]

@@ -641,7 +641,7 @@ class BitraamGui(BaseBitraamGui, EventListener):
                 pr=None,
                 URI=None)
         else:
-            self.show_message(_('Invalid Bitcoin address'))
+            self.show_message(_('Invalid Bitraam address'))
             return None
         return invoice
 

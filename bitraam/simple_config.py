@@ -218,14 +218,14 @@ class SimpleConfig(Logger):
 
         # units and formatting
         # FIXME is this duplication (dp, nz, post_sat, thou_sep) due to performance reasons??
-        self.decimal_point = self.BTC_AMOUNTS_DECIMAL_POINT
+        self.decimal_point = self.BRM_AMOUNTS_DECIMAL_POINT
         try:
             decimal_point_to_base_unit_name(self.decimal_point)
         except UnknownBaseUnit:
             self.decimal_point = DECIMAL_POINT_DEFAULT
-        self.num_zeros = self.BTC_AMOUNTS_FORCE_NZEROS_AFTER_DECIMAL_POINT
-        self.amt_precision_post_satoshi = self.BTC_AMOUNTS_PREC_POST_SAT
-        self.amt_add_thousands_sep = self.BTC_AMOUNTS_ADD_THOUSANDS_SEP
+        self.num_zeros = self.BRM_AMOUNTS_FORCE_NZEROS_AFTER_DECIMAL_POINT
+        self.amt_precision_post_satoshi = self.BRM_AMOUNTS_PREC_POST_SAT
+        self.amt_add_thousands_sep = self.BRM_AMOUNTS_ADD_THOUSANDS_SEP
 
         self._init_done = True
 
@@ -254,7 +254,7 @@ class SimpleConfig(Logger):
         if selected_chains:
             # note: if multiple are selected, we just pick one deterministically random
             return selected_chains[0]
-        return constants.BitcoinMainnet
+        return constants.BitraamMainnet
 
     def bitraam_path(self):
         path = self.bitraam_path_root()
@@ -550,7 +550,7 @@ class SimpleConfig(Logger):
     def set_base_unit(self, unit):
         assert unit in base_units.keys()
         self.decimal_point = base_unit_name_to_decimal_point(unit)
-        self.BTC_AMOUNTS_DECIMAL_POINT = self.decimal_point
+        self.BRM_AMOUNTS_DECIMAL_POINT = self.decimal_point
 
     def get_decimal_point(self):
         return self.decimal_point
@@ -654,7 +654,7 @@ class SimpleConfig(Logger):
     NETWORK_MAX_INCOMING_MSG_SIZE = ConfigVar('network_max_incoming_msg_size', default=8_100_000, type_=int)  # in bytes
         # ^ the default is chosen so that the largest consensus-valid tx fits in a JSON-RPC message.
         #   (so that if we request a tx from the server, we won't reject the response)
-        #   For Bitcoin, that is 4 M weight units, i.e. 4 MB on the p2p wire.
+        #   For Bitraam, that is 4 M weight units, i.e. 4 MB on the p2p wire.
         #   Double that due to our JSON-RPC hex-encoding, plus overhead, that's 8+ MB.
     NETWORK_TIMEOUT = ConfigVar('network_timeout', default=None, type_=int)
     NETWORK_BOOKMARKED_SERVERS = ConfigVar('network_bookmarked_servers', default=None)
@@ -846,17 +846,17 @@ Warning: setting this to too low will result in lots of payment failures."""),
     GUI_QML_ALWAYS_ALLOW_SCREENSHOTS = ConfigVar('android_always_allow_screenshots', default=False, type_=bool)
     GUI_QML_SET_MAX_BRIGHTNESS_ON_QR_DISPLAY = ConfigVar('android_set_max_brightness_on_qr_display', default=True, type_=bool)
 
-    BTC_AMOUNTS_DECIMAL_POINT = ConfigVar('decimal_point', default=DECIMAL_POINT_DEFAULT, type_=int)
-    BTC_AMOUNTS_FORCE_NZEROS_AFTER_DECIMAL_POINT = ConfigVar(
+    BRM_AMOUNTS_DECIMAL_POINT = ConfigVar('decimal_point', default=DECIMAL_POINT_DEFAULT, type_=int)
+    BRM_AMOUNTS_FORCE_NZEROS_AFTER_DECIMAL_POINT = ConfigVar(
         'num_zeros', default=0, type_=int,
         short_desc=lambda: _('Zeros after decimal point'),
         long_desc=lambda: _('Number of zeros displayed after the decimal point. For example, if this is set to 2, "1." will be displayed as "1.00"'),
     )
-    BTC_AMOUNTS_PREC_POST_SAT = ConfigVar(
+    BRM_AMOUNTS_PREC_POST_SAT = ConfigVar(
         'amt_precision_post_satoshi', default=0, type_=int,
         short_desc=lambda: _("Show Lightning amounts with msat precision"),
     )
-    BTC_AMOUNTS_ADD_THOUSANDS_SEP = ConfigVar(
+    BRM_AMOUNTS_ADD_THOUSANDS_SEP = ConfigVar(
         'amt_add_thousands_sep', default=False, type_=bool,
         short_desc=lambda: _("Add thousand separators to bitcoin amounts"),
     )

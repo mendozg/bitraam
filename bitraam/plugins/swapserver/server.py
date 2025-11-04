@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# Bitraam - lightweight Bitcoin client
+# Bitraam - lightweight Bitraam client
 # Copyright (C) 2025 The Bitraam Developers
 #
 # Permission is hereby granted, free of charge, to any person
@@ -86,7 +86,7 @@ class HttpSwapServer(Logger, EventListener):
             "warnings": [],
             "htlcFirst": True,
             "pairs": {
-                "BTC/BTC": {
+                "BRM/BRM": {
                     "rate": 1,
                     "limits": {
                         "maximal": min(sm._max_forward, sm._max_reverse),  # legacy

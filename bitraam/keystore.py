@@ -1,7 +1,7 @@
 #!/usr/bin/env python2
 # -*- mode: python -*-
 #
-# Bitraam - lightweight Bitcoin client
+# Bitraam - lightweight Bitraam client
 # Copyright (C) 2016  The Bitraam developers
 #
 # Permission is hereby granted, free of charge, to any person
@@ -48,7 +48,7 @@ from .crypto import (pw_decode, pw_encode, sha256, sha256d, PW_HASH_VERSION_LATE
                      SUPPORTED_PW_HASH_VERSIONS, UnsupportedPasswordHashVersion, hash_160,
                      CiphertextFormatError)
 from .util import (InvalidPassword, WalletFileException,
-                   BitcoinException, bfh, inv_dict, is_hex_str)
+                   BitraamException, bfh, inv_dict, is_hex_str)
 from .mnemonic import Mnemonic, Wordlist, calc_seed_type, is_seed
 from .plugin import run_hook
 from .logging import Logger
@@ -1203,7 +1203,7 @@ def from_seed(seed: str, *, passphrase: Optional[str], for_multisig: bool = Fals
             xtype = 'p2wsh' if for_multisig else 'p2wpkh'
         keystore.add_xprv_from_seed(bip32_seed, xtype=xtype, derivation=der)
     else:
-        raise BitcoinException('Unexpected seed type {}'.format(repr(t)))
+        raise BitraamException('Unexpected seed type {}'.format(repr(t)))
     return keystore
 
 def from_private_key_list(text: str) -> Imported_KeyStore:
@@ -1235,5 +1235,5 @@ def from_master_key(text: str) -> Union[BIP32_KeyStore, Old_KeyStore]:
     elif is_xpub(text):
         k = from_xpub(text)
     else:
-        raise BitcoinException('Invalid master key')
+        raise BitraamException('Invalid master key')
     return k

@@ -15,7 +15,7 @@ from bitraam.bitcoin import (public_key_to_p2pkh, address_from_private_key,
                               is_b58_address, address_to_scripthash, is_minikey,
                               is_compressed_privkey, EncodeBase58Check, DecodeBase58Check,
                               script_num_to_bytes, push_script, add_number_to_script,
-                              opcodes, base_encode, base_decode, BitcoinException,
+                              opcodes, base_encode, base_decode, BitraamException,
                               taproot_tweak_pubkey, taproot_tweak_seckey, taproot_output_script,
                               control_block_for_taproot_script_spend)
 from bitraam import bip32
@@ -482,8 +482,8 @@ class Test_bitcoin(BitraamTestCase):
         # test vectors from BIP-0173
         # note: the ones that are commented out have been invalidated by BIP-0350
         self.assertEqual(address_to_script('BC1QW508D6QEJXTDG4Y5R3ZARVARY0C5XW7KV8F3T4').hex(), '0014751e76e8199196d454941c45d1b3a323f1433bd6')
-        self.assertEqual(address_to_script('tb1qrp33g0q5c5txsp9arysrx4k6zdkfs4nce4xj0gdcccefvpysxf3q0sl5k7', net=constants.BitcoinTestnet).hex(), '00201863143c14c5166804bd19203356da136c985678cd4d27a1b8c6329604903262')
-        self.assertEqual(address_to_script('tb1qqqqqp399et2xygdj5xreqhjjvcmzhxw4aywxecjdzew6hylgvsesrxh6hy', net=constants.BitcoinTestnet).hex(), '0020000000c4a5cad46221b2a187905e5266362b99d5e91c6ce24d165dab93e86433')
+        self.assertEqual(address_to_script('tb1qrp33g0q5c5txsp9arysrx4k6zdkfs4nce4xj0gdcccefvpysxf3q0sl5k7', net=constants.BitraamTestnet).hex(), '00201863143c14c5166804bd19203356da136c985678cd4d27a1b8c6329604903262')
+        self.assertEqual(address_to_script('tb1qqqqqp399et2xygdj5xreqhjjvcmzhxw4aywxecjdzew6hylgvsesrxh6hy', net=constants.BitraamTestnet).hex(), '0020000000c4a5cad46221b2a187905e5266362b99d5e91c6ce24d165dab93e86433')
         # self.assertEqual(address_to_script('bc1pw508d6qejxtdg4y5r3zarvary0c5xw7kw508d6qejxtdg4y5r3zarvary0c5xw7k7grplx'), '5128751e76e8199196d454941c45d1b3a323f1433bd6751e76e8199196d454941c45d1b3a323f1433bd6')
         # self.assertEqual(address_to_script('BC1SW50QA3JX3S'), '6002751e')
         # self.assertEqual(address_to_script('bc1zw508d6qejxtdg4y5r3zarvaryvg6kdaj'), '5210751e76e8199196d454941c45d1b3a323')
@@ -494,10 +494,10 @@ class Test_bitcoin(BitraamTestCase):
         self.assertEqual(address_to_script('BC1SW50QGDZ25J').hex(), '6002751e')
         self.assertEqual(address_to_script('bc1zw508d6qejxtdg4y5r3zarvaryvaxxpcs').hex(), '5210751e76e8199196d454941c45d1b3a323')
         self.assertEqual(address_to_script('bc1p0xlxvlhemja6c4dqv22uapctqupfhlxm9h8z3k2e72q4k9hcz7vqzk5jj0').hex(), '512079be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798')
-        self.assertEqual(address_to_script('tb1pqqqqp399et2xygdj5xreqhjjvcmzhxw4aywxecjdzew6hylgvsesf3hn0c', net=constants.BitcoinTestnet).hex(), '5120000000c4a5cad46221b2a187905e5266362b99d5e91c6ce24d165dab93e86433')
+        self.assertEqual(address_to_script('tb1pqqqqp399et2xygdj5xreqhjjvcmzhxw4aywxecjdzew6hylgvsesf3hn0c', net=constants.BitraamTestnet).hex(), '5120000000c4a5cad46221b2a187905e5266362b99d5e91c6ce24d165dab93e86433')
 
         # invalid addresses (from BIP-0173)
-        for net in [constants.BitcoinMainnet, constants.BitcoinTestnet]:
+        for net in [constants.BitraamMainnet, constants.BitraamTestnet]:
             self.assertFalse(is_address('tc1qw508d6qejxtdg4y5r3zarvary0c5xw7kg3g4ty', net=net))
             self.assertFalse(is_address('bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t5', net=net))
             self.assertFalse(is_address('BC13W508D6QEJXTDG4Y5R3ZARVARY0C5XW7KN40WF2', net=net))
@@ -510,7 +510,7 @@ class Test_bitcoin(BitraamTestCase):
             self.assertFalse(is_address('bc1gmk9yu', net=net))
 
         # invalid addresses (from BIP-0350)
-        for net in [constants.BitcoinMainnet, constants.BitcoinTestnet]:
+        for net in [constants.BitraamMainnet, constants.BitraamTestnet]:
             self.assertFalse(is_address('tc1p0xlxvlhemja6c4dqv22uapctqupfhlxm9h8z3k2e72q4k9hcz7vq5zuyut', net=net))
             self.assertFalse(is_address('bc1p0xlxvlhemja6c4dqv22uapctqupfhlxm9h8z3k2e72q4k9hcz7vqh2y7hd', net=net))
             self.assertFalse(is_address('tb1z0xlxvlhemja6c4dqv22uapctqupfhlxm9h8z3k2e72q4k9hcz7vqglt7rf', net=net))
@@ -536,14 +536,14 @@ class Test_bitcoin(BitraamTestCase):
         # base58 P2PKH
         self.assertEqual(address_to_script('14gcRovpkCoGkCNBivQBvw7eso7eiNAbxG').hex(), '76a91428662c67561b95c79d2257d2a93d9d151c977e9188ac')
         self.assertEqual(address_to_script('1BEqfzh4Y3zzLosfGhw1AsqbEKVW6e1qHv').hex(), '76a914704f4b81cadb7bf7e68c08cd3657220f680f863c88ac')
-        self.assertEqual(address_to_script('mutXcGt1CJdkRvXuN2xoz2quAAQYQ59bRX', net=constants.BitcoinTestnet).hex(), '76a9149da64e300c5e4eb4aaffc9c2fd465348d5618ad488ac')
-        self.assertEqual(address_to_script('miqtaRTkU3U8rzwKbEHx3g8FSz8GJtPS3K', net=constants.BitcoinTestnet).hex(), '76a914247d2d5b6334bdfa2038e85b20fc15264f8e5d2788ac')
+        self.assertEqual(address_to_script('mutXcGt1CJdkRvXuN2xoz2quAAQYQ59bRX', net=constants.BitraamTestnet).hex(), '76a9149da64e300c5e4eb4aaffc9c2fd465348d5618ad488ac')
+        self.assertEqual(address_to_script('miqtaRTkU3U8rzwKbEHx3g8FSz8GJtPS3K', net=constants.BitraamTestnet).hex(), '76a914247d2d5b6334bdfa2038e85b20fc15264f8e5d2788ac')
 
         # base58 P2SH
         self.assertEqual(address_to_script('35ZqQJcBQMZ1rsv8aSuJ2wkC7ohUCQMJbT').hex(), 'a9142a84cf00d47f699ee7bbc1dea5ec1bdecb4ac15487')
         self.assertEqual(address_to_script('3PyjzJ3im7f7bcV724GR57edKDqoZvH7Ji').hex(), 'a914f47c8954e421031ad04ecd8e7752c9479206b9d387')
-        self.assertEqual(address_to_script('2N3LSvr3hv5EVdfcrxg2Yzecf3SRvqyBE4p', net=constants.BitcoinTestnet).hex(), 'a9146eae23d8c4a941316017946fc761a7a6c85561fb87')
-        self.assertEqual(address_to_script('2NE4ZdmxFmUgwu5wtfoN2gVniyMgRDYq1kk', net=constants.BitcoinTestnet).hex(), 'a914e4567743d378957cd2ee7072da74b1203c1a7a0b87')
+        self.assertEqual(address_to_script('2N3LSvr3hv5EVdfcrxg2Yzecf3SRvqyBE4p', net=constants.BitraamTestnet).hex(), 'a9146eae23d8c4a941316017946fc761a7a6c85561fb87')
+        self.assertEqual(address_to_script('2NE4ZdmxFmUgwu5wtfoN2gVniyMgRDYq1kk', net=constants.BitraamTestnet).hex(), 'a914e4567743d378957cd2ee7072da74b1203c1a7a0b87')
 
 
     def test_address_to_payload(self):
@@ -1118,12 +1118,12 @@ class Test_keyImport(BitraamTestCase):
                              is_compressed_privkey(priv_details['priv']))
 
     def test_segwit_uncompressed_pubkey(self):
-        with self.assertRaises(BitcoinException):
+        with self.assertRaises(BitraamException):
             is_private_key("p2wpkh-p2sh:5JKXxT3wAZHcybJ9YNkuHur9vou6uuAnorBV9A8vVxGNFH5wvTW",
                            raise_on_error=True)
 
     def test_wif_with_invalid_magic_byte_for_compressed_pubkey(self):
-        with self.assertRaises(BitcoinException):
+        with self.assertRaises(BitraamException):
             is_private_key("KwFAa6AumokBD2dVqQLPou42jHiVsvThY1n25HJ8Ji8REf1wxAQb",
                            raise_on_error=True)
 

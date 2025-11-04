@@ -28,7 +28,7 @@ from bitraam.submarine_swaps import SwapServerError
 from bitraam.fee_policy import FeePolicy, FixedFeePolicy
 from bitraam.lnurl import LNURL3Data, request_lnurl_withdraw_callback, LNURLError
 
-from .amountedit import AmountEdit, BTCAmountEdit, SizedFreezableLineEdit
+from .amountedit import AmountEdit, BRMAmountEdit, SizedFreezableLineEdit
 from .paytoedit import InvalidPaymentIdentifier
 from .util import (WaitingDialog, HelpLabel, MessageBoxMixin, EnterButton, char_width_in_lineedit,
                    get_icon_camera, read_QIcon, ColorScheme, IconLabel, Spinner, Buttons, WWLabel,
@@ -68,12 +68,12 @@ class SendTab(QWidget, MessageBoxMixin, Logger):
         grid.setColumnStretch(3, 1)
 
         from .paytoedit import PayToEdit
-        self.amount_e = BTCAmountEdit(self.window.get_decimal_point)
+        self.amount_e = BRMAmountEdit(self.window.get_decimal_point)
         self.payto_e = PayToEdit(self)
         msg = (_("Recipient of the funds.")
                + "\n\n"
                + _("This field can contain:") + "\n"
-               + _("- a Bitcoin address or BIP21 URI") + "\n"
+               + _("- a Bitraam address or BIP21 URI") + "\n"
                + _("- a Lightning invoice") + "\n"
                + _("- a label from your list of contacts") + "\n"
                + _("- an openalias") + "\n"
@@ -636,7 +636,7 @@ class SendTab(QWidget, MessageBoxMixin, Logger):
 
         for o in outputs:
             if o.scriptpubkey is None:
-                self.show_error(_('Bitcoin Address is None'))
+                self.show_error(_('Bitraam Address is None'))
                 return True
             if o.value is None:
                 self.show_error(_('Invalid Amount'))
@@ -913,7 +913,7 @@ class SendTab(QWidget, MessageBoxMixin, Logger):
 
         # Amount section
         amount_label = QLabel(_("Amount") + ":")
-        amount_edit = BTCAmountEdit(self.window.get_decimal_point, max_amount=max_amount)
+        amount_edit = BRMAmountEdit(self.window.get_decimal_point, max_amount=max_amount)
         amount_edit.setAmount(max_amount)
         grid.addWidget(amount_label, row, 0)
         grid.addWidget(amount_edit, row, 1)

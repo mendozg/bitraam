@@ -47,15 +47,15 @@ class BitraamTestCase(unittest.IsolatedAsyncioTestCase, Logger):
         super().setUpClass()
         assert not (cls.REGTEST and cls.TESTNET), "regtest and testnet are mutually exclusive"
         if cls.REGTEST:
-            constants.BitcoinRegtest.set_as_network()
+            constants.BitraamRegtest.set_as_network()
         elif cls.TESTNET:
-            constants.BitcoinTestnet.set_as_network()
+            constants.BitraamTestnet.set_as_network()
 
     @classmethod
     def tearDownClass(cls):
         super().tearDownClass()
         if cls.TESTNET or cls.REGTEST:
-            constants.BitcoinMainnet.set_as_network()
+            constants.BitraamMainnet.set_as_network()
 
     def setUp(self):
         have_lock = self._test_lock.acquire(timeout=0.1)
@@ -92,14 +92,14 @@ def as_testnet(func):
     if inspect.iscoroutinefunction(func):
         async def run_test(*args, **kwargs):
             try:
-                constants.BitcoinTestnet.set_as_network()
+                constants.BitraamTestnet.set_as_network()
                 return await func(*args, **kwargs)
             finally:
                 constants.net = old_net
     else:
         def run_test(*args, **kwargs):
             try:
-                constants.BitcoinTestnet.set_as_network()
+                constants.BitraamTestnet.set_as_network()
                 return func(*args, **kwargs)
             finally:
                 constants.net = old_net

@@ -11,7 +11,7 @@ from .util import char_width_in_lineedit, ColorScheme
 
 from bitraam.util import (format_satoshis_plain, decimal_point_to_base_unit_name,
                            FEERATE_PRECISION, quantize_feerate, DECIMAL_POINT, UI_UNIT_NAME_FEERATE_SAT_PER_VBYTE)
-from bitraam.bitcoin import COIN, TOTAL_COIN_SUPPLY_LIMIT_IN_BTC
+from bitraam.bitcoin import COIN, TOTAL_COIN_SUPPLY_LIMIT_IN_BRM
 
 _NOT_GIVEN = object()  # sentinel value
 
@@ -45,7 +45,7 @@ class AmountEdit(SizedFreezableLineEdit):
     shortcut = pyqtSignal()
 
     def __init__(self, base_unit, is_int=False, parent=None, *, max_amount=None):
-        # This seems sufficient for hundred-BTC amounts with 8 decimals
+        # This seems sufficient for hundred-BRM amounts with 8 decimals
         width = 16 * char_width_in_lineedit()
         super().__init__(width=width, parent=parent)
         self.base_unit = base_unit
@@ -116,11 +116,11 @@ class AmountEdit(SizedFreezableLineEdit):
         self.setText(text)
 
 
-class BTCAmountEdit(AmountEdit):
+class BRMAmountEdit(AmountEdit):
 
     def __init__(self, decimal_point, is_int=False, parent=None, *, max_amount=_NOT_GIVEN):
         if max_amount is _NOT_GIVEN:
-            max_amount = TOTAL_COIN_SUPPLY_LIMIT_IN_BTC * COIN
+            max_amount = TOTAL_COIN_SUPPLY_LIMIT_IN_BRM * COIN
         AmountEdit.__init__(self, self._base_unit, is_int, parent, max_amount=max_amount)
         self.decimal_point = decimal_point
 
@@ -159,7 +159,7 @@ class BTCAmountEdit(AmountEdit):
         self.repaint()  # macOS hack for #6269
 
 
-class FeerateEdit(BTCAmountEdit):
+class FeerateEdit(BRMAmountEdit):
 
     def __init__(self, decimal_point, is_int=False, parent=None, *, max_amount=_NOT_GIVEN):
         super().__init__(decimal_point, is_int, parent, max_amount=max_amount)

@@ -143,7 +143,7 @@ Pane {
         font: seedtextarea.font
     }
 
-    Bitcoin {
+    Bitraam {
         id: bitcoin
     }
 }

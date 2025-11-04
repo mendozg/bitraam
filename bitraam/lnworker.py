@@ -3192,7 +3192,7 @@ class LNWallet(LNWorker):
 
     def current_low_feerate_per_kw_srk_channel(self) -> Optional[int]:
         """Gets low feerate for static remote key channels."""
-        if constants.net is constants.BitcoinRegtest:
+        if constants.net is constants.BitraamRegtest:
             feerate_per_kvbyte = 0
         else:
             feerate_per_kvbyte = self.network.fee_estimates.eta_target_to_fee(FEE_LN_LOW_ETA_TARGET)
@@ -3640,7 +3640,7 @@ class LNWallet(LNWorker):
         """Returns True if the HTLC should be failed.
         We must not forward HTLCs with a matching payment_hash to a payment request we created.
         Example attack:
-        - Bob creates payment request with HASH1, for 1 BTC; and gives the payreq to Alice
+        - Bob creates payment request with HASH1, for 1 BRM; and gives the payreq to Alice
         - Alice sends htlc A->B->C, for 1 sat, with HASH1
         - Bob must not release the preimage of HASH1
         """

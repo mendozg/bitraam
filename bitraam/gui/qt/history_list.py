@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# Bitraam - lightweight Bitcoin client
+# Bitraam - lightweight Bitraam client
 # Copyright (C) 2015 Thomas Voegtlin
 #
 # Permission is hereby granted, free of charge, to any person
@@ -636,13 +636,13 @@ class HistoryList(MyTreeView, AcceptFileDragDrop):
         grid.addWidget(QLabel(self.format_date(start_date)), 1, 1)
         grid.addWidget(QLabel(self.format_date(end_date)), 1, 2)
         #
-        grid.addWidget(QLabel(_("BTC balance")), 2, 0)
-        grid.addWidget(QLabel(format_amount(start['BTC_balance'])), 2, 1)
-        grid.addWidget(QLabel(format_amount(end['BTC_balance'])), 2, 2)
+        grid.addWidget(QLabel(_("BRM balance")), 2, 0)
+        grid.addWidget(QLabel(format_amount(start['BRM_balance'])), 2, 1)
+        grid.addWidget(QLabel(format_amount(end['BRM_balance'])), 2, 2)
         #
-        grid.addWidget(QLabel(_("BTC Fiat price")), 3, 0)
-        grid.addWidget(QLabel(format_fiat(start.get('BTC_fiat_price'))), 3, 1)
-        grid.addWidget(QLabel(format_fiat(end.get('BTC_fiat_price'))), 3, 2)
+        grid.addWidget(QLabel(_("BRM Fiat price")), 3, 0)
+        grid.addWidget(QLabel(format_fiat(start.get('BRM_fiat_price'))), 3, 1)
+        grid.addWidget(QLabel(format_fiat(end.get('BRM_fiat_price'))), 3, 2)
         #
         grid.addWidget(QLabel(_("Fiat balance")), 4, 0)
         grid.addWidget(QLabel(format_fiat(start.get('fiat_balance'))), 4, 1)
@@ -657,12 +657,12 @@ class HistoryList(MyTreeView, AcceptFileDragDrop):
         grid.addWidget(QLabel(format_fiat(end.get('unrealized_gains', ''))), 6, 2)
         #
         grid2 = QGridLayout()
-        grid2.addWidget(QLabel(_("BTC incoming")), 0, 0)
-        grid2.addWidget(QLabel(format_amount(flow['BTC_incoming'])), 0, 1)
+        grid2.addWidget(QLabel(_("BRM incoming")), 0, 0)
+        grid2.addWidget(QLabel(format_amount(flow['BRM_incoming'])), 0, 1)
         grid2.addWidget(QLabel(_("Fiat incoming")), 1, 0)
         grid2.addWidget(QLabel(format_fiat(flow.get('fiat_incoming'))), 1, 1)
-        grid2.addWidget(QLabel(_("BTC outgoing")), 2, 0)
-        grid2.addWidget(QLabel(format_amount(flow['BTC_outgoing'])), 2, 1)
+        grid2.addWidget(QLabel(_("BRM outgoing")), 2, 0)
+        grid2.addWidget(QLabel(format_amount(flow['BRM_outgoing'])), 2, 1)
         grid2.addWidget(QLabel(_("Fiat outgoing")), 3, 0)
         grid2.addWidget(QLabel(format_fiat(flow.get('fiat_outgoing'))), 3, 1)
         #
