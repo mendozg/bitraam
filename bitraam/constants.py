@@ -140,13 +140,13 @@ class BitraamMainnet(AbstractNet):
 
     NET_NAME = "mainnet"
     TESTNET = False
-    WIF_PREFIX = 0x80
-    ADDRTYPE_P2PKH = 0
-    ADDRTYPE_P2SH = 5
-    SEGWIT_HRP = "bc"
+    WIF_PREFIX = 0xE0
+    ADDRTYPE_P2PKH = 40
+    ADDRTYPE_P2SH = 30
+    SEGWIT_HRP = "br"
     BOLT11_HRP = SEGWIT_HRP
-    GENESIS = "000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f"
-    DEFAULT_PORTS = {'t': '50001', 's': '50002'}
+    GENESIS = "000000341302a07b494f3bb6f32b439a6fe3e29d9c98f315bea686f1c7010bc6"
+    DEFAULT_PORTS = {'t': '50016', 's': '50018'}
     BLOCK_HEIGHT_FIRST_LIGHTNING_CHANNELS = 497000
 
     XPRV_HEADERS = {
@@ -168,9 +168,8 @@ class BitraamMainnet(AbstractNet):
     BIP44_COIN_TYPE = 0
     LN_REALM_BYTE = 0
     LN_DNS_SEEDS = [
-        'nodes.lightning.directory.',
-        'lseed.bitcoinstats.com.',
-        'lseed.darosior.ninja',
+        'bitraamnodes.lightning.directory.',
+        'lseed.bitraamstats.com.',
     ]
 
     @classmethod
