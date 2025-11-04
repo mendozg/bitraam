@@ -80,7 +80,7 @@ def check_imports():
         import aiorpcx
         import aiohttp
         import aiohttp_socks
-        import bitraam_ecc
+        import electrum_ecc
         import jsonpatch
         import bitraam_aionostr
     except ImportError as e:

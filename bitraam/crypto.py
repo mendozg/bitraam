@@ -31,7 +31,7 @@ import hashlib
 import hmac
 from typing import Union, Mapping, Optional
 
-import bitraam_ecc as ecc
+import electrum_ecc as ecc
 
 from .util import assert_bytes, InvalidPassword, to_bytes, to_string, WalletFileException, versiontuple
 from .i18n import _
