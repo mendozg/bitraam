@@ -15,8 +15,8 @@ import functools
 from functools import partial
 import inspect
 
-import bitraam_ecc as ecc
-from bitraam_ecc import ecdsa_sig64_from_r_and_s, ecdsa_der_sig_from_ecdsa_sig64, ECPubkey
+import electrum_ecc as ecc
+from electrum_ecc import ecdsa_sig64_from_r_and_s, ecdsa_der_sig_from_ecdsa_sig64, ECPubkey
 
 import aiorpcx
 from aiorpcx import ignore_after

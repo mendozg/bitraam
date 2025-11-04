@@ -28,7 +28,7 @@ import hashlib
 from typing import Sequence, List, Tuple, NamedTuple, TYPE_CHECKING, Dict, Any, Optional, Union
 from enum import IntEnum
 
-import bitraam_ecc as ecc
+import electrum_ecc as ecc
 
 from .crypto import sha256, hmac_oneshot, chacha20_encrypt, get_ecdh, chacha20_poly1305_encrypt, chacha20_poly1305_decrypt
 from .util import profiler, xor_bytes, bfh

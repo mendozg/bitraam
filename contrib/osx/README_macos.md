@@ -17,7 +17,7 @@ $ git submodule update --init
 
 ### 2. Prepare for compiling libsecp256k1
 
-To be able to build the `bitraam-ecc` package from source
+To be able to build the `electrum-ecc` package from source
 (which is pulled in when installing Bitraam in the next step),
 you need:
 ```

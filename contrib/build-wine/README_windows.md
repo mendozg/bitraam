@@ -21,7 +21,7 @@ Run install (this should install most dependencies):
 
 ### 2. Install `libsecp256k1`
 
-[comment]: # (technically the dll should be put into site-packages/bitraam_ecc/,
+[comment]: # (technically the dll should be put into site-packages/electrum_ecc/,
 but putting it into bitraam/ also works because of the `os.add_dll_directory` call in
 bitraam/__init__.py)
 

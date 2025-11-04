@@ -37,8 +37,8 @@ import itertools
 import binascii
 import copy
 
-import bitraam_ecc as ecc
-from bitraam_ecc.util import bip340_tagged_hash
+import electrum_ecc as ecc
+from electrum_ecc.util import bip340_tagged_hash
 
 from . import bitcoin, bip32
 from .bip32 import BIP32Node

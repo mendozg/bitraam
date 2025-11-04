@@ -28,8 +28,8 @@ import threading
 from typing import TYPE_CHECKING, Dict, Set
 
 import aiorpcx
-import bitraam_ecc as ecc
-from bitraam_ecc import ECPubkey
+import electrum_ecc as ecc
+from electrum_ecc import ECPubkey
 
 from . import bitcoin
 from . import constants

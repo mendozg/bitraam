@@ -2,7 +2,7 @@ import json
 import os
 from typing import NamedTuple, Union
 
-from bitraam_ecc import ECPrivkey
+from electrum_ecc import ECPrivkey
 
 from bitraam import transaction, bitcoin
 from bitraam.transaction import (convert_raw_tx_to_hex, tx_from_any, Transaction,

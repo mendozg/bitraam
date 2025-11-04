@@ -28,9 +28,9 @@ import ssl
 import time
 from contextlib import asynccontextmanager
 
-import bitraam_ecc as ecc
-import bitraam_aionostr as aionostr
-from bitraam_aionostr.key import PrivateKey
+import electrum_ecc as ecc
+import electrum_aionostr as aionostr
+from electrum_aionostr.key import PrivateKey
 from typing import Dict, TYPE_CHECKING, Union, List, Tuple, Optional, Callable
 
 from bitraam import util, Transaction

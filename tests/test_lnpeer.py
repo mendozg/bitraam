@@ -13,7 +13,7 @@ from unittest import mock
 from typing import Iterable, NamedTuple, Tuple, List, Dict, Sequence
 
 from aiorpcx import timeout_after, TaskTimeout
-from bitraam_ecc import ECPrivkey
+from electrum_ecc import ECPrivkey
 
 import bitraam
 import bitraam.trampoline

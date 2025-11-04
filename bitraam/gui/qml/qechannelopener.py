@@ -2,7 +2,7 @@ import threading
 from concurrent.futures import CancelledError
 from asyncio.exceptions import TimeoutError
 from typing import Optional
-import bitraam_ecc as ecc
+import electrum_ecc as ecc
 
 from PyQt6.QtCore import pyqtProperty, pyqtSignal, pyqtSlot, QObject
 

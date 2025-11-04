@@ -1,7 +1,7 @@
 import time
 from struct import pack
 
-import bitraam_ecc as ecc
+import electrum_ecc as ecc
 
 from bitraam.i18n import _
 from bitraam.util import UserCancelled, UserFacingException

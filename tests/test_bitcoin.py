@@ -5,7 +5,7 @@ import os
 import sys
 import inspect
 
-import bitraam_ecc as ecc
+import electrum_ecc as ecc
 
 from bitraam import bitcoin
 from bitraam.bitcoin import (public_key_to_p2pkh, address_from_private_key,

@@ -55,7 +55,7 @@
    we are not a custodial service or a money transmitter. The Terms of
    Use screen also makes it clear that all issues are to be resolved
    in public, and that there is no user support via private channels.
- * Nostr support: (using new dependency: bitraam-aionostr)
+ * Nostr support: (using new dependency: electrum-aionostr)
    Bitraam now uses Nostr in the context of submarine swaps,
    and in several plugins. Bitraam will not connect to Nostr
    by default, only if required.
@@ -204,9 +204,9 @@
      - Linux AppImage: x86_64, glibc 2.31 ("debian 11"-equivalent)
  * Dependencies:
    - the minimum required python version was increased: 3.8->3.10 (#9418)
-   - new first-party dep: bitraam-aionostr
+   - new first-party dep: electrum-aionostr
      - forked the seemingly unmaintained davestgermain/aionostr library
-   - new first-party dep: bitraam-ecc
+   - new first-party dep: electrum-ecc
      - split out our existing libsecp256k1 python bindings into
        this separate package
 

@@ -32,8 +32,8 @@ import itertools
 from aiorpcx import NetAddress
 import attr
 
-import bitraam_ecc as ecc
-from bitraam_ecc import ECPubkey
+import electrum_ecc as ecc
+from electrum_ecc import ECPubkey
 
 from . import constants, util
 from .util import bfh, chunks, TxMinedInfo, error_text_bytes_to_safe_str

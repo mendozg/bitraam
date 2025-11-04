@@ -32,7 +32,7 @@ from urllib.parse import quote
 
 from aiohttp import ClientResponse
 
-import bitraam_ecc as ecc
+import electrum_ecc as ecc
 
 from bitraam import constants, keystore, version, bip32, bitcoin
 from bitraam.bip32 import BIP32Node, xpub_type, is_xprv

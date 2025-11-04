@@ -8,7 +8,7 @@
 from binascii import unhexlify
 import unittest
 
-import bitraam_ecc as ecc
+import electrum_ecc as ecc
 
 from bitraam.descriptor import (
     parse_descriptor,

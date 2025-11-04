@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING, Optional
 from PyQt6.QtWidgets import QLabel, QVBoxLayout, QGridLayout, QPushButton, QComboBox, QLineEdit, QHBoxLayout
 
-import bitraam_ecc as ecc
+import electrum_ecc as ecc
 
 from bitraam.i18n import _
 from bitraam.lnutil import MIN_FUNDING_SAT

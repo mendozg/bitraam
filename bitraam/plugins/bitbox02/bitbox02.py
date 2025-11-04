@@ -5,7 +5,7 @@
 import hid
 from typing import TYPE_CHECKING, Dict, Tuple, Optional, List, Any, Callable
 
-import bitraam_ecc as ecc
+import electrum_ecc as ecc
 
 from bitraam import bip32, constants
 from bitraam.i18n import _

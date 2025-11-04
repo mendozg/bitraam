@@ -1,7 +1,7 @@
 import asyncio
 from typing import List
 
-import bitraam_ecc as ecc
+import electrum_ecc as ecc
 
 from bitraam import util
 from bitraam import lntransport

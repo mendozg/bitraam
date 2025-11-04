@@ -17,7 +17,7 @@
 LIBSECP_VERSION="a660a4976efe880bae7982ee410b9e0dc59ac983"
 # ^ tag "v0.7.0"
 # note: this version is duplicated in contrib/android/p4a_recipes/libsecp256k1/__init__.py
-#       (and also in bitraam-ecc, for the "secp256k1" git submodule)
+#       (and also in electrum-ecc, for the "secp256k1" git submodule)
 
 set -e
 

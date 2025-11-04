@@ -17,7 +17,7 @@ import time
 import copy
 from typing import TYPE_CHECKING, Optional
 
-import bitraam_ecc as ecc
+import electrum_ecc as ecc
 
 from bitraam.crypto import sha256d, EncodeAES_bytes, DecodeAES_bytes, hmac_oneshot
 from bitraam.bitcoin import public_key_to_p2pkh, usermessage_magic, verify_usermessage_with_address

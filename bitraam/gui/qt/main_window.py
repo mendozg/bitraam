@@ -45,7 +45,7 @@ from PyQt6.QtWidgets import (QMessageBox, QTabWidget, QMenuBar, QFileDialog, QCh
                              QMainWindow, QInputDialog, QWidget, QSizePolicy, QStatusBar, QToolTip,
                              QMenu, QToolButton, QDialog)
 
-import bitraam_ecc as ecc
+import electrum_ecc as ecc
 
 import bitraam
 from bitraam.gui import messages

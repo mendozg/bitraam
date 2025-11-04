@@ -32,8 +32,8 @@ from typing import Tuple, TYPE_CHECKING, Union, Sequence, Optional, Dict, List, 
 from functools import lru_cache, wraps
 from abc import ABC, abstractmethod
 
-import bitraam_ecc as ecc
-from bitraam_ecc import string_to_number
+import electrum_ecc as ecc
+from electrum_ecc import string_to_number
 
 from . import bitcoin, constants, bip32
 from .bitcoin import deserialize_privkey, serialize_privkey, BaseDecodeError

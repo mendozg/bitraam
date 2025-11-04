@@ -31,7 +31,7 @@ from random import random
 
 from typing import TYPE_CHECKING, Optional, Sequence, NamedTuple
 
-import bitraam_ecc as ecc
+import electrum_ecc as ecc
 
 from bitraam.lnrouter import PathEdge
 from bitraam.logging import get_logger, Logger

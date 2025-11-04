@@ -40,7 +40,7 @@ import zipimport
 from functools import wraps, partial
 from itertools import chain
 
-from bitraam_ecc import ECPrivkey, ECPubkey
+from electrum_ecc import ECPrivkey, ECPubkey
 
 from ._vendor.distutils.version import StrictVersion
 from .version import ELECTRUM_VERSION

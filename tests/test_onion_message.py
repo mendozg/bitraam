@@ -5,8 +5,8 @@ import time
 from functools import partial
 import logging
 
-import bitraam_ecc as ecc
-from bitraam_ecc import ECPrivkey
+import electrum_ecc as ecc
+from electrum_ecc import ECPrivkey
 
 from bitraam import SimpleConfig
 from bitraam.lnmsg import decode_msg, OnionWireSerializer

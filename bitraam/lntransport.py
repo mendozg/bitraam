@@ -13,7 +13,7 @@ from functools import cached_property
 from typing import NamedTuple, List, Tuple, Mapping, Optional, TYPE_CHECKING, Union, Dict, Set, Sequence
 
 from aiorpcx import NetAddress
-import bitraam_ecc as ecc
+import electrum_ecc as ecc
 
 from .crypto import sha256, hmac_oneshot, chacha20_poly1305_encrypt, chacha20_poly1305_decrypt, get_ecdh, privkey_to_pubkey
 from .util import ESocksProxy

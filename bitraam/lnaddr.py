@@ -10,7 +10,7 @@ from decimal import Decimal
 from typing import Optional, TYPE_CHECKING, Type, Dict, Any, Sequence, Tuple
 import random
 
-import bitraam_ecc as ecc
+import electrum_ecc as ecc
 
 from .bitcoin import hash160_to_b58_address, b58_address_to_hash160, TOTAL_COIN_SUPPLY_LIMIT_IN_BTC
 from .segwit_addr import bech32_encode, bech32_decode, CHARSET, CHARSET_INVERSE, convertbits

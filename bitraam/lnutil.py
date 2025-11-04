@@ -9,9 +9,9 @@ import sys
 import time
 from functools import lru_cache
 
-import bitraam_ecc as ecc
-from bitraam_ecc import CURVE_ORDER, ecdsa_sig64_from_der_sig
-from bitraam_ecc.util import bip340_tagged_hash
+import electrum_ecc as ecc
+from electrum_ecc import CURVE_ORDER, ecdsa_sig64_from_der_sig
+from electrum_ecc.util import bip340_tagged_hash
 import dataclasses
 import attr
 

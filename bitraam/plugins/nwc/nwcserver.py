@@ -30,9 +30,9 @@ import logging
 import urllib.parse
 from typing import TYPE_CHECKING, Optional, List, Tuple, Awaitable
 
-import bitraam_aionostr as aionostr
-from bitraam_aionostr.event import Event as nEvent
-from bitraam_aionostr.key import PrivateKey
+import electrum_aionostr as aionostr
+from electrum_aionostr.event import Event as nEvent
+from electrum_aionostr.key import PrivateKey
 
 from bitraam.lnworker import PaymentDirection
 from bitraam.plugin import BasePlugin, hook

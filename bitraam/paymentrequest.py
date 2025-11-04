@@ -31,7 +31,7 @@ import urllib.parse
 
 import certifi
 import aiohttp
-import bitraam_ecc as ecc
+import electrum_ecc as ecc
 
 
 try:

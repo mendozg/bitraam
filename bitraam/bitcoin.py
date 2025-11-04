@@ -27,8 +27,8 @@ from typing import Tuple, TYPE_CHECKING, Optional, Union, Sequence, Mapping, Any
 import enum
 from enum import IntEnum, Enum
 
-import bitraam_ecc as ecc
-from bitraam_ecc.util import bip340_tagged_hash
+import electrum_ecc as ecc
+from electrum_ecc.util import bip340_tagged_hash
 
 from .util import bfh, BitcoinException, assert_bytes, to_bytes, inv_dict, is_hex_str, classproperty
 from . import segwit_addr
@@ -872,7 +872,7 @@ def ecdsa_sign_usermessage(ec_privkey, message: Union[bytes, str], *, is_compres
 
 
 def verify_usermessage_with_address(address: str, sig65: bytes, message: bytes, *, net=None) -> bool:
-    from bitraam_ecc import ECPubkey
+    from electrum_ecc import ECPubkey
     assert_bytes(sig65, message)
     if net is None: net = constants.net
     h = sha256d(usermessage_magic(message))

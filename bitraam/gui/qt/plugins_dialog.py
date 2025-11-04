@@ -17,7 +17,7 @@ from .util import (WindowModalDialog, Buttons, CloseButton, WWLabel, insert_spac
 
 if TYPE_CHECKING:
     from . import BitraamGui
-    from bitraam_ecc import ECPrivkey
+    from electrum_ecc import ECPrivkey
     from bitraam.simple_config import SimpleConfig
     from bitraam.plugin import Plugins
 

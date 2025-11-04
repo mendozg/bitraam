@@ -28,7 +28,7 @@ from typing import (
     Union,
 )
 
-import bitraam_ecc as ecc
+import electrum_ecc as ecc
 
 from .bip32 import convert_bip32_strpath_to_intpath, BIP32Node, KeyOriginInfo, BIP32_PRIME
 from . import bitcoin

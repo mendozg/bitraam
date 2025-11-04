@@ -41,7 +41,7 @@ from typing import Optional, TYPE_CHECKING, Dict, List, Any, Union
 import os
 import re
 
-import bitraam_ecc as ecc
+import electrum_ecc as ecc
 
 from . import util
 from .lnmsg import OnionWireSerializer
@@ -791,7 +791,7 @@ class Commands(Logger):
         # Add shared libs (.so/.dll), and non-pure-python dependencies.
         # Such deps can be installed in various ways - often via the Linux distro's pkg manager,
         # instead of using pip, hence it is useful to list them for debugging.
-        from bitraam_ecc import ecc_fast
+        from electrum_ecc import ecc_fast
         ret.update(ecc_fast.version_info())
         from . import qrscanner
         ret.update(qrscanner.version_info())

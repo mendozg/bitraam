@@ -11,12 +11,12 @@ import time
 import attr
 import aiohttp
 
-from bitraam_ecc import ECPrivkey
+from electrum_ecc import ECPrivkey
 
-import bitraam_aionostr as aionostr
-import bitraam_aionostr.key
-from bitraam_aionostr.event import Event
-from bitraam_aionostr.util import to_nip19
+import electrum_aionostr as aionostr
+import electrum_aionostr.key
+from electrum_aionostr.event import Event
+from electrum_aionostr.util import to_nip19
 
 from collections import defaultdict
 

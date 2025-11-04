@@ -4,7 +4,7 @@
 
 from typing import Optional, Dict, List, Tuple, TYPE_CHECKING, NamedTuple, Callable
 
-import bitraam_ecc as ecc
+import electrum_ecc as ecc
 
 from .util import bfh, UneconomicFee
 from .crypto import privkey_to_pubkey

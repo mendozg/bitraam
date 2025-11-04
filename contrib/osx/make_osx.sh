@@ -199,9 +199,9 @@ python3 -m pip install --no-build-isolation --no-dependencies --no-binary :all: 
 info "Building $PACKAGE..."
 python3 -m pip install --no-build-isolation --no-dependencies \
     --cache-dir "$PIP_CACHE_DIR" --no-warn-script-location . > /dev/null || fail "Could not build $PACKAGE"
-# pyinstaller needs to be able to "import bitraam_ecc", for which we need libsecp256k1:
+# pyinstaller needs to be able to "import electrum_ecc", for which we need libsecp256k1:
 # (or could try "pip install -e" instead)
-cp "$DLL_TARGET_DIR"/libsecp256k1.*.dylib "$VENV_DIR/lib/python$PY_VER_MAJOR/site-packages/bitraam_ecc/"
+cp "$DLL_TARGET_DIR"/libsecp256k1.*.dylib "$VENV_DIR/lib/python$PY_VER_MAJOR/site-packages/electrum_ecc/"
 
 # strip debug symbols of some compiled libs
 # - hidapi (hid.cpython-39-darwin.so) in particular is not reproducible without this

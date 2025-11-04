@@ -42,7 +42,7 @@ import enum
 import asyncio
 from dataclasses import dataclass
 
-import bitraam_ecc as ecc
+import electrum_ecc as ecc
 from aiorpcx import ignore_after, run_in_thread
 
 from . import util, keystore, transaction, bitcoin, coinchooser, bip32, descriptor

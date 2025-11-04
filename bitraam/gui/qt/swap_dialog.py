@@ -6,7 +6,7 @@ from PyQt6.QtGui import QIcon, QPixmap, QColor
 from PyQt6.QtWidgets import QLabel, QVBoxLayout, QGridLayout, QPushButton
 from PyQt6.QtWidgets import QTreeWidget, QTreeWidgetItem, QHeaderView
 
-from bitraam_aionostr.util import from_nip19
+from electrum_aionostr.util import from_nip19
 
 from bitraam.i18n import _
 from bitraam.util import NotEnoughFunds, NoDynamicFeeEstimates, UserCancelled

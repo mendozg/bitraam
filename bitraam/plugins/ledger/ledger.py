@@ -6,7 +6,7 @@ import base64
 import hashlib
 from typing import Dict, List, Optional, Sequence, Tuple, TYPE_CHECKING, Union
 
-import bitraam_ecc as ecc
+import electrum_ecc as ecc
 
 from bitraam import bip32, constants
 from bitraam import descriptor

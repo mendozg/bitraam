@@ -37,7 +37,7 @@ from enum import IntEnum
 import functools
 
 from aiorpcx import NetAddress
-from bitraam_ecc import ECPubkey
+from electrum_ecc import ECPubkey
 
 from .sql_db import SqlDB, sql
 from . import constants, util
