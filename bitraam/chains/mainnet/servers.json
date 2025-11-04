@@ -1,14 +1,14 @@
 {
     "electrumserver01.bitraam.org": {
         "pruning": "-",
-        "s": "500018",
-        "t": "500016",
+        "s": "50018",
+        "t": "50016",
         "version": "1.4.2"
     },
         "electrumserver02.bitraam.org": {
         "pruning": "-",
-        "s": "500018",
-        "t": "500016",
+        "s": "50018",
+        "t": "50016",
         "version": "1.4.2"
     }
 }
