@@ -90,7 +90,7 @@ def hash_header(header: dict) -> str:
 
 def hash_raw_header(header: bytes) -> str:
     assert isinstance(header, bytes)
-    return hash_encode(sha256d(header))
+    return hash_encode(PoWHash(header))
 
 
 pow_hash_header = hash_header
