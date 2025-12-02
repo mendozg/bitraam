@@ -35,6 +35,7 @@ import electrum_ecc as ecc
 
 from .util import assert_bytes, InvalidPassword, to_bytes, to_string, WalletFileException, versiontuple
 from .i18n import _
+from .yescrypthash import getPoWHash
 from .logging import get_logger
 
 _logger = get_logger(__name__)
@@ -329,6 +330,11 @@ def sha256(x: Union[bytes, str]) -> bytes:
 def sha256d(x: Union[bytes, str]) -> bytes:
     x = to_bytes(x, 'utf8')
     out = bytes(sha256(sha256(x)))
+    return out
+
+
+def PoWHash(x: Union[bytes, str]) -> bytes:
+    out = bytes(getPoWHash(x))
     return out
 
 

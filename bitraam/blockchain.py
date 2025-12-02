@@ -30,6 +30,7 @@ from .bitcoin import hash_encode
 from .crypto import sha256d
 from . import constants
 from .util import bfh, with_lock
+from .crypto import PoWHash
 from .logging import get_logger, Logger
 
 if TYPE_CHECKING:
