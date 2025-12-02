@@ -49,6 +49,12 @@ else
     "$CONTRIB"/make_libsecp256k1.sh || fail "Could not build libsecp"
 fi
 
+if ls "$DLL_TARGET_DIR"/libyescrypthash-*.dll 1> /dev/null 2>&1; then
+    info "libyescrypthash already built, skipping"
+else
+    "$CONTRIB"/make_yescrypt_hash.sh || fail "Could not build yescrypt_hash"
+fi
+
 if [ -f "$DLL_TARGET_DIR/libzbar-0.dll" ]; then
     info "libzbar already built, skipping"
 else
