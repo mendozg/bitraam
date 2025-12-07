@@ -1,7 +1,7 @@
 #!/bin/bash
 
-LIBYESCRYPT_VERSION="b1b7d5969bb05a19e81d8ad218e03de21ae461ed"
-# ^ tag v1.0.27
+LIBYESCRYPT_VERSION="c6d04d83064560f69967a300c761b57d5f968eae"
+# ^ tag v0.5.0
 
 set -e
 
