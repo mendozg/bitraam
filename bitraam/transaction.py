@@ -135,7 +135,7 @@ class TxOutput:
         self.scriptpubkey = scriptpubkey
         if not (isinstance(value, int) or parse_max_spend(value) is not None):
             raise ValueError(f"bad txout value: {value!r}")
-        self.value = value  # int in satoshis; or spend-max-like str
+        self.value = value  # int in sitashis; or spend-max-like str
 
     @classmethod
     def from_address_and_value(cls, address: str, value: Union[int, str]) -> Union['TxOutput', 'PartialTxOutput']:
@@ -1385,7 +1385,7 @@ class Transaction:
 
     @classmethod
     def satperbyte_from_satperkw(cls, feerate_kw):
-        """Converts feerate from sat/kw to sat/vbyte."""
+        """Converts feerate from sit/kw to sit/vbyte."""
         return feerate_kw * 4 / 1000
 
     def estimated_total_size(self):

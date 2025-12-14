@@ -34,7 +34,7 @@ from PyQt6.QtWidgets import QAbstractItemView, QMenu
 from bitraam.i18n import _
 from bitraam.bitcoin import is_address
 from bitraam.transaction import PartialTxInput, PartialTxOutput
-from bitraam.lnutil import MIN_FUNDING_SAT
+from bitraam.lnutil import MIN_FUNDING_SIT
 from bitraam.util import profiler
 
 from .util import ColorScheme, MONOSPACE_FONT
@@ -262,7 +262,7 @@ class UTXOList(MyTreeView):
         if self.wallet.lnworker is None:
             return False
         value = sum(x.value_sats() for x in coins)
-        return value >= MIN_FUNDING_SAT and value <= self.config.LIGHTNING_MAX_FUNDING_SAT
+        return value >= MIN_FUNDING_SIT and value <= self.config.LIGHTNING_MAX_FUNDING_SIT
 
     def open_channel_with_coins(self, coins):
         # todo : use a single dialog in new flow

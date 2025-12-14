@@ -862,12 +862,12 @@ class HistoryList(MyTreeView, AcceptFileDragDrop):
             fees_fiat = Fiat(ccy=self.main_window.fx.ccy, value=Decimal())
             for child in h_item.get('children', []):
                 fees_sat += child['fee_sat'] or 0 if 'fee_sat' in child \
-                                else (child.get('fee_msat', 0) or 0) // 1000
+                                else (child.get('fee_msit', 0) or 0) // 1000
                 if child_fiat_fee := child.get('fiat_fee'):
                     fees_fiat += child_fiat_fee
 
             fees_sat += h_item['fee_sat'] or 0 if 'fee_sat' in h_item \
-                            else (h_item.get('fee_msat', 0) or 0) // 1000
+                            else (h_item.get('fee_msit', 0) or 0) // 1000
             if h_item_fiat_fee := h_item.get('fiat_fee'):
                 fees_fiat += h_item_fiat_fee
             return fees_sat, fees_fiat
@@ -903,7 +903,7 @@ class HistoryList(MyTreeView, AcceptFileDragDrop):
                                       "amount_chain_bc",
                                       "amount_lightning_bc",
                                       "fiat_value",
-                                      "network_fee_satoshi",
+                                      "network_fee_sitashi",
                                       "fiat_fee",
                                       "timestamp"])
                 for line in lines:

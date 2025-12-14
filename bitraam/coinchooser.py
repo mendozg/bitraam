@@ -77,8 +77,8 @@ class PRNG:
 class Bucket(NamedTuple):
     desc: str
     weight: int                   # as in BIP-141
-    value: int                    # in satoshis
-    effective_value: int          # estimate of value left after subtracting fees. in satoshis
+    value: int                    # in sitashis
+    effective_value: int          # estimate of value left after subtracting fees. in sitashis
     coins: List[PartialTxInput]   # UTXOs
     min_height: int               # min block height where a coin was confirmed
     witness: bool                 # whether any coin uses segwit
@@ -208,7 +208,7 @@ class CoinChooserBase(Logger):
 
         # Last change output.  Round down to maximum precision but lose
         # no more than 10**max_dp_to_round_for_privacy
-        # e.g. a max of 2 decimal places means losing 100 satoshis to fees
+        # e.g. a max of 2 decimal places means losing 100 sitashis to fees
         # don't round if the fee estimator is set to 0 fixed fee, so a 0 fee tx remains a 0 fee tx
         is_zero_fee_tx = True if fee_estimator_numchange(1) == 0 else False
         output_value_rounding = self.enable_output_value_rounding and not is_zero_fee_tx
@@ -538,10 +538,10 @@ def get_name(config: 'SimpleConfig') -> str:
 def get_coin_chooser(config: 'SimpleConfig') -> CoinChooserBase:
     klass = COIN_CHOOSERS[get_name(config)]
     # note: we enable enable_output_value_rounding by default as
-    #       - for sacrificing a few satoshis
+    #       - for sacrificing a few sitashis
     #       + it gives better privacy for the user re change output
     #       + it also helps the network as a whole as fees will become noisier
-    #         (trying to counter the heuristic that "whole integer sat/byte feerates" are common)
+    #         (trying to counter the heuristic that "whole integer sit/byte feerates" are common)
     coinchooser = klass(
         enable_output_value_rounding=config.WALLET_COIN_CHOOSER_OUTPUT_ROUNDING,
     )

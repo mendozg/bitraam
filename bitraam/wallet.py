@@ -50,7 +50,7 @@ from .i18n import _
 from .bip32 import BIP32Node, convert_bip32_intpath_to_strpath, convert_bip32_strpath_to_intpath
 from .logging import get_logger, Logger
 from .util import (
-    NotEnoughFunds, UserCancelled, profiler, OldTaskGroup, format_fee_satoshis,
+    NotEnoughFunds, UserCancelled, profiler, OldTaskGroup, format_fee_sitashis,
     WalletFileException, BitraamException, InvalidPassword, format_time, timestamp_to_datetime,
     Satoshis, Fiat, TxMinedInfo, quantize_feerate, OrderedDictWithIndex, multisig_type, parse_max_spend,
     OnchainHistoryItem, read_json_file, write_json_file, UserFacingException, FileImportFailed, EventListener,
@@ -76,11 +76,11 @@ from .invoices import BaseInvoice, Invoice, Request, PR_PAID, PR_UNPAID, PR_EXPI
 from .contacts import Contacts
 from .mnemonic import Mnemonic
 from .lnworker import LNWallet
-from .lnutil import MIN_FUNDING_SAT
+from .lnutil import MIN_FUNDING_SIT
 from .lntransport import extract_nodeid
 from .descriptor import Descriptor
 from .txbatcher import TxBatcher
-from .submarine_swaps import MIN_SWAP_AMOUNT_SAT
+from .submarine_swaps import MIN_SWAP_AMOUNT_SIT
 
 if TYPE_CHECKING:
     from .network import Network
@@ -185,10 +185,10 @@ async def sweep(
     tx = PartialTransaction.from_io(inputs, outputs)
     fee = fee_policy.estimate_fee(tx.estimated_size(), network=network)
     if total - fee < 0:
-        raise Exception(_('Not enough funds on address.') + '\nTotal: %d satoshis\nFee: %d' % (total, fee))
+        raise Exception(_('Not enough funds on address.') + '\nTotal: %d sitashis\nFee: %d' % (total, fee))
     if total - fee < dust_threshold(network):
         raise Exception(_('Not enough funds on address.') +
-                        '\nTotal: %d satoshis\nFee: %d\nDust Threshold: %d' % (total, fee, dust_threshold(network)))
+                        '\nTotal: %d sitashis\nFee: %d\nDust Threshold: %d' % (total, fee, dust_threshold(network)))
     outputs = [PartialTxOutput(scriptpubkey=bitcoin.address_to_script(to_address), value=total - fee)]
     if locktime is None:
         locktime = get_locktime_for_new_transaction(network)
@@ -1255,14 +1255,14 @@ class Abstract_Wallet(ABC, Logger, EventListener):
         height = self.adb.get_local_height()
         if pr:
             return Invoice.from_bip70_payreq(pr, height=height)
-        amount_msat = 0
+        amount_msit = 0
         for x in outputs:
             if parse_max_spend(x.value):
-                amount_msat = '!'
+                amount_msit = '!'
                 break
             else:
                 assert isinstance(x.value, int), f"{x.value!r}"
-                amount_msat += x.value * 1000
+                amount_msit += x.value * 1000
         timestamp = None
         exp = None
         if URI:
@@ -1271,7 +1271,7 @@ class Abstract_Wallet(ABC, Logger, EventListener):
         timestamp = timestamp or int(Invoice._get_cur_time())
         exp = exp or 0
         invoice = Invoice(
-            amount_msat=amount_msat,
+            amount_msit=amount_msit,
             message=message,
             time=timestamp,
             exp=exp,
@@ -1512,7 +1512,7 @@ class Abstract_Wallet(ABC, Logger, EventListener):
             if len(children) == 1:
                 transactions[key] = children[0]
             # add on-chain and lightning values
-            # note: 'value' has msat precision (as LN has msat precision)
+            # note: 'value' has msit precision (as LN has msit precision)
             item['value'] = item.get('bc_value', Satoshis(0)) + item.get('ln_value', Satoshis(0))
             for child in item.get('children', []):
                 child['value'] = child.get('bc_value', Satoshis(0)) + child.get('ln_value', Satoshis(0))
@@ -1765,7 +1765,7 @@ class Abstract_Wallet(ABC, Logger, EventListener):
             if fee is not None:
                 size = tx.estimated_size()
                 fee_per_byte = Decimal(fee) / size
-                extra.append(format_fee_satoshis(fee_per_byte) + f" {util.UI_UNIT_NAME_FEERATE_SAT_PER_VB}")
+                extra.append(format_fee_sitashis(fee_per_byte) + f" {util.UI_UNIT_NAME_FEERATE_SIT_PER_VB}")
             if fee is not None and height in (TX_HEIGHT_UNCONF_PARENT, TX_HEIGHT_UNCONFIRMED) \
                and self.network and self.network.has_fee_mempool():
                 exp_n = self.network.mempool_fees.fee_to_depth(fee_per_byte)
@@ -2180,7 +2180,7 @@ class Abstract_Wallet(ABC, Logger, EventListener):
         # exempt large value UTXOs
         value_sats = utxo.value_sats()
         assert value_sats is not None
-        threshold = self.config.WALLET_UNCONF_UTXO_FREEZE_THRESHOLD_SAT
+        threshold = self.config.WALLET_UNCONF_UTXO_FREEZE_THRESHOLD_SIT
         if value_sats >= threshold:
             return False
         # if funding tx has any is_mine input, then UTXO is fine
@@ -2291,7 +2291,7 @@ class Abstract_Wallet(ABC, Logger, EventListener):
             strategy: BumpFeeStrategy = BumpFeeStrategy.PRESERVE_PAYMENT,
     ) -> PartialTransaction:
         """Increase the miner fee of 'tx'.
-        'new_fee_rate' is the target min rate in sat/vbyte
+        'new_fee_rate' is the target min rate in sit/vbyte
         'coins' is a list of UTXOs we can choose from as potential new inputs to be added
 
         note: it is the caller's responsibility to have already called tx.add_info_from_network().
@@ -2311,7 +2311,7 @@ class Abstract_Wallet(ABC, Logger, EventListener):
         old_tx_size = tx.estimated_size()
         old_fee = tx.get_fee()
         assert old_fee is not None
-        old_fee_rate = old_fee / old_tx_size  # sat/vbyte
+        old_fee_rate = old_fee / old_tx_size  # sit/vbyte
         if new_fee_rate <= old_fee_rate:
             raise CannotBumpFee(_("The new fee rate needs to be higher than the old fee rate."))
 
@@ -2562,7 +2562,7 @@ class Abstract_Wallet(ABC, Logger, EventListener):
     ) -> PartialTransaction:
         """Double-Spend-Cancel: cancel an unconfirmed tx by double-spending
         its inputs, paying ourselves.
-        'new_fee_rate' is the target min rate in sat/vbyte
+        'new_fee_rate' is the target min rate in sit/vbyte
 
         note: it is the caller's responsibility to have already called tx.add_info_from_network().
               Without that, all txins must be ismine.
@@ -2582,7 +2582,7 @@ class Abstract_Wallet(ABC, Logger, EventListener):
         old_tx_size = tx.estimated_size()
         old_fee = tx.get_fee()
         assert old_fee is not None
-        old_fee_rate = old_fee / old_tx_size  # sat/vbyte
+        old_fee_rate = old_fee / old_tx_size  # sit/vbyte
         if new_fee_rate <= old_fee_rate:
             raise CannotDoubleSpendTx(_("The new fee rate needs to be higher than the old fee rate."))
         # grab all ismine inputs
@@ -3012,10 +3012,10 @@ class Abstract_Wallet(ABC, Logger, EventListener):
             return ''
         if (payment_hash := req.payment_hash) is None:  # e.g. req might have been generated before enabling LN
             return ''
-        amount_msat = req.get_amount_msat() or None
-        assert (amount_msat is None or amount_msat > 0), amount_msat
+        amount_msit = req.get_amount_msit() or None
+        assert (amount_msit is None or amount_msit > 0), amount_msit
         info = self.lnworker.get_payment_info(payment_hash)
-        assert info.amount_msat == amount_msat, f"{info.amount_msat=} != {amount_msat=}"
+        assert info.amount_msit == amount_msit, f"{info.amount_msit=} != {amount_msit=}"
         lnaddr, invoice = self.lnworker.get_bolt11_invoice(
             payment_info=info,
             message=req.message,
@@ -3027,7 +3027,7 @@ class Abstract_Wallet(ABC, Logger, EventListener):
         # for receiving
         amount_sat = amount_sat or 0
         assert isinstance(amount_sat, int), f"{amount_sat!r}"
-        amount_msat = None if not amount_sat else amount_sat * 1000  # amount_sat in [None, 0] implies undefined.
+        amount_msit = None if not amount_sat else amount_sat * 1000  # amount_sat in [None, 0] implies undefined.
         message = message or ''
         address = address or None  # converts "" to None
         exp_delay = exp_delay or 0
@@ -3035,7 +3035,7 @@ class Abstract_Wallet(ABC, Logger, EventListener):
         if address is None:
             assert self.has_lightning()
             payment_hash = self.lnworker.create_payment_info(
-                amount_msat=amount_msat,
+                amount_msit=amount_msit,
                 exp_delay=exp_delay,
                 write_to_disk=False,
             )
@@ -3047,7 +3047,7 @@ class Abstract_Wallet(ABC, Logger, EventListener):
             outputs=outputs,
             message=message,
             time=timestamp,
-            amount_msat=amount_msat,
+            amount_msit=amount_msit,
             exp=exp_delay,
             height=height,
             bip70=None,
@@ -3402,10 +3402,10 @@ class Abstract_Wallet(ABC, Logger, EventListener):
             fee: int,
             txid: Optional[str]) -> Optional[Tuple[bool, str, str]]:
 
-        assert invoice_amt >= 0, f"{invoice_amt=!r} must be non-negative satoshis"
-        assert fee >= 0, f"{fee=!r} must be non-negative satoshis"
+        assert invoice_amt >= 0, f"{invoice_amt=!r} must be non-negative sitashis"
+        assert fee >= 0, f"{fee=!r} must be non-negative sitashis"
         is_future_tx = txid is not None and txid in self.adb.future_tx
-        feerate = Decimal(fee) / tx_size  # sat/byte
+        feerate = Decimal(fee) / tx_size  # sit/byte
         fee_ratio = Decimal(fee) / invoice_amt if invoice_amt else 0
         long_warning = None
         short_warning = None
@@ -3493,14 +3493,14 @@ class Abstract_Wallet(ABC, Logger, EventListener):
                     ln_help = _('You must be online to receive Lightning payments.')
                 elif not can_receive_lightning or (amount_sat <= 0 and not lightning_has_channels):
                     ln_rebalance_suggestion = self.lnworker.suggest_rebalance_to_receive(amount_sat)
-                    ln_swap_suggestion = self.lnworker.suggest_swap_to_receive(max(amount_sat, MIN_SWAP_AMOUNT_SAT))
+                    ln_swap_suggestion = self.lnworker.suggest_swap_to_receive(max(amount_sat, MIN_SWAP_AMOUNT_SIT))
                     # prefer to use swaps over JIT channels if possible
                     if can_get_zeroconf_channel and not bool(ln_rebalance_suggestion) and not bool(ln_swap_suggestion):
-                        if amount_sat < MIN_FUNDING_SAT:
+                        if amount_sat < MIN_FUNDING_SIT:
                             ln_is_error = True
                             ln_help = (_('Cannot receive this payment. Request at least {} '
                                        'to purchase a Lightning channel from your service provider.')
-                                       .format(self.config.format_amount_and_units(amount_sat=MIN_FUNDING_SAT)))
+                                       .format(self.config.format_amount_and_units(amount_sat=MIN_FUNDING_SIT)))
                         else:
                             ln_zeroconf_suggestion = True
                             ln_help = _(f'Receiving this payment will purchase a payment channel from your '

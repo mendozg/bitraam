@@ -11,7 +11,7 @@ ElDialog {
     id: dialog
 
     required property QtObject finalizer
-    required property Amount satoshis
+    required property Amount sitashis
     property string address
     property string message
     property bool showOptions: true
@@ -23,7 +23,7 @@ ElDialog {
 
     // copy these to finalizer
     onAddressChanged: finalizer.address = address
-    onSatoshisChanged: finalizer.amount = satoshis
+    onSatoshisChanged: finalizer.amount = sitashis
 
     width: parent.width
     height: parent.height

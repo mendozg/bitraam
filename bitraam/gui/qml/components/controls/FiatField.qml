@@ -19,7 +19,7 @@ TextField {
         if (amountFiat.activeFocus)
             btcfield.text = text == ''
                 ? ''
-                : Config.satsToUnits(Daemon.fx.satoshiValue(amountFiat.text))
+                : Config.satsToUnits(Daemon.fx.sitashiValue(amountFiat.text))
     }
 
     Connections {

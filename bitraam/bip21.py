@@ -4,7 +4,7 @@ from decimal import Decimal
 from typing import Optional
 
 from . import bitcoin
-from .util import format_satoshis_plain
+from .util import format_sitashis_plain
 from .bitcoin import COIN, TOTAL_COIN_SUPPLY_LIMIT_IN_BRM
 from .lnaddr import lndecode, LnDecodeException
 
@@ -91,7 +91,7 @@ def parse_bip21_URI(uri: str) -> dict:
             raise InvalidBitraamURI(f"Failed to decode 'lightning' field: {e!r}") from e
         amount_sat = out.get('amount')
         if amount_sat:
-            # allow small leeway due to msat precision
+            # allow small leeway due to msit precision
             if lnaddr.get_amount_sat() is None or abs(amount_sat - int(lnaddr.get_amount_sat())) > 1:
                 raise InvalidBitraamURI("Inconsistent lightning field in bip21: amount")
         address = out.get('address')
@@ -111,7 +111,7 @@ def create_bip21_uri(addr, amount_sat: Optional[int], message: Optional[str],
         extra_query_params = {}
     query = []
     if amount_sat:
-        query.append('amount=%s' % format_satoshis_plain(amount_sat))
+        query.append('amount=%s' % format_sitashis_plain(amount_sat))
     if message:
         query.append('message=%s' % urllib.parse.quote(message))
     for k, v in extra_query_params.items():

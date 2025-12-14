@@ -325,11 +325,11 @@ class QEConfig(AuthMixin, QObject):
 
     @pyqtSlot('qint64', result=str)
     @pyqtSlot(QEAmount, result=str)
-    def formatSatsForEditing(self, satoshis):
-        if isinstance(satoshis, QEAmount):
-            satoshis = satoshis.satsInt
+    def formatSatsForEditing(self, sitashis):
+        if isinstance(sitashis, QEAmount):
+            sitashis = sitashis.satsInt
         return self.config.format_amount(
-            satoshis,
+            sitashis,
             add_thousands_sep=False,
         )
 
@@ -337,26 +337,26 @@ class QEConfig(AuthMixin, QObject):
     @pyqtSlot('qint64', bool, result=str)
     @pyqtSlot(QEAmount, result=str)
     @pyqtSlot(QEAmount, bool, result=str)
-    def formatSats(self, satoshis, with_unit=False):
-        if isinstance(satoshis, QEAmount):
-            satoshis = satoshis.satsInt
+    def formatSats(self, sitashis, with_unit=False):
+        if isinstance(sitashis, QEAmount):
+            sitashis = sitashis.satsInt
         if with_unit:
-            return self.config.format_amount_and_units(satoshis)
+            return self.config.format_amount_and_units(sitashis)
         else:
-            return self.config.format_amount(satoshis)
+            return self.config.format_amount(sitashis)
 
     @pyqtSlot(QEAmount, result=str)
     @pyqtSlot(QEAmount, bool, result=str)
     def formatMilliSats(self, amount, with_unit=False):
         if isinstance(amount, QEAmount):
-            msats = amount.msatsInt
+            msits = amount.msitsInt
         else:
             return '---'
-        precision = 3  # config.amt_precision_post_satoshi is not exposed in preferences
+        precision = 3  # config.amt_precision_post_sitashi is not exposed in preferences
         if with_unit:
-            return self.config.format_amount_and_units(msats/1000, precision=precision)
+            return self.config.format_amount_and_units(msits/1000, precision=precision)
         else:
-            return self.config.format_amount(msats/1000, precision=precision)
+            return self.config.format_amount(msits/1000, precision=precision)
 
     # TODO delegate all this to config.py/util.py
     def decimal_point(self):
@@ -386,5 +386,5 @@ class QEConfig(AuthMixin, QObject):
         return self._amount
 
     @pyqtSlot('quint64', result=float)
-    def satsToUnits(self, satoshis):
-        return satoshis / pow(10, self.config.decimal_point)
+    def satsToUnits(self, sitashis):
+        return sitashis / pow(10, self.config.decimal_point)

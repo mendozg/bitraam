@@ -16,7 +16,7 @@ import time
 
 from .logging import Logger
 from .util import profiler, get_running_loop
-from .lnrouter import fee_for_edge_msat
+from .lnrouter import fee_for_edge_msit
 from .lnutil import LnFeatures, ln_compare_features, IncompatibleLightningFeatures
 from .network import Network
 
@@ -30,13 +30,13 @@ MONTH_IN_BLOCKS = 6 * 24 * 30
 # the scores are only updated after this time interval
 RATER_UPDATE_TIME_SEC = 10 * 60
 # amount used for calculating an effective relative fee
-FEE_AMOUNT_MSAT = 100_000_000
+FEE_AMOUNT_MSIT = 100_000_000
 
 # define some numbers for minimal requirements of good nodes
 # exclude nodes with less number of channels
 EXCLUDE_NUM_CHANNELS = 15
 # exclude nodes with less mean capacity
-EXCLUDE_MEAN_CAPACITY_MSAT = 1_000_000_000
+EXCLUDE_MEAN_CAPACITY_MSIT = 1_000_000_000
 # exclude nodes which are young
 EXCLUDE_NODE_AGE = 2 * MONTH_IN_BLOCKS
 # exclude nodes which have young mean channel age
@@ -50,9 +50,9 @@ EXCLUDE_BLOCKS_LAST_CHANNEL = 3 * MONTH_IN_BLOCKS
 class NodeStats(NamedTuple):
     number_channels: int
     # capacity related
-    total_capacity_msat: int
-    median_capacity_msat: float
-    mean_capacity_msat: float
+    total_capacity_msit: int
+    median_capacity_msit: float
+    mean_capacity_msit: float
     # block height related
     node_age_block_height: int
     mean_channel_age_block_height: float
@@ -157,30 +157,30 @@ class LNRater(Logger):
                     continue
 
                 # analyze capacities
-                capacities = [p[1].htlc_maximum_msat for p in channel_policies]
+                capacities = [p[1].htlc_maximum_msit for p in channel_policies]
                 if None in capacities:
                     continue
                 total_capacity = sum(capacities)
 
                 mean_capacity = total_capacity / num_channels if num_channels else 0
-                if mean_capacity < EXCLUDE_MEAN_CAPACITY_MSAT:
+                if mean_capacity < EXCLUDE_MEAN_CAPACITY_MSIT:
                     continue
                 median_capacity = median(capacities)
 
                 # analyze fees
-                effective_fee_rates = [fee_for_edge_msat(
-                    FEE_AMOUNT_MSAT,
-                    p[1].fee_base_msat,
-                    p[1].fee_proportional_millionths) / FEE_AMOUNT_MSAT for p in channel_policies]
+                effective_fee_rates = [fee_for_edge_msit(
+                    FEE_AMOUNT_MSIT,
+                    p[1].fee_base_msit,
+                    p[1].fee_proportional_millionths) / FEE_AMOUNT_MSIT for p in channel_policies]
                 mean_fees_rate = mean(effective_fee_rates)
                 if mean_fees_rate > EXCLUDE_EFFECTIVE_FEE_RATE:
                     continue
 
                 self._node_stats[n] = NodeStats(
                     number_channels=num_channels,
-                    total_capacity_msat=total_capacity,
-                    median_capacity_msat=median_capacity,
-                    mean_capacity_msat=mean_capacity,
+                    total_capacity_msit=total_capacity,
+                    median_capacity_msit=median_capacity,
+                    mean_capacity_msit=mean_capacity,
                     node_age_block_height=node_age_bh,
                     mean_channel_age_block_height=mean_channel_age_bh,
                     blocks_since_last_channel=blocks_since_last_channel,
@@ -203,7 +203,7 @@ class LNRater(Logger):
         max_num_chan = 0
         min_fee_rate = float('inf')
         for stats in self._node_stats.values():
-            max_capacity = max(max_capacity, stats.total_capacity_msat)
+            max_capacity = max(max_capacity, stats.total_capacity_msit)
             max_num_chan = max(max_num_chan, stats.number_channels)
             min_fee_rate = min(min_fee_rate, stats.mean_fee_rate)
 
@@ -221,7 +221,7 @@ class LNRater(Logger):
             heuristics.append(stats.number_channels / max_num_chan)
             heuristics_weights.append(0.2)
             # total capacity
-            heuristics.append(stats.total_capacity_msat / max_capacity)
+            heuristics.append(stats.total_capacity_msit / max_capacity)
             heuristics_weights.append(0.8)
             # inverse fees
             fees = min(1E-6, min_fee_rate) / max(1E-10, stats.mean_fee_rate)

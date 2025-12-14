@@ -99,8 +99,8 @@ class QELnPaymentDetails(QObject):
         tx = self._wallet.wallet.lnworker.get_lightning_history()[self._key]
         self._logger.debug(str(tx))
 
-        self._fee.msatsInt = 0 if not tx.fee_msat else int(tx.fee_msat)
-        self._amount.msatsInt = int(tx.amount_msat)
+        self._fee.msitsInt = 0 if not tx.fee_msit else int(tx.fee_msit)
+        self._amount.msitsInt = int(tx.amount_msit)
         self._label = tx.label
         self._date = format_time(tx.timestamp)
         self._timestamp = tx.timestamp

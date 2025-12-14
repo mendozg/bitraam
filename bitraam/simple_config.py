@@ -11,10 +11,10 @@ from . import constants
 from . import util
 from . import invoices
 from .util import base_units, base_unit_name_to_decimal_point, decimal_point_to_base_unit_name, UnknownBaseUnit, DECIMAL_POINT_DEFAULT
-from .util import format_satoshis, format_fee_satoshis, os_chmod
+from .util import format_sitashis, format_fee_sitashis, os_chmod
 from .util import user_dir, make_dir
 from .util import is_valid_websocket_url
-from .lnutil import LN_MAX_FUNDING_SAT_LEGACY
+from .lnutil import LN_MAX_FUNDING_SIT_LEGACY
 from .i18n import _
 from .logging import get_logger, Logger
 
@@ -224,7 +224,7 @@ class SimpleConfig(Logger):
         except UnknownBaseUnit:
             self.decimal_point = DECIMAL_POINT_DEFAULT
         self.num_zeros = self.BRM_AMOUNTS_FORCE_NZEROS_AFTER_DECIMAL_POINT
-        self.amt_precision_post_satoshi = self.BRM_AMOUNTS_PREC_POST_SAT
+        self.amt_precision_post_sitashi = self.BRM_AMOUNTS_PREC_POST_SIT
         self.amt_add_thousands_sep = self.BRM_AMOUNTS_ADD_THOUSANDS_SEP
 
         self._init_done = True
@@ -524,10 +524,10 @@ class SimpleConfig(Logger):
         add_thousands_sep: bool = None,
     ) -> str:
         if precision is None:
-            precision = self.amt_precision_post_satoshi
+            precision = self.amt_precision_post_sitashi
         if add_thousands_sep is None:
             add_thousands_sep = self.amt_add_thousands_sep
-        return format_satoshis(
+        return format_sitashis(
             amount_sat,
             num_zeros=self.num_zeros,
             decimal_point=self.decimal_point,
@@ -541,8 +541,8 @@ class SimpleConfig(Logger):
         return self.format_amount(*args, **kwargs) + ' ' + self.get_base_unit()
 
     def format_fee_rate(self, fee_rate) -> str:
-        """fee_rate is in sat/kvByte."""
-        return format_fee_satoshis(fee_rate/1000, num_zeros=self.num_zeros) + f" {util.UI_UNIT_NAME_FEERATE_SAT_PER_VBYTE}"
+        """fee_rate is in sit/kvByte."""
+        return format_fee_sitashis(fee_rate/1000, num_zeros=self.num_zeros) + f" {util.UI_UNIT_NAME_FEERATE_SIT_PER_VBYTE}"
 
     def get_base_unit(self):
         return decimal_point_to_base_unit_name(self.decimal_point)
@@ -677,9 +677,9 @@ class SimpleConfig(Logger):
         long_desc=lambda: (
             _('Set the value of the change output so that it has similar precision to the other outputs.') + '\n' +
             _('This might improve your privacy somewhat.') + '\n' +
-            _('If enabled, at most 100 satoshis might be lost due to this, per transaction.')),
+            _('If enabled, at most 100 sitashis might be lost due to this, per transaction.')),
     )
-    WALLET_UNCONF_UTXO_FREEZE_THRESHOLD_SAT = ConfigVar('unconf_utxo_freeze_threshold', default=5_000, type_=int)
+    WALLET_UNCONF_UTXO_FREEZE_THRESHOLD_SIT = ConfigVar('unconf_utxo_freeze_threshold', default=5_000, type_=int)
     WALLET_PAYREQ_EXPIRY_SECONDS = ConfigVar('request_expiry', default=invoices.PR_DEFAULT_EXPIRATION_WHEN_CREATING, type_=int)
     WALLET_USE_SINGLE_PASSWORD = ConfigVar('single_password', default=False, type_=bool)
     # note: 'use_change' and 'multiple_change' are per-wallet settings
@@ -742,8 +742,8 @@ Note that static backups only allow you to request a force-close with the remote
 If this is enabled, other nodes cannot open a channel to you. Channel recovery data is encrypted, so that only your wallet can decrypt it. However, blockchain analysis will be able to tell that the transaction was probably created by Bitraam."""),
     )
     LIGHTNING_TO_SELF_DELAY_CSV = ConfigVar('lightning_to_self_delay', default=7 * 144, type_=int)
-    LIGHTNING_MAX_FUNDING_SAT = ConfigVar('lightning_max_funding_sat', default=LN_MAX_FUNDING_SAT_LEGACY, type_=int)
-    LIGHTNING_MAX_HTLC_VALUE_IN_FLIGHT_MSAT = ConfigVar('lightning_max_htlc_value_in_flight_msat', default=None, type_=int)
+    LIGHTNING_MAX_FUNDING_SIT = ConfigVar('lightning_max_funding_sat', default=LN_MAX_FUNDING_SIT_LEGACY, type_=int)
+    LIGHTNING_MAX_HTLC_VALUE_IN_FLIGHT_MSIT = ConfigVar('lightning_max_htlc_value_in_flight_msit', default=None, type_=int)
     INITIAL_TRAMPOLINE_FEE_LEVEL = ConfigVar('initial_trampoline_fee_level', default=1, type_=int)
     LIGHTNING_PAYMENT_FEE_MAX_MILLIONTHS = ConfigVar(
         'lightning_payment_fee_max_millionths', default=10_000,  # 1%
@@ -753,8 +753,8 @@ If this is enabled, other nodes cannot open a channel to you. Channel recovery d
 
 Warning: setting this to too low will result in lots of payment failures."""),
     )
-    LIGHTNING_PAYMENT_FEE_CUTOFF_MSAT = ConfigVar(
-        'lightning_payment_fee_cutoff_msat', default=10_000,  # 10 sat
+    LIGHTNING_PAYMENT_FEE_CUTOFF_MSIT = ConfigVar(
+        'lightning_payment_fee_cutoff_msit', default=10_000,  # 10 sat
         type_=int,
         short_desc=lambda: _("Max lightning fees to pay for small payments"),
     )
@@ -852,9 +852,9 @@ Warning: setting this to too low will result in lots of payment failures."""),
         short_desc=lambda: _('Zeros after decimal point'),
         long_desc=lambda: _('Number of zeros displayed after the decimal point. For example, if this is set to 2, "1." will be displayed as "1.00"'),
     )
-    BRM_AMOUNTS_PREC_POST_SAT = ConfigVar(
-        'amt_precision_post_satoshi', default=0, type_=int,
-        short_desc=lambda: _("Show Lightning amounts with msat precision"),
+    BRM_AMOUNTS_PREC_POST_SIT = ConfigVar(
+        'amt_precision_post_sitashi', default=0, type_=int,
+        short_desc=lambda: _("Show Lightning amounts with msit precision"),
     )
     BRM_AMOUNTS_ADD_THOUSANDS_SEP = ConfigVar(
         'amt_add_thousands_sep', default=False, type_=bool,

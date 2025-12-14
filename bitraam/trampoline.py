@@ -152,7 +152,7 @@ def _extend_trampoline_route(
         TrampolineEdge(
             start_node=start_node,
             end_node=end_node,
-            fee_base_msat=PLACEHOLDER_FEE if pay_fees else 0,
+            fee_base_msit=PLACEHOLDER_FEE if pay_fees else 0,
             fee_proportional_millionths=PLACEHOLDER_FEE if pay_fees else 0,
             cltv_delta=576 if pay_fees else 0,
             node_features=trampoline_features))
@@ -172,17 +172,17 @@ def _allocate_fee_along_route(
         MAX_LEVEL = 6
         if trampoline_fee_level > MAX_LEVEL:
             raise FeeBudgetExceeded("highest trampoline fee level reached")
-        budget_to_use = budget.fee_msat // (2 ** (MAX_LEVEL - trampoline_fee_level))
-    _logger.debug(f"_allocate_fee_along_route(). {trampoline_fee_level=}, {budget.fee_msat=}, {budget_to_use=}")
+        budget_to_use = budget.fee_msit // (2 ** (MAX_LEVEL - trampoline_fee_level))
+    _logger.debug(f"_allocate_fee_along_route(). {trampoline_fee_level=}, {budget.fee_msit=}, {budget_to_use=}")
     # replace placeholder fees
     for edge in route:
-        assert edge.fee_base_msat in (0, PLACEHOLDER_FEE), edge.fee_base_msat
+        assert edge.fee_base_msit in (0, PLACEHOLDER_FEE), edge.fee_base_msit
         assert edge.fee_proportional_millionths in (0, PLACEHOLDER_FEE), edge.fee_proportional_millionths
     edges_to_update = [
         edge for edge in route
-        if edge.fee_base_msat == PLACEHOLDER_FEE]
+        if edge.fee_base_msit == PLACEHOLDER_FEE]
     for edge in edges_to_update:
-        edge.fee_base_msat = budget_to_use // len(edges_to_update)
+        edge.fee_base_msit = budget_to_use // len(edges_to_update)
         edge.fee_proportional_millionths = 0
 
 
@@ -206,7 +206,7 @@ def _choose_second_trampoline(
 
 def create_trampoline_route(
         *,
-        amount_msat: int,
+        amount_msit: int,
         min_final_cltv_delta: int,
         invoice_pubkey: bytes,
         invoice_features: int,
@@ -272,7 +272,7 @@ def create_trampoline_route(
     if not is_route_within_budget(
         route=route,
         budget=budget,
-        amount_msat_for_dest=amount_msat,
+        amount_msit_for_dest=amount_msit,
         cltv_delta_for_dest=min_final_cltv_delta,
     ):
         raise FeeBudgetExceeded(f"route exceeds budget: budget: {budget}")
@@ -282,18 +282,18 @@ def create_trampoline_route(
 def create_trampoline_onion(
     *,
     route: LNPaymentTRoute,
-    amount_msat: int,
+    amount_msit: int,
     final_cltv_abs: int,
-    total_msat: int,
+    total_msit: int,
     payment_hash: bytes,
     payment_secret: bytes,
 ) -> Tuple[OnionPacket, int, int]:
     # all edges are trampoline
-    hops_data, amount_msat, cltv_abs = calc_hops_data_for_payment(
+    hops_data, amount_msit, cltv_abs = calc_hops_data_for_payment(
         route,
-        amount_msat,
+        amount_msit,
         final_cltv_abs=final_cltv_abs,
-        total_msat=total_msat,
+        total_msit=total_msit,
         payment_secret=payment_secret)
     # detect trampoline hops.
     payment_path_pubkeys = [x.node_id for x in route]
@@ -312,7 +312,7 @@ def create_trampoline_onion(
         if i == num_hops - 1:
             payload["payment_data"] = {
                 "payment_secret": payment_secret,
-                "total_msat": total_msat
+                "total_msit": total_msit
             }
         # legacy
         if i == num_hops - 2 and route_edge.invoice_features:
@@ -320,7 +320,7 @@ def create_trampoline_onion(
             routing_info_payload_index = i
             payload["payment_data"] = {
                 "payment_secret": payment_secret,
-                "total_msat": total_msat
+                "total_msit": total_msit
             }
 
     if (index := routing_info_payload_index) is not None:
@@ -347,13 +347,13 @@ def create_trampoline_onion(
     trampoline_onion = new_onion_packet(payment_path_pubkeys, trampoline_session_key, hops_data, associated_data=payment_hash, trampoline=True)
     trampoline_onion._debug_hops_data = hops_data
     trampoline_onion._debug_route = route
-    return trampoline_onion, amount_msat, cltv_abs
+    return trampoline_onion, amount_msit, cltv_abs
 
 
 def create_trampoline_route_and_onion(
         *,
-        amount_msat: int,  # that final receiver gets
-        total_msat: int,
+        amount_msit: int,  # that final receiver gets
+        total_msit: int,
         min_final_cltv_delta: int,
         invoice_pubkey: bytes,
         invoice_features,
@@ -370,7 +370,7 @@ def create_trampoline_route_and_onion(
 ) -> Tuple[LNPaymentTRoute, OnionPacket, int, int]:
     # create route for the trampoline_onion
     trampoline_route = create_trampoline_route(
-        amount_msat=amount_msat,
+        amount_msit=amount_msit,
         min_final_cltv_delta=min_final_cltv_delta,
         my_pubkey=my_pubkey,
         invoice_pubkey=invoice_pubkey,
@@ -386,9 +386,9 @@ def create_trampoline_route_and_onion(
     final_cltv_abs = local_height + min_final_cltv_delta
     trampoline_onion, amount_with_fees, bucket_cltv_abs = create_trampoline_onion(
         route=trampoline_route,
-        amount_msat=amount_msat,
+        amount_msit=amount_msit,
         final_cltv_abs=final_cltv_abs,
-        total_msat=total_msat,
+        total_msit=total_msit,
         payment_hash=payment_hash,
         payment_secret=payment_secret)
     bucket_cltv_delta = bucket_cltv_abs - local_height

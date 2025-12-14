@@ -52,7 +52,7 @@ from .lnutil import (Outpoint, LocalConfig, RemoteConfig, Keypair, OnlyPubkeyKey
                      ScriptHtlc, PaymentFailure, calc_fees_for_commitment_tx, RemoteMisbehaving, make_htlc_output_witness_script,
                      ShortChannelID, map_htlcs_to_ctx_output_idxs,
                      fee_for_htlc_output, offered_htlc_trim_threshold_sat,
-                     received_htlc_trim_threshold_sat, make_commitment_output_to_remote_address, FIXED_ANCHOR_SAT,
+                     received_htlc_trim_threshold_sat, make_commitment_output_to_remote_address, FIXED_ANCHOR_SIT,
                      ChannelType, LNProtocolWarning, ZEROCONF_TIMEOUT)
 from .lnsweep import sweep_our_ctx, sweep_their_ctx
 from .lnsweep import sweep_their_htlctx_justice, sweep_our_htlctx, SweepInfo
@@ -168,7 +168,7 @@ class RemoteCtnTooFarInFuture(Exception): pass
 
 
 def htlcsum(htlcs: Iterable[UpdateAddHtlc]):
-    return sum([x.amount_msat for x in htlcs])
+    return sum([x.amount_msit for x in htlcs])
 
 def now():
     return int(time.time())
@@ -505,7 +505,7 @@ class AbstractChannel(Logger, ABC):
 
     @abstractmethod
     def balance(self, whose: HTLCOwner, *, ctx_owner=HTLCOwner.LOCAL, ctn: int = None) -> int:
-        """This balance (in msat) only considers HTLCs that have been settled by ctn.
+        """This balance (in msit) only considers HTLCs that have been settled by ctn.
         It disregards reserve, fees, and pending HTLCs (in both directions).
         """
         pass
@@ -514,7 +514,7 @@ class AbstractChannel(Logger, ABC):
     def balance_minus_outgoing_htlcs(self, whose: HTLCOwner, *,
                                      ctx_owner: HTLCOwner = HTLCOwner.LOCAL,
                                      ctn: int = None) -> int:
-        """This balance (in msat), which includes the value of
+        """This balance (in msit), which includes the value of
         pending outgoing HTLCs, is used in the UI.
         """
         pass
@@ -542,7 +542,7 @@ class AbstractChannel(Logger, ABC):
 
     @abstractmethod
     def get_capacity(self) -> Optional[int]:
-        """Returns channel capacity in satoshis, or None if unknown."""
+        """Returns channel capacity in sitashis, or None if unknown."""
         pass
 
     @abstractmethod
@@ -613,14 +613,14 @@ class ChannelBackup(AbstractChannel):
             # dummy values
             static_payment_key=None,
             dust_limit_sat=None,
-            max_htlc_value_in_flight_msat=None,
+            max_htlc_value_in_flight_msit=None,
             max_accepted_htlcs=None,
-            initial_msat=None,
+            initial_msit=None,
             reserve_sat=None,
             funding_locked_received=False,
             current_commitment_signature=None,
             current_htlc_signatures=b'',
-            htlc_minimum_msat=1,
+            htlc_minimum_msit=1,
             upfront_shutdown_script='',
             announcement_node_sig=b'',
             announcement_bitcoin_sig=b'',
@@ -636,11 +636,11 @@ class ChannelBackup(AbstractChannel):
             htlc_basepoint=OnlyPubkeyKeypair(None),
             delayed_basepoint=OnlyPubkeyKeypair(None),
             dust_limit_sat=None,
-            max_htlc_value_in_flight_msat=None,
+            max_htlc_value_in_flight_msit=None,
             max_accepted_htlcs=None,
-            initial_msat = None,
+            initial_msit = None,
             reserve_sat = None,
-            htlc_minimum_msat=None,
+            htlc_minimum_msit=None,
             next_per_commitment_point=None,
             current_per_commitment_point=None,
             upfront_shutdown_script='',
@@ -759,7 +759,7 @@ class Channel(AbstractChannel):
 
     # our forwarding parameters for forwarding HTLCs through this channel
     forwarding_cltv_delta = 144
-    forwarding_fee_base_msat = 1000
+    forwarding_fee_base_msit = 1000
     forwarding_fee_proportional_millionths = 1
 
     def __repr__(self):
@@ -920,7 +920,7 @@ class Channel(AbstractChannel):
             scid = self.short_channel_id
         sorted_node_ids = list(sorted([self.node_id, self.get_local_pubkey()]))
         channel_flags = b'\x00' if sorted_node_ids[0] == self.get_local_pubkey() else b'\x01'
-        htlc_maximum_msat = min(self.config[REMOTE].max_htlc_value_in_flight_msat, 1000 * self.constraints.capacity)
+        htlc_maximum_msit = min(self.config[REMOTE].max_htlc_value_in_flight_msit, 1000 * self.constraints.capacity)
 
         chan_upd = encode_msg(
             "channel_update",
@@ -928,9 +928,9 @@ class Channel(AbstractChannel):
             channel_flags=channel_flags,
             message_flags=b'\x01',
             cltv_expiry_delta=self.forwarding_cltv_delta,
-            htlc_minimum_msat=self.config[REMOTE].htlc_minimum_msat,
-            htlc_maximum_msat=htlc_maximum_msat,
-            fee_base_msat=self.forwarding_fee_base_msat,
+            htlc_minimum_msit=self.config[REMOTE].htlc_minimum_msit,
+            htlc_maximum_msit=htlc_maximum_msit,
+            fee_base_msit=self.forwarding_fee_base_msit,
             fee_proportional_millionths=self.forwarding_fee_proportional_millionths,
             chain_hash=constants.net.rev_genesis_bytes(),
             timestamp=now(),
@@ -1006,7 +1006,7 @@ class Channel(AbstractChannel):
         return [to_remote_address]
 
     def get_feerate(self, subject: HTLCOwner, *, ctn: int) -> int:
-        # returns feerate in sat/kw
+        # returns feerate in sit/kw
         return self.hm.get_feerate(subject, ctn)
 
     def get_oldest_unrevoked_feerate(self, subject: HTLCOwner) -> int:
@@ -1089,7 +1089,7 @@ class Channel(AbstractChannel):
         self.storage['frozen_for_receiving'] = bool(b)
         util.trigger_callback('channel', self.lnworker.wallet, self)
 
-    def _assert_can_add_htlc(self, *, htlc_proposer: HTLCOwner, amount_msat: int,
+    def _assert_can_add_htlc(self, *, htlc_proposer: HTLCOwner, amount_msit: int,
                              ignore_min_htlc_value: bool = False) -> None:
         """Raises PaymentFailure if the htlc_proposer cannot add this new HTLC.
         (this is relevant both for forwarding and endpoint)
@@ -1109,23 +1109,23 @@ class Channel(AbstractChannel):
 
         # check htlc raw value
         if not ignore_min_htlc_value:
-            if amount_msat <= 0:
+            if amount_msit <= 0:
                 raise PaymentFailure("HTLC value must be positive")
-            if amount_msat < chan_config.htlc_minimum_msat:
-                raise PaymentFailure(f'HTLC value too small: {amount_msat} msat')
+            if amount_msit < chan_config.htlc_minimum_msit:
+                raise PaymentFailure(f'HTLC value too small: {amount_msit} msit')
 
         if self.htlc_slots_left(htlc_proposer) == 0:
             raise PaymentFailure('Too many HTLCs already in channel')
 
-        if amount_msat > self.remaining_max_inflight(htlc_receiver, strict=False):
+        if amount_msit > self.remaining_max_inflight(htlc_receiver, strict=False):
             raise PaymentFailure(
                 f'HTLC value sum (sum of pending htlcs plus new htlc) '
-                f'would exceed max allowed: {chan_config.max_htlc_value_in_flight_msat/1000} sat')
+                f'would exceed max allowed: {chan_config.max_htlc_value_in_flight_msit/1000} sat')
 
         # check proposer can afford htlc
-        max_can_send_msat = self.available_to_spend(htlc_proposer)
-        if max_can_send_msat < amount_msat:
-            raise PaymentFailure(f'Not enough balance. can send: {max_can_send_msat}, tried: {amount_msat}')
+        max_can_send_msit = self.available_to_spend(htlc_proposer)
+        if max_can_send_msit < amount_msit:
+            raise PaymentFailure(f'Not enough balance. can send: {max_can_send_msit}, tried: {amount_msit}')
 
     def htlc_slots_left(self, htlc_proposer: HTLCOwner) -> int:
         # check "max_accepted_htlcs"
@@ -1148,33 +1148,33 @@ class Channel(AbstractChannel):
 
     def remaining_max_inflight(self, htlc_receiver: HTLCOwner, *, strict: bool) -> int:
         """
-        Checks max_htlc_value_in_flight_msat
+        Checks max_htlc_value_in_flight_msit
         strict = False -> how much we can accept according to BOLT2
         strict = True -> how much the remote will accept to send to us (Eclair has stricter rules)
         """
         ctn = self.get_next_ctn(htlc_receiver)
         current_htlc_sum = htlcsum(self.hm.htlcs_by_direction(htlc_receiver, direction=RECEIVED, ctn=ctn).values())
-        max_inflight = self.config[htlc_receiver].max_htlc_value_in_flight_msat
+        max_inflight = self.config[htlc_receiver].max_htlc_value_in_flight_msit
         if strict and htlc_receiver == LOCAL:
             # in order to send, eclair applies both local and remote max values
             # https://github.com/ACINQ/eclair/blob/9b0c00a2a28d3ba6c7f3d01fbd2d8704ebbdc75d/eclair-core/src/main/scala/fr/acinq/eclair/channel/Commitments.scala#L503
             max_inflight = min(
-                self.config[LOCAL].max_htlc_value_in_flight_msat,
-                self.config[REMOTE].max_htlc_value_in_flight_msat
+                self.config[LOCAL].max_htlc_value_in_flight_msit,
+                self.config[REMOTE].max_htlc_value_in_flight_msit
             )
         return max_inflight - current_htlc_sum
 
-    def can_pay(self, amount_msat: int, *, check_frozen=False) -> bool:
+    def can_pay(self, amount_msit: int, *, check_frozen=False) -> bool:
         """Returns whether we can add an HTLC of given value."""
         if check_frozen and self.is_frozen_for_sending():
             return False
         try:
-            self._assert_can_add_htlc(htlc_proposer=LOCAL, amount_msat=amount_msat)
+            self._assert_can_add_htlc(htlc_proposer=LOCAL, amount_msit=amount_msit)
         except PaymentFailure:
             return False
         return True
 
-    def can_receive(self, amount_msat: int, *, check_frozen=False,
+    def can_receive(self, amount_msit: int, *, check_frozen=False,
                     ignore_min_htlc_value: bool = False) -> bool:
         """Returns whether the remote can add an HTLC of given value."""
         if check_frozen and self.is_frozen_for_receiving():
@@ -1182,7 +1182,7 @@ class Channel(AbstractChannel):
         try:
             self._assert_can_add_htlc(
                 htlc_proposer=REMOTE,
-                amount_msat=amount_msat,
+                amount_msit=amount_msit,
                 ignore_min_htlc_value=ignore_min_htlc_value)
         except PaymentFailure:
             return False
@@ -1204,7 +1204,7 @@ class Channel(AbstractChannel):
         Action must be initiated by LOCAL.
         """
         assert isinstance(htlc, UpdateAddHtlc)
-        self._assert_can_add_htlc(htlc_proposer=LOCAL, amount_msat=htlc.amount_msat)
+        self._assert_can_add_htlc(htlc_proposer=LOCAL, amount_msit=htlc.amount_msit)
         if htlc.htlc_id is None:
             htlc = dataclasses.replace(htlc, htlc_id=self.hm.get_next_htlc_id(LOCAL))
         with self.db_lock:
@@ -1218,7 +1218,7 @@ class Channel(AbstractChannel):
         """
         assert isinstance(htlc, UpdateAddHtlc)
         try:
-            self._assert_can_add_htlc(htlc_proposer=REMOTE, amount_msat=htlc.amount_msat)
+            self._assert_can_add_htlc(htlc_proposer=REMOTE, amount_msit=htlc.amount_msit)
         except PaymentFailure as e:
             raise RemoteMisbehaving(e) from e
         if htlc.htlc_id is None:  # used in unit tests
@@ -1480,11 +1480,11 @@ class Channel(AbstractChannel):
 
     def balance(self, whose: HTLCOwner, *, ctx_owner=HTLCOwner.LOCAL, ctn: int = None) -> int:
         assert type(whose) is HTLCOwner
-        initial = self.config[whose].initial_msat
-        return self.hm.get_balance_msat(whose=whose,
+        initial = self.config[whose].initial_msit
+        return self.hm.get_balance_msit(whose=whose,
                                         ctx_owner=ctx_owner,
                                         ctn=ctn,
-                                        initial_balance_msat=initial)
+                                        initial_balance_msit=initial)
 
     def balance_minus_outgoing_htlcs(self, whose: HTLCOwner, *, ctx_owner: HTLCOwner = HTLCOwner.LOCAL,
                                      ctn: int = None) -> int:
@@ -1498,7 +1498,7 @@ class Channel(AbstractChannel):
 
     def balance_tied_up_in_htlcs_by_direction(self, ctx_owner: HTLCOwner = LOCAL, *, ctn: int = None,
                                               direction: Direction):
-        # in msat
+        # in msit
         if ctn is None:
             ctn = self.get_next_ctn(ctx_owner)
         return htlcsum(self.hm.htlcs_by_direction(ctx_owner, direction, ctn).values())
@@ -1507,7 +1507,7 @@ class Channel(AbstractChannel):
         return len(self.hm.htlcs(LOCAL)) + len(self.hm.htlcs(REMOTE)) > 0
 
     def available_to_spend(self, subject: HTLCOwner) -> int:
-        """The usable balance of 'subject' in msat, after taking reserve and fees (and anchors) into
+        """The usable balance of 'subject' in msit, after taking reserve and fees (and anchors) into
         consideration. Note that fees (and hence the result) fluctuate even without user interaction.
         """
         assert type(subject) is HTLCOwner
@@ -1517,25 +1517,25 @@ class Channel(AbstractChannel):
 
         def consider_ctx(*, ctx_owner: HTLCOwner, is_htlc_dust: bool) -> int:
             ctn = self.get_next_ctn(ctx_owner)
-            sender_balance_msat = self.balance_minus_outgoing_htlcs(whose=sender, ctx_owner=ctx_owner, ctn=ctn)
-            receiver_balance_msat = self.balance_minus_outgoing_htlcs(whose=receiver, ctx_owner=ctx_owner, ctn=ctn)
-            sender_reserve_msat = self.config[receiver].reserve_sat * 1000
-            receiver_reserve_msat = self.config[sender].reserve_sat * 1000
+            sender_balance_msit = self.balance_minus_outgoing_htlcs(whose=sender, ctx_owner=ctx_owner, ctn=ctn)
+            receiver_balance_msit = self.balance_minus_outgoing_htlcs(whose=receiver, ctx_owner=ctx_owner, ctn=ctn)
+            sender_reserve_msit = self.config[receiver].reserve_sat * 1000
+            receiver_reserve_msit = self.config[sender].reserve_sat * 1000
             num_htlcs_in_ctx = len(self.included_htlcs(ctx_owner, SENT, ctn=ctn) + self.included_htlcs(ctx_owner, RECEIVED, ctn=ctn))
             feerate = self.get_feerate(ctx_owner, ctn=ctn)
-            ctx_fees_msat = calc_fees_for_commitment_tx(
+            ctx_fees_msit = calc_fees_for_commitment_tx(
                 num_htlcs=num_htlcs_in_ctx,
                 feerate=feerate,
                 is_local_initiator=self.constraints.is_initiator,
                 round_to_sat=False,
                 has_anchors=self.has_anchors()
             )
-            htlc_fee_msat = fee_for_htlc_output(feerate=feerate)
+            htlc_fee_msit = fee_for_htlc_output(feerate=feerate)
             htlc_trim_func = received_htlc_trim_threshold_sat if ctx_owner == receiver else offered_htlc_trim_threshold_sat
-            htlc_trim_threshold_msat = htlc_trim_func(dust_limit_sat=self.config[ctx_owner].dust_limit_sat, feerate=feerate, has_anchors=self.has_anchors()) * 1000
+            htlc_trim_threshold_msit = htlc_trim_func(dust_limit_sat=self.config[ctx_owner].dust_limit_sat, feerate=feerate, has_anchors=self.has_anchors()) * 1000
 
             # the sender cannot spend below its reserve
-            max_send_msat = sender_balance_msat - sender_reserve_msat
+            max_send_msit = sender_balance_msit - sender_reserve_msit
 
             # reserve a fee spike buffer
             # see https://github.com/lightningnetwork/lightning-rfc/pull/740
@@ -1546,33 +1546,33 @@ class Channel(AbstractChannel):
                     is_local_initiator=self.constraints.is_initiator,
                     round_to_sat=False,
                     has_anchors=self.has_anchors())[sender]
-                max_send_msat -= fee_spike_buffer
+                max_send_msit -= fee_spike_buffer
             # we can't enforce the fee spike buffer on the remote party
             elif sender == initiator == REMOTE:
-                max_send_msat -= ctx_fees_msat[sender]
+                max_send_msit -= ctx_fees_msit[sender]
 
             # initiator pays for anchor outputs
             if sender == initiator and self.has_anchors():
-                max_send_msat -= 2 * FIXED_ANCHOR_SAT * 1000
+                max_send_msit -= 2 * FIXED_ANCHOR_SIT * 1000
 
             # handle the transaction fees for the HTLC transaction
             if is_htlc_dust:
                 # nobody pays additional HTLC transaction fees
-                return min(max_send_msat, htlc_trim_threshold_msat - 1)
+                return min(max_send_msit, htlc_trim_threshold_msit - 1)
             else:
                 # somebody has to pay for the additional HTLC transaction fees
                 if sender == initiator:
-                    return max_send_msat - htlc_fee_msat
+                    return max_send_msit - htlc_fee_msit
                 else:
                     # check if the receiver can afford to pay for the HTLC transaction fees
-                    new_receiver_balance = receiver_balance_msat - receiver_reserve_msat - ctx_fees_msat[receiver] - htlc_fee_msat
+                    new_receiver_balance = receiver_balance_msit - receiver_reserve_msit - ctx_fees_msit[receiver] - htlc_fee_msit
                     if self.has_anchors():
-                        new_receiver_balance -= 2 * FIXED_ANCHOR_SAT * 1000
+                        new_receiver_balance -= 2 * FIXED_ANCHOR_SIT * 1000
                     if new_receiver_balance < 0:
                         return 0
-                    return max_send_msat
+                    return max_send_msit
 
-        max_send_msat = min(
+        max_send_msit = min(
             max(
                 consider_ctx(ctx_owner=receiver, is_htlc_dust=True),
                 consider_ctx(ctx_owner=receiver, is_htlc_dust=False),
@@ -1583,12 +1583,12 @@ class Channel(AbstractChannel):
             ),
         )
 
-        max_send_msat = min(max_send_msat, self.remaining_max_inflight(receiver, strict=True))
+        max_send_msit = min(max_send_msit, self.remaining_max_inflight(receiver, strict=True))
         if self.htlc_slots_left(sender) == 0:
-            max_send_msat = 0
+            max_send_msit = 0
 
-        max_send_msat = max(max_send_msat, 0)
-        return max_send_msat
+        max_send_msit = max(max_send_msit, 0)
+        return max_send_msit
 
 
     def included_htlcs(self, subject: HTLCOwner, direction: Direction, ctn: int = None, *,
@@ -1608,7 +1608,7 @@ class Channel(AbstractChannel):
         else:
             threshold_sat = offered_htlc_trim_threshold_sat(dust_limit_sat=conf.dust_limit_sat, feerate=feerate, has_anchors=self.has_anchors())
         htlcs = self.hm.htlcs_by_direction(subject, direction, ctn=ctn).values()
-        return list(filter(lambda htlc: htlc.amount_msat // 1000 >= threshold_sat, htlcs))
+        return list(filter(lambda htlc: htlc.amount_msit // 1000 >= threshold_sat, htlcs))
 
     def get_secret_and_point(self, subject: HTLCOwner, ctn: int) -> Tuple[Optional[bytes], bytes]:
         assert type(subject) is HTLCOwner
@@ -1683,8 +1683,8 @@ class Channel(AbstractChannel):
     def get_next_ctn(self, subject: HTLCOwner) -> int:
         return self.hm.ctn_latest(subject) + 1
 
-    def total_msat(self, direction: Direction) -> int:
-        """Return the cumulative total msat amount received/sent so far."""
+    def total_msit(self, direction: Direction) -> int:
+        """Return the cumulative total msit amount received/sent so far."""
         assert type(direction) is Direction
         return htlcsum(self.hm.all_settled_htlcs_ever_by_direction(LOCAL, direction))
 
@@ -1746,28 +1746,28 @@ class Channel(AbstractChannel):
         return self.constraints.capacity - sum(x.value for x in self.get_latest_commitment(subject).outputs())
 
     def update_fee(self, feerate: int, from_us: bool) -> None:
-        # feerate uses sat/kw
+        # feerate uses sit/kw
         if self.constraints.is_initiator != from_us:
             raise Exception(f"Cannot update_fee: wrong initiator. us: {from_us}")
         if feerate < FEERATE_PER_KW_MIN_RELAY_LIGHTNING:
-            raise Exception(f"Cannot update_fee: feerate lower than min relay fee. {feerate} sat/kw. us: {from_us}")
+            raise Exception(f"Cannot update_fee: feerate lower than min relay fee. {feerate} sit/kw. us: {from_us}")
         sender = LOCAL if from_us else REMOTE
         ctx_owner = -sender
         ctn = self.get_next_ctn(ctx_owner)
-        sender_balance_msat = self.balance_minus_outgoing_htlcs(whose=sender, ctx_owner=ctx_owner, ctn=ctn)
-        sender_reserve_msat = self.config[-sender].reserve_sat * 1000
+        sender_balance_msit = self.balance_minus_outgoing_htlcs(whose=sender, ctx_owner=ctx_owner, ctn=ctn)
+        sender_reserve_msit = self.config[-sender].reserve_sat * 1000
         num_htlcs_in_ctx = len(self.included_htlcs(ctx_owner, SENT, ctn=ctn, feerate=feerate) +
                                self.included_htlcs(ctx_owner, RECEIVED, ctn=ctn, feerate=feerate))
-        ctx_fees_msat = calc_fees_for_commitment_tx(
+        ctx_fees_msit = calc_fees_for_commitment_tx(
             num_htlcs=num_htlcs_in_ctx,
             feerate=feerate,
             is_local_initiator=self.constraints.is_initiator,
             has_anchors=self.has_anchors()
         )
-        remainder = sender_balance_msat - sender_reserve_msat - ctx_fees_msat[sender]
+        remainder = sender_balance_msit - sender_reserve_msit - ctx_fees_msit[sender]
         if remainder < 0:
             raise Exception(f"Cannot update_fee. {sender} tried to update fee but they cannot afford it. "
-                            f"Their balance would go below reserve: {remainder} msat missing.")
+                            f"Their balance would go below reserve: {remainder} msit missing.")
         assert self.can_update_ctx(proposer=LOCAL if from_us else REMOTE), f"cannot update channel. {self.get_state()!r} {self.peer_state!r}. {from_us=}"
         with self.db_lock:
             if from_us:
@@ -1779,14 +1779,14 @@ class Channel(AbstractChannel):
         assert type(subject) is HTLCOwner
         feerate = self.get_feerate(subject, ctn=ctn)
         other = subject.inverted()
-        local_msat = self.balance(subject, ctx_owner=subject, ctn=ctn)
-        remote_msat = self.balance(other, ctx_owner=subject, ctn=ctn)
+        local_msit = self.balance(subject, ctx_owner=subject, ctn=ctn)
+        remote_msit = self.balance(other, ctx_owner=subject, ctn=ctn)
         received_htlcs = self.hm.htlcs_by_direction(subject, RECEIVED, ctn).values()
         sent_htlcs = self.hm.htlcs_by_direction(subject, SENT, ctn).values()
-        remote_msat -= htlcsum(received_htlcs)
-        local_msat -= htlcsum(sent_htlcs)
-        assert remote_msat >= 0
-        assert local_msat >= 0
+        remote_msit -= htlcsum(received_htlcs)
+        local_msit -= htlcsum(sent_htlcs)
+        assert remote_msit >= 0
+        assert local_msit >= 0
         # same htlcs as before, but now without dust.
         received_htlcs = self.included_htlcs(subject, RECEIVED, ctn)
         sent_htlcs = self.included_htlcs(subject, SENT, ctn)
@@ -1830,8 +1830,8 @@ class Channel(AbstractChannel):
             funding_txid=self.funding_outpoint.txid,
             funding_pos=self.funding_outpoint.output_index,
             funding_sat=self.constraints.capacity,
-            local_amount=local_msat,
-            remote_amount=remote_msat,
+            local_amount=local_msit,
+            remote_amount=remote_msit,
             dust_limit_sat=this_config.dust_limit_sat,
             fees_per_participant=onchain_fees,
             htlcs=htlcs,
@@ -1846,8 +1846,8 @@ class Channel(AbstractChannel):
                 LOCAL: fee_sat * 1000 if self.constraints.is_initiator else 0,
                 REMOTE: fee_sat * 1000 if not self.constraints.is_initiator else 0,
             },
-            local_amount_msat=self.balance(LOCAL),
-            remote_amount_msat=self.balance(REMOTE) if not drop_remote else 0,
+            local_amount_msit=self.balance(LOCAL),
+            remote_amount_msit=self.balance(REMOTE) if not drop_remote else 0,
             local_script=local_script,
             remote_script=remote_script,
             htlcs=[],

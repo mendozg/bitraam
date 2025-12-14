@@ -228,7 +228,7 @@ class TestBaseInvoice(BitraamTestCase):
         amount_sat = 10_000
         outputs = [PartialTxOutput.from_address_and_value("tb1qmjzmg8nd4z56ar4fpngzsr6euktrhnjg9td385", amount_sat)]
         invoice = Invoice(
-            amount_msat=amount_sat * 1000,
+            amount_msit=amount_sat * 1000,
             message="mymsg",
             time=1692716965,
             exp=LN_EXPIRY_NEVER,
@@ -238,12 +238,12 @@ class TestBaseInvoice(BitraamTestCase):
             lightning_invoice=None,
         )
         with self.assertRaises(InvoiceError):
-            invoice.amount_msat = 10**20
+            invoice.amount_msit = 10**20
         with self.assertRaises(InvoiceError):
-            invoice.set_amount_msat(10**20)
+            invoice.set_amount_msit(10**20)
         with self.assertRaises(InvoiceError):
             invoice2 = Invoice(
-                amount_msat=10**20,
+                amount_msit=10**20,
                 message="mymsg",
                 time=1692716965,
                 exp=LN_EXPIRY_NEVER,

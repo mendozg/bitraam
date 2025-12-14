@@ -47,7 +47,7 @@ class LightningTxDialog(WindowModalDialog):
         self.config = parent.config
         self.label = tx_item['label']
         self.timestamp = tx_item['timestamp']
-        self.amount = Decimal(tx_item['amount_msat']) / 1000
+        self.amount = Decimal(tx_item['amount_msit']) / 1000
         self.payment_hash = tx_item['payment_hash']
         self.preimage = tx_item['preimage']
         self.invoice = ""
@@ -60,9 +60,9 @@ class LightningTxDialog(WindowModalDialog):
         self.setLayout(vbox)
         amount_str = self.main_window.format_amount_and_units(self.amount, timestamp=self.timestamp)
         vbox.addWidget(QLabel(_("Amount") + f": {amount_str}"))
-        fee_msat = tx_item.get('fee_msat')
-        if fee_msat is not None:
-            fee_sat = Decimal(fee_msat) / 1000 if fee_msat is not None else None
+        fee_msit = tx_item.get('fee_msit')
+        if fee_msit is not None:
+            fee_sat = Decimal(fee_msit) / 1000 if fee_msit is not None else None
             fee_str = self.main_window.format_amount_and_units(fee_sat, timestamp=self.timestamp)
             vbox.addWidget(QLabel(_("Fee: {}").format(fee_str)))
         time_str = datetime.datetime.fromtimestamp(self.timestamp).isoformat(' ')[:-3]

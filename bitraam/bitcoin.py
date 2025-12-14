@@ -346,7 +346,7 @@ DUST_LIMIT_P2WPKH = 294
 
 
 def dust_threshold(network: 'Network' = None) -> int:
-    """Returns the dust limit in satoshis."""
+    """Returns the dust limit in sitashis."""
     return DUST_LIMIT_P2PKH
 
 

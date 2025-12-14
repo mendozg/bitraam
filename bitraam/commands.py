@@ -94,23 +94,23 @@ class NotSynchronizedException(UserFacingException):
     pass
 
 
-def satoshis_or_max(amount):
-    return satoshis(amount) if not parse_max_spend(amount) else amount
+def sitashis_or_max(amount):
+    return sitashis(amount) if not parse_max_spend(amount) else amount
 
 
-def satoshis(amount):
-    # satoshi conversion must not be performed by the parser
+def sitashis(amount):
+    # sitashi conversion must not be performed by the parser
     return int(COIN*to_decimal(amount)) if amount is not None else None
 
 
-def format_satoshis(x: Union[float, int, Decimal, None]) -> Optional[str]:
+def format_sitashis(x: Union[float, int, Decimal, None]) -> Optional[str]:
     """
-    input: satoshis as a Number
+    input: sitashis as a Number
     output: str formatted as bitcoin amount
     """
     if x is None:
         return None
-    return util.format_satoshis_plain(x, is_max_allowed=False)
+    return util.format_sitashis_plain(x, is_max_allowed=False)
 
 
 class Command:
@@ -484,7 +484,7 @@ class Commands(Logger):
         for txin in wallet.get_utxos():
             d = txin.to_json()
             v = d.pop("value_sats")
-            d["value"] = format_satoshis(v)
+            d["value"] = format_sitashis(v)
             coins.append(d)
         return coins
 
@@ -727,13 +727,13 @@ class Commands(Logger):
         """Return the balance of your wallet. """
         c, u, x = wallet.get_balance()
         l = wallet.lnworker.get_balance() if wallet.lnworker else None
-        out = {"confirmed": format_satoshis(c)}
+        out = {"confirmed": format_sitashis(c)}
         if u:
-            out["unconfirmed"] = format_satoshis(u)
+            out["unconfirmed"] = format_sitashis(u)
         if x:
-            out["unmatured"] = format_satoshis(x)
+            out["unmatured"] = format_sitashis(x)
         if l:
-            out["lightning"] = format_satoshis(l)
+            out["lightning"] = format_sitashis(l)
         return out
 
     @command('n')
@@ -746,8 +746,8 @@ class Commands(Logger):
         """
         sh = bitcoin.address_to_scripthash(address)
         out = await self.network.get_balance_for_scripthash(sh)
-        out["confirmed"] = format_satoshis(out["confirmed"])
-        out["unconfirmed"] = format_satoshis(out["unconfirmed"])
+        out["confirmed"] = format_sitashis(out["confirmed"])
+        out["unconfirmed"] = format_sitashis(out["unconfirmed"])
         return out
 
     @command('n')
@@ -881,7 +881,7 @@ class Commands(Logger):
         arg:str:privkey:Private key. Type \'?\' to get a prompt.
         arg:str:destination:Bitraam address, contact or alias
         arg:str:fee:Transaction fee (absolute, in BRM)
-        arg:str:feerate:Transaction fee rate (in sat/vbyte)
+        arg:str:feerate:Transaction fee rate (in sit/vbyte)
         arg:int:imax:Maximum number of inputs
         arg:bool:nocheck:Do not verify aliases
         """
@@ -929,7 +929,7 @@ class Commands(Logger):
         if fee is not None and feerate is not None:
             raise Exception('Cannot set both fee and feerate')
         if fee is not None:
-            fee_sats = satoshis(fee)
+            fee_sats = sitashis(fee)
             fee_policy = FeePolicy(f'fixed:{fee_sats}')
         elif feerate is not None:
             feerate_per_byte = 1000 * feerate
@@ -946,7 +946,7 @@ class Commands(Logger):
         arg:str:destination:Bitraam address, contact or alias
         arg:decimal_or_max:amount:Amount to be sent (in BRM). Type '!' to send the maximum available.
         arg:decimal:fee:Transaction fee (absolute, in BRM)
-        arg:float:feerate:Transaction fee rate (in sat/vbyte)
+        arg:float:feerate:Transaction fee rate (in sit/vbyte)
         arg:str:from_addr:Source address (must be a wallet address; use sweep to spend from non-wallet address)
         arg:str:change_addr:Change address. Default is a spare address, or the source address if it's not in the wallet
         arg:bool:rbf:Whether to signal opt-in Replace-By-Fee in the transaction (true/false)
@@ -980,7 +980,7 @@ class Commands(Logger):
         arg:json:outputs:json list of ["address", "amount in BRM"]
         arg:bool:rbf:Whether to signal opt-in Replace-By-Fee in the transaction (true/false)
         arg:str:fee:Transaction fee (absolute, in BRM)
-        arg:str:feerate:Transaction fee rate (in sat/vbyte)
+        arg:str:feerate:Transaction fee rate (in sit/vbyte)
         arg:str:from_addr:Source address (must be a wallet address; use sweep to spend from non-wallet address)
         arg:str:change_addr:Change address. Default is a spare address, or the source address if it's not in the wallet
         arg:bool:addtransaction:Whether transaction is to be used for broadcasting afterwards. Adds transaction to the wallet
@@ -1000,7 +1000,7 @@ class Commands(Logger):
         final_outputs = []
         for address, amount in outputs:
             address = await self._resolver(address, wallet)
-            amount_sat = satoshis_or_max(amount)
+            amount_sat = sitashis_or_max(amount)
             final_outputs.append(PartialTxOutput.from_address_and_value(address, amount_sat))
         coins = wallet.get_spendable_coins(domain_addr)
         if domain_coins is not None:
@@ -1191,7 +1191,7 @@ class Commands(Logger):
             if labels or balance:
                 item = (item,)
             if balance:
-                item += (format_satoshis(sum(wallet.get_addr_balance(addr))),)
+                item += (format_sitashis(sum(wallet.get_addr_balance(addr))),)
             if labels:
                 item += (repr(wallet.get_label_for_address(addr)),)
             out.append(item)
@@ -1362,7 +1362,7 @@ class Commands(Logger):
         arg:bool:lightning:Create lightning request.
         arg:int:expiry:Time in seconds.
         """
-        amount = satoshis(amount)
+        amount = sitashis(amount)
         if not lightning:
             addr = wallet.get_unused_address()
             if addr is None:
@@ -1402,14 +1402,14 @@ class Commands(Logger):
         assert payment_hash not in wallet.lnworker.dont_settle_htlcs, "Payment hash already used!"
         assert wallet.lnworker.get_preimage(bfh(payment_hash)) is None, "Already got a preimage for this payment hash!"
         assert MIN_FINAL_CLTV_DELTA_ACCEPTED < min_final_cltv_expiry_delta < 576, "Use a sane min_final_cltv_expiry_delta value"
-        amount = amount if amount and satoshis(amount) > 0 else None  # make amount either >0 or None
+        amount = amount if amount and sitashis(amount) > 0 else None  # make amount either >0 or None
         inbound_capacity = wallet.lnworker.num_sats_can_receive()
-        assert inbound_capacity > satoshis(amount or 0), \
+        assert inbound_capacity > sitashis(amount or 0), \
             f"Not enough inbound capacity [{inbound_capacity} sat] to receive this payment"
 
         wallet.lnworker.add_payment_info_for_hold_invoice(
             bfh(payment_hash),
-            lightning_amount_sat=satoshis(amount) if amount else None,
+            lightning_amount_sat=sitashis(amount) if amount else None,
             min_final_cltv_delta=min_final_cltv_expiry_delta,
             exp_delay=expiry,
         )
@@ -1443,7 +1443,7 @@ class Commands(Logger):
         assert wallet.lnworker.is_complete_mpp(bfh(payment_hash)), \
             f"MPP incomplete, cannot settle hold invoice {payment_hash} yet"
         info: Optional['PaymentInfo'] = wallet.lnworker.get_payment_info(bfh(payment_hash))
-        assert (wallet.lnworker.get_payment_mpp_amount_msat(bfh(payment_hash)) or 0) >= (info.amount_msat or 0)
+        assert (wallet.lnworker.get_payment_mpp_amount_msit(bfh(payment_hash)) or 0) >= (info.amount_msit or 0)
         del wallet.lnworker.dont_settle_htlcs[payment_hash]
         wallet.lnworker.save_preimage(bfh(payment_hash), bfh(preimage))
         util.trigger_callback('wallet_updated', wallet)
@@ -1493,7 +1493,7 @@ class Commands(Logger):
         assert len(payment_hash) == 64, f"Invalid payment_hash length: {len(payment_hash)} != 64"
         info: Optional['PaymentInfo'] = wallet.lnworker.get_payment_info(bfh(payment_hash))
         is_complete_mpp: bool = wallet.lnworker.is_complete_mpp(bfh(payment_hash))
-        amount_sat = (wallet.lnworker.get_payment_mpp_amount_msat(bfh(payment_hash)) or 0) // 1000
+        amount_sat = (wallet.lnworker.get_payment_mpp_amount_msit(bfh(payment_hash)) or 0) // 1000
         result = {
             "status": "unknown",
             "received_amount_sat": amount_sat,
@@ -1514,11 +1514,11 @@ class Commands(Logger):
                 and payment_hash not in wallet.lnworker.dont_settle_htlcs:
             result["status"] = "settled"
             plist = wallet.lnworker.get_payments(status='settled')[bfh(payment_hash)]
-            _dir, amount_msat, _fee, _ts = wallet.lnworker.get_payment_value(info, plist)
-            result["received_amount_sat"] = amount_msat // 1000
+            _dir, amount_msit, _fee, _ts = wallet.lnworker.get_payment_value(info, plist)
+            result["received_amount_sat"] = amount_msit // 1000
             result['preimage'] = wallet.lnworker.get_preimage_hex(payment_hash)
         if info is not None:
-            result["invoice_amount_sat"] = (info.amount_msat or 0) // 1000
+            result["invoice_amount_sat"] = (info.amount_msit or 0) // 1000
         return result
 
     @command('wl')
@@ -1606,7 +1606,7 @@ class Commands(Logger):
     @command('n')
     async def getfeerate(self):
         """
-        Return current fee estimate given network conditions (in sat/kvByte).
+        Return current fee estimate given network conditions (in sit/kvByte).
         To change the fee policy, use 'getconfig/setconfig fee_policy'
         """
         fee_policy = FeePolicy(self.config.FEE_POLICY)
@@ -1616,7 +1616,7 @@ class Commands(Logger):
         return {
             'policy': fee_policy.get_descriptor(),
             'description': description,
-            'sat/kvB': feerate,
+            'sit/kvB': feerate,
             'tooltip': tooltip,
         }
 
@@ -1747,8 +1747,8 @@ class Commands(Logger):
         """
         if not wallet.can_have_lightning():
             raise UserFacingException("This wallet cannot create new channels")
-        funding_sat = satoshis(amount)
-        push_sat = satoshis(push_amount)
+        funding_sat = sitashis(amount)
+        push_sat = sitashis(push_amount)
         peer = await wallet.lnworker.add_peer(connection_string)
         chan, funding_tx = await wallet.lnworker.open_channel_with_peer(
             peer, funding_sat,
@@ -1774,7 +1774,7 @@ class Commands(Logger):
         invoice: str,
         timeout: int = 120,
         max_cltv: Optional[int] = None,
-        max_fee_msat: Optional[int] = None,
+        max_fee_msit: Optional[int] = None,
         password=None,
         wallet: Abstract_Wallet = None
     ):
@@ -1787,7 +1787,7 @@ class Commands(Logger):
         arg:str:invoice:Lightning invoice (bolt 11)
         arg:int:timeout:Timeout in seconds (default=120)
         arg:int:max_cltv:Maximum total time lock for the route (default=4032+invoice_final_cltv_delta)
-        arg:int:max_fee_msat:Maximum absolute fee budget for the payment (if unset, the default is a percentage fee based on config.LIGHTNING_PAYMENT_FEE_MAX_MILLIONTHS)
+        arg:int:max_fee_msit:Maximum absolute fee budget for the payment (if unset, the default is a percentage fee based on config.LIGHTNING_PAYMENT_FEE_MAX_MILLIONTHS)
         """
         # note: The "timeout" param works via black magic.
         #       The CLI-parser stores it in the config, and the argname matches config.cv.CLI_TIMEOUT.key().
@@ -1798,8 +1798,8 @@ class Commands(Logger):
         lnaddr = lnworker._check_bolt11_invoice(invoice)  # also checks if amount is given
         payment_hash = lnaddr.paymenthash
         invoice_obj = Invoice.from_bech32(invoice)
-        assert not max_fee_msat or max_fee_msat < max(invoice_obj.amount_msat // 2, 1_000_000), \
-                                    f"{max_fee_msat=} > max(invoice amount msat / 2, 1_000_000)"
+        assert not max_fee_msit or max_fee_msit < max(invoice_obj.amount_msit // 2, 1_000_000), \
+                                    f"{max_fee_msit=} > max(invoice amount msit / 2, 1_000_000)"
         wallet.save_invoice(invoice_obj)
         if max_cltv is not None:
             # The cltv budget excludes the final cltv delta which is why it is deducted here
@@ -1811,9 +1811,9 @@ class Commands(Logger):
             max_cltv = max_cltv_remaining
         budget = PaymentFeeBudget.from_invoice_amount(
             config=wallet.config,
-            invoice_amount_msat=invoice_obj.amount_msat,
+            invoice_amount_msit=invoice_obj.amount_msit,
             max_cltv_delta=max_cltv,
-            max_fee_msat=max_fee_msat,
+            max_fee_msit=max_fee_msit,
         )
         success, log = await lnworker.pay_invoice(invoice_obj, budget=budget)
         return {
@@ -1983,11 +1983,11 @@ class Commands(Logger):
         dest_scid = ShortChannelID.from_str(dest_scid)
         from_channel = wallet.lnworker.get_channel_by_short_id(from_scid)
         dest_channel = wallet.lnworker.get_channel_by_short_id(dest_scid)
-        amount_sat = satoshis(amount)
+        amount_sat = sitashis(amount)
         success, log = await wallet.lnworker.rebalance_channels(
             from_channel,
             dest_channel,
-            amount_msat=amount_sat * 1000,
+            amount_msit=amount_sat * 1000,
         )
         return {
             'success': success,
@@ -2037,16 +2037,16 @@ class Commands(Logger):
             except asyncio.TimeoutError:
                 raise TimeoutError("Could not find configured swap provider. Setup another one. See 'get_submarine_swap_providers'")
             if lightning_amount == 'dryrun':
-                onchain_amount_sat = satoshis(onchain_amount)
+                onchain_amount_sat = sitashis(onchain_amount)
                 lightning_amount_sat = sm.get_recv_amount(onchain_amount_sat, is_reverse=False)
                 txid = None
             elif onchain_amount == 'dryrun':
-                lightning_amount_sat = satoshis(lightning_amount)
+                lightning_amount_sat = sitashis(lightning_amount)
                 onchain_amount_sat = sm.get_send_amount(lightning_amount_sat, is_reverse=False)
                 txid = None
             else:
-                lightning_amount_sat = satoshis(lightning_amount)
-                onchain_amount_sat = satoshis(onchain_amount)
+                lightning_amount_sat = sitashis(lightning_amount)
+                onchain_amount_sat = sitashis(onchain_amount)
                 txid = await wallet.lnworker.swap_manager.normal_swap(
                     transport=transport,
                     lightning_amount_sat=lightning_amount_sat,
@@ -2056,8 +2056,8 @@ class Commands(Logger):
 
         return {
             'txid': txid,
-            'lightning_amount': format_satoshis(lightning_amount_sat),
-            'onchain_amount': format_satoshis(onchain_amount_sat),
+            'lightning_amount': format_sitashis(lightning_amount_sat),
+            'onchain_amount': format_sitashis(onchain_amount_sat),
         }
 
     @command('wnpl')
@@ -2080,23 +2080,23 @@ class Commands(Logger):
             except asyncio.TimeoutError:
                 raise TimeoutError("Could not find configured swap provider. Setup another one. See 'get_submarine_swap_providers'")
             if onchain_amount == 'dryrun':
-                lightning_amount_sat = satoshis(lightning_amount)
+                lightning_amount_sat = sitashis(lightning_amount)
                 onchain_amount_sat = sm.get_recv_amount(lightning_amount_sat, is_reverse=True)
                 assert prepayment == "dryrun", f"Cannot use {prepayment=} in dryrun. Set it to 'dryrun'."
                 prepayment_sat = 2 * sm.mining_fee
                 funding_txid = None
             elif lightning_amount == 'dryrun':
-                onchain_amount_sat = satoshis(onchain_amount)
+                onchain_amount_sat = sitashis(onchain_amount)
                 lightning_amount_sat = sm.get_send_amount(onchain_amount_sat, is_reverse=True)
                 assert prepayment == "dryrun", f"Cannot use {prepayment=} in dryrun. Set it to 'dryrun'."
                 prepayment_sat = 2 * sm.mining_fee
                 funding_txid = None
             else:
-                lightning_amount_sat = satoshis(lightning_amount)
+                lightning_amount_sat = sitashis(lightning_amount)
                 claim_fee = sm.get_fee_for_txbatcher()
-                onchain_amount_sat = satoshis(onchain_amount) + claim_fee
+                onchain_amount_sat = sitashis(onchain_amount) + claim_fee
                 assert prepayment != "dryrun", "Provide the 'prepayment' obtained from the dryrun."
-                prepayment_sat = satoshis(prepayment)
+                prepayment_sat = sitashis(prepayment)
                 funding_txid = await wallet.lnworker.swap_manager.reverse_swap(
                     transport=transport,
                     lightning_amount_sat=lightning_amount_sat,
@@ -2105,9 +2105,9 @@ class Commands(Logger):
                 )
         return {
             'funding_txid': funding_txid,
-            'lightning_amount': format_satoshis(lightning_amount_sat),
-            'onchain_amount': format_satoshis(onchain_amount_sat),
-            'prepayment': format_satoshis(prepayment_sat)
+            'lightning_amount': format_sitashis(lightning_amount_sat),
+            'onchain_amount': format_sitashis(onchain_amount_sat),
+            'prepayment': format_sitashis(prepayment_sat)
         }
 
     @command('n')

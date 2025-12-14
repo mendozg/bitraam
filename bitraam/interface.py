@@ -1505,7 +1505,7 @@ class Interface(Logger):
         return res
 
     async def get_relay_fee(self) -> int:
-        """Returns the min relay feerate in sat/kbyte."""
+        """Returns the min relay feerate in sit/kbyte."""
         # do request
         res = await self.session.send_request('blockchain.relayfee')
         # check response
@@ -1516,7 +1516,7 @@ class Interface(Logger):
 
     async def get_estimatefee(self, num_blocks: int) -> int:
         """Returns a feerate estimate for getting confirmed within
-        num_blocks blocks, in sat/kbyte.
+        num_blocks blocks, in sit/kbyte.
         Returns -1 if the server could not provide an estimate.
         """
         if not is_non_negative_integer(num_blocks):
@@ -1725,7 +1725,7 @@ def sanitize_tx_broadcast_response(server_msg) -> str:
         r"bare-multisig": None,
         r"dust":
             (_("Transaction could not be broadcast due to dust outputs.\n"
-               "Some of the outputs are too small in value, probably lower than 1000 satoshis.\n"
+               "Some of the outputs are too small in value, probably lower than 1000 sitashis.\n"
                "Check the units, make sure you haven't confused e.g. mBRM and BRM.")),
         r"multi-op-return": _("The transaction was rejected because it contains multiple OP_RETURN outputs."),
     }

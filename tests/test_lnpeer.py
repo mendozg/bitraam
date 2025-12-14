@@ -166,7 +166,7 @@ class MockLNWallet(Logger, EventListener, NetworkRetryManager[LNPeerAddr]):
     PAYMENT_TIMEOUT = 120
     TIMEOUT_SHUTDOWN_FAIL_PENDING_HTLCS = 0
     MPP_SPLIT_PART_FRACTION = 1  # this disables the forced splitting
-    MPP_SPLIT_PART_MINAMT_MSAT = 5_000_000
+    MPP_SPLIT_PART_MINAMT_MSIT = 5_000_000
 
     def __init__(self, *, local_keypair: Keypair, chans: Iterable['Channel'], tx_queue, name, has_anchors):
         self.name = name
@@ -270,7 +270,7 @@ class MockLNWallet(Logger, EventListener, NetworkRetryManager[LNPeerAddr]):
             self.channel_db.stop()
             await self.channel_db.stopped_event.wait()
 
-    async def create_routes_from_invoice(self, amount_msat: int, decoded_invoice: LnAddr, *, full_path=None):
+    async def create_routes_from_invoice(self, amount_msit: int, decoded_invoice: LnAddr, *, full_path=None):
         paysession = PaySession(
             payment_hash=decoded_invoice.paymenthash,
             payment_secret=decoded_invoice.payment_secret,
@@ -278,7 +278,7 @@ class MockLNWallet(Logger, EventListener, NetworkRetryManager[LNPeerAddr]):
             invoice_features=decoded_invoice.get_features(),
             r_tags=decoded_invoice.get_routing_info('r'),
             min_final_cltv_delta=decoded_invoice.get_min_final_cltv_delta(),
-            amount_to_pay=amount_msat,
+            amount_to_pay=amount_msit,
             invoice_pubkey=decoded_invoice.pubkey.serialize(),
             uses_trampoline=False,
             use_two_trampolines=False,
@@ -286,10 +286,10 @@ class MockLNWallet(Logger, EventListener, NetworkRetryManager[LNPeerAddr]):
         payment_key = decoded_invoice.paymenthash + decoded_invoice.payment_secret
         self._paysessions[payment_key] = paysession
         return [r async for r in self.create_routes_for_payment(
-            amount_msat=amount_msat,
+            amount_msit=amount_msit,
             paysession=paysession,
             full_path=full_path,
-            budget=PaymentFeeBudget.from_invoice_amount(invoice_amount_msat=amount_msat, config=self.config),
+            budget=PaymentFeeBudget.from_invoice_amount(invoice_amount_msit=amount_msit, config=self.config),
         )]
 
     get_payments = LNWallet.get_payments
@@ -403,29 +403,29 @@ class PeerInTests(Peer):
 
 
 high_fee_channel = {
-   'local_balance_msat': 10 * bitcoin.COIN * 1000 // 2,
-   'remote_balance_msat': 10 * bitcoin.COIN * 1000 // 2,
-   'local_base_fee_msat': 500_000,
+   'local_balance_msit': 10 * bitcoin.COIN * 1000 // 2,
+   'remote_balance_msit': 10 * bitcoin.COIN * 1000 // 2,
+   'local_base_fee_msit': 500_000,
    'local_fee_rate_millionths': 500,
-   'remote_base_fee_msat': 500_000,
+   'remote_base_fee_msit': 500_000,
    'remote_fee_rate_millionths': 500,
 }
 
 low_fee_channel = {
-    'local_balance_msat': 10 * bitcoin.COIN * 1000 // 2,
-    'remote_balance_msat': 10 * bitcoin.COIN * 1000 // 2,
-    'local_base_fee_msat': 1_000,
+    'local_balance_msit': 10 * bitcoin.COIN * 1000 // 2,
+    'remote_balance_msit': 10 * bitcoin.COIN * 1000 // 2,
+    'local_base_fee_msit': 1_000,
     'local_fee_rate_millionths': 1,
-    'remote_base_fee_msat': 1_000,
+    'remote_base_fee_msit': 1_000,
     'remote_fee_rate_millionths': 1,
 }
 
 depleted_channel = {
-    'local_balance_msat': 330 * 1000, # local pays anchors
-    'remote_balance_msat': 10 * bitcoin.COIN * 1000,
-    'local_base_fee_msat': 1_000,
+    'local_balance_msit': 330 * 1000, # local pays anchors
+    'remote_balance_msit': 10 * bitcoin.COIN * 1000,
+    'local_base_fee_msit': 1_000,
     'local_fee_rate_millionths': 1,
-    'remote_base_fee_msat': 1_000,
+    'remote_base_fee_msit': 1_000,
     'remote_fee_rate_millionths': 1,
 }
 
@@ -551,14 +551,14 @@ class TestPeer(BitraamTestCase):
     def prepare_invoice(
             w2: MockLNWallet,  # receiver
             *,
-            amount_msat=100_000_000,
+            amount_msit=100_000_000,
             include_routing_hints=False,
             payment_preimage: bytes = None,
             payment_hash: bytes = None,
             invoice_features: LnFeatures = None,
             min_final_cltv_delta: int = None,
     ) -> Tuple[LnAddr, Invoice]:
-        amount_btc = amount_msat/Decimal(COIN*1000)
+        amount_btc = amount_msit/Decimal(COIN*1000)
         if payment_preimage is None and not payment_hash:
             payment_preimage = os.urandom(32)
         if payment_hash is None:
@@ -566,7 +566,7 @@ class TestPeer(BitraamTestCase):
         if payment_preimage:
             w2.save_preimage(payment_hash, payment_preimage)
         if include_routing_hints:
-            routing_hints = w2.calc_routing_hints_for_invoice(amount_msat)
+            routing_hints = w2.calc_routing_hints_for_invoice(amount_msit)
         else:
             routing_hints = []
             trampoline_hints = []
@@ -580,7 +580,7 @@ class TestPeer(BitraamTestCase):
             min_final_cltv_delta = lnutil.MIN_FINAL_CLTV_DELTA_ACCEPTED
         info = PaymentInfo(
             payment_hash=payment_hash,
-            amount_msat=amount_msat,
+            amount_msit=amount_msit,
             direction=RECEIVED,
             status=PR_UNPAID,
             min_final_cltv_delta=min_final_cltv_delta,
@@ -716,14 +716,14 @@ class TestPeerDirect(TestPeer):
 
     @staticmethod
     def _send_fake_htlc(peer: Peer, chan: Channel) -> UpdateAddHtlc:
-        htlc = UpdateAddHtlc(amount_msat=10000, payment_hash=os.urandom(32), cltv_abs=999, timestamp=1)
+        htlc = UpdateAddHtlc(amount_msit=10000, payment_hash=os.urandom(32), cltv_abs=999, timestamp=1)
         htlc = chan.add_htlc(htlc)
         peer.send_message(
             "update_add_htlc",
             channel_id=chan.channel_id,
             id=htlc.htlc_id,
             cltv_expiry=htlc.cltv_abs,
-            amount_msat=htlc.amount_msat,
+            amount_msit=htlc.amount_msit,
             payment_hash=htlc.payment_hash,
             onion_routing_packet=1366 * b"0",
         )
@@ -970,15 +970,15 @@ class TestPeerDirect(TestPeer):
             lnaddr1, pay_req1 = self.prepare_invoice(w1)
             # alice sends htlc BUT NOT COMMITMENT_SIGNED
             p1.maybe_send_commitment = lambda x: None
-            route1 = (await w1.create_routes_from_invoice(lnaddr2.get_amount_msat(), decoded_invoice=lnaddr2))[0][0].route
+            route1 = (await w1.create_routes_from_invoice(lnaddr2.get_amount_msit(), decoded_invoice=lnaddr2))[0][0].route
             paysession1 = w1._paysessions[lnaddr2.paymenthash + lnaddr2.payment_secret]
             shi1 = SentHtlcInfo(
                 route=route1,
                 payment_secret_orig=lnaddr2.payment_secret,
                 payment_secret_bucket=lnaddr2.payment_secret,
-                amount_msat=lnaddr2.get_amount_msat(),
-                bucket_msat=lnaddr2.get_amount_msat(),
-                amount_receiver_msat=lnaddr2.get_amount_msat(),
+                amount_msit=lnaddr2.get_amount_msit(),
+                bucket_msit=lnaddr2.get_amount_msit(),
+                amount_receiver_msit=lnaddr2.get_amount_msit(),
                 trampoline_fee_level=None,
                 trampoline_route=None,
             )
@@ -990,15 +990,15 @@ class TestPeerDirect(TestPeer):
             p1.maybe_send_commitment = _maybe_send_commitment1
             # bob sends htlc BUT NOT COMMITMENT_SIGNED
             p2.maybe_send_commitment = lambda x: None
-            route2 = (await w2.create_routes_from_invoice(lnaddr1.get_amount_msat(), decoded_invoice=lnaddr1))[0][0].route
+            route2 = (await w2.create_routes_from_invoice(lnaddr1.get_amount_msit(), decoded_invoice=lnaddr1))[0][0].route
             paysession2 = w2._paysessions[lnaddr1.paymenthash + lnaddr1.payment_secret]
             shi2 = SentHtlcInfo(
                 route=route2,
                 payment_secret_orig=lnaddr1.payment_secret,
                 payment_secret_bucket=lnaddr1.payment_secret,
-                amount_msat=lnaddr1.get_amount_msat(),
-                bucket_msat=lnaddr1.get_amount_msat(),
-                amount_receiver_msat=lnaddr1.get_amount_msat(),
+                amount_msit=lnaddr1.get_amount_msit(),
+                bucket_msit=lnaddr1.get_amount_msit(),
+                amount_receiver_msit=lnaddr1.get_amount_msit(),
                 trampoline_fee_level=None,
                 trampoline_route=None,
             )
@@ -1035,10 +1035,10 @@ class TestPeerDirect(TestPeer):
     async def test_payments_stresstest(self):
         alice_channel, bob_channel = create_test_channels()
         p1, p2, w1, w2, _q1, _q2 = self.prepare_peers(alice_channel, bob_channel)
-        alice_init_balance_msat = alice_channel.balance(HTLCOwner.LOCAL)
-        bob_init_balance_msat = bob_channel.balance(HTLCOwner.LOCAL)
+        alice_init_balance_msit = alice_channel.balance(HTLCOwner.LOCAL)
+        bob_init_balance_msit = bob_channel.balance(HTLCOwner.LOCAL)
         num_payments = 50
-        payment_value_msat = 10_000_000  # make it large enough so that there are actually HTLCs on the ctx
+        payment_value_msit = 10_000_000  # make it large enough so that there are actually HTLCs on the ctx
         max_htlcs_in_flight = asyncio.Semaphore(5)
         async def single_payment(pay_req):
             async with max_htlcs_in_flight:
@@ -1046,24 +1046,24 @@ class TestPeerDirect(TestPeer):
         async def many_payments():
             async with OldTaskGroup() as group:
                 for i in range(num_payments):
-                    lnaddr, pay_req = self.prepare_invoice(w2, amount_msat=payment_value_msat)
+                    lnaddr, pay_req = self.prepare_invoice(w2, amount_msit=payment_value_msit)
                     await group.spawn(single_payment(pay_req))
             gath.cancel()
         gath = asyncio.gather(many_payments(), p1._message_loop(), p2._message_loop(), p1.htlc_switch(), p2.htlc_switch())
         with self.assertRaises(asyncio.CancelledError):
             await gath
-        self.assertEqual(alice_init_balance_msat - num_payments * payment_value_msat, alice_channel.balance(HTLCOwner.LOCAL))
-        self.assertEqual(alice_init_balance_msat - num_payments * payment_value_msat, bob_channel.balance(HTLCOwner.REMOTE))
-        self.assertEqual(bob_init_balance_msat + num_payments * payment_value_msat, bob_channel.balance(HTLCOwner.LOCAL))
-        self.assertEqual(bob_init_balance_msat + num_payments * payment_value_msat, alice_channel.balance(HTLCOwner.REMOTE))
+        self.assertEqual(alice_init_balance_msit - num_payments * payment_value_msit, alice_channel.balance(HTLCOwner.LOCAL))
+        self.assertEqual(alice_init_balance_msit - num_payments * payment_value_msit, bob_channel.balance(HTLCOwner.REMOTE))
+        self.assertEqual(bob_init_balance_msit + num_payments * payment_value_msit, bob_channel.balance(HTLCOwner.LOCAL))
+        self.assertEqual(bob_init_balance_msit + num_payments * payment_value_msit, alice_channel.balance(HTLCOwner.REMOTE))
 
     async def test_payment_recv_mpp_confusion1(self):
         """Regression test for https://github.com/mendozg/bitraam/security/advisories/GHSA-8r85-vp7r-hjxf"""
         # This test checks that the following attack does not work:
         #   - Bob creates invoice1: 1 BRM, H1, S1
         #   - Bob creates invoice2: 1 BRM, H2, S2;  both given to attacker to pay
-        #   - Alice sends htlc1: 0.1 BRM, H1, S1  (total_msat=1 BRM)
-        #   - Alice sends htlc2: 0.9 BRM, H2, S1  (total_msat=1 BRM)
+        #   - Alice sends htlc1: 0.1 BRM, H1, S1  (total_msit=1 BRM)
+        #   - Alice sends htlc2: 0.9 BRM, H2, S1  (total_msit=1 BRM)
         #   - Bob(victim) reveals preimage for H1 and fulfills htlc1 (fails other)
         alice_channel, bob_channel = create_test_channels()
         p1, p2, w1, w2, _q1, _q2 = self.prepare_peers(alice_channel, bob_channel)
@@ -1071,12 +1071,12 @@ class TestPeerDirect(TestPeer):
             self.assertEqual(PR_UNPAID, w2.get_payment_status(lnaddr1.paymenthash))
             self.assertEqual(PR_UNPAID, w2.get_payment_status(lnaddr2.paymenthash))
 
-            route = (await w1.create_routes_from_invoice(amount_msat=1000, decoded_invoice=lnaddr1))[0][0].route
+            route = (await w1.create_routes_from_invoice(amount_msit=1000, decoded_invoice=lnaddr1))[0][0].route
             p1.pay(
                 route=route,
                 chan=alice_channel,
-                amount_msat=1000,
-                total_msat=lnaddr1.get_amount_msat(),
+                amount_msit=1000,
+                total_msit=lnaddr1.get_amount_msit(),
                 payment_hash=lnaddr1.paymenthash,
                 min_final_cltv_delta=lnaddr1.get_min_final_cltv_delta(),
                 payment_secret=lnaddr1.payment_secret,
@@ -1084,8 +1084,8 @@ class TestPeerDirect(TestPeer):
             p1.pay(
                 route=route,
                 chan=alice_channel,
-                amount_msat=lnaddr1.get_amount_msat() - 1000,
-                total_msat=lnaddr1.get_amount_msat(),
+                amount_msit=lnaddr1.get_amount_msit() - 1000,
+                total_msit=lnaddr1.get_amount_msit(),
                 payment_hash=lnaddr2.paymenthash,
                 min_final_cltv_delta=lnaddr1.get_min_final_cltv_delta(),
                 payment_secret=lnaddr1.payment_secret,
@@ -1098,8 +1098,8 @@ class TestPeerDirect(TestPeer):
             raise SuccessfulTest()
 
         w2.features |= LnFeatures.BASIC_MPP_OPT
-        lnaddr1, _pay_req = self.prepare_invoice(w2, amount_msat=100_000_000)
-        lnaddr2, _pay_req = self.prepare_invoice(w2, amount_msat=100_000_000)
+        lnaddr1, _pay_req = self.prepare_invoice(w2, amount_msit=100_000_000)
+        lnaddr2, _pay_req = self.prepare_invoice(w2, amount_msit=100_000_000)
         self.assertTrue(lnaddr1.get_features().supports(LnFeatures.BASIC_MPP_OPT))
         self.assertTrue(lnaddr2.get_features().supports(LnFeatures.BASIC_MPP_OPT))
 
@@ -1135,20 +1135,20 @@ class TestPeerDirect(TestPeer):
         """Regression test for https://github.com/mendozg/bitraam/security/advisories/GHSA-8r85-vp7r-hjxf"""
         # This test checks that the following attack does not work:
         #   - Bob creates invoice: 1 BRM
-        #   - Alice sends htlc1: 0.1 BRM  (total_msat=0.2 BRM)
-        #   - Alice sends htlc2: 0.1 BRM  (total_msat=1 BRM)
+        #   - Alice sends htlc1: 0.1 BRM  (total_msit=0.2 BRM)
+        #   - Alice sends htlc2: 0.1 BRM  (total_msit=1 BRM)
         #   - Bob(victim) reveals preimage and fulfills htlc2 (fails other)
         alice_channel, bob_channel = create_test_channels()
         p1, p2, w1, w2, _q1, _q2 = self.prepare_peers(alice_channel, bob_channel)
         async def pay():
             self.assertEqual(PR_UNPAID, w2.get_payment_status(lnaddr1.paymenthash))
 
-            route = (await w1.create_routes_from_invoice(amount_msat=1000, decoded_invoice=lnaddr1))[0][0].route
+            route = (await w1.create_routes_from_invoice(amount_msit=1000, decoded_invoice=lnaddr1))[0][0].route
             p1.pay(
                 route=route,
                 chan=alice_channel,
-                amount_msat=1000,
-                total_msat=2000,
+                amount_msit=1000,
+                total_msit=2000,
                 payment_hash=lnaddr1.paymenthash,
                 min_final_cltv_delta=lnaddr1.get_min_final_cltv_delta(),
                 payment_secret=lnaddr1.payment_secret,
@@ -1156,8 +1156,8 @@ class TestPeerDirect(TestPeer):
             p1.pay(
                 route=route,
                 chan=alice_channel,
-                amount_msat=1000,
-                total_msat=lnaddr1.get_amount_msat(),
+                amount_msit=1000,
+                total_msit=lnaddr1.get_amount_msit(),
                 payment_hash=lnaddr1.paymenthash,
                 min_final_cltv_delta=lnaddr1.get_min_final_cltv_delta(),
                 payment_secret=lnaddr1.payment_secret,
@@ -1170,7 +1170,7 @@ class TestPeerDirect(TestPeer):
             raise SuccessfulTest()
 
         w2.features |= LnFeatures.BASIC_MPP_OPT
-        lnaddr1, _pay_req = self.prepare_invoice(w2, amount_msat=100_000_000)
+        lnaddr1, _pay_req = self.prepare_invoice(w2, amount_msit=100_000_000)
         self.assertTrue(lnaddr1.get_features().supports(LnFeatures.BASIC_MPP_OPT))
 
         async def f():
@@ -1211,8 +1211,8 @@ class TestPeerDirect(TestPeer):
         await self._test_shutdown(
             alice_fee=1,
             bob_fee=200,
-            alice_fee_range={'min_fee_satoshis': 1, 'max_fee_satoshis': 10},
-            bob_fee_range={'min_fee_satoshis': 10, 'max_fee_satoshis': 300})
+            alice_fee_range={'min_fee_sitashis': 1, 'max_fee_sitashis': 10},
+            bob_fee_range={'min_fee_sitashis': 10, 'max_fee_sitashis': 300})
 
     ## This test works but it is too slow (LN_P2P_NETWORK_TIMEOUT)
     ## because tests do not use a proper LNWorker object
@@ -1221,8 +1221,8 @@ class TestPeerDirect(TestPeer):
     #        self._test_shutdown(
     #            alice_fee=1,
     #            bob_fee=200,
-    #            alice_fee_range={'min_fee_satoshis': 1, 'max_fee_satoshis': 10},
-    #            bob_fee_range={'min_fee_satoshis': 50, 'max_fee_satoshis': 300})
+    #            alice_fee_range={'min_fee_sitashis': 1, 'max_fee_sitashis': 10},
+    #            bob_fee_range={'min_fee_sitashis': 50, 'max_fee_sitashis': 300})
     #    ))
 
     async def _test_shutdown(self, alice_fee, bob_fee, alice_fee_range=None, bob_fee_range=None):
@@ -1244,11 +1244,11 @@ class TestPeerDirect(TestPeer):
             await util.wait_for2(p1.initialized, 1)
             await util.wait_for2(p2.initialized, 1)
             # alice sends htlc
-            route = (await w1.create_routes_from_invoice(lnaddr.get_amount_msat(), decoded_invoice=lnaddr))[0][0].route
+            route = (await w1.create_routes_from_invoice(lnaddr.get_amount_msit(), decoded_invoice=lnaddr))[0][0].route
             p1.pay(route=route,
                    chan=alice_channel,
-                   amount_msat=lnaddr.get_amount_msat(),
-                   total_msat=lnaddr.get_amount_msat(),
+                   amount_msit=lnaddr.get_amount_msit(),
+                   total_msit=lnaddr.get_amount_msit(),
                    payment_hash=lnaddr.paymenthash,
                    min_final_cltv_delta=lnaddr.get_min_final_cltv_delta(),
                    payment_secret=lnaddr.payment_secret)
@@ -1370,16 +1370,16 @@ class TestPeerDirect(TestPeer):
         lnaddr, pay_req = self.prepare_invoice(w2)
 
         lnaddr = w1._check_bolt11_invoice(pay_req.lightning_invoice)
-        shi = (await w1.create_routes_from_invoice(lnaddr.get_amount_msat(), decoded_invoice=lnaddr))[0][0]
-        route, amount_msat = shi.route, shi.amount_msat
-        assert amount_msat == lnaddr.get_amount_msat()
+        shi = (await w1.create_routes_from_invoice(lnaddr.get_amount_msit(), decoded_invoice=lnaddr))[0][0]
+        route, amount_msit = shi.route, shi.amount_msit
+        assert amount_msit == lnaddr.get_amount_msit()
 
         await w1.force_close_channel(alice_channel.channel_id)
         # check if a tx (commitment transaction) was broadcasted:
         assert q1.qsize() == 1
 
         with self.assertRaises(NoPathFound) as e:
-            await w1.create_routes_from_invoice(lnaddr.get_amount_msat(), decoded_invoice=lnaddr)
+            await w1.create_routes_from_invoice(lnaddr.get_amount_msit(), decoded_invoice=lnaddr)
 
         peer = w1.peers[route[0].node_id]
         # AssertionError is ok since we shouldn't use old routes, and the
@@ -1389,9 +1389,9 @@ class TestPeerDirect(TestPeer):
                 route=route,
                 payment_secret_orig=lnaddr.payment_secret,
                 payment_secret_bucket=lnaddr.payment_secret,
-                amount_msat=amount_msat,
-                bucket_msat=amount_msat,
-                amount_receiver_msat=amount_msat,
+                amount_msit=amount_msit,
+                bucket_msit=amount_msit,
+                amount_receiver_msit=amount_msit,
                 trampoline_fee_level=None,
                 trampoline_route=None,
             )
@@ -1512,8 +1512,8 @@ class TestPeerForwarding(TestPeer):
                     bob_name=b,
                     alice_pubkey=keys[a].pubkey,
                     bob_pubkey=keys[b].pubkey,
-                    local_msat=channel_def['local_balance_msat'],
-                    remote_msat=channel_def['remote_balance_msat'],
+                    local_msit=channel_def['local_balance_msit'],
+                    remote_msit=channel_def['remote_balance_msit'],
                     anchor_outputs=self.TEST_ANCHOR_CHANNELS
                 )
                 channels[(a, b)], channels[(b, a)] = channel_ab, channel_ba
@@ -1521,9 +1521,9 @@ class TestPeerForwarding(TestPeer):
                 transports[(a, b)], transports[(b, a)] = transport_ab, transport_ba
                 # set fees
                 channel_ab.forwarding_fee_proportional_millionths = channel_def['local_fee_rate_millionths']
-                channel_ab.forwarding_fee_base_msat = channel_def['local_base_fee_msat']
+                channel_ab.forwarding_fee_base_msit = channel_def['local_base_fee_msit']
                 channel_ba.forwarding_fee_proportional_millionths = channel_def['remote_fee_rate_millionths']
-                channel_ba.forwarding_fee_base_msat = channel_def['remote_base_fee_msat']
+                channel_ba.forwarding_fee_base_msit = channel_def['remote_base_fee_msit']
 
         # create workers and peers
         for a, definition in graph_definition.items():
@@ -1603,7 +1603,7 @@ class TestPeerForwarding(TestPeer):
                 for test in [21_000_000, 21_000_001]:
                     lnaddr, pay_req = self.prepare_invoice(
                         graph.workers['alice'],
-                        amount_msat=test,
+                        amount_msit=test,
                         include_routing_hints=True,
                         invoice_features=LnFeatures.BASIC_MPP_OPT
                                          | LnFeatures.PAYMENT_SECRET_REQ
@@ -1754,11 +1754,11 @@ class TestPeerForwarding(TestPeer):
         async def pay():
             lnaddr1, pay_req1 = self.prepare_invoice(
                 graph.workers['bob'],
-                amount_msat=100_000_000_000,
+                amount_msit=100_000_000_000,
             )
             lnaddr2, pay_req2 = self.prepare_invoice(
                 graph.workers['dave'],
-                amount_msat=100_000_000,
+                amount_msit=100_000_000,
                 payment_hash=lnaddr1.paymenthash,  # Dave is cooperating with Alice, and he reuses Bob's hash
                 include_routing_hints=True,
             )
@@ -1794,14 +1794,14 @@ class TestPeerForwarding(TestPeer):
     async def test_payment_with_temp_channel_failure_and_liquidity_hints(self):
         # prepare channels such that a temporary channel failure happens at c->d
         graph_definition = self.GRAPH_DEFINITIONS['square_graph']
-        graph_definition['alice']['channels']['carol']['local_balance_msat'] = 200_000_000
-        graph_definition['alice']['channels']['carol']['remote_balance_msat'] = 200_000_000
-        graph_definition['carol']['channels']['dave']['local_balance_msat'] = 50_000_000
-        graph_definition['carol']['channels']['dave']['remote_balance_msat'] = 200_000_000
-        graph_definition['alice']['channels']['bob']['local_balance_msat'] = 200_000_000
-        graph_definition['alice']['channels']['bob']['remote_balance_msat'] = 200_000_000
-        graph_definition['bob']['channels']['dave']['local_balance_msat'] = 200_000_000
-        graph_definition['bob']['channels']['dave']['remote_balance_msat'] = 200_000_000
+        graph_definition['alice']['channels']['carol']['local_balance_msit'] = 200_000_000
+        graph_definition['alice']['channels']['carol']['remote_balance_msit'] = 200_000_000
+        graph_definition['carol']['channels']['dave']['local_balance_msit'] = 50_000_000
+        graph_definition['carol']['channels']['dave']['remote_balance_msit'] = 200_000_000
+        graph_definition['alice']['channels']['bob']['local_balance_msit'] = 200_000_000
+        graph_definition['alice']['channels']['bob']['remote_balance_msit'] = 200_000_000
+        graph_definition['bob']['channels']['dave']['local_balance_msit'] = 200_000_000
+        graph_definition['bob']['channels']['dave']['remote_balance_msit'] = 200_000_000
         graph = self.prepare_chans_and_peers_in_graph(graph_definition)
 
         # the payment happens in two attempts:
@@ -1847,7 +1847,7 @@ class TestPeerForwarding(TestPeer):
                     await group.spawn(peer.htlc_switch())
                 for peer in peers:
                     await peer.initialized
-                lnaddr, pay_req = self.prepare_invoice(graph.workers['dave'], amount_msat=amount_to_pay, include_routing_hints=True)
+                lnaddr, pay_req = self.prepare_invoice(graph.workers['dave'], amount_msit=amount_to_pay, include_routing_hints=True)
                 await group.spawn(pay(lnaddr, pay_req))
         with self.assertRaises(PaymentDone):
             await f()
@@ -1881,7 +1881,7 @@ class TestPeerForwarding(TestPeer):
                 await self._activate_trampoline(alice_w)
             else:
                 assert alice_w.network.channel_db is not None
-            lnaddr, pay_req = self.prepare_invoice(dave_w, include_routing_hints=True, amount_msat=amount_to_pay)
+            lnaddr, pay_req = self.prepare_invoice(dave_w, include_routing_hints=True, amount_msit=amount_to_pay)
             self.prepare_recipient(dave_w, lnaddr.paymenthash, test_hold_invoice, test_failure)
             self.assertEqual(PR_UNPAID, dave_w.get_payment_status(lnaddr.paymenthash))
             result, log = await alice_w.pay_invoice(pay_req, attempts=attempts)
@@ -1976,7 +1976,7 @@ class TestPeerForwarding(TestPeer):
             graph.workers['dave'].features |= LnFeatures.BASIC_MPP_OPT
             graph.workers['bob'].enable_htlc_forwarding = False  # Bob will hold forwarded HTLCs
             assert graph.workers['alice'].network.channel_db is not None
-            lnaddr, pay_req = self.prepare_invoice(graph.workers['dave'], include_routing_hints=True, amount_msat=amount_to_pay)
+            lnaddr, pay_req = self.prepare_invoice(graph.workers['dave'], include_routing_hints=True, amount_msit=amount_to_pay)
             result, log = await graph.workers['alice'].pay_invoice(pay_req, attempts=1)
         async def stop():
             hm = graph.channels[('dave', 'carol')].hm

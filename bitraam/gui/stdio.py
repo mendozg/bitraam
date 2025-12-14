@@ -9,7 +9,7 @@ from bitraam import util
 from bitraam import WalletStorage, Wallet
 from bitraam.wallet import Abstract_Wallet
 from bitraam.wallet_db import WalletDB
-from bitraam.util import format_satoshis, EventListener, event_listener
+from bitraam.util import format_sitashis, EventListener, event_listener
 from bitraam.bitcoin import is_address, COIN
 from bitraam.transaction import PartialTxOutput
 from bitraam.network import TxBroadcastError, BestEffortRequestFailed
@@ -116,8 +116,8 @@ class BitraamGui(BaseBitraamGui, EventListener):
             label = self.wallet.get_label_for_txid(hist_item.txid)
             messages.append(format_str % (
                 time_str, label,
-                format_satoshis(hist_item.delta, whitespaces=True),
-                format_satoshis(hist_item.balance, whitespaces=True)))
+                format_sitashis(hist_item.delta, whitespaces=True),
+                format_sitashis(hist_item.balance, whitespaces=True)))
 
         self.print_list(messages[::-1], format_str%(_("Date"), _("Description"), _("Amount"), _("Balance")))
 

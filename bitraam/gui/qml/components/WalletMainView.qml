@@ -106,7 +106,7 @@ Item {
     function payOnchain(invoicedialog, invoice) {
         var dialog = confirmPaymentDialog.createObject(mainView, {
                 address: invoice.address,
-                satoshis: invoice.amountOverride.isEmpty
+                sitashis: invoice.amountOverride.isEmpty
                     ? invoice.amount
                     : invoice.amountOverride,
                 message: invoice.message
@@ -766,7 +766,7 @@ Item {
 
             property string privateKeys
             title: qsTr('Confirm Sweep')
-            satoshis: MAX
+            sitashis: MAX
             finalizer: SweepFinalizer {
                 wallet: Daemon.currentWallet
                 canRbf: true

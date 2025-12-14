@@ -385,7 +385,7 @@ class TestPaymentIdentifier(BitraamTestCase):
         invoice = invoice_from_payment_identifier(pi, None, None)
         self.assertTrue(isinstance(invoice, Invoice))
         self.assertTrue(invoice.is_lightning())
-        self.assertEqual(2_000_000_000, invoice.amount_msat)
+        self.assertEqual(2_000_000_000, invoice.amount_msit)
 
         text = 'bitter grass shiver impose acquire brush forget axis eager alone wine silver'
         d = restore_wallet_from_text__for_unittest(text, path=self.wallet2_path, config=self.config)
@@ -404,4 +404,4 @@ class TestPaymentIdentifier(BitraamTestCase):
         with self.assertRaises(AssertionError):
             invoice_from_payment_identifier(pi, wallet2, '!')
         invoice = invoice_from_payment_identifier(pi, wallet2, 1)
-        self.assertEqual(1000, invoice.amount_msat)
+        self.assertEqual(1000, invoice.amount_msit)

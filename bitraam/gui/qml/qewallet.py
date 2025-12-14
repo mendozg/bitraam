@@ -15,7 +15,7 @@ from bitraam.network import TxBroadcastError, BestEffortRequestFailed
 from bitraam.transaction import PartialTransaction, Transaction
 from bitraam.util import InvalidPassword, event_listener, AddTransactionException, get_asyncio_loop, NotEnoughFunds, \
     NoDynamicFeeEstimates
-from bitraam.lnutil import MIN_FUNDING_SAT
+from bitraam.lnutil import MIN_FUNDING_SIT
 from bitraam.plugin import run_hook
 from bitraam.wallet import Multisig_Wallet
 from bitraam.crypto import pw_decode_with_version_and_mac
@@ -102,7 +102,7 @@ class QEWallet(AuthMixin, QObject, QtEventListener):
         self._frozenbalance = QEAmount()
         self._totalbalance = QEAmount()
         self._lightningcanreceive = QEAmount()
-        self._minchannelfunding = QEAmount(amount_sat=int(MIN_FUNDING_SAT))
+        self._minchannelfunding = QEAmount(amount_sat=int(MIN_FUNDING_SIT))
         self._lightningcansend = QEAmount()
         self._lightningbalancefrozen = QEAmount()
 
@@ -657,19 +657,19 @@ class QEWallet(AuthMixin, QObject, QtEventListener):
         self.paymentAuthRejected.emit()
 
     @auth_protect(message=_('Pay lightning invoice?'), reject='ln_auth_rejected')
-    def pay_lightning_invoice(self, invoice: 'Invoice', amount_msat: int = None):
+    def pay_lightning_invoice(self, invoice: 'Invoice', amount_msit: int = None):
         # at this point, the user confirmed the payment, potentially with an override amount.
         # we save the invoice with the override amount if there was no amount defined in the invoice.
         # (this is similar to what the desktop client does)
         #
-        # Note: amount_msat can be greater than the invoice-specified amount. This is validated and handled
+        # Note: amount_msit can be greater than the invoice-specified amount. This is validated and handled
         # in lnworker.pay_invoice()
-        if amount_msat is not None:
-            assert type(amount_msat) is int
-            if invoice.get_amount_msat() is None:
-                invoice.set_amount_msat(amount_msat)
+        if amount_msit is not None:
+            assert type(amount_msit) is int
+            if invoice.get_amount_msit() is None:
+                invoice.set_amount_msit(amount_msit)
         else:
-            amount_msat = invoice.get_amount_msat()
+            amount_msit = invoice.get_amount_msit()
 
         self.wallet.save_invoice(invoice)
         if self._invoiceModel:
@@ -677,7 +677,7 @@ class QEWallet(AuthMixin, QObject, QtEventListener):
 
         def pay_thread():
             try:
-                coro = self.wallet.lnworker.pay_invoice(invoice, amount_msat=amount_msat)
+                coro = self.wallet.lnworker.pay_invoice(invoice, amount_msit=amount_msit)
                 fut = asyncio.run_coroutine_threadsafe(coro, get_asyncio_loop())
                 fut.result()
             except Exception as e:

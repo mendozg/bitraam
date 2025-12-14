@@ -1166,7 +1166,7 @@ class TestTaprootHelpers(BitraamTestCase):
         for secret_scalar in (8, 11, 99999):
             privkey = ecc.ECPrivkey.from_secret_scalar(secret_scalar)
             pubkey32 = privkey.get_public_key_bytes(compressed=True)[1:]
-            for tree_hash in (b"", b"satoshi", b"1234"*8, bytes(range(100)), ):
+            for tree_hash in (b"", b"sitashi", b"1234"*8, bytes(range(100)), ):
                 tweaked_pubkey = taproot_tweak_pubkey(pubkey32, tree_hash)[1]
                 tweaked_seckey = taproot_tweak_seckey(privkey.get_secret_bytes(), tree_hash)
                 self.assertEqual(tweaked_pubkey, ecc.ECPrivkey(tweaked_seckey).get_public_key_bytes(compressed=True)[1:])

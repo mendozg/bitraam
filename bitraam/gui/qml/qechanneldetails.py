@@ -163,25 +163,25 @@ class QEChannelDetails(AuthMixin, QObject, QtEventListener):
     @pyqtProperty(QEAmount, notify=channelChanged)
     def localCapacity(self) -> QEAmount:
         if not self._channel.is_backup():
-            self._local_capacity.copyFrom(QEAmount(amount_msat=self._channel.balance(LOCAL)))
+            self._local_capacity.copyFrom(QEAmount(amount_msit=self._channel.balance(LOCAL)))
         return self._local_capacity
 
     @pyqtProperty(QEAmount, notify=channelChanged)
     def remoteCapacity(self) -> QEAmount:
         if not self._channel.is_backup():
-            self._remote_capacity.copyFrom(QEAmount(amount_msat=self._channel.balance(REMOTE)))
+            self._remote_capacity.copyFrom(QEAmount(amount_msit=self._channel.balance(REMOTE)))
         return self._remote_capacity
 
     @pyqtProperty(QEAmount, notify=channelChanged)
     def canSend(self) -> QEAmount:
         if not self._channel.is_backup():
-            self._can_send.copyFrom(QEAmount(amount_msat=self._channel.available_to_spend(LOCAL)))
+            self._can_send.copyFrom(QEAmount(amount_msit=self._channel.available_to_spend(LOCAL)))
         return self._can_send
 
     @pyqtProperty(QEAmount, notify=channelChanged)
     def canReceive(self) -> QEAmount:
         if not self._channel.is_backup():
-            self._can_receive.copyFrom(QEAmount(amount_msat=self._channel.available_to_spend(REMOTE)))
+            self._can_receive.copyFrom(QEAmount(amount_msit=self._channel.available_to_spend(REMOTE)))
         return self._can_receive
 
     @pyqtProperty(bool, notify=channelChanged)

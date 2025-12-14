@@ -800,11 +800,11 @@ class FxThread(ThreadJob, EventListener, NetworkRetryManager[str]):
         value = self.value_str(amount * COIN / (10**(8 - decimal_point)), rate)
         return " %d %s~%s %s" % (amount, base_unit, value, self.ccy)
 
-    def fiat_value(self, satoshis, rate) -> Decimal:
-        return Decimal('NaN') if satoshis is None else Decimal(satoshis) / COIN * Decimal(rate)
+    def fiat_value(self, sitashis, rate) -> Decimal:
+        return Decimal('NaN') if sitashis is None else Decimal(sitashis) / COIN * Decimal(rate)
 
-    def value_str(self, satoshis, rate, *, add_thousands_sep: bool = None) -> str:
-        fiat_val = self.fiat_value(satoshis, rate)
+    def value_str(self, sitashis, rate, *, add_thousands_sep: bool = None) -> str:
+        fiat_val = self.fiat_value(sitashis, rate)
         return self.format_fiat(fiat_val, add_thousands_sep=add_thousands_sep)
 
     def format_fiat(self, value: Decimal, *, add_thousands_sep: bool = None) -> str:
@@ -827,11 +827,11 @@ class FxThread(ThreadJob, EventListener, NetworkRetryManager[str]):
             rate = 'NaN'
         return Decimal(rate)
 
-    def historical_value_str(self, satoshis, d_t: Optional[datetime]) -> str:
-        return self.format_fiat(self.historical_value(satoshis, d_t))
+    def historical_value_str(self, sitashis, d_t: Optional[datetime]) -> str:
+        return self.format_fiat(self.historical_value(sitashis, d_t))
 
-    def historical_value(self, satoshis, d_t: Optional[datetime]) -> Decimal:
-        return self.fiat_value(satoshis, self.history_rate(d_t))
+    def historical_value(self, sitashis, d_t: Optional[datetime]) -> Decimal:
+        return self.fiat_value(sitashis, self.history_rate(d_t))
 
     def timestamp_rate(self, timestamp: Optional[int]) -> Decimal:
         from .util import timestamp_to_datetime

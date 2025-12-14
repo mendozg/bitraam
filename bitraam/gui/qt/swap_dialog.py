@@ -239,7 +239,7 @@ class SwapDialog(WindowModalDialog, QtEventListener):
 
     def _spend_max_reverse_swap(self) -> None:
         amount = min(self.lnworker.num_sats_can_send(), self.swap_manager.get_provider_max_forward_amount())
-        amount = int(amount)  # round down msats
+        amount = int(amount)  # round down msits
         self.send_amount_e.setAmount(amount)
 
     def on_send_edited(self):

@@ -62,7 +62,7 @@ Item {
 
             Label {
                 Layout.fillWidth: true
-                text: finalizer.valid ? UI_UNIT_NAME.FEERATE_SAT_PER_VBYTE : ''
+                text: finalizer.valid ? UI_UNIT_NAME.FEERATE_SIT_PER_VBYTE : ''
                 color: Material.accentColor
             }
         }

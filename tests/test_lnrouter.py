@@ -19,7 +19,7 @@ from bitraam import bitcoin, lnrouter
 from bitraam.constants import BitraamTestnet
 from bitraam.simple_config import SimpleConfig
 from bitraam.lnrouter import (PathEdge, LiquidityHintMgr, DEFAULT_PENALTY_PROPORTIONAL_MILLIONTH,
-                               DEFAULT_PENALTY_BASE_MSAT, fee_for_edge_msat, LNPaymentTRoute, TrampolineEdge)
+                               DEFAULT_PENALTY_BASE_MSIT, fee_for_edge_msit, LNPaymentTRoute, TrampolineEdge)
 
 from . import BitraamTestCase
 from .test_bitcoin import needs_test_with_all_chacha20_implementations
@@ -182,20 +182,20 @@ class Test_LNRouter(BitraamTestCase):
         def add_chan_upd(payload):
             self.cdb.add_channel_update(payload, verify=False)
 
-        add_chan_upd({'short_channel_id': channel(1), 'message_flags': b'\x00', 'channel_flags': b'\x00', 'cltv_expiry_delta': 10, 'htlc_minimum_msat': 250, 'fee_base_msat': 100, 'fee_proportional_millionths': 150, 'chain_hash': BitraamTestnet.rev_genesis_bytes(), 'timestamp': 0})
-        add_chan_upd({'short_channel_id': channel(1), 'message_flags': b'\x00', 'channel_flags': b'\x01', 'cltv_expiry_delta': 10, 'htlc_minimum_msat': 250, 'fee_base_msat': 100, 'fee_proportional_millionths': 150, 'chain_hash': BitraamTestnet.rev_genesis_bytes(), 'timestamp': 0})
-        add_chan_upd({'short_channel_id': channel(2), 'message_flags': b'\x00', 'channel_flags': b'\x00', 'cltv_expiry_delta': 99, 'htlc_minimum_msat': 250, 'fee_base_msat': 100, 'fee_proportional_millionths': 150, 'chain_hash': BitraamTestnet.rev_genesis_bytes(), 'timestamp': 0})
-        add_chan_upd({'short_channel_id': channel(2), 'message_flags': b'\x00', 'channel_flags': b'\x01', 'cltv_expiry_delta': 10, 'htlc_minimum_msat': 250, 'fee_base_msat': 100, 'fee_proportional_millionths': 150, 'chain_hash': BitraamTestnet.rev_genesis_bytes(), 'timestamp': 0})
-        add_chan_upd({'short_channel_id': channel(3), 'message_flags': b'\x00', 'channel_flags': b'\x01', 'cltv_expiry_delta': 10, 'htlc_minimum_msat': 250, 'fee_base_msat': 100, 'fee_proportional_millionths': 150, 'chain_hash': BitraamTestnet.rev_genesis_bytes(), 'timestamp': 0})
-        add_chan_upd({'short_channel_id': channel(3), 'message_flags': b'\x00', 'channel_flags': b'\x00', 'cltv_expiry_delta': 10, 'htlc_minimum_msat': 250, 'fee_base_msat': 100, 'fee_proportional_millionths': 150, 'chain_hash': BitraamTestnet.rev_genesis_bytes(), 'timestamp': 0})
-        add_chan_upd({'short_channel_id': channel(4), 'message_flags': b'\x00', 'channel_flags': b'\x01', 'cltv_expiry_delta': 10, 'htlc_minimum_msat': 250, 'fee_base_msat': 100, 'fee_proportional_millionths': 150, 'chain_hash': BitraamTestnet.rev_genesis_bytes(), 'timestamp': 0})
-        add_chan_upd({'short_channel_id': channel(4), 'message_flags': b'\x00', 'channel_flags': b'\x00', 'cltv_expiry_delta': 10, 'htlc_minimum_msat': 250, 'fee_base_msat': 100, 'fee_proportional_millionths': 150, 'chain_hash': BitraamTestnet.rev_genesis_bytes(), 'timestamp': 0})
-        add_chan_upd({'short_channel_id': channel(5), 'message_flags': b'\x00', 'channel_flags': b'\x01', 'cltv_expiry_delta': 10, 'htlc_minimum_msat': 250, 'fee_base_msat': 100, 'fee_proportional_millionths': 150, 'chain_hash': BitraamTestnet.rev_genesis_bytes(), 'timestamp': 0})
-        add_chan_upd({'short_channel_id': channel(5), 'message_flags': b'\x00', 'channel_flags': b'\x00', 'cltv_expiry_delta': 10, 'htlc_minimum_msat': 250, 'fee_base_msat': 100, 'fee_proportional_millionths': 999, 'chain_hash': BitraamTestnet.rev_genesis_bytes(), 'timestamp': 0})
-        add_chan_upd({'short_channel_id': channel(6), 'message_flags': b'\x00', 'channel_flags': b'\x00', 'cltv_expiry_delta': 10, 'htlc_minimum_msat': 250, 'fee_base_msat': 100, 'fee_proportional_millionths': 200, 'chain_hash': BitraamTestnet.rev_genesis_bytes(), 'timestamp': 0})
-        add_chan_upd({'short_channel_id': channel(6), 'message_flags': b'\x00', 'channel_flags': b'\x01', 'cltv_expiry_delta': 10, 'htlc_minimum_msat': 250, 'fee_base_msat': 100, 'fee_proportional_millionths': 150, 'chain_hash': BitraamTestnet.rev_genesis_bytes(), 'timestamp': 0})
-        add_chan_upd({'short_channel_id': channel(7), 'message_flags': b'\x00', 'channel_flags': b'\x00', 'cltv_expiry_delta': 10, 'htlc_minimum_msat': 250, 'fee_base_msat': 100, 'fee_proportional_millionths': 150, 'chain_hash': BitraamTestnet.rev_genesis_bytes(), 'timestamp': 0})
-        add_chan_upd({'short_channel_id': channel(7), 'message_flags': b'\x00', 'channel_flags': b'\x01', 'cltv_expiry_delta': 10, 'htlc_minimum_msat': 250, 'fee_base_msat': 100, 'fee_proportional_millionths': 150, 'chain_hash': BitraamTestnet.rev_genesis_bytes(), 'timestamp': 0})
+        add_chan_upd({'short_channel_id': channel(1), 'message_flags': b'\x00', 'channel_flags': b'\x00', 'cltv_expiry_delta': 10, 'htlc_minimum_msit': 250, 'fee_base_msit': 100, 'fee_proportional_millionths': 150, 'chain_hash': BitraamTestnet.rev_genesis_bytes(), 'timestamp': 0})
+        add_chan_upd({'short_channel_id': channel(1), 'message_flags': b'\x00', 'channel_flags': b'\x01', 'cltv_expiry_delta': 10, 'htlc_minimum_msit': 250, 'fee_base_msit': 100, 'fee_proportional_millionths': 150, 'chain_hash': BitraamTestnet.rev_genesis_bytes(), 'timestamp': 0})
+        add_chan_upd({'short_channel_id': channel(2), 'message_flags': b'\x00', 'channel_flags': b'\x00', 'cltv_expiry_delta': 99, 'htlc_minimum_msit': 250, 'fee_base_msit': 100, 'fee_proportional_millionths': 150, 'chain_hash': BitraamTestnet.rev_genesis_bytes(), 'timestamp': 0})
+        add_chan_upd({'short_channel_id': channel(2), 'message_flags': b'\x00', 'channel_flags': b'\x01', 'cltv_expiry_delta': 10, 'htlc_minimum_msit': 250, 'fee_base_msit': 100, 'fee_proportional_millionths': 150, 'chain_hash': BitraamTestnet.rev_genesis_bytes(), 'timestamp': 0})
+        add_chan_upd({'short_channel_id': channel(3), 'message_flags': b'\x00', 'channel_flags': b'\x01', 'cltv_expiry_delta': 10, 'htlc_minimum_msit': 250, 'fee_base_msit': 100, 'fee_proportional_millionths': 150, 'chain_hash': BitraamTestnet.rev_genesis_bytes(), 'timestamp': 0})
+        add_chan_upd({'short_channel_id': channel(3), 'message_flags': b'\x00', 'channel_flags': b'\x00', 'cltv_expiry_delta': 10, 'htlc_minimum_msit': 250, 'fee_base_msit': 100, 'fee_proportional_millionths': 150, 'chain_hash': BitraamTestnet.rev_genesis_bytes(), 'timestamp': 0})
+        add_chan_upd({'short_channel_id': channel(4), 'message_flags': b'\x00', 'channel_flags': b'\x01', 'cltv_expiry_delta': 10, 'htlc_minimum_msit': 250, 'fee_base_msit': 100, 'fee_proportional_millionths': 150, 'chain_hash': BitraamTestnet.rev_genesis_bytes(), 'timestamp': 0})
+        add_chan_upd({'short_channel_id': channel(4), 'message_flags': b'\x00', 'channel_flags': b'\x00', 'cltv_expiry_delta': 10, 'htlc_minimum_msit': 250, 'fee_base_msit': 100, 'fee_proportional_millionths': 150, 'chain_hash': BitraamTestnet.rev_genesis_bytes(), 'timestamp': 0})
+        add_chan_upd({'short_channel_id': channel(5), 'message_flags': b'\x00', 'channel_flags': b'\x01', 'cltv_expiry_delta': 10, 'htlc_minimum_msit': 250, 'fee_base_msit': 100, 'fee_proportional_millionths': 150, 'chain_hash': BitraamTestnet.rev_genesis_bytes(), 'timestamp': 0})
+        add_chan_upd({'short_channel_id': channel(5), 'message_flags': b'\x00', 'channel_flags': b'\x00', 'cltv_expiry_delta': 10, 'htlc_minimum_msit': 250, 'fee_base_msit': 100, 'fee_proportional_millionths': 999, 'chain_hash': BitraamTestnet.rev_genesis_bytes(), 'timestamp': 0})
+        add_chan_upd({'short_channel_id': channel(6), 'message_flags': b'\x00', 'channel_flags': b'\x00', 'cltv_expiry_delta': 10, 'htlc_minimum_msit': 250, 'fee_base_msit': 100, 'fee_proportional_millionths': 200, 'chain_hash': BitraamTestnet.rev_genesis_bytes(), 'timestamp': 0})
+        add_chan_upd({'short_channel_id': channel(6), 'message_flags': b'\x00', 'channel_flags': b'\x01', 'cltv_expiry_delta': 10, 'htlc_minimum_msit': 250, 'fee_base_msit': 100, 'fee_proportional_millionths': 150, 'chain_hash': BitraamTestnet.rev_genesis_bytes(), 'timestamp': 0})
+        add_chan_upd({'short_channel_id': channel(7), 'message_flags': b'\x00', 'channel_flags': b'\x00', 'cltv_expiry_delta': 10, 'htlc_minimum_msit': 250, 'fee_base_msit': 100, 'fee_proportional_millionths': 150, 'chain_hash': BitraamTestnet.rev_genesis_bytes(), 'timestamp': 0})
+        add_chan_upd({'short_channel_id': channel(7), 'message_flags': b'\x00', 'channel_flags': b'\x01', 'cltv_expiry_delta': 10, 'htlc_minimum_msit': 250, 'fee_base_msit': 100, 'fee_proportional_millionths': 150, 'chain_hash': BitraamTestnet.rev_genesis_bytes(), 'timestamp': 0})
 
     async def test_find_path_for_payment(self):
         self.prepare_graph()
@@ -204,7 +204,7 @@ class Test_LNRouter(BitraamTestCase):
         path = self.path_finder.find_path_for_payment(
             nodeA=node('a'),
             nodeB=node('e'),
-            invoice_amount_msat=amount_to_send)
+            invoice_amount_msit=amount_to_send)
         self.assertEqual([
             PathEdge(start_node=node('a'), end_node=node('b'), short_channel_id=channel(3)),
             PathEdge(start_node=node('b'), end_node=node('e'), short_channel_id=channel(2)),
@@ -224,7 +224,7 @@ class Test_LNRouter(BitraamTestCase):
         path = self.path_finder.find_path_for_payment(
             nodeA=node('a'),
             nodeB=node('e'),
-            invoice_amount_msat=amount_to_send,
+            invoice_amount_msit=amount_to_send,
             node_filter=node_filter)
         self.assertEqual([
             PathEdge(start_node=node('a'), end_node=node('d'), short_channel_id=channel(6)),
@@ -252,7 +252,7 @@ class Test_LNRouter(BitraamTestCase):
         path = self.path_finder.find_path_for_payment(
             nodeA=node('a'),
             nodeB=node('e'),
-            invoice_amount_msat=amount_to_send)
+            invoice_amount_msit=amount_to_send)
         self.assertEqual(channel(6), path[0].short_channel_id)
         self.assertEqual(channel(5), path[1].short_channel_id)
 
@@ -269,7 +269,7 @@ class Test_LNRouter(BitraamTestCase):
         path = self.path_finder.find_path_for_payment(
             nodeA=node('a'),
             nodeB=node('e'),
-            invoice_amount_msat=amount_to_send)
+            invoice_amount_msit=amount_to_send)
         self.assertEqual(channel(3), path[0].short_channel_id)
         self.assertEqual(channel(1), path[1].short_channel_id)
         self.assertEqual(channel(7), path[2].short_channel_id)
@@ -287,7 +287,7 @@ class Test_LNRouter(BitraamTestCase):
         path = self.path_finder.find_path_for_payment(
             nodeA=node('a'),
             nodeB=node('e'),
-            invoice_amount_msat=amount_to_send)
+            invoice_amount_msit=amount_to_send)
         self.assertEqual(channel(6), path[0].short_channel_id)
         self.assertEqual(channel(4), path[1].short_channel_id)
         self.assertEqual(channel(7), path[2].short_channel_id)
@@ -309,7 +309,7 @@ class Test_LNRouter(BitraamTestCase):
         path = self.path_finder.find_path_for_payment(
             nodeA=node('a'),
             nodeB=node('e'),
-            invoice_amount_msat=amount_to_send)
+            invoice_amount_msit=amount_to_send)
         self.assertEqual(channel(6), path[0].short_channel_id)
         self.assertEqual(channel(5), path[1].short_channel_id)
 
@@ -326,7 +326,7 @@ class Test_LNRouter(BitraamTestCase):
         path = self.path_finder.find_path_for_payment(
             nodeA=node('a'),
             nodeB=node('e'),
-            invoice_amount_msat=amount_to_send)
+            invoice_amount_msit=amount_to_send)
         self.assertEqual(channel(3), path[0].short_channel_id)
         self.assertEqual(channel(2), path[1].short_channel_id)
 
@@ -339,7 +339,7 @@ class Test_LNRouter(BitraamTestCase):
 
         # check default penalty
         self.assertEqual(
-            fee_for_edge_msat(amount_to_send, DEFAULT_PENALTY_BASE_MSAT, DEFAULT_PENALTY_PROPORTIONAL_MILLIONTH),
+            fee_for_edge_msit(amount_to_send, DEFAULT_PENALTY_BASE_MSIT, DEFAULT_PENALTY_PROPORTIONAL_MILLIONTH),
             liquidity_hints.penalty(node_from, node_to, channel_id, amount_to_send)
         )
         liquidity_hints.update_can_send(node_from, node_to, channel_id, 1_000_000)
@@ -443,7 +443,7 @@ class Test_LNRouter(BitraamTestCase):
             OnionHopsDataSingle(payload={
                 'amt_to_forward': {'amt_to_forward': 10000},
                 'outgoing_cltv_value': {'outgoing_cltv_value': 1000},
-                'payment_data': {'payment_secret': bfh('24a33562c54507a9334e79f0dc4f17d407e6d7c61f0e2f3d0d38599502f61704'), 'total_msat': 10000}}),
+                'payment_data': {'payment_secret': bfh('24a33562c54507a9334e79f0dc4f17d407e6d7c61f0e2f3d0d38599502f61704'), 'total_msit': 10000}}),
         ]
         packet = new_onion_packet(payment_path_pubkeys, session_key, hops_data, associated_data=associated_data)
         self.assertEqual(bfh('0002eec7245d6b7d2ccb30380bfbe2a3648cd7a942653f5aa340edcea1f283686619f7f3416a5aa36dc7eeb3ec6d421e9615471ab858ba970cd3cceb768b44e692be2f390c0b7fe70122abae84d7801db070dfb1638cd8d263072206dbed0234f6505e21e282abd8587124c572aad8de04610a136d6c71a7648c0ef66f1b3655d8a9eea1f92349132c93befbd6c37dbfc55615814ae09e4cbef721c01b487007811bbbfdc1fc7bd869aeb70eb08b4140ff5f501394b3653ada2a3b36a263535ea421d26818afb278df46abcec093305b715cac22b0b03645f8f4797cf2987b1bf4bfdd9ed8648ed42ed1a831fc36ccd45416a132580281ddac4e7470e4d2afd675baad9282ec6335403a73e1391427e330996c834db93848b4ae29dd975f678b2f5155ad6865ca23190725d4b7238fb44f0e3762dd59091b45c97d45df8164a15d9ca0329ec76f957b0a0e49ae372154620708df5c0fa991f0dd12b6bff1ebaf9e2376bb64bc24713f7c57da569bcd9c43a50c088416564b786a87d1f40936a051a3dbfe023bd867a5e66148b61cdd24a79f8c18682150e55aa6969ce9becf51f7c69e72deafcd0659f6be4f78463eaef8716e56615c77b3fbea8190806359909dcbec13c1592523b3d2985ec3e83d42cb7286a66a22f58704ddf6979ceb6883ab4ad8ac99d30251035189ffd514e03ce1576844513d66965d4adfc2523f4eee0dede229ab96303e31348c72bc0c8c816c666a904e5ccbabadf5a919720438f4a14dbd4a802f8d4b942f0ca8572f59644c9ac1912c8c8efefc4afa7f19e27411d46b7541c55985e28ce5cd7620b335fea51de55fa00ef977e8522181ad19e5e04f93bcfc83a36edd7e96fe48e846f2e54fe7a7090fe8e46ba72123e1cdee0667777c38c4930e50401074d8ab31a9717457fcefaa46323003af553bee2b49ea7f907eb2ff3301463e64a8c53975c853bbdd2956b9001b5ce1562264963fce84201daaf752de6df7ca31291226969c9851d1fc4ea88ca67d38c38587c2cdd8bc4d3f7bdf705497a1e054246f684554b3b8dfac43194f1eadec7f83b711e663b5645bde6d7f8cefb59758303599fed25c3b4d2e4499d439c915910dd283b3e7118320f1c6e7385009fbcb9ae79bab72a85e644182b4dafc0a173241f2ae68ae6a504f17f102da1e91de4548c7f5bc1c107354519077a4e83407f0d6a8f0975b4ac0c2c7b30637a998dda27b56b56245371296b816876b859677bcf3473a07e0f300e788fdd60c51b1626b46050b182457c6d716994847aaef667ca45b2cede550c92d336ff29ce6effd933b875f81381cda6e59e9727e728a58c0b3e74035beeeb639ab7463744322bf40138b81895e9a8e8850c9513782dc7a79f04380c216cb177951d8940d576486b887a232fcd382adcbd639e70af0c1a08bcf1405496606fce4645aef10d769dc0c010a8a433d8cd24d5943843a89cdbc8d16531db027b312ab2c03a7f1fdb7f2bcb128639c49e86705c948137fd42d0080fda4be4e9ee812057c7974acbf0162730d3b647b355ac1a5adbb2993832eba443b7c9b5a0ae1fc00a6c0c2b0b65b9019690565739d6439bf602066a3a9bd9c67b83606de51792d25ae517cbbdf6e1827fa0e8b2b5c6023cbb1e9f0e10b786dc6fa154e282fd9c90b8d46ca685d0f4434760035073c92d131564b6845ef57457488add4f709073bbb41f5f31f8226904875a9fd9e1b7a2901e71426104d7a298a05af0d4ab549fbd69c539ebe64949a9b6088f16e2e4bc827c305cb8d64536b8364dc3d5f7519c3b431faa38b47a958cf0c6dcabf205280693abf747c262f44cd6ffa11b32fc38d4f9c3631d554d8b57389f1390ac65c06357843ee6d9f289bb054ef25de45c5149c090fe6ddcd4095696dcc9a5cfc09c8bdfd5b83a153'),
@@ -467,7 +467,7 @@ class Test_LNRouter(BitraamTestCase):
                 short_channel_id=ShortChannelID.from_str("0x0x0"),
                 start_node=node('a'),
                 end_node=node('b'),
-                fee_base_msat=0,
+                fee_base_msit=0,
                 fee_proportional_millionths=0,
                 cltv_delta=0,
                 node_features=0
@@ -478,7 +478,7 @@ class Test_LNRouter(BitraamTestCase):
                 short_channel_id=ShortChannelID.from_str("0x0x0"),
                 start_node=node('b'),
                 end_node=node('c'),
-                fee_base_msat=0,
+                fee_base_msit=0,
                 fee_proportional_millionths=0,
                 cltv_delta=0,
                 node_features=0
@@ -487,9 +487,9 @@ class Test_LNRouter(BitraamTestCase):
         # create a trampoline onion, this shouldn't raise InvalidPayloadSize
         create_trampoline_onion(
             route=dummy_route,
-            amount_msat=0,
+            amount_msit=0,
             final_cltv_abs=0,
-            total_msat=0,
+            total_msit=0,
             payment_hash=urandom(32),
             payment_secret=urandom(32),
         )
@@ -524,7 +524,7 @@ class Test_LNRouter(BitraamTestCase):
         path = self.path_finder.find_path_for_payment(
             nodeA=node('a'),
             nodeB=node('c'),
-            invoice_amount_msat=amount_to_send,
+            invoice_amount_msit=amount_to_send,
             node_filter=is_onion_message_node)
         self.assertEqual([
             PathEdge(start_node=node('a'), end_node=node('d'), short_channel_id=channel(6)),
@@ -535,13 +535,13 @@ class Test_LNRouter(BitraamTestCase):
         path = self.path_finder.find_path_for_payment(
             nodeA=node('e'),
             nodeB=node('a'),
-            invoice_amount_msat=amount_to_send,
+            invoice_amount_msit=amount_to_send,
             node_filter=is_onion_message_node)
         self.assertIsNone(path)
 
         path = self.path_finder.find_path_for_payment(
             nodeA=node('a'),
             nodeB=node('e'),
-            invoice_amount_msat=amount_to_send,
+            invoice_amount_msit=amount_to_send,
             node_filter=is_onion_message_node)
         self.assertIsNone(path)

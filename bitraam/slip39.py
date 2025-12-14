@@ -21,7 +21,7 @@
 """
 This implements the high-level functions for SLIP-39, also called "Shamir Backup".
 
-See https://github.com/satoshilabs/slips/blob/master/slip-0039.md.
+See https://github.com/sitashilabs/slips/blob/master/slip-0039.md.
 """
 
 import hmac

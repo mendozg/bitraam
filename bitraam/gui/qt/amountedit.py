@@ -9,8 +9,8 @@ from PyQt6.QtWidgets import (QLineEdit, QStyle, QStyleOptionFrame, QSizePolicy)
 
 from .util import char_width_in_lineedit, ColorScheme
 
-from bitraam.util import (format_satoshis_plain, decimal_point_to_base_unit_name,
-                           FEERATE_PRECISION, quantize_feerate, DECIMAL_POINT, UI_UNIT_NAME_FEERATE_SAT_PER_VBYTE)
+from bitraam.util import (format_sitashis_plain, decimal_point_to_base_unit_name,
+                           FEERATE_PRECISION, quantize_feerate, DECIMAL_POINT, UI_UNIT_NAME_FEERATE_SIT_PER_VBYTE)
 from bitraam.bitcoin import COIN, TOTAL_COIN_SUPPLY_LIMIT_IN_BRM
 
 _NOT_GIVEN = object()  # sentinel value
@@ -128,7 +128,7 @@ class BRMAmountEdit(AmountEdit):
         return decimal_point_to_base_unit_name(self.decimal_point())
 
     def _get_amount_from_text(self, text):
-        # returns amt in satoshis
+        # returns amt in sitashis
         try:
             text = text.replace(DECIMAL_POINT, '.')
             x = Decimal(text)
@@ -145,7 +145,7 @@ class BRMAmountEdit(AmountEdit):
         return Decimal(amount) if not self.is_int else int(amount)
 
     def _get_text_from_amount(self, amount_sat):
-        text = format_satoshis_plain(amount_sat, decimal_point=self.decimal_point())
+        text = format_sitashis_plain(amount_sat, decimal_point=self.decimal_point())
         text = text.replace('.', DECIMAL_POINT)
         return text
 
@@ -166,7 +166,7 @@ class FeerateEdit(BRMAmountEdit):
         self.extra_precision = FEERATE_PRECISION
 
     def _base_unit(self):
-        return UI_UNIT_NAME_FEERATE_SAT_PER_VBYTE
+        return UI_UNIT_NAME_FEERATE_SIT_PER_VBYTE
 
     def _get_amount_from_text(self, text):
         sat_per_byte_amount = super()._get_amount_from_text(text)

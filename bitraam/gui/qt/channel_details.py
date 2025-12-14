@@ -47,7 +47,7 @@ class ChannelDetailsDialog(QtWidgets.QDialog, MessageBoxMixin, QtEventListener):
         self.window = window
         self.wallet = window.wallet
         self.chan = chan
-        self.format_msat = lambda msat: window.format_amount_and_units(msat / 1000)
+        self.format_msit = lambda msit: window.format_amount_and_units(msit / 1000)
         self.format_sat = lambda sat: window.format_amount_and_units(sat)
         # register callbacks for updating
         self.register_callbacks()
@@ -87,7 +87,7 @@ class ChannelDetailsDialog(QtWidgets.QDialog, MessageBoxMixin, QtEventListener):
 
     def make_htlc_item(self, i: UpdateAddHtlc, direction: Direction) -> HTLCItem:
         it = HTLCItem(_('Sent HTLC with ID {}' if Direction.SENT == direction else 'Received HTLC with ID {}').format(i.htlc_id))
-        it.appendRow([HTLCItem(_('Amount')),HTLCItem(self.format_msat(i.amount_msat))])
+        it.appendRow([HTLCItem(_('Amount')),HTLCItem(self.format_msit(i.amount_msit))])
         it.appendRow([HTLCItem(_('CLTV expiry')), HTLCItem(str(i.cltv_abs))])
         it.appendRow([HTLCItem(_('Payment hash')),HTLCItem(i.payment_hash.hex())])
         return it
@@ -163,12 +163,12 @@ class ChannelDetailsDialog(QtWidgets.QDialog, MessageBoxMixin, QtEventListener):
         if self.chan.is_closed() or self.chan.is_backup():
             return
         assert isinstance(self.chan, Channel), type(self.chan)
-        self.can_send_label.setText(self.format_msat(self.chan.available_to_spend(LOCAL)))
-        self.can_receive_label.setText(self.format_msat(self.chan.available_to_spend(REMOTE)))
-        self.sent_label.setText(self.format_msat(self.chan.total_msat(Direction.SENT)))
-        self.received_label.setText(self.format_msat(self.chan.total_msat(Direction.RECEIVED)))
-        self.local_balance_label.setText(self.format_msat(self.chan.balance(LOCAL)))
-        self.remote_balance_label.setText(self.format_msat(self.chan.balance(REMOTE)))
+        self.can_send_label.setText(self.format_msit(self.chan.available_to_spend(LOCAL)))
+        self.can_receive_label.setText(self.format_msit(self.chan.available_to_spend(REMOTE)))
+        self.sent_label.setText(self.format_msit(self.chan.total_msit(Direction.SENT)))
+        self.received_label.setText(self.format_msit(self.chan.total_msit(Direction.RECEIVED)))
+        self.local_balance_label.setText(self.format_msit(self.chan.balance(LOCAL)))
+        self.remote_balance_label.setText(self.format_msit(self.chan.balance(REMOTE)))
         self.current_feerate.setText(self.window.format_fee_rate(4 * self.chan.get_latest_feerate(LOCAL)))
 
     @QtCore.pyqtSlot(str)
@@ -230,11 +230,11 @@ class ChannelDetailsDialog(QtWidgets.QDialog, MessageBoxMixin, QtEventListener):
         ))
         form_layout_left.addRow(_('Local reserve') + ':', local_reserve_label)
         form_layout_right.addRow(_('Remote reserve' + ':'), remote_reserve_label)
-        #self.htlc_minimum_msat = SelectableLabel(str(chan.config[REMOTE].htlc_minimum_msat))
-        #form_layout_left.addRow(_('Minimum HTLC value accepted by peer (mSAT):'), self.htlc_minimum_msat)
+        #self.htlc_minimum_msit = SelectableLabel(str(chan.config[REMOTE].htlc_minimum_msit))
+        #form_layout_left.addRow(_('Minimum HTLC value accepted by peer (mSIT):'), self.htlc_minimum_msit)
         #self.max_htlcs = SelectableLabel(str(chan.config[REMOTE].max_accepted_htlcs))
         #form_layout_left.addRow(_('Maximum number of concurrent HTLCs accepted by peer:'), self.max_htlcs)
-        #self.max_htlc_value = SelectableLabel(self.format_sat(chan.config[REMOTE].max_htlc_value_in_flight_msat / 1000))
+        #self.max_htlc_value = SelectableLabel(self.format_sat(chan.config[REMOTE].max_htlc_value_in_flight_msit / 1000))
         #form_layout_left.addRow(_('Maximum value of in-flight HTLCs accepted by peer:'), self.max_htlc_value)
         local_dust_limit_label = SelectableLabel("{}".format(
             self.format_sat(chan.config[LOCAL].dust_limit_sat),

@@ -167,7 +167,7 @@ def create_onion_message_route_to(lnwallet: 'LNWallet', node_id: bytes) -> Seque
         if path := lnwallet.network.path_finder.find_path_for_payment(
             nodeA=lnwallet.node_keypair.pubkey,
             nodeB=node_id,
-            invoice_amount_msat=10000,  # TODO: do this without amount constraints
+            invoice_amount_msit=10000,  # TODO: do this without amount constraints
             node_filter=lambda x, y: True if x == lnwallet.node_keypair.pubkey else is_onion_message_node(x, y),
             my_sending_channels=my_sending_channels
         ): return path

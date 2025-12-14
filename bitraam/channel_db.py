@@ -108,9 +108,9 @@ class ChannelInfo(NamedTuple):
 class Policy(NamedTuple):
     key: bytes
     cltv_delta: int
-    htlc_minimum_msat: int
-    htlc_maximum_msat: Optional[int]
-    fee_base_msat: int
+    htlc_minimum_msit: int
+    htlc_maximum_msit: Optional[int]
+    fee_base_msit: int
     fee_proportional_millionths: int
     channel_flags: int
     message_flags: int
@@ -122,9 +122,9 @@ class Policy(NamedTuple):
         return Policy(
             key                         = payload['short_channel_id'] + payload['start_node'],
             cltv_delta                  = payload['cltv_expiry_delta'],
-            htlc_minimum_msat           = payload['htlc_minimum_msat'],
-            htlc_maximum_msat           = payload.get('htlc_maximum_msat', None),
-            fee_base_msat               = payload['fee_base_msat'],
+            htlc_minimum_msit           = payload['htlc_minimum_msit'],
+            htlc_maximum_msit           = payload.get('htlc_maximum_msit', None),
+            fee_base_msit               = payload['fee_base_msit'],
             fee_proportional_millionths = payload['fee_proportional_millionths'],
             message_flags               = int.from_bytes(payload['message_flags'], "big"),
             channel_flags               = int.from_bytes(payload['channel_flags'], "big"),
@@ -144,9 +144,9 @@ class Policy(NamedTuple):
         return Policy(
             key=route_edge.short_channel_id + route_edge.start_node,
             cltv_delta=route_edge.cltv_delta,
-            htlc_minimum_msat=0,
-            htlc_maximum_msat=None,
-            fee_base_msat=route_edge.fee_base_msat,
+            htlc_minimum_msit=0,
+            htlc_maximum_msit=None,
+            fee_base_msit=route_edge.fee_base_msit,
             fee_proportional_millionths=route_edge.fee_proportional_millionths,
             channel_flags=0,
             message_flags=0,
@@ -518,18 +518,18 @@ class ChannelDB(SqlDB):
             changed |= True
             if verbose:
                 self.logger.info(f'cltv_expiry_delta: {old_policy.cltv_delta} -> {new_policy.cltv_delta}')
-        if old_policy.htlc_minimum_msat != new_policy.htlc_minimum_msat:
+        if old_policy.htlc_minimum_msit != new_policy.htlc_minimum_msit:
             changed |= True
             if verbose:
-                self.logger.info(f'htlc_minimum_msat: {old_policy.htlc_minimum_msat} -> {new_policy.htlc_minimum_msat}')
-        if old_policy.htlc_maximum_msat != new_policy.htlc_maximum_msat:
+                self.logger.info(f'htlc_minimum_msit: {old_policy.htlc_minimum_msit} -> {new_policy.htlc_minimum_msit}')
+        if old_policy.htlc_maximum_msit != new_policy.htlc_maximum_msit:
             changed |= True
             if verbose:
-                self.logger.info(f'htlc_maximum_msat: {old_policy.htlc_maximum_msat} -> {new_policy.htlc_maximum_msat}')
-        if old_policy.fee_base_msat != new_policy.fee_base_msat:
+                self.logger.info(f'htlc_maximum_msit: {old_policy.htlc_maximum_msit} -> {new_policy.htlc_maximum_msit}')
+        if old_policy.fee_base_msit != new_policy.fee_base_msit:
             changed |= True
             if verbose:
-                self.logger.info(f'fee_base_msat: {old_policy.fee_base_msat} -> {new_policy.fee_base_msat}')
+                self.logger.info(f'fee_base_msit: {old_policy.fee_base_msit} -> {new_policy.fee_base_msit}')
         if old_policy.fee_proportional_millionths != new_policy.fee_proportional_millionths:
             changed |= True
             if verbose:

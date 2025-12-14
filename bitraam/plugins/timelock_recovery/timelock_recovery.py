@@ -45,7 +45,7 @@ class TimelockRecoveryContext:
     recovery_plan_saved: bool = False
     cancellation_plan_saved: bool = False
 
-    ANCHOR_OUTPUT_AMOUNT_SATS = 600
+    ANCHOR_OUTPUT_AMOUNT_SITS = 600
 
     def __init__(self, wallet: 'Abstract_Wallet'):
         self.wallet = wallet
@@ -81,7 +81,7 @@ class TimelockRecoveryContext:
         alert_tx_outputs = [
             PartialTxOutput(scriptpubkey=address_to_script(self.get_alert_address()), value='!'),
         ] + [
-            PartialTxOutput(scriptpubkey=output.scriptpubkey, value=self.ANCHOR_OUTPUT_AMOUNT_SATS)
+            PartialTxOutput(scriptpubkey=output.scriptpubkey, value=self.ANCHOR_OUTPUT_AMOUNT_SITS)
             for output in self.outputs
         ]
         return self.wallet.make_unsigned_transaction(
@@ -95,7 +95,7 @@ class TimelockRecoveryContext:
     def _alert_tx_output(self) -> Tuple[int, 'TxOutput']:
         tx_outputs: List[Tuple[int, 'TxOutput']] = [
             (index, tx_output) for index, tx_output in enumerate(self.alert_tx.outputs())
-            if tx_output.address == self.get_alert_address() and tx_output.value != self.ANCHOR_OUTPUT_AMOUNT_SATS
+            if tx_output.address == self.get_alert_address() and tx_output.value != self.ANCHOR_OUTPUT_AMOUNT_SITS
         ]
         if len(tx_outputs) != 1:
             # Safety check - not expected to happen

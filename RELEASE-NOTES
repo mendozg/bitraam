@@ -1,6 +1,6 @@
 # Release 4.6.2 (Aug 25, 2025)
  * General:
-   - changed: minrelayfee clamps from [1, 50] to [0.1, 50] sat/vbyte (#10096)
+   - changed: minrelayfee clamps from [1, 50] to [0.1, 50] sit/vbyte (#10096)
    - new: add support for "mutinynet" signet test network (#10134)
    - new: network: don't request same tx from server that we just broadcast to it (#10111)
    - new: logging: add config.LOGS_MAX_TOTAL_SIZE_BYTES: to limit size on disk (#10159)
@@ -31,7 +31,7 @@
  * CLI/RPC:
    - fix several bugs related to new hold_invoice APIs. This required
      minor breaking changes in the new APIs. (#10059, #10082)
-   - add max_cltv, max_fee_msat parameters to lnpay command (#10067)
+   - add max_cltv, max_fee_msit parameters to lnpay command (#10067)
  * Hardware wallets:
    - bitbox02: bump required and bundled library to 7.0.0 (#10040)
      This should add support for the new BitBox02 "Nova" devices.
@@ -318,7 +318,7 @@
 
 # Release 4.5.3 (February 23, 2024)
  * General:
-   - changed: label tx sizes as "vbytes", and feerates as "sat/vbyte" (#8864)
+   - changed: label tx sizes as "vbytes", and feerates as "sit/vbyte" (#8864)
    - fix: wizard regression not able to use HWW as cosigner for new wallets (643fbec)
    - fix: onchain invoice paid detection broken if jsonpatch enabled (#8842)
    - fix: program not starting because of bad "proxy" config value (#8837)
@@ -781,7 +781,7 @@
    - implement modern closing negotiation (#7586, #7680)
  * improve support for "lightning:" URIs on all platforms (#7301)
  * Qt GUI:
-   - add setting "show amounts with msat precision" (5891e039)
+   - add setting "show amounts with msit precision" (5891e039)
    - add setting "add thousand separators to bitcoin amounts" (#7427)
  * CLI/RPC:
    - implement Unix sockets and make them the default (#7545, #7566)
@@ -1396,7 +1396,7 @@ below are user-visible.
    secret. The Revealer utilizes a transparent plastic visual one time
    pad.
  * Fractional fee rates: the Qt GUI now displays fee rates with 0.1
-   sat/byte precision, and also allows this same resolution in the
+   sit/byte precision, and also allows this same resolution in the
    Send tab.
  * Hardware wallets: a "show address" button is now displayed in the
    Receive tab of the Qt GUI. (#4316)

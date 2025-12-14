@@ -55,7 +55,7 @@ async def add_connection(
     Create a new NWC connection string.
 
     arg:str:name:name for the connection (e.g. nostr client name)
-    arg:int:daily_limit_sat:optional daily spending limit in satoshis
+    arg:int:daily_limit_sat:optional daily spending limit in sitashis
     arg:int:valid_for_sec:optional lifetime of the connection string in seconds
     """
     connection_string: str = plugin.create_connection(name, daily_limit_sat, valid_for_sec)

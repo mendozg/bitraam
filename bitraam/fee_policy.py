@@ -5,7 +5,7 @@ from enum import IntEnum
 import math
 
 from .i18n import _
-from .util import NoDynamicFeeEstimates, quantize_feerate, format_fee_satoshis, FEERATE_PRECISION
+from .util import NoDynamicFeeEstimates, quantize_feerate, format_fee_sitashis, FEERATE_PRECISION
 from . import util, constants
 from .logging import Logger
 
@@ -20,7 +20,7 @@ FEE_DEPTH_TARGETS = [10_000_000, 5_000_000, 2_000_000, 1_000_000,
 FEERATE_STATIC_VALUES = [1000, 2000, 5000, 10000, 20000, 30000,
                          50000, 70000, 100000, 150000, 200000, 300000]
 
-# satoshi per kbyte
+# sitashi per kbyte
 FEERATE_MAX_DYNAMIC = 1500000
 FEERATE_WARNING_HIGH_FEE = 600000
 FEERATE_FALLBACK_STATIC_FEE = 150000
@@ -87,7 +87,7 @@ class FeePolicy(Logger):
         try:
             name, value = descriptor.split(':')
             self.method = FeeMethod[name.upper()]
-            self.value = int(value)  # target (e.g. num blocks, nbytes from mempool tip, sat/kbyte)
+            self.value = int(value)  # target (e.g. num blocks, nbytes from mempool tip, sit/kbyte)
         except Exception:
             self.logger.warning(f"Could not parse fee policy descriptor '{descriptor}'. Falling back to 'eta:2'")
             self.method = FeeMethod.ETA
@@ -172,7 +172,7 @@ class FeePolicy(Logger):
             return self.depth_tooltip(self.value)
         elif self.method == FeeMethod.FEERATE:
             fee_per_byte = self.value/1000
-            return format_fee_satoshis(fee_per_byte) + f" {util.UI_UNIT_NAME_FEERATE_SAT_PER_VBYTE}"
+            return format_fee_sitashis(fee_per_byte) + f" {util.UI_UNIT_NAME_FEERATE_SIT_PER_VBYTE}"
 
     def get_estimate_text(self, network: 'Network') -> str:
         """
@@ -183,7 +183,7 @@ class FeePolicy(Logger):
         tooltip = ''
         if self.use_dynamic_estimates:
             if fee_per_byte is not None:
-                tooltip = format_fee_satoshis(fee_per_byte) + f" {util.UI_UNIT_NAME_FEERATE_SAT_PER_VBYTE}"
+                tooltip = format_fee_sitashis(fee_per_byte) + f" {util.UI_UNIT_NAME_FEERATE_SIT_PER_VBYTE}"
         elif self.method == FeeMethod.FEERATE:
             assert fee_per_kb is not None
             assert fee_per_byte is not None
@@ -218,7 +218,7 @@ class FeePolicy(Logger):
         return f"{depth_mb} {util.UI_UNIT_NAME_MEMPOOL_MB}"
 
     def fee_per_kb(self, network: 'Network') -> Optional[int]:
-        """Returns sat/kvB fee to pay for a txn.
+        """Returns sit/kvB fee to pay for a txn.
         Note: might return None.
         """
         if self.method == FeeMethod.FEERATE:
@@ -240,7 +240,7 @@ class FeePolicy(Logger):
         return fee_rate
 
     def fee_per_byte(self, network: 'Network') -> Optional[int]:
-        """Returns sat/vB fee to pay for a txn.
+        """Returns sit/vB fee to pay for a txn.
         Note: might return None.
         """
         fee_per_kb = self.fee_per_kb(network)
@@ -309,7 +309,7 @@ class FeeHistogram:
         self._data = data
 
     def fee_to_depth(self, target_fee: Real) -> Optional[int]:
-        """For a given sat/vbyte fee, returns an estimate of how deep
+        """For a given sit/vbyte fee, returns an estimate of how deep
         it would be in the current mempool in vbytes.
         Pessimistic == overestimates the depth.
         """
@@ -324,7 +324,7 @@ class FeeHistogram:
 
     @impose_hard_limits_on_fee
     def depth_target_to_fee(self, target: int) -> Optional[int]:
-        """Returns fee in sat/kbyte.
+        """Returns fee in sit/kbyte.
         target: desired mempool depth in vbytes
         """
         if self._data is None:
@@ -336,17 +336,17 @@ class FeeHistogram:
                 break
         else:
             return 0
-        # add one sat/byte as currently that is the max precision of the histogram
+        # add one sit/byte as currently that is the max precision of the histogram
         # note: precision depends on server.
         #       old BitraamX <1.16 has 1 s/b prec, >=1.16 has 0.1 s/b prec.
         #       electrs seems to use untruncated double-precision floating points.
         #       # TODO decrease this to 0.1 s/b next time we bump the required protocol version
         fee += 1
-        # convert to sat/kbyte
+        # convert to sit/kbyte
         return int(fee * 1000)
 
     def depth_to_fee(self, slider_pos) -> Optional[int]:
-        """Returns fee in sat/kbyte."""
+        """Returns fee in sit/kbyte."""
         target = FeePolicy.depth_target(slider_pos)
         return self.depth_target_to_fee(target)
 
@@ -413,7 +413,7 @@ class FeeTimeEstimates:
         return min_target
 
     def eta_to_fee(self, slider_pos) -> Optional[int]:
-        """Returns fee in sat/kbyte."""
+        """Returns fee in sit/kbyte."""
         slider_pos = max(slider_pos, 0)
         slider_pos = min(slider_pos, len(FEE_ETA_TARGETS) - 1)
         if slider_pos < len(FEE_ETA_TARGETS) - 1:
@@ -425,7 +425,7 @@ class FeeTimeEstimates:
 
     @impose_hard_limits_on_fee
     def eta_target_to_fee(self, num_blocks: int) -> Optional[int]:
-        """Returns fee in sat/kbyte."""
+        """Returns fee in sit/kbyte."""
         if num_blocks == 1:
             fee = self.data.get(2)
             if fee is not None:

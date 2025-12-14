@@ -51,9 +51,9 @@ HTLC_SUCCESS_WEIGHT_ANCHORS = 706
 COMMITMENT_TX_WEIGHT = 724
 COMMITMENT_TX_WEIGHT_ANCHORS = 1124
 HTLC_OUTPUT_WEIGHT = 172
-FIXED_ANCHOR_SAT = 330
+FIXED_ANCHOR_SIT = 330
 
-LN_MAX_FUNDING_SAT_LEGACY = pow(2, 24) - 1
+LN_MAX_FUNDING_SIT_LEGACY = pow(2, 24) - 1
 DUST_LIMIT_MAX = 1000
 
 SCRIPT_TEMPLATE_FUNDING = [opcodes.OP_2, OPPushDataPubkey, OPPushDataPubkey, opcodes.OP_2, opcodes.OP_CHECKMULTISIG]
@@ -106,11 +106,11 @@ class ChannelConfig(StoredObject):
     revocation_basepoint = attr.ib(type=OnlyPubkeyKeypair, converter=json_to_keypair)
     to_self_delay = attr.ib(type=int)  # applies to OTHER ctx
     dust_limit_sat = attr.ib(type=int)  # applies to SAME ctx
-    max_htlc_value_in_flight_msat = attr.ib(type=int)  # max val of INCOMING htlcs
+    max_htlc_value_in_flight_msit = attr.ib(type=int)  # max val of INCOMING htlcs
     max_accepted_htlcs = attr.ib(type=int)  # max num of INCOMING htlcs
-    initial_msat = attr.ib(type=int)
+    initial_msit = attr.ib(type=int)
     reserve_sat = attr.ib(type=int)  # applies to OTHER ctx
-    htlc_minimum_msat = attr.ib(type=int)  # smallest value for INCOMING htlc
+    htlc_minimum_msit = attr.ib(type=int)  # smallest value for INCOMING htlc
     upfront_shutdown_script = attr.ib(type=bytes, converter=hex_to_bytes, repr=bytes_to_hex)
     announcement_node_sig = attr.ib(type=bytes, converter=hex_to_bytes, repr=bytes_to_hex)
     announcement_bitcoin_sig = attr.ib(type=bytes, converter=hex_to_bytes, repr=bytes_to_hex)
@@ -126,38 +126,38 @@ class ChannelConfig(StoredObject):
         ):
             if not (len(key.pubkey) == 33 and ecc.ECPubkey.is_pubkey_bytes(key.pubkey)):
                 raise Exception(f"{conf_name}. invalid pubkey in channel config")
-        if funding_sat < MIN_FUNDING_SAT:
-            raise Exception(f"funding_sat too low: {funding_sat} sat < {MIN_FUNDING_SAT}")
+        if funding_sat < MIN_FUNDING_SIT:
+            raise Exception(f"funding_sat too low: {funding_sat} sat < {MIN_FUNDING_SIT}")
         if not peer_features.supports(LnFeatures.OPTION_SUPPORT_LARGE_CHANNEL_OPT):
-            # MUST set funding_satoshis to less than 2^24 satoshi
-            if funding_sat > LN_MAX_FUNDING_SAT_LEGACY:
-                raise Exception(f"funding_sat too high: {funding_sat} sat > {LN_MAX_FUNDING_SAT_LEGACY} (legacy limit)")
-        if funding_sat > config.LIGHTNING_MAX_FUNDING_SAT:
-            raise Exception(f"funding_sat too high: {funding_sat} sat > {config.LIGHTNING_MAX_FUNDING_SAT} (config setting)")
-        # MUST set push_msat to equal or less than 1000 * funding_satoshis
-        if not (0 <= self.initial_msat <= 1000 * funding_sat):
-            raise Exception(f"{conf_name}. insane initial_msat={self.initial_msat}. (funding_sat={funding_sat})")
+            # MUST set funding_sitashis to less than 2^24 sitashi
+            if funding_sat > LN_MAX_FUNDING_SIT_LEGACY:
+                raise Exception(f"funding_sat too high: {funding_sat} sat > {LN_MAX_FUNDING_SIT_LEGACY} (legacy limit)")
+        if funding_sat > config.LIGHTNING_MAX_FUNDING_SIT:
+            raise Exception(f"funding_sat too high: {funding_sat} sat > {config.LIGHTNING_MAX_FUNDING_SIT} (config setting)")
+        # MUST set push_msit to equal or less than 1000 * funding_sitashis
+        if not (0 <= self.initial_msit <= 1000 * funding_sat):
+            raise Exception(f"{conf_name}. insane initial_msit={self.initial_msit}. (funding_sat={funding_sat})")
         if self.reserve_sat < self.dust_limit_sat:
-            raise Exception(f"{conf_name}. MUST set channel_reserve_satoshis greater than or equal to dust_limit_satoshis")
+            raise Exception(f"{conf_name}. MUST set channel_reserve_sitashis greater than or equal to dust_limit_sitashis")
         if self.dust_limit_sat < bitcoin.DUST_LIMIT_UNKNOWN_SEGWIT:
             raise Exception(f"{conf_name}. dust limit too low: {self.dust_limit_sat} sat")
         if self.dust_limit_sat > DUST_LIMIT_MAX:
             raise Exception(f"{conf_name}. dust limit too high: {self.dust_limit_sat} sat")
         if self.reserve_sat > funding_sat // 100:
             raise Exception(f"{conf_name}. reserve too high: {self.reserve_sat}, funding_sat: {funding_sat}")
-        if self.htlc_minimum_msat > 1_000:
-            raise Exception(f"{conf_name}. htlc_minimum_msat too high: {self.htlc_minimum_msat} msat")
-        HTLC_MINIMUM_MSAT_MIN = 0  # should be at least 1 really, but apparently some nodes are sending zero...
-        if self.htlc_minimum_msat < HTLC_MINIMUM_MSAT_MIN:
-            raise Exception(f"{conf_name}. htlc_minimum_msat too low: {self.htlc_minimum_msat} msat < {HTLC_MINIMUM_MSAT_MIN}")
+        if self.htlc_minimum_msit > 1_000:
+            raise Exception(f"{conf_name}. htlc_minimum_msit too high: {self.htlc_minimum_msit} msit")
+        HTLC_MINIMUM_MSIT_MIN = 0  # should be at least 1 really, but apparently some nodes are sending zero...
+        if self.htlc_minimum_msit < HTLC_MINIMUM_MSIT_MIN:
+            raise Exception(f"{conf_name}. htlc_minimum_msit too low: {self.htlc_minimum_msit} msit < {HTLC_MINIMUM_MSIT_MIN}")
         if self.max_accepted_htlcs < 5:
             raise Exception(f"{conf_name}. max_accepted_htlcs too low: {self.max_accepted_htlcs}")
         if self.max_accepted_htlcs > 483:
             raise Exception(f"{conf_name}. max_accepted_htlcs too high: {self.max_accepted_htlcs}")
         if self.to_self_delay > MAXIMUM_REMOTE_TO_SELF_DELAY_ACCEPTED:
             raise Exception(f"{conf_name}. to_self_delay too high: {self.to_self_delay} > {MAXIMUM_REMOTE_TO_SELF_DELAY_ACCEPTED}")
-        if self.max_htlc_value_in_flight_msat < min(1000 * funding_sat, 90_000_000):
-            raise Exception(f"{conf_name}. max_htlc_value_in_flight_msat is too small: {self.max_htlc_value_in_flight_msat}")
+        if self.max_htlc_value_in_flight_msit < min(1000 * funding_sat, 90_000_000):
+            raise Exception(f"{conf_name}. max_htlc_value_in_flight_msit is too small: {self.max_htlc_value_in_flight_msit}")
 
     @classmethod
     def cross_validate_params(
@@ -182,18 +182,18 @@ class ChannelConfig(StoredObject):
         else:
             funder, fundee = REMOTE, LOCAL
             funder_config, fundee_config = remote_config, local_config
-        # if channel_reserve_satoshis is less than dust_limit_satoshis within the open_channel message:
+        # if channel_reserve_sitashis is less than dust_limit_sitashis within the open_channel message:
         #     MUST reject the channel.
         if remote_config.reserve_sat < local_config.dust_limit_sat:
             raise Exception("violated constraint: remote_config.reserve_sat < local_config.dust_limit_sat")
-        # if channel_reserve_satoshis from the open_channel message is less than dust_limit_satoshis:
+        # if channel_reserve_sitashis from the open_channel message is less than dust_limit_sitashis:
         #     MUST reject the channel.
         if local_config.reserve_sat < remote_config.dust_limit_sat:
             raise Exception("violated constraint: local_config.reserve_sat < remote_config.dust_limit_sat")
         # The receiving node MUST fail the channel if:
         #     the funder's amount for the initial commitment transaction is not
         #     sufficient for full fee payment.
-        if funder_config.initial_msat < calc_fees_for_commitment_tx(
+        if funder_config.initial_msit < calc_fees_for_commitment_tx(
                 num_htlcs=0,
                 feerate=initial_feerate_per_kw,
                 is_local_initiator=is_local_initiator,
@@ -204,14 +204,14 @@ class ChannelConfig(StoredObject):
                 "is not sufficient for full fee payment")
         # The receiving node MUST fail the channel if:
         #     both to_local and to_remote amounts for the initial commitment transaction are
-        #     less than or equal to channel_reserve_satoshis (see BOLT 3).
-        if (max(local_config.initial_msat, remote_config.initial_msat)
+        #     less than or equal to channel_reserve_sitashis (see BOLT 3).
+        if (max(local_config.initial_msit, remote_config.initial_msit)
                 <= 1000 * max(local_config.reserve_sat, remote_config.reserve_sat)):
             raise Exception(
                 "both to_local and to_remote amounts for the initial commitment "
-                "transaction are less than or equal to channel_reserve_satoshis")
+                "transaction are less than or equal to channel_reserve_sitashis")
         if initial_feerate_per_kw < FEERATE_PER_KW_MIN_RELAY_LIGHTNING:
-            raise Exception(f"feerate lower than min relay fee. {initial_feerate_per_kw} sat/kw.")
+            raise Exception(f"feerate lower than min relay fee. {initial_feerate_per_kw} sit/kw.")
 
 
 @stored_as('local_config')
@@ -262,9 +262,9 @@ class LocalConfig(ChannelConfig):
         super().validate_params(funding_sat=funding_sat, config=config, peer_features=peer_features)
         # run some stricter checks on LOCAL config (make sure we ourselves do the sane thing,
         # even if we are lenient with REMOTE for compatibility reasons)
-        HTLC_MINIMUM_MSAT_MIN = 1
-        if self.htlc_minimum_msat < HTLC_MINIMUM_MSAT_MIN:
-            raise Exception(f"{conf_name}. htlc_minimum_msat too low: {self.htlc_minimum_msat} msat < {HTLC_MINIMUM_MSAT_MIN}")
+        HTLC_MINIMUM_MSIT_MIN = 1
+        if self.htlc_minimum_msit < HTLC_MINIMUM_MSIT_MIN:
+            raise Exception(f"{conf_name}. htlc_minimum_msit too low: {self.htlc_minimum_msit} msit < {HTLC_MINIMUM_MSIT_MIN}")
 
 
 @stored_as('remote_config')
@@ -277,7 +277,7 @@ class RemoteConfig(ChannelConfig):
 @stored_in('fee_updates')
 @attr.s
 class FeeUpdate(StoredObject):
-    rate = attr.ib(type=int)  # in sat/kw
+    rate = attr.ib(type=int)  # in sit/kw
     ctn_local = attr.ib(default=None, type=int)
     ctn_remote = attr.ib(default=None, type=int)
 
@@ -425,7 +425,7 @@ class Outpoint(StoredObject):
 
 class HtlcLog(NamedTuple):
     success: bool
-    amount_msat: int  # amount for receiver (e.g. from invoice)
+    amount_msit: int  # amount for receiver (e.g. from invoice)
     route: Optional['LNPaymentRoute'] = None
     preimage: Optional[bytes] = None
     error_bytes: Optional[bytes] = None
@@ -493,10 +493,10 @@ CHANNEL_OPENING_TIMEOUT = 24*60*60
 # Small capacity channels are problematic for many reasons. As the onchain fees start to become
 # significant compared to the capacity, things start to break down. e.g. the counterparty
 # force-closing the channel costs much of the funds in the channel.
-# Closing a channel uses ~200 vbytes onchain, feerates could spike to 100 sat/vbyte or even higher;
+# Closing a channel uses ~200 vbytes onchain, feerates could spike to 100 sit/vbyte or even higher;
 # that in itself is already 20_000 sats. This mining fee is reserved and cannot be used for payments.
 # The value below is chosen arbitrarily to be one order of magnitude higher than that.
-MIN_FUNDING_SAT = 200_000
+MIN_FUNDING_SIT = 200_000
 
 
 ##### CLTV-expiry-delta-related values
@@ -701,7 +701,7 @@ def derive_multisig_funding_key_if_they_opened(
 
 
 def make_htlc_tx_output(
-    amount_msat,
+    amount_msit,
     local_feerate,
     revocationpubkey,
     local_delayedpubkey,
@@ -709,7 +709,7 @@ def make_htlc_tx_output(
     to_self_delay,
     has_anchors: bool
 ) -> Tuple[bytes, PartialTxOutput]:
-    assert type(amount_msat) is int
+    assert type(amount_msit) is int
     assert type(local_feerate) is int
     script = make_commitment_output_to_local_witness_script(
         revocation_pubkey=revocationpubkey,
@@ -721,7 +721,7 @@ def make_htlc_tx_output(
     weight = effective_htlc_tx_weight(success=success, has_anchors=has_anchors)
     fee = local_feerate * weight
     fee = fee // 1000 * 1000
-    final_amount_sat = (amount_msat - fee) // 1000
+    final_amount_sat = (amount_msit - fee) // 1000
     assert final_amount_sat > 0, final_amount_sat
     output = PartialTxOutput.from_address_and_value(p2wsh, final_amount_sat)
     return script, output
@@ -743,18 +743,18 @@ def make_htlc_tx_witness(
 def make_htlc_tx_inputs(
         htlc_output_txid: str,
         htlc_output_index: int,
-        amount_msat: int,
+        amount_msit: int,
         witness_script: bytes
 ) -> List[PartialTxInput]:
     assert type(htlc_output_txid) is str
     assert type(htlc_output_index) is int
-    assert type(amount_msat) is int
+    assert type(amount_msit) is int
     assert type(witness_script) is bytes
     txin = PartialTxInput(prevout=TxOutpoint(txid=bfh(htlc_output_txid), out_idx=htlc_output_index),
                           nsequence=0)
     txin.witness_script = witness_script
     txin.script_sig = b''
-    txin._trusted_value_sats = amount_msat // 1000
+    txin._trusted_value_sats = amount_msit // 1000
     c_inputs = [txin]
     return c_inputs
 
@@ -951,7 +951,7 @@ def possible_output_idxs_of_htlc_in_ctx(
         ctx: Transaction,
         htlc: 'UpdateAddHtlc'
 ) -> Set[int]:
-    amount_msat, cltv_abs, payment_hash = htlc.amount_msat, htlc.cltv_abs, htlc.payment_hash
+    amount_msit, cltv_abs, payment_hash = htlc.amount_msit, htlc.cltv_abs, htlc.payment_hash
     for_us = subject == LOCAL
     conf, other_conf = get_ordered_channel_configs(chan=chan, for_us=for_us)
 
@@ -970,7 +970,7 @@ def possible_output_idxs_of_htlc_in_ctx(
     htlc_address = redeem_script_to_address('p2wsh', witness_script)
     candidates = ctx.get_output_idxs_from_address(htlc_address)
     return {output_idx for output_idx in candidates
-            if ctx.outputs()[output_idx].value == htlc.amount_msat // 1000}
+            if ctx.outputs()[output_idx].value == htlc.amount_msit // 1000}
 
 
 def map_htlcs_to_ctx_output_idxs(
@@ -1016,7 +1016,7 @@ def make_htlc_tx_with_open_channel(
         htlc: 'UpdateAddHtlc',
         name: str = None
 ) -> Tuple[bytes, PartialTransaction]:
-    amount_msat, cltv_abs, payment_hash = htlc.amount_msat, htlc.cltv_abs, htlc.payment_hash
+    amount_msit, cltv_abs, payment_hash = htlc.amount_msit, htlc.cltv_abs, htlc.payment_hash
     for_us = subject == LOCAL
     conf, other_conf = get_ordered_channel_configs(chan=chan, for_us=for_us)
 
@@ -1028,7 +1028,7 @@ def make_htlc_tx_with_open_channel(
     # if we do not receive, and the commitment tx is not for us, they receive, so it is also an HTLC-success
     is_htlc_success = htlc_direction == RECEIVED
     witness_script_of_htlc_tx_output, htlc_tx_output = make_htlc_tx_output(
-        amount_msat=amount_msat,
+        amount_msit=amount_msit,
         local_feerate=chan.get_feerate(subject, ctn=ctn),
         revocationpubkey=other_revocation_pubkey,
         local_delayedpubkey=delayedpubkey,
@@ -1047,7 +1047,7 @@ def make_htlc_tx_with_open_channel(
     )
     htlc_tx_inputs = make_htlc_tx_inputs(
         commit.txid(), ctx_output_idx,
-        amount_msat=amount_msat,
+        amount_msit=amount_msit,
         witness_script=witness_script_in)
     if chan.has_anchors():
         htlc_tx_inputs[0].nsequence = 1
@@ -1103,8 +1103,8 @@ REMOTE = HTLCOwner.REMOTE
 def make_commitment_outputs(
     *,
     fees_per_participant: Mapping[HTLCOwner, int],
-    local_amount_msat: int,
-    remote_amount_msat: int,
+    local_amount_msit: int,
+    remote_amount_msit: int,
     local_script: bytes,
     remote_script: bytes,
     htlcs: List[ScriptHtlc],
@@ -1118,18 +1118,18 @@ def make_commitment_outputs(
     htlc_outputs = []
     for script, htlc in htlcs:
         addr = bitcoin.redeem_script_to_address('p2wsh', script)
-        if htlc.amount_msat // 1000 > dust_limit_sat:
+        if htlc.amount_msit // 1000 > dust_limit_sat:
             htlc_outputs.append(
                 PartialTxOutput(
                     scriptpubkey=address_to_script(addr),
-                    value=htlc.amount_msat // 1000
+                    value=htlc.amount_msit // 1000
                 ))
 
     # BOLT-03: "Base commitment transaction fees are extracted from the funder's amount;
     #           if that amount is insufficient, the entire amount of the funder's output is used."
     non_htlc_outputs = []
-    to_local_amt_msat = local_amount_msat - fees_per_participant[LOCAL]
-    to_remote_amt_msat = remote_amount_msat - fees_per_participant[REMOTE]
+    to_local_amt_msit = local_amount_msit - fees_per_participant[LOCAL]
+    to_remote_amt_msit = remote_amount_msit - fees_per_participant[REMOTE]
 
     anchor_outputs = []
     # if no anchor scripts are set, we ignore anchor outputs, useful when this
@@ -1138,21 +1138,21 @@ def make_commitment_outputs(
         local_pays_anchors = bool(fees_per_participant[LOCAL])
         # we always allocate for two anchor outputs even if they are not added
         if local_pays_anchors:
-            to_local_amt_msat -= 2 * FIXED_ANCHOR_SAT * 1000
+            to_local_amt_msit -= 2 * FIXED_ANCHOR_SIT * 1000
         else:
-            to_remote_amt_msat -= 2 * FIXED_ANCHOR_SAT * 1000
+            to_remote_amt_msit -= 2 * FIXED_ANCHOR_SIT * 1000
 
         # include anchors for outputs that materialize, include both if there are HTLCs present
-        if to_local_amt_msat // 1000 >= dust_limit_sat or htlc_outputs:
-            anchor_outputs.append(PartialTxOutput(scriptpubkey=local_anchor_script, value=FIXED_ANCHOR_SAT))
-        if to_remote_amt_msat // 1000 >= dust_limit_sat or htlc_outputs:
-            anchor_outputs.append(PartialTxOutput(scriptpubkey=remote_anchor_script, value=FIXED_ANCHOR_SAT))
+        if to_local_amt_msit // 1000 >= dust_limit_sat or htlc_outputs:
+            anchor_outputs.append(PartialTxOutput(scriptpubkey=local_anchor_script, value=FIXED_ANCHOR_SIT))
+        if to_remote_amt_msit // 1000 >= dust_limit_sat or htlc_outputs:
+            anchor_outputs.append(PartialTxOutput(scriptpubkey=remote_anchor_script, value=FIXED_ANCHOR_SIT))
 
     # if funder cannot afford feerate, their output might go negative, so take max(0, x) here
-    to_local_amt_msat = max(0, to_local_amt_msat)
-    to_remote_amt_msat = max(0, to_remote_amt_msat)
-    non_htlc_outputs.append(PartialTxOutput(scriptpubkey=local_script, value=to_local_amt_msat // 1000))
-    non_htlc_outputs.append(PartialTxOutput(scriptpubkey=remote_script, value=to_remote_amt_msat // 1000))
+    to_local_amt_msit = max(0, to_local_amt_msit)
+    to_remote_amt_msit = max(0, to_remote_amt_msit)
+    non_htlc_outputs.append(PartialTxOutput(scriptpubkey=local_script, value=to_local_amt_msit // 1000))
+    non_htlc_outputs.append(PartialTxOutput(scriptpubkey=remote_script, value=to_remote_amt_msit // 1000))
 
     c_outputs_filtered = list(filter(lambda x: x.value >= dust_limit_sat, non_htlc_outputs + htlc_outputs))
     c_outputs = c_outputs_filtered + anchor_outputs
@@ -1172,7 +1172,7 @@ def effective_htlc_tx_weight(success: bool, has_anchors: bool):
 
 def offered_htlc_trim_threshold_sat(*, dust_limit_sat: int, feerate: int, has_anchors: bool) -> int:
     # offered htlcs strictly below this amount will be trimmed (from ctx).
-    # feerate is in sat/kw
+    # feerate is in sit/kw
     # returns value in sat
     weight = effective_htlc_tx_weight(success=False, has_anchors=has_anchors)
     return dust_limit_sat + weight * feerate // 1000
@@ -1180,15 +1180,15 @@ def offered_htlc_trim_threshold_sat(*, dust_limit_sat: int, feerate: int, has_an
 
 def received_htlc_trim_threshold_sat(*, dust_limit_sat: int, feerate: int, has_anchors: bool) -> int:
     # received htlcs strictly below this amount will be trimmed (from ctx).
-    # feerate is in sat/kw
+    # feerate is in sit/kw
     # returns value in sat
     weight = effective_htlc_tx_weight(success=True, has_anchors=has_anchors)
     return dust_limit_sat + weight * feerate // 1000
 
 
 def fee_for_htlc_output(*, feerate: int) -> int:
-    # feerate is in sat/kw
-    # returns fee in msat
+    # feerate is in sit/kw
+    # returns fee in msit
     return feerate * HTLC_OUTPUT_WEIGHT
 
 
@@ -1199,9 +1199,9 @@ def calc_fees_for_commitment_tx(
         round_to_sat: bool = True,
         has_anchors: bool
 ) -> Dict['HTLCOwner', int]:
-    # feerate is in sat/kw
-    # returns fees in msats
-    # note: BOLT-02 specifies that msat fees need to be rounded down to sat.
+    # feerate is in sit/kw
+    # returns fees in msits
+    # note: BOLT-02 specifies that msit fees need to be rounded down to sat.
     #       However, the rounding needs to happen for the total fees, so if the return value
     #       is to be used as part of additional fee calculation then rounding should be done after that.
     if has_anchors:
@@ -1267,8 +1267,8 @@ def make_commitment(
 
     htlc_outputs, c_outputs_filtered = make_commitment_outputs(
         fees_per_participant=fees_per_participant,
-        local_amount_msat=local_amount,
-        remote_amount_msat=remote_amount,
+        local_amount_msit=local_amount,
+        remote_amount_msit=remote_amount,
         local_script=address_to_script(local_address),
         remote_script=address_to_script(remote_address),
         htlcs=htlcs,
@@ -1391,7 +1391,7 @@ def extract_ctn_from_tx_and_chan(tx: Transaction, chan: 'AbstractChannel') -> in
 
 def ctx_has_anchors(tx: Transaction):
     output_values = [output.value for output in tx.outputs()]
-    if FIXED_ANCHOR_SAT in output_values:
+    if FIXED_ANCHOR_SIT in output_values:
         return True
     else:
         return False
@@ -1900,7 +1900,7 @@ NUM_MAX_EDGES_IN_PAYMENT_PATH = NUM_MAX_HOPS_IN_PAYMENT_PATH
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
 class UpdateAddHtlc:
-    amount_msat: int
+    amount_msit: int
     payment_hash: bytes
     cltv_abs: int
     htlc_id: Optional[int] = dataclasses.field(default=None)
@@ -1908,9 +1908,9 @@ class UpdateAddHtlc:
 
     @staticmethod
     @stored_in('adds', tuple)
-    def from_tuple(amount_msat, rhash, cltv_abs, htlc_id, timestamp) -> 'UpdateAddHtlc':
+    def from_tuple(amount_msit, rhash, cltv_abs, htlc_id, timestamp) -> 'UpdateAddHtlc':
         return UpdateAddHtlc(
-            amount_msat=amount_msat,
+            amount_msit=amount_msit,
             payment_hash=bytes.fromhex(rhash),
             cltv_abs=cltv_abs,
             htlc_id=htlc_id,
@@ -1921,7 +1921,7 @@ class UpdateAddHtlc:
         return dataclasses.astuple(self)
 
     def _validate(self):
-        assert isinstance(self.amount_msat, int), self.amount_msat
+        assert isinstance(self.amount_msit, int), self.amount_msit
         assert isinstance(self.payment_hash, bytes) and len(self.payment_hash) == 32
         assert isinstance(self.cltv_abs, int) and self.cltv_abs <= NLOCKTIME_BLOCKHEIGHT_MAX, self.cltv_abs
         assert isinstance(self.htlc_id, int) or self.htlc_id is None, self.htlc_id
@@ -1942,16 +1942,16 @@ class RecvMPPResolution(IntEnum):
 
 class ReceivedMPPStatus(NamedTuple):
     resolution: RecvMPPResolution
-    expected_msat: int
+    expected_msit: int
     htlc_set: Set[Tuple[ShortChannelID, UpdateAddHtlc]]
 
     @staticmethod
     @stored_in('received_mpp_htlcs', tuple)
-    def from_tuple(resolution, expected_msat, htlc_list) -> 'ReceivedMPPStatus':
+    def from_tuple(resolution, expected_msit, htlc_list) -> 'ReceivedMPPStatus':
         htlc_set = set([(ShortChannelID(bytes.fromhex(scid)), UpdateAddHtlc.from_tuple(*x)) for (scid, x) in htlc_list])
         return ReceivedMPPStatus(
             resolution=RecvMPPResolution(resolution),
-            expected_msat=expected_msat,
+            expected_msit=expected_msit,
             htlc_set=htlc_set)
 
 
@@ -1963,7 +1963,7 @@ class OnionFailureCodeMetaFlag(IntFlag):
 
 
 class PaymentFeeBudget(NamedTuple):
-    fee_msat: int
+    fee_msit: int
 
     # The cltv budget covers the cost of route to get to the destination, but excluding the
     # cltv-delta the destination wants for itself. (e.g. "min_final_cltv_delta" is excluded)
@@ -1975,49 +1975,49 @@ class PaymentFeeBudget(NamedTuple):
     def from_invoice_amount(
         cls,
         *,
-        invoice_amount_msat: int,
+        invoice_amount_msit: int,
         config: 'SimpleConfig',
         max_cltv_delta: Optional[int] = None,
-        max_fee_msat: Optional[int] = None,
+        max_fee_msit: Optional[int] = None,
     ) -> 'PaymentFeeBudget':
-        if max_fee_msat is None:
-            max_fee_msat = PaymentFeeBudget._calculate_fee_msat(
-                invoice_amount_msat=invoice_amount_msat,
+        if max_fee_msit is None:
+            max_fee_msit = PaymentFeeBudget._calculate_fee_msit(
+                invoice_amount_msit=invoice_amount_msit,
                 config=config,
             )
         if max_cltv_delta is None:
             max_cltv_delta = NBLOCK_CLTV_DELTA_TOO_FAR_INTO_FUTURE
         assert max_cltv_delta > 0, max_cltv_delta
         return PaymentFeeBudget(
-            fee_msat=max_fee_msat,
+            fee_msit=max_fee_msit,
             cltv=max_cltv_delta,
         )
 
     @classmethod
-    def _calculate_fee_msat(
+    def _calculate_fee_msit(
         cls,
         *,
-        invoice_amount_msat: int,
+        invoice_amount_msit: int,
         config: 'SimpleConfig',
         fee_millionths: Optional[int] = None,
-        fee_cutoff_msat: Optional[int] = None,
+        fee_cutoff_msit: Optional[int] = None,
     ) -> int:
         if fee_millionths is None:
             fee_millionths = config.LIGHTNING_PAYMENT_FEE_MAX_MILLIONTHS
-        if fee_cutoff_msat is None:
-            fee_cutoff_msat = config.LIGHTNING_PAYMENT_FEE_CUTOFF_MSAT
+        if fee_cutoff_msit is None:
+            fee_cutoff_msit = config.LIGHTNING_PAYMENT_FEE_CUTOFF_MSIT
         millionths_clamped = min(max(0, fee_millionths), 250_000)  # clamp into [0, 25%]
-        cutoff_clamped = min(max(0, fee_cutoff_msat), 10_000_000)  # clamp into [0, 10k sat]
+        cutoff_clamped = min(max(0, fee_cutoff_msit), 10_000_000)  # clamp into [0, 10k sat]
         if fee_millionths != millionths_clamped:
             _logger.warning(
                 f"PaymentFeeBudget. found insane fee millionths in config. "
                 f"clamped: {fee_millionths}->{millionths_clamped}")
-        if fee_cutoff_msat != cutoff_clamped:
+        if fee_cutoff_msit != cutoff_clamped:
             _logger.warning(
                 f"PaymentFeeBudget. found insane fee cutoff in config. "
-                f"clamped: {fee_cutoff_msat}->{cutoff_clamped}")
+                f"clamped: {fee_cutoff_msit}->{cutoff_clamped}")
         # for small payments, fees <= constant cutoff are fine
         # for large payments, the max fee is percentage-based
-        fee_msat = invoice_amount_msat * millionths_clamped // 1_000_000
-        fee_msat = max(fee_msat, cutoff_clamped)
-        return fee_msat
+        fee_msit = invoice_amount_msit * millionths_clamped // 1_000_000
+        fee_msit = max(fee_msit, cutoff_clamped)
+        return fee_msit

@@ -105,10 +105,10 @@ class QEChannelListModel(QAbstractListModel, QtEventListener):
             item['receive_frozen'] = True
             item['is_imported'] = lnc.is_imported
         else:
-            item['can_send'] = QEAmount(amount_msat=lnc.available_to_spend(LOCAL))
-            item['can_receive'] = QEAmount(amount_msat=lnc.available_to_spend(REMOTE))
-            item['local_capacity'] = QEAmount(amount_msat=lnc.balance(LOCAL))
-            item['remote_capacity'] = QEAmount(amount_msat=lnc.balance(REMOTE))
+            item['can_send'] = QEAmount(amount_msit=lnc.available_to_spend(LOCAL))
+            item['can_receive'] = QEAmount(amount_msit=lnc.available_to_spend(REMOTE))
+            item['local_capacity'] = QEAmount(amount_msit=lnc.balance(LOCAL))
+            item['remote_capacity'] = QEAmount(amount_msit=lnc.balance(REMOTE))
             item['send_frozen'] = lnc.is_frozen_for_sending()
             item['receive_frozen'] = lnc.is_frozen_for_receiving()
             item['is_imported'] = False

@@ -269,19 +269,19 @@ def decrypt_onionmsg_data_tlv(*, shared_secret: bytes, encrypted_recipient_data:
 
 def calc_hops_data_for_payment(
         route: 'LNPaymentRoute',
-        amount_msat: int,  # that final recipient receives
+        amount_msit: int,  # that final recipient receives
         *,
         final_cltv_abs: int,
-        total_msat: int,
+        total_msit: int,
         payment_secret: bytes,
 ) -> Tuple[List[OnionHopsDataSingle], int, int]:
     """Returns the hops_data to be used for constructing an onion packet,
-    and the amount_msat and cltv_abs to be used on our immediate channel.
+    and the amount_msit and cltv_abs to be used on our immediate channel.
     """
     if len(route) > NUM_MAX_EDGES_IN_PAYMENT_PATH:
         raise PaymentFailure(f"too long route ({len(route)} edges)")
     # payload that will be seen by the last hop:
-    amt = amount_msat
+    amt = amount_msit
     cltv_abs = final_cltv_abs
     hop_payload = {
         "amt_to_forward": {"amt_to_forward": amt},
@@ -291,8 +291,8 @@ def calc_hops_data_for_payment(
     # partial amounts
     hop_payload["payment_data"] = {
         "payment_secret": payment_secret,
-        "total_msat": total_msat,
-        "amount_msat": amt
+        "total_msit": total_msit,
+        "amount_msit": amt
     }
     hops_data = [OnionHopsDataSingle(payload=hop_payload)]
     # payloads, backwards from last hop (but excluding the first edge):

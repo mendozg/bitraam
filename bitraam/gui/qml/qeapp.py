@@ -551,8 +551,8 @@ class BitraamQmlApplication(QGuiApplication):
             'pyqt_version': PYQT_VERSION_STR
         })
         self.context.setContextProperty('UI_UNIT_NAME', {
-            "FEERATE_SAT_PER_VBYTE": bitraam.util.UI_UNIT_NAME_FEERATE_SAT_PER_VBYTE,
-            "FEERATE_SAT_PER_VB":    bitraam.util.UI_UNIT_NAME_FEERATE_SAT_PER_VB,
+            "FEERATE_SIT_PER_VBYTE": bitraam.util.UI_UNIT_NAME_FEERATE_SIT_PER_VBYTE,
+            "FEERATE_SIT_PER_VB":    bitraam.util.UI_UNIT_NAME_FEERATE_SIT_PER_VB,
             "TXSIZE_VBYTES":         bitraam.util.UI_UNIT_NAME_TXSIZE_VBYTES,
             "MEMPOOL_MB":            bitraam.util.UI_UNIT_NAME_MEMPOOL_MB,
         })

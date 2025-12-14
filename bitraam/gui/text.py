@@ -621,10 +621,10 @@ class BitraamGui(BaseBitraamGui, EventListener):
     def read_invoice(self):
         if self.lightning_invoice:
             invoice = Invoice.from_bech32(self.lightning_invoice)
-            if invoice.amount_msat is None:
+            if invoice.amount_msit is None:
                 amount_sat = self.parse_amount(self.str_amount)
                 if amount_sat:
-                    invoice.set_amount_msat(int(amount_sat * 1000))
+                    invoice.set_amount_msit(int(amount_sat * 1000))
                 else:
                     self.show_message(_('No amount'))
                     return None
@@ -669,13 +669,13 @@ class BitraamGui(BaseBitraamGui, EventListener):
             self.pay_onchain_dialog(invoice)
 
     def pay_lightning_invoice(self, invoice):
-        amount_msat = invoice.get_amount_msat()
+        amount_msit = invoice.get_amount_msit()
         msg = _("Pay lightning invoice?")
-        #+ '\n\n' + _("This will send {}?").format(self.format_amount_and_units(Decimal(amount_msat)/1000))
+        #+ '\n\n' + _("This will send {}?").format(self.format_amount_and_units(Decimal(amount_msit)/1000))
         if not self.question(msg):
             return
         self.save_pending_invoice(invoice)
-        coro = self.wallet.lnworker.pay_invoice(invoice, amount_msat=amount_msat)
+        coro = self.wallet.lnworker.pay_invoice(invoice, amount_msit=amount_msit)
 
         #self.window.run_coroutine_from_thread(coro, _('Sending payment'))
         self.show_message(_("Please wait..."), getchar=False)
@@ -808,7 +808,7 @@ class BitraamGui(BaseBitraamGui, EventListener):
                 label = item.get('label')
                 if item.get('type') == 'list':
                     value = item.get('value','')
-                elif item.get('type') == 'satoshis':
+                elif item.get('type') == 'sitashis':
                     value = item.get('value','')
                 elif item.get('type') == 'str':
                     value = item.get('value','')
@@ -859,7 +859,7 @@ class BitraamGui(BaseBitraamGui, EventListener):
                     item['value'] = self.edit_str(item['value'], c)
                     out[item.get('label')] = item ['value']
 
-                elif _type == 'satoshis':
+                elif _type == 'sitashis':
                     item['value'] = self.edit_str(item['value'], c, True)
                     out[item.get('label')] = item.get('value')
 

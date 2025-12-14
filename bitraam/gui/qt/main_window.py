@@ -1001,7 +1001,7 @@ class BitraamWindow(QMainWindow, MessageBoxMixin, Logger, QtEventListener):
         return self.fx.format_amount_and_units(amount_sat) if self.fx else ''
 
     def format_fee_rate(self, fee_rate) -> str:
-        """fee_rate is in sat/kvByte."""
+        """fee_rate is in sit/kvByte."""
         return self.config.format_fee_rate(fee_rate)
 
     def get_decimal_point(self):
@@ -1995,11 +1995,11 @@ class BitraamWindow(QMainWindow, MessageBoxMixin, Logger, QtEventListener):
             tab.searchable_list.filter(t)
 
     def new_channel_dialog(self, *, amount_sat=None, min_amount_sat=None):
-        from bitraam.lnutil import MIN_FUNDING_SAT
+        from bitraam.lnutil import MIN_FUNDING_SIT
         from .new_channel_dialog import NewChannelDialog
         assert self.wallet.can_have_lightning()
         confirmed = self.wallet.get_spendable_balance_sat(confirmed_only=True)
-        min_amount_sat = min_amount_sat or MIN_FUNDING_SAT
+        min_amount_sat = min_amount_sat or MIN_FUNDING_SIT
         if confirmed < min_amount_sat:
             msg = _('Not enough funds') + '\n\n' + _('You need at least {} to open a channel.').format(self.format_amount_and_units(min_amount_sat))
             self.show_error(msg)

@@ -60,7 +60,7 @@ if TYPE_CHECKING:
 
 SWAP_TX_SIZE = 150  # default tx size, used for mining fee estimation
 
-MIN_SWAP_AMOUNT_SAT = 20_000
+MIN_SWAP_AMOUNT_SIT = 20_000
 MIN_LOCKTIME_DELTA = 60
 LOCKTIME_DELTA_REFUND = 70
 MAX_LOCKTIME_DELTA = 100
@@ -668,7 +668,7 @@ class SwapManager(Logger):
 
         if prepay:
             prepay_hash = self.lnworker.create_payment_info(
-                amount_msat=prepay_amount_sat*1000,
+                amount_msit=prepay_amount_sat*1000,
                 min_final_cltv_delta=min_final_cltv_expiry_delta or MIN_FINAL_CLTV_DELTA_ACCEPTED,
                 exp_delay=300,
             )
@@ -1143,7 +1143,7 @@ class SwapManager(Logger):
     def server_update_pairs(self) -> None:
         """ for server """
         self.percentage = float(self.config.SWAPSERVER_FEE_MILLIONTHS) / 10000  # type: ignore
-        self._min_amount = MIN_SWAP_AMOUNT_SAT
+        self._min_amount = MIN_SWAP_AMOUNT_SIT
         oc_balance_sat: int = self.wallet.get_spendable_balance_sat()
         max_forward: int = min(int(self.lnworker.num_sats_can_receive()), oc_balance_sat, 10000000)
         max_reverse: int = min(int(self.lnworker.num_sats_can_send()), 10000000)
@@ -1189,7 +1189,7 @@ class SwapManager(Logger):
         return self._max_reverse
 
     def get_min_amount(self) -> int:
-        """in satoshis"""
+        """in sitashis"""
         return self._min_amount
 
     def check_invoice_amount(self, x, is_reverse: bool) -> bool:
@@ -1433,9 +1433,9 @@ class SwapManager(Logger):
             if payment_hash in settled_payments:
                 plist = settled_payments[payment_hash]
                 info = self.lnworker.get_payment_info(payment_hash)
-                direction, amount_msat, fee_msat, timestamp = self.lnworker.get_payment_value(info, plist)
+                direction, amount_msit, fee_msit, timestamp = self.lnworker.get_payment_value(info, plist)
             else:
-                amount_msat = 0
+                amount_msit = 0
 
             if swap.is_reverse:
                 group_label = 'Reverse swap' + ' ' + self.config.format_amount_and_units(swap.lightning_amount)

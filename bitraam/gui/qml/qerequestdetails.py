@@ -8,7 +8,7 @@ from bitraam.logging import get_logger
 from bitraam.invoices import (
     PR_UNPAID, PR_EXPIRED, PR_UNKNOWN, PR_PAID, PR_INFLIGHT, PR_FAILED, PR_ROUTING, PR_UNCONFIRMED, LN_EXPIRY_NEVER
 )
-from bitraam.lnutil import MIN_FUNDING_SAT
+from bitraam.lnutil import MIN_FUNDING_SIT
 from bitraam.lnurl import LNURL3Data, request_lnurl_withdraw_callback, LNURLError
 from bitraam.payment_identifier import PaymentIdentifier, PaymentIdentifierType
 from bitraam.i18n import _
@@ -146,9 +146,9 @@ class QERequestDetails(QObject, QtEventListener):
             return ''
         amount_sat = self._req.get_amount_sat() or 0 if self._req else 0
         can_receive = wallet.lnworker.num_sats_can_receive()
-        will_req_zeroconf = wallet.lnworker.receive_requires_jit_channel(amount_msat=amount_sat*1000)
+        will_req_zeroconf = wallet.lnworker.receive_requires_jit_channel(amount_msit=amount_sat*1000)
         if self._req and ((can_receive > 0 and amount_sat <= can_receive)
-                          or (will_req_zeroconf and amount_sat >= MIN_FUNDING_SAT)):
+                          or (will_req_zeroconf and amount_sat >= MIN_FUNDING_SIT)):
             bolt11 = wallet.get_bolt11_invoice(self._req)
         else:
             return ''

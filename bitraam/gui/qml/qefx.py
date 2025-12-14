@@ -110,30 +110,30 @@ class QEFX(QObject, QtEventListener):
     @pyqtSlot(str, bool, result=str)
     @pyqtSlot(QEAmount, result=str)
     @pyqtSlot(QEAmount, bool, result=str)
-    def fiatValue(self, satoshis, plain=True):
+    def fiatValue(self, sitashis, plain=True):
         rate = self.fx.exchange_rate()
-        if isinstance(satoshis, QEAmount):
-            satoshis = satoshis.msatsInt / 1000 if satoshis.msatsInt != 0 else satoshis.satsInt
+        if isinstance(sitashis, QEAmount):
+            sitashis = sitashis.msitsInt / 1000 if sitashis.msitsInt != 0 else sitashis.satsInt
         else:
             try:
-                sd = Decimal(satoshis)
+                sd = Decimal(sitashis)
             except Exception:
                 return ''
         if plain:
-            return self.fx.ccy_amount_str(self.fx.fiat_value(satoshis, rate), add_thousands_sep=False)
+            return self.fx.ccy_amount_str(self.fx.fiat_value(sitashis, rate), add_thousands_sep=False)
         else:
-            return self.fx.value_str(satoshis, rate)
+            return self.fx.value_str(sitashis, rate)
 
     @pyqtSlot(str, str, result=str)
     @pyqtSlot(str, str, bool, result=str)
     @pyqtSlot(QEAmount, str, result=str)
     @pyqtSlot(QEAmount, str, bool, result=str)
-    def fiatValueHistoric(self, satoshis, timestamp, plain=True):
-        if isinstance(satoshis, QEAmount):
-            satoshis = satoshis.msatsInt / 1000 if satoshis.msatsInt != 0 else satoshis.satsInt
+    def fiatValueHistoric(self, sitashis, timestamp, plain=True):
+        if isinstance(sitashis, QEAmount):
+            sitashis = sitashis.msitsInt / 1000 if sitashis.msitsInt != 0 else sitashis.satsInt
         else:
             try:
-                sd = Decimal(satoshis)
+                sd = Decimal(sitashis)
             except Exception:
                 return ''
 
@@ -145,13 +145,13 @@ class QEFX(QObject, QtEventListener):
             return ''
         dt = datetime.fromtimestamp(int(td))
         if plain:
-            return self.fx.ccy_amount_str(self.fx.historical_value(satoshis, dt), add_thousands_sep=False)
+            return self.fx.ccy_amount_str(self.fx.historical_value(sitashis, dt), add_thousands_sep=False)
         else:
-            return self.fx.historical_value_str(satoshis, dt)
+            return self.fx.historical_value_str(sitashis, dt)
 
     @pyqtSlot(str, result=str)
     @pyqtSlot(str, bool, result=str)
-    def satoshiValue(self, fiat, plain=True):
+    def sitashiValue(self, fiat, plain=True):
         rate = self.fx.exchange_rate()
         try:
             fd = Decimal(fiat)

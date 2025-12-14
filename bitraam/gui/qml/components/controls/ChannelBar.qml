@@ -24,22 +24,22 @@ Item {
     function do_update() {
         var cap = capacity.satsInt * 1000
         var twocap = cap * 2
-        l1.width = width * (cap - localCapacity.msatsInt) / twocap
+        l1.width = width * (cap - localCapacity.msitsInt) / twocap
         if (frozenForSending) {
-            l2.width = width * localCapacity.msatsInt / twocap
+            l2.width = width * localCapacity.msitsInt / twocap
             l3.width = 0
         } else {
-            l2.width = width * (localCapacity.msatsInt - canSend.msatsInt) / twocap
-            l3.width = width * canSend.msatsInt / twocap
+            l2.width = width * (localCapacity.msitsInt - canSend.msitsInt) / twocap
+            l3.width = width * canSend.msitsInt / twocap
         }
         if (frozenForReceiving) {
             r3.width = 0
-            r2.width = width * remoteCapacity.msatsInt / twocap
+            r2.width = width * remoteCapacity.msitsInt / twocap
         } else {
-            r3.width = width * canReceive.msatsInt / twocap
-            r2.width = width * (remoteCapacity.msatsInt - canReceive.msatsInt) / twocap
+            r3.width = width * canReceive.msitsInt / twocap
+            r2.width = width * (remoteCapacity.msitsInt - canReceive.msitsInt) / twocap
         }
-        r1.width = width * (cap - remoteCapacity.msatsInt) / twocap
+        r1.width = width * (cap - remoteCapacity.msitsInt) / twocap
     }
 
     onWidthChanged: update()

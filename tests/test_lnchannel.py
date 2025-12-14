@@ -44,7 +44,7 @@ from bitraam.coinchooser import PRNG
 
 from . import BitraamTestCase
 
-one_bitcoin_in_msat = bitcoin.COIN * 1000
+one_bitcoin_in_msit = bitcoin.COIN * 1000
 
 
 def create_channel_state(funding_txid, funding_index, funding_sat, is_initiator,
@@ -70,11 +70,11 @@ def create_channel_state(funding_txid, funding_index, funding_sat, is_initiator,
                 revocation_basepoint=other_pubkeys[4],
                 to_self_delay=r_csv,
                 dust_limit_sat=r_dust,
-                max_htlc_value_in_flight_msat=remote_max_inflight,
+                max_htlc_value_in_flight_msit=remote_max_inflight,
                 max_accepted_htlcs=5,
-                initial_msat=remote_amount,
+                initial_msit=remote_amount,
                 reserve_sat=0,
-                htlc_minimum_msat=1,
+                htlc_minimum_msit=1,
                 next_per_commitment_point=nex,
                 current_per_commitment_point=cur,
                 upfront_shutdown_script=b'',
@@ -90,15 +90,15 @@ def create_channel_state(funding_txid, funding_index, funding_sat, is_initiator,
                 revocation_basepoint=privkeys[4],
                 to_self_delay=l_csv,
                 dust_limit_sat=l_dust,
-                max_htlc_value_in_flight_msat=local_max_inflight,
+                max_htlc_value_in_flight_msit=local_max_inflight,
                 max_accepted_htlcs=5,
-                initial_msat=local_amount,
+                initial_msit=local_amount,
                 reserve_sat=0,
                 per_commitment_secret_seed=seed,
                 funding_locked_received=True,
                 current_commitment_signature=None,
                 current_htlc_signatures=None,
-                htlc_minimum_msat=1,
+                htlc_minimum_msit=1,
                 upfront_shutdown_script=b'',
                 announcement_node_sig=b'',
                 announcement_bitcoin_sig=b'',
@@ -129,7 +129,7 @@ def bip32(sequence):
     return k
 
 
-def create_test_channels(*, feerate=6000, local_msat=None, remote_msat=None,
+def create_test_channels(*, feerate=6000, local_msit=None, remote_msit=None,
                          alice_name="alice", bob_name="bob",
                          alice_pubkey=b"\x01"*33, bob_pubkey=b"\x02"*33, random_seed=None,
                          anchor_outputs=False,
@@ -139,9 +139,9 @@ def create_test_channels(*, feerate=6000, local_msat=None, remote_msat=None,
     random_gen = PRNG(random_seed)
     funding_txid = binascii.hexlify(random_gen.get_bytes(32)).decode("ascii")
     funding_index = 0
-    funding_sat = ((local_msat + remote_msat) // 1000) if local_msat is not None and remote_msat is not None else (bitcoin.COIN * 10)
-    local_amount = local_msat if local_msat is not None else (funding_sat * 1000 // 2)
-    remote_amount = remote_msat if remote_msat is not None else (funding_sat * 1000 // 2)
+    funding_sat = ((local_msit + remote_msit) // 1000) if local_msit is not None and remote_msit is not None else (bitcoin.COIN * 10)
+    local_amount = local_msit if local_msit is not None else (funding_sat * 1000 // 2)
+    remote_amount = remote_msit if remote_msit is not None else (funding_sat * 1000 // 2)
     local_max_inflight = funding_sat * 1000 if local_max_inflight is None else local_max_inflight
     remote_max_inflight = funding_sat * 1000 if remote_max_inflight is None else remote_max_inflight
     alice_raw = [bip32("m/" + str(i)) for i in range(5)]
@@ -224,8 +224,8 @@ class TestFee(BitraamTestCase):
     def test_fee(self):
         alice_channel, bob_channel = create_test_channels(
             feerate=253,
-            local_msat=10000000000,
-            remote_msat=5000000000,
+            local_msit=10000000000,
+            remote_msit=5000000000,
             anchor_outputs=self.TEST_ANCHOR_CHANNELS)
         expected_value = 9999056 if self.TEST_ANCHOR_CHANNELS else 9999817
         self.assertIn(expected_value, [x.value for x in alice_channel.get_latest_commitment(LOCAL).outputs()])
@@ -260,7 +260,7 @@ class TestChannel(BitraamTestCase):
         paymentHash = bitcoin.sha256(self.paymentPreimage)
         self.htlc = UpdateAddHtlc(
             payment_hash=paymentHash,
-            amount_msat=one_bitcoin_in_msat,
+            amount_msit=one_bitcoin_in_msit,
             cltv_abs=5,
             timestamp=0,
         )
@@ -282,7 +282,7 @@ class TestChannel(BitraamTestCase):
         self.htlc = dataclasses.replace(
             self.htlc,
             payment_hash=bitcoin.sha256(32 * b'\x02'),
-            amount_msat=self.htlc.amount_msat + 1000,
+            amount_msit=self.htlc.amount_msit + 1000,
         )
         self.bob_channel.add_htlc(self.htlc)
         self.alice_channel.receive_htlc(self.htlc)
@@ -460,16 +460,16 @@ class TestChannel(BitraamTestCase):
         self.assertTrue(bob_channel.signature_fits(bob_channel.get_latest_commitment(LOCAL)))
         bob_channel.receive_revocation(aliceRevocation)
 
-        # At this point, both sides should have the proper number of satoshis
+        # At this point, both sides should have the proper number of sitashis
         # sent, and commitment height updated within their local channel
         # state.
         aliceSent = 0
         bobSent = 0
 
-        self.assertEqual(alice_channel.total_msat(SENT), aliceSent, "alice has incorrect milli-satoshis sent")
-        self.assertEqual(alice_channel.total_msat(RECEIVED), bobSent, "alice has incorrect milli-satoshis received")
-        self.assertEqual(bob_channel.total_msat(SENT), bobSent, "bob has incorrect milli-satoshis sent")
-        self.assertEqual(bob_channel.total_msat(RECEIVED), aliceSent, "bob has incorrect milli-satoshis received")
+        self.assertEqual(alice_channel.total_msit(SENT), aliceSent, "alice has incorrect milli-sitashis sent")
+        self.assertEqual(alice_channel.total_msit(RECEIVED), bobSent, "alice has incorrect milli-sitashis received")
+        self.assertEqual(bob_channel.total_msit(SENT), bobSent, "bob has incorrect milli-sitashis sent")
+        self.assertEqual(bob_channel.total_msit(RECEIVED), aliceSent, "bob has incorrect milli-sitashis received")
         self.assertEqual(bob_channel.get_oldest_unrevoked_ctn(LOCAL), 1, "bob has incorrect commitment height")
         self.assertEqual(alice_channel.get_oldest_unrevoked_ctn(LOCAL), 1, "alice has incorrect commitment height")
 
@@ -479,8 +479,8 @@ class TestChannel(BitraamTestCase):
         bob_ctx = bob_channel.get_next_commitment(LOCAL)
         self.assertNumberNonAnchorOutputs(3, alice_ctx)
         self.assertNumberNonAnchorOutputs(3, bob_ctx)
-        self.assertOutputExistsByValue(alice_ctx, htlc.amount_msat // 1000)
-        self.assertOutputExistsByValue(bob_ctx, htlc.amount_msat // 1000)
+        self.assertOutputExistsByValue(alice_ctx, htlc.amount_msit // 1000)
+        self.assertOutputExistsByValue(bob_ctx, htlc.amount_msit // 1000)
 
         # Now we'll repeat a similar exchange, this time with Bob settling the
         # HTLC once he learns of the preimage.
@@ -533,18 +533,18 @@ class TestChannel(BitraamTestCase):
 
         bobRevocation2 = bob_channel.revoke_current_commitment()
         received = lnchannel.htlcsum(bob_channel.hm.received_in_ctn(bob_channel.get_latest_ctn(LOCAL)))
-        self.assertEqual(one_bitcoin_in_msat, received)
+        self.assertEqual(one_bitcoin_in_msit, received)
         alice_channel.receive_revocation(bobRevocation2)
 
         # At this point, Bob should have 6 BRM settled, with Alice still having
         # 4 BRM. Alice's channel should show 1 BRM sent and Bob's channel
         # should show 1 BRM received. They should also be at commitment height
         # two, with the revocation window extended by 1 (5).
-        mSatTransferred = one_bitcoin_in_msat
-        self.assertEqual(alice_channel.total_msat(SENT), mSatTransferred, "alice satoshis sent incorrect")
-        self.assertEqual(alice_channel.total_msat(RECEIVED), 0, "alice satoshis received incorrect")
-        self.assertEqual(bob_channel.total_msat(RECEIVED), mSatTransferred, "bob satoshis received incorrect")
-        self.assertEqual(bob_channel.total_msat(SENT), 0, "bob satoshis sent incorrect")
+        mSatTransferred = one_bitcoin_in_msit
+        self.assertEqual(alice_channel.total_msit(SENT), mSatTransferred, "alice sitashis sent incorrect")
+        self.assertEqual(alice_channel.total_msit(RECEIVED), 0, "alice sitashis received incorrect")
+        self.assertEqual(bob_channel.total_msit(RECEIVED), mSatTransferred, "bob sitashis received incorrect")
+        self.assertEqual(bob_channel.total_msit(SENT), 0, "bob sitashis sent incorrect")
         self.assertEqual(bob_channel.get_latest_ctn(LOCAL), 2, "bob has incorrect commitment height")
         self.assertEqual(alice_channel.get_latest_ctn(LOCAL), 2, "alice has incorrect commitment height")
 
@@ -567,7 +567,7 @@ class TestChannel(BitraamTestCase):
 
         self.htlc = dataclasses.replace(
             self.htlc,
-            amount_msat=self.htlc.amount_msat * 5,
+            amount_msit=self.htlc.amount_msit * 5,
         )
         bob_index = bob_channel.add_htlc(self.htlc).htlc_id
         alice_index = alice_channel.receive_htlc(self.htlc).htlc_id
@@ -578,10 +578,10 @@ class TestChannel(BitraamTestCase):
         bob_channel.receive_htlc_settle(self.paymentPreimage, bob_index)
 
         force_state_transition(alice_channel, bob_channel)
-        self.assertEqual(alice_channel.total_msat(SENT), one_bitcoin_in_msat, "alice satoshis sent incorrect")
-        self.assertEqual(alice_channel.total_msat(RECEIVED), 5 * one_bitcoin_in_msat, "alice satoshis received incorrect")
-        self.assertEqual(bob_channel.total_msat(RECEIVED), one_bitcoin_in_msat, "bob satoshis received incorrect")
-        self.assertEqual(bob_channel.total_msat(SENT), 5 * one_bitcoin_in_msat, "bob satoshis sent incorrect")
+        self.assertEqual(alice_channel.total_msit(SENT), one_bitcoin_in_msit, "alice sitashis sent incorrect")
+        self.assertEqual(alice_channel.total_msit(RECEIVED), 5 * one_bitcoin_in_msit, "alice sitashis received incorrect")
+        self.assertEqual(bob_channel.total_msit(RECEIVED), one_bitcoin_in_msit, "bob sitashis received incorrect")
+        self.assertEqual(bob_channel.total_msit(SENT), 5 * one_bitcoin_in_msit, "bob sitashis sent incorrect")
 
     def alice_to_bob_fee_update(self, fee=1111):
         aoldctx = self.alice_channel.get_next_commitment(REMOTE).outputs()
@@ -686,7 +686,7 @@ class TestChannel(BitraamTestCase):
         # has to pay a commitment fee).
         new = dataclasses.replace(
             self.htlc,
-            amount_msat=int(self.htlc.amount_msat * 2.5),
+            amount_msit=int(self.htlc.amount_msit * 2.5),
             payment_hash=bitcoin.sha256(32 * b'\x04'),
         )
         with self.assertRaises(lnutil.PaymentFailure) as cm:
@@ -708,7 +708,7 @@ class TestAvailableToSpend(BitraamTestCase):
         paymentHash = bitcoin.sha256(paymentPreimage)
         htlc = UpdateAddHtlc(
             payment_hash=paymentHash,
-            amount_msat=one_bitcoin_in_msat * 41 // 10,
+            amount_msit=one_bitcoin_in_msit * 41 // 10,
             cltv_abs=5,
             timestamp=0,
         )
@@ -732,7 +732,7 @@ class TestAvailableToSpend(BitraamTestCase):
         # balance is unavailable.
         htlc = UpdateAddHtlc(
             payment_hash=paymentHash,
-            amount_msat=one_bitcoin_in_msat,
+            amount_msit=one_bitcoin_in_msit,
             cltv_abs=5,
             timestamp=0,
         )
@@ -748,8 +748,8 @@ class TestAvailableToSpend(BitraamTestCase):
     def test_single_payment(self):
         alice_channel, bob_channel = create_test_channels(
             anchor_outputs=self.TEST_ANCHOR_CHANNELS,
-            local_msat=4000000000,
-            remote_msat=4000000000,
+            local_msit=4000000000,
+            remote_msit=4000000000,
             local_max_inflight=1000000000,
             remote_max_inflight=2000000000)
 
@@ -764,7 +764,7 @@ class TestAvailableToSpend(BitraamTestCase):
         paymentPreimage1 = b"\x01" * 32
         htlc = UpdateAddHtlc(
             payment_hash=bitcoin.sha256(paymentPreimage1),
-            amount_msat=1000000000,
+            amount_msit=1000000000,
             cltv_abs=5,
             timestamp=0,
         )
@@ -782,7 +782,7 @@ class TestAvailableToSpend(BitraamTestCase):
         paymentPreimage2 = b"\x02" * 32
         htlc2 = UpdateAddHtlc(
             payment_hash=bitcoin.sha256(paymentPreimage2),
-            amount_msat=1500000000,
+            amount_msit=1500000000,
             cltv_abs=5,
             timestamp=0,
         )
@@ -809,12 +809,12 @@ class TestAvailableToSpendAnchors(TestAvailableToSpend):
 class TestChanReserve(BitraamTestCase):
     def setUp(self):
         alice_channel, bob_channel = create_test_channels(anchor_outputs=False)
-        alice_min_reserve = int(.5 * one_bitcoin_in_msat // 1000)
+        alice_min_reserve = int(.5 * one_bitcoin_in_msit // 1000)
         # We set Bob's channel reserve to a value that is larger than
         # his current balance in the channel. This will ensure that
         # after a channel is first opened, Bob can still receive HTLCs
         # even though his balance is less than his channel reserve.
-        bob_min_reserve = 6 * one_bitcoin_in_msat // 1000
+        bob_min_reserve = 6 * one_bitcoin_in_msit // 1000
         # bob min reserve was decided by alice, but applies to bob
 
         alice_channel.config[LOCAL].reserve_sat = bob_min_reserve
@@ -839,7 +839,7 @@ class TestChanReserve(BitraamTestCase):
         paymentHash = bitcoin.sha256(paymentPreimage)
         htlc = UpdateAddHtlc(
             payment_hash=paymentHash,
-            amount_msat=int(.5 * one_bitcoin_in_msat),
+            amount_msit=int(.5 * one_bitcoin_in_msit),
             cltv_abs=5,
             timestamp=0,
         )
@@ -853,8 +853,8 @@ class TestChanReserve(BitraamTestCase):
                 - lnchannel.htlcsum(self.alice_channel.hm.htlcs_by_direction(LOCAL, SENT).values())
         bobBalance = self.bob_channel.balance(REMOTE)\
                 - lnchannel.htlcsum(self.alice_channel.hm.htlcs_by_direction(REMOTE, SENT).values())
-        self.assertEqual(aliceSelfBalance, one_bitcoin_in_msat*4.5)
-        self.assertEqual(bobBalance, one_bitcoin_in_msat*5)
+        self.assertEqual(aliceSelfBalance, one_bitcoin_in_msit*4.5)
+        self.assertEqual(bobBalance, one_bitcoin_in_msit*5)
         # Now let Bob try to add an HTLC. This should fail, since it will
         # decrease his balance, which is already below the channel reserve.
         #
@@ -878,7 +878,7 @@ class TestChanReserve(BitraamTestCase):
         #	Bob:	9.5
         htlc = UpdateAddHtlc(
             payment_hash=paymentHash,
-            amount_msat=int(3.5 * one_bitcoin_in_msat),
+            amount_msit=int(3.5 * one_bitcoin_in_msit),
             cltv_abs=5,
         )
         self.alice_channel.add_htlc(htlc)
@@ -887,7 +887,7 @@ class TestChanReserve(BitraamTestCase):
         # Alice's balance all the way down to her channel reserve, but since
         # she is the initiator the additional transaction fee makes her
         # balance dip below.
-        htlc = dataclasses.replace(htlc, amount_msat=one_bitcoin_in_msat)
+        htlc = dataclasses.replace(htlc, amount_msit=one_bitcoin_in_msit)
         with self.assertRaises(lnutil.PaymentFailure):
             self.alice_channel.add_htlc(htlc)
         with self.assertRaises(lnutil.RemoteMisbehaving):
@@ -902,32 +902,32 @@ class TestChanReserve(BitraamTestCase):
         paymentHash = bitcoin.sha256(paymentPreimage)
         htlc = UpdateAddHtlc(
             payment_hash=paymentHash,
-            amount_msat=int(2 * one_bitcoin_in_msat),
+            amount_msit=int(2 * one_bitcoin_in_msit),
             cltv_abs=5,
             timestamp=0,
         )
         alice_idx = self.alice_channel.add_htlc(htlc).htlc_id
         bob_idx = self.bob_channel.receive_htlc(htlc).htlc_id
         force_state_transition(self.alice_channel, self.bob_channel)
-        self.check_bals(one_bitcoin_in_msat * 3
+        self.check_bals(one_bitcoin_in_msit * 3
                         - self.alice_channel.get_next_fee(LOCAL),
-                        one_bitcoin_in_msat * 5)
+                        one_bitcoin_in_msit * 5)
         self.bob_channel.settle_htlc(paymentPreimage, bob_idx)
         self.alice_channel.receive_htlc_settle(paymentPreimage, alice_idx)
         force_state_transition(self.alice_channel, self.bob_channel)
-        self.check_bals(one_bitcoin_in_msat * 3
+        self.check_bals(one_bitcoin_in_msit * 3
                         - self.alice_channel.get_next_fee(LOCAL),
-                        one_bitcoin_in_msat * 7)
+                        one_bitcoin_in_msit * 7)
         # And now let Bob add an HTLC of 1 BRM. This will take Bob's balance
         # all the way down to his channel reserve, but since he is not paying
         # the fee this is okay.
-        htlc = dataclasses.replace(htlc, amount_msat=one_bitcoin_in_msat)
+        htlc = dataclasses.replace(htlc, amount_msit=one_bitcoin_in_msit)
         self.bob_channel.add_htlc(htlc)
         self.alice_channel.receive_htlc(htlc)
         force_state_transition(self.alice_channel, self.bob_channel)
-        self.check_bals(one_bitcoin_in_msat * 3 \
+        self.check_bals(one_bitcoin_in_msit * 3 \
                         - self.alice_channel.get_next_fee(LOCAL),
-                        one_bitcoin_in_msat * 6)
+                        one_bitcoin_in_msit * 6)
 
     def check_bals(self, amt1, amt2):
         self.assertEqual(self.alice_channel.available_to_spend(LOCAL), amt1)
@@ -960,7 +960,7 @@ class TestDust(BitraamTestCase):
         htlc_amt = below_dust_for_bob + success_weight * (fee_per_kw // 1000)
         htlc = UpdateAddHtlc(
             payment_hash=paymentHash,
-            amount_msat=1000 * htlc_amt,
+            amount_msit=1000 * htlc_amt,
             cltv_abs=5,  # consistent with channel policy
             timestamp=0,
         )
@@ -995,7 +995,7 @@ class TestDust(BitraamTestCase):
         self.assertEqual(htlc_amt, bobs_third_outputs[1 + (2 if self.TEST_ANCHOR_CHANNELS else 0)] - bobs_original_outputs[1 + (2 if self.TEST_ANCHOR_CHANNELS else 0)])
         self.assertEqual(2, len(alice_channel.get_next_commitment(LOCAL).outputs()) - (2 if self.TEST_ANCHOR_CHANNELS else 0))
         self.assertEqual(2, len(bob_channel.get_next_commitment(LOCAL).outputs()) - (2 if self.TEST_ANCHOR_CHANNELS else 0))
-        self.assertEqual(htlc_amt, alice_channel.total_msat(SENT) // 1000)
+        self.assertEqual(htlc_amt, alice_channel.total_msit(SENT) // 1000)
 
 
 class TestDustAnchors(TestDust):

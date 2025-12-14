@@ -736,13 +736,13 @@ class SendTab(QWidget, MessageBoxMixin, Logger):
             return
 
         assert lnworker is not None
-        # FIXME this is currently lying to user as we truncate to satoshis
-        amount_msat = invoice.get_amount_msat()
-        msg = _("Pay lightning invoice?") + '\n\n' + _("This will send {}?").format(self.format_amount_and_units(Decimal(amount_msat)/1000))
+        # FIXME this is currently lying to user as we truncate to sitashis
+        amount_msit = invoice.get_amount_msit()
+        msg = _("Pay lightning invoice?") + '\n\n' + _("This will send {}?").format(self.format_amount_and_units(Decimal(amount_msit)/1000))
         if not self.question(msg):
             return
         self.save_pending_invoice()
-        coro = lnworker.pay_invoice(invoice, amount_msat=amount_msat)
+        coro = lnworker.pay_invoice(invoice, amount_msit=amount_msit)
         self.window.run_coroutine_from_thread(coro, _('Sending payment'))
 
     def broadcast_transaction(self, tx: Transaction, *, invoice: Invoice = None):

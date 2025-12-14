@@ -519,7 +519,7 @@ class BitBox02Client(HardwareClientBase):
         format_unit = bitbox02.btc.BRMSignInitRequest.FormatUnit.DEFAULT
         # Base unit is configured to be "sat":
         if self.config.get_decimal_point() == 0:
-            format_unit = bitbox02.btc.BRMSignInitRequest.FormatUnit.SAT
+            format_unit = bitbox02.btc.BRMSignInitRequest.FormatUnit.SIT
 
         sigs = self.bitbox02_device.btc_sign(
             coin,

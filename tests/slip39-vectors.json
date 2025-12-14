@@ -174,7 +174,7 @@
   [
     "20. Valid mnemonic without sharing (256 bits)",
     [
-      "theory painting academic academic armed sweater year military elder discuss acne wildlife boring employer fused large satoshi bundle carbon diagnose anatomy hamster leaves tracks paces beyond phantom capital marvel lips brave detect luck"
+      "theory painting academic academic armed sweater year military elder discuss acne wildlife boring employer fused large sitashi bundle carbon diagnose anatomy hamster leaves tracks paces beyond phantom capital marvel lips brave detect luck"
     ],
     "989baf9dcaad5b10ca33dfd8cc75e42477025dce88ae83e75a230086a0e00e92",
     "xprv9s21ZrQH143K41mrxxMT2FpiheQ9MFNmWVK4tvX2s28KLZAhuXWskJCKVRQprq9TnjzzzEYePpt764csiCxTt22xwGPiRmUjYUUdjaut8RM"
@@ -182,7 +182,7 @@
   [
     "21. Mnemonic with invalid checksum (256 bits)",
     [
-      "theory painting academic academic armed sweater year military elder discuss acne wildlife boring employer fused large satoshi bundle carbon diagnose anatomy hamster leaves tracks paces beyond phantom capital marvel lips brave detect lunar"
+      "theory painting academic academic armed sweater year military elder discuss acne wildlife boring employer fused large sitashi bundle carbon diagnose anatomy hamster leaves tracks paces beyond phantom capital marvel lips brave detect lunar"
     ],
     "",
     ""
@@ -190,7 +190,7 @@
   [
     "22. Mnemonic with invalid padding (256 bits)",
     [
-      "theory painting academic academic campus sweater year military elder discuss acne wildlife boring employer fused large satoshi bundle carbon diagnose anatomy hamster leaves tracks paces beyond phantom capital marvel lips facility obtain sister"
+      "theory painting academic academic campus sweater year military elder discuss acne wildlife boring employer fused large sitashi bundle carbon diagnose anatomy hamster leaves tracks paces beyond phantom capital marvel lips facility obtain sister"
     ],
     "",
     ""

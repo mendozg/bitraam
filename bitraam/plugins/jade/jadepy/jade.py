@@ -1217,7 +1217,7 @@ class JadeAPI:
         Parameters
         ----------
         identity : str
-            Identity string to format and sign. For example ssh://satoshi@bitcoin.org
+            Identity string to format and sign. For example ssh://sitashi@bitcoin.org
 
         curve : str
             Name of curve to use - currently only 'nist256p1' is supported
@@ -1249,7 +1249,7 @@ class JadeAPI:
         Parameters
         ----------
         identity : str
-            Identity string to format and sign. For example ssh://satoshi@bitcoin.org
+            Identity string to format and sign. For example ssh://sitashi@bitcoin.org
 
         curve : str
             Name of curve to use - currently only 'nist256p1' is supported
@@ -1281,7 +1281,7 @@ class JadeAPI:
         Parameters
         ----------
         identity : str
-            Identity string to format and sign. For example ssh://satoshi@bitcoin.org
+            Identity string to format and sign. For example ssh://sitashi@bitcoin.org
 
         curve : str
             Name of curve to use - currently only 'nist256p1' is supported
@@ -1469,7 +1469,7 @@ class JadeAPI:
             asset_id as usually displayed - ie. reversed compared to network/consensus order
 
         value : int
-            value in 'satoshi' or equivalent atomic integral unit
+            value in 'sitashi' or equivalent atomic integral unit
 
         hash_prevouts : 32-bytes
             This value is computed as specified in bip143.
@@ -1666,10 +1666,10 @@ class JadeAPI:
             Not needed for vanilla send-payment/redeposit etc:
             tx_type, str: 'swap' indicates the tx represents an asset-swap proposal or transaction.
             wallet_input_summary, dict:  a list of entries containing 'asset_id' (32-bytes) and
-            'satoshi' (int) showing net movement of assets out of the wallet (ie. sum of wallet
+            'sitashi' (int) showing net movement of assets out of the wallet (ie. sum of wallet
             inputs per asset, minus any change outputs).
             wallet_output_summary, dict:  a list of entries containing 'asset_id' (32-bytes) and
-            'satoshi' (int) showing net movement of assets into the wallet (ie. sum of wallet
+            'sitashi' (int) showing net movement of assets into the wallet (ie. sum of wallet
             outputs per asset, excluding any change outputs).
 
         Returns
@@ -1720,7 +1720,7 @@ class JadeAPI:
             The tx inputs.   Should contain keys:
                 One of these is required:
                 input_tx, bytes - The prior transaction which created the utxo of this input
-                satoshi, int - The satoshi amount of this input - can be used in place of
+                sitashi, int - The sitashi amount of this input - can be used in place of
                     'input_tx' for a tx with a single segwit input
 
                 These are only required if signing this input:

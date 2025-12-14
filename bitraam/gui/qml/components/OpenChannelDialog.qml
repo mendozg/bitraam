@@ -289,7 +289,7 @@ ElDialog {
         }
         onFinalizerChanged: {
             var dialog = confirmOpenChannelDialog.createObject(app, {
-                satoshis: channelopener.amount
+                sitashis: channelopener.amount
             })
             dialog.accepted.connect(function() {
                 dialog.finalizer.signAndSend()

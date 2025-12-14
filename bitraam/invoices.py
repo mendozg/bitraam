@@ -6,7 +6,7 @@ import attr
 
 from .json_db import StoredObject, stored_in
 from .i18n import _
-from .util import age, InvoiceError, format_satoshis
+from .util import age, InvoiceError, format_sitashis
 from .bip21 import create_bip21_uri
 from .lnutil import hex_to_bytes
 from .lnaddr import lndecode, LnAddr
@@ -104,7 +104,7 @@ class BaseInvoice(StoredObject):
     """
 
     # mandatory fields
-    amount_msat = attr.ib(  # can be '!' or None
+    amount_msit = attr.ib(  # can be '!' or None
         kw_only=True, on_setattr=attr.setters.validate)  # type: Optional[Union[int, str]]
     message = attr.ib(type=str, kw_only=True)
     time = attr.ib(  # timestamp of the invoice
@@ -163,8 +163,8 @@ class BaseInvoice(StoredObject):
         exp = self.get_expiration_date()
         return bool(exp) and exp < self._get_cur_time()
 
-    def get_amount_msat(self) -> Union[int, str, None]:
-        return self.amount_msat
+    def get_amount_msit(self) -> Union[int, str, None]:
+        return self.amount_msit
 
     def get_time(self):
         return self.time
@@ -174,34 +174,34 @@ class BaseInvoice(StoredObject):
 
     def get_amount_sat(self) -> Union[int, str, None]:
         """
-        Returns an integer satoshi amount, or '!' or None.
-        Callers who need msat precision should call get_amount_msat()
+        Returns an integer sitashi amount, or '!' or None.
+        Callers who need msit precision should call get_amount_msit()
         """
-        amount_msat = self.amount_msat
-        if amount_msat in [None, "!"]:
-            return amount_msat
-        return int(amount_msat // 1000)
+        amount_msit = self.amount_msit
+        if amount_msit in [None, "!"]:
+            return amount_msit
+        return int(amount_msit // 1000)
 
-    def set_amount_msat(self, amount_msat: Union[int, str]) -> None:
+    def set_amount_msit(self, amount_msit: Union[int, str]) -> None:
         """The GUI uses this to fill the amount for a zero-amount invoice."""
-        if amount_msat == "!":
-            amount_sat = amount_msat
+        if amount_msit == "!":
+            amount_sat = amount_msit
         else:
-            assert isinstance(amount_msat, int), f"{amount_msat=!r}"
-            assert amount_msat >= 0, amount_msat
-            amount_sat = (amount_msat // 1000) + int(amount_msat % 1000 > 0)  # round up
+            assert isinstance(amount_msit, int), f"{amount_msit=!r}"
+            assert amount_msit >= 0, amount_msit
+            amount_sat = (amount_msit // 1000) + int(amount_msit % 1000 > 0)  # round up
         if outputs := self.outputs:
             assert len(self.outputs) == 1, len(self.outputs)
             self.outputs = [PartialTxOutput(scriptpubkey=outputs[0].scriptpubkey, value=amount_sat)]
-        self.amount_msat = amount_msat
+        self.amount_msit = amount_msit
 
-    @amount_msat.validator
+    @amount_msit.validator
     def _validate_amount(self, attribute, value):
         if value is None:
             return
         if isinstance(value, int):
             if not (0 <= value <= TOTAL_COIN_SUPPLY_LIMIT_IN_BRM * COIN * 1000):
-                raise InvoiceError(f"amount is out-of-bounds: {value!r} msat")
+                raise InvoiceError(f"amount is out-of-bounds: {value!r} msit")
         elif isinstance(value, str):
             if value != '!':
                 raise InvoiceError(f"unexpected amount: {value!r}")
@@ -217,13 +217,13 @@ class BaseInvoice(StoredObject):
             lnaddr = lndecode(invoice)
         except Exception as e:
             raise InvoiceError(e) from e
-        amount_msat = lnaddr.get_amount_msat()
+        amount_msit = lnaddr.get_amount_msit()
         timestamp = lnaddr.date
         exp_delay = lnaddr.get_expiry()
         message = lnaddr.get_description()
         return Invoice(
             message=message,
-            amount_msat=amount_msat,
+            amount_msit=amount_msit,
             time=timestamp,
             exp=exp_delay,
             outputs=None,
@@ -235,7 +235,7 @@ class BaseInvoice(StoredObject):
     @classmethod
     def from_bip70_payreq(cls, pr: 'PaymentRequest', *, height: int = 0) -> 'Invoice':
         return Invoice(
-            amount_msat=pr.get_amount()*1000,
+            amount_msit=pr.get_amount()*1000,
             message=pr.get_memo(),
             time=pr.get_time(),
             exp=pr.get_expiration_date() - pr.get_time(),
@@ -254,7 +254,7 @@ class BaseInvoice(StoredObject):
     def as_dict(self, status):
         d = {
             'is_lightning': self.is_lightning(),
-            'amount_BRM': format_satoshis(self.get_amount_sat()),
+            'amount_BRM': format_sitashis(self.get_amount_sat()),
             'message': self.message,
             'timestamp': self.get_time(),
             'expiry': self.exp,
@@ -264,7 +264,7 @@ class BaseInvoice(StoredObject):
             'amount_sat': self.get_amount_sat(),
         }
         if self.is_lightning():
-            d['amount_msat'] = self.get_amount_msat()
+            d['amount_msit'] = self.get_amount_msit()
         return d
 
 

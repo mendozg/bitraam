@@ -4,7 +4,7 @@ from PyQt6.QtWidgets import QLabel, QVBoxLayout, QGridLayout, QPushButton, QComb
 import electrum_ecc as ecc
 
 from bitraam.i18n import _
-from bitraam.lnutil import MIN_FUNDING_SAT
+from bitraam.lnutil import MIN_FUNDING_SIT
 from bitraam.lnworker import hardcoded_trampoline_nodes
 from bitraam.util import NotEnoughFunds, NoDynamicFeeEstimates
 from bitraam.fee_policy import FeePolicy
@@ -29,7 +29,7 @@ class NewChannelDialog(WindowModalDialog):
         self.lnworker = self.window.wallet.lnworker
         self.trampolines = hardcoded_trampoline_nodes()
         self.trampoline_names = list(self.trampolines.keys())
-        self.min_amount_sat = min_amount_sat or MIN_FUNDING_SAT
+        self.min_amount_sat = min_amount_sat or MIN_FUNDING_SIT
         vbox = QVBoxLayout(self)
         toolbar, menu = create_toolbar_with_menu(self.config, '')
         menu.addConfig(
@@ -150,13 +150,13 @@ class NewChannelDialog(WindowModalDialog):
             self.window.show_error(str(e))
             return
         amount = tx.output_value()
-        amount = min(amount, self.config.LIGHTNING_MAX_FUNDING_SAT)
+        amount = min(amount, self.config.LIGHTNING_MAX_FUNDING_SIT)
         self.amount_e.setAmount(amount)
 
     def run(self):
         if not self.exec():
             return
-        if self.max_button.isChecked() and self.amount_e.get_amount() < self.config.LIGHTNING_MAX_FUNDING_SAT:
+        if self.max_button.isChecked() and self.amount_e.get_amount() < self.config.LIGHTNING_MAX_FUNDING_SIT:
             # if 'max' enabled and amount is strictly less than max allowed,
             # that means we have fewer coins than max allowed, and hence we can
             # spend all coins

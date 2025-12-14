@@ -196,7 +196,7 @@ class TxEditor(WindowModalDialog):
         def feerounding_onclick():
             text = (self.feerounding_text() + '\n\n' +
                     _('To somewhat protect your privacy, Bitraam tries to create change with similar precision to other outputs.') + ' ' +
-                    _('At most 100 satoshis might be lost due to this rounding.') + ' ' +
+                    _('At most 100 sitashis might be lost due to this rounding.') + ' ' +
                     _("You can disable this setting in '{}'.").format(_('Preferences')) + '\n' +
                     _('Also, dust is not kept as change, but added to the fee.')  + '\n' +
                     _('Also, when batching RBF transactions, BIP 125 imposes a lower bound on the fee.'))
@@ -275,7 +275,7 @@ class TxEditor(WindowModalDialog):
                and (bool(self.feerate_e.text()) or self.feerate_e.hasFocus())
 
     def feerounding_text(self):
-        return (_('Additional {} satoshis are going to be added.').format(self.feerounding_sats))
+        return (_('Additional {} sitashis are going to be added.').format(self.feerounding_sats))
 
     def set_feerounding_visibility(self, b:bool):
         # we do not use setVisible because it affects the layout

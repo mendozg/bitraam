@@ -644,7 +644,7 @@ class WalletDBUpgrader(Logger):
             return
         channels = self.data.get('channels', {})
         for channel_id, c in channels.items():
-            c['local_config']['htlc_minimum_msat'] = 1
+            c['local_config']['htlc_minimum_msit'] = 1
         self.data['seed_version'] = 27
 
     def _convert_version_28(self):
@@ -705,7 +705,7 @@ class WalletDBUpgrader(Logger):
                     item['amount_sat'] = item.pop('amount')
                 elif _type == PR_TYPE_LN:
                     amount_sat = item.pop('amount')
-                    item['amount_msat'] = 1000 * amount_sat if amount_sat is not None else None
+                    item['amount_msit'] = 1000 * amount_sat if amount_sat is not None else None
                     item.pop('exp')
                     item.pop('message')
                     item.pop('rhash')
@@ -786,8 +786,8 @@ class WalletDBUpgrader(Logger):
         payments = self.data.get('lightning_payments', {})
         for k, v in list(payments.items()):
             amount_sat, direction, status = v
-            amount_msat = amount_sat * 1000 if amount_sat is not None else None
-            payments[k] = amount_msat, direction, status
+            amount_msit = amount_sat * 1000 if amount_sat is not None else None
+            payments[k] = amount_msit, direction, status
         self.data['lightning_payments'] = payments
         self.data['seed_version'] = 37
 
@@ -809,10 +809,10 @@ class WalletDBUpgrader(Logger):
                     if not (isinstance(amount_sat, int) and 0 <= amount_sat <= max_sats):
                         del d[key]
                 elif item['type'] == PR_TYPE_LN:
-                    amount_msat = item['amount_msat']
-                    if not amount_msat:
+                    amount_msit = item['amount_msit']
+                    if not amount_msit:
                         continue
-                    if not (isinstance(amount_msat, int) and 0 <= amount_msat <= max_sats * 1000):
+                    if not (isinstance(amount_msit, int) and 0 <= amount_msit <= max_sats * 1000):
                         del d[key]
         self.data['seed_version'] = 38
 
@@ -912,21 +912,21 @@ class WalletDBUpgrader(Logger):
                 bip70 = item['bip70'] if not is_lightning else None
                 if is_lightning:
                     lnaddr = lndecode(item['invoice'])
-                    amount_msat = lnaddr.get_amount_msat()
+                    amount_msit = lnaddr.get_amount_msit()
                     timestamp = lnaddr.date
                     exp_delay = lnaddr.get_expiry()
                     message = lnaddr.get_description()
                     height = 0
                 else:
                     amount_sat = item['amount_sat']
-                    amount_msat = amount_sat * 1000 if amount_sat not in [None, '!'] else amount_sat
+                    amount_msit = amount_sat * 1000 if amount_sat not in [None, '!'] else amount_sat
                     message = item['message']
                     timestamp = item['time']
                     exp_delay = item['exp']
                     height = item['height']
 
                 invoices[key] = {
-                    'amount_msat':amount_msat,
+                    'amount_msit':amount_msit,
                     'message':message,
                     'time':timestamp,
                     'exp':exp_delay,
@@ -985,8 +985,8 @@ class WalletDBUpgrader(Logger):
             return
         invoices = self.data.get('invoices', {})
         for key, item in list(invoices.items()):
-            if item['amount_msat'] == 1000 * "!":
-                item['amount_msat'] = "!"
+            if item['amount_msit'] == 1000 * "!":
+                item['amount_msit'] = "!"
         self.data['seed_version'] = 48
 
     def _convert_version_49(self):
@@ -1078,10 +1078,10 @@ class WalletDBUpgrader(Logger):
         invoices = self.data.get('invoices', {})
         for d in [invoices, requests]:
             for key, item in list(d.items()):
-                amount_msat = item['amount_msat']
-                if amount_msat == '!':
+                amount_msit = item['amount_msit']
+                if amount_msit == '!':
                     continue
-                if not (isinstance(amount_msat, int) and 0 <= amount_msat <= max_sats * 1000):
+                if not (isinstance(amount_msit, int) and 0 <= amount_msit <= max_sats * 1000):
                     del d[key]
         self.data['seed_version'] = 54
 
@@ -1165,8 +1165,8 @@ class WalletDBUpgrader(Logger):
         lightning_payments = self.data.get('lightning_payments', {})
         expiry_never = 100 * 365 * 24 * 60 * 60
         migration_time = int(time.time())
-        for rhash, (amount_msat, direction, is_paid) in list(lightning_payments.items()):
-            new = (amount_msat, direction, is_paid, 147, expiry_never, migration_time)
+        for rhash, (amount_msit, direction, is_paid) in list(lightning_payments.items()):
+            new = (amount_msit, direction, is_paid, 147, expiry_never, migration_time)
             lightning_payments[rhash] = new
         self.data['seed_version'] = 61
 

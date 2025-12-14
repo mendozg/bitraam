@@ -431,8 +431,8 @@ class NWCServer(Logger, EventListener):
         https://github.com/nostr-protocol/nips/blob/75f246ed987c23c99d77bfa6aeeb1afb669e23f7/47.md#pay_invoice
         """
         invoice: str = params.get('invoice', "")
-        amount_msat: Optional[int] = params.get('amount')
-        response = await self.pay_invoice(invoice, amount_msat, request_event.pubkey)
+        amount_msit: Optional[int] = params.get('amount')
+        response = await self.pay_invoice(invoice, amount_msit, request_event.pubkey)
         response['result_type'] = 'pay_invoice'
         await self.send_encrypted_response(request_event.pubkey, json.dumps(response), request_event.id)
 
@@ -445,9 +445,9 @@ class NWCServer(Logger, EventListener):
         invoices: List[dict] = params.get('invoices', [])
         for invoice_req in invoices:
             invoice: str = invoice_req.get('invoice', "")
-            amount_msat: Optional[int] = invoice_req.get('amount')
+            amount_msit: Optional[int] = invoice_req.get('amount')
             inv_id: Optional[str] = invoice_req.get('id')
-            response = await self.pay_invoice(invoice, amount_msat, request_event.pubkey)
+            response = await self.pay_invoice(invoice, amount_msit, request_event.pubkey)
             if not inv_id:
                 # if we have no id we need the payment hash
                 try:
@@ -469,12 +469,12 @@ class NWCServer(Logger, EventListener):
         Handler for make_invoice method.
         https://github.com/nostr-protocol/nips/blob/75f246ed987c23c99d77bfa6aeeb1afb669e23f7/47.md#make_invoice
         """
-        amount_msat = params.get('amount', 0)  # type: Optional[int]
+        amount_msit = params.get('amount', 0)  # type: Optional[int]
         description = params.get('description', params.get('description_hash', ""))  # type: str
         expiry = params.get('expiry', 3600)  # type: int
         # create payment request
         key: str = self.wallet.create_request(
-            amount_sat=amount_msat // 1000,
+            amount_sat=amount_msit // 1000,
             message=description,
             exp_delay=expiry,
             address=None
@@ -498,7 +498,7 @@ class NWCServer(Logger, EventListener):
                 "invoice": b11,
                 "description": description,
                 "payment_hash": lnaddr.paymenthash.hex(),
-                "amount": amount_msat,
+                "amount": amount_msit,
                 "created_at": lnaddr.date,
                 "expires_at": req.get_expiration_date(),
                 "metadata": {},
@@ -549,7 +549,7 @@ class NWCServer(Logger, EventListener):
             "result": {
                 "description": invoice.message,
                 "payment_hash": invoice.rhash,
-                "amount": invoice.get_amount_msat(),
+                "amount": invoice.get_amount_msit(),
                 "created_at": invoice.time,
                 "expires_at": invoice.get_expiration_date(),
                 "fees_paid": 0,
@@ -561,9 +561,9 @@ class NWCServer(Logger, EventListener):
 
         info = self.get_payment_info(invoice.rhash)
         if info:
-            _, _, fee_msat, settled_at = info
-            if fee_msat:
-                response['result']['fees_paid'] = fee_msat
+            _, _, fee_msit, settled_at = info
+            if fee_msit:
+                response['result']['fees_paid'] = fee_msit
             response['result']['settled_at'] = settled_at
 
         if direction:
@@ -655,8 +655,8 @@ class NWCServer(Logger, EventListener):
                         type='unpaid',
                         payment_hash=req.rhash,
                         preimage=None,
-                        amount_msat=req.get_amount_msat() or 0,
-                        fee_msat=None,
+                        amount_msit=req.get_amount_msit() or 0,
+                        fee_msit=None,
                         timestamp=req.time,
                         direction=PaymentDirection.RECEIVED,
                         group_id=None,
@@ -678,8 +678,8 @@ class NWCServer(Logger, EventListener):
                         type='pending',
                         payment_hash=inv.rhash,
                         preimage=None,
-                        amount_msat=inv.get_amount_msat() or 0,
-                        fee_msat=None,
+                        amount_msit=inv.get_amount_msit() or 0,
+                        fee_msit=None,
                         timestamp=inv.time,
                         direction=PaymentDirection.SENT,
                         group_id=None,
@@ -700,7 +700,7 @@ class NWCServer(Logger, EventListener):
         for history_tx in lightning_history:
             tx = {
                 "payment_hash": history_tx.payment_hash,
-                "amount": abs(history_tx.amount_msat),
+                "amount": abs(history_tx.amount_msit),
                 "metadata": {},
                 "fees_paid": 0
             }
@@ -727,8 +727,8 @@ class NWCServer(Logger, EventListener):
             if (not include_unpaid_reqs and not include_unpaid_outgoing) or history_tx.type == 'payment':
                 tx['settled_at'] = history_tx.timestamp
                 tx['preimage'] = history_tx.preimage
-            if history_tx.fee_msat:
-                tx['fees_paid'] = history_tx.fee_msat
+            if history_tx.fee_msit:
+                tx['fees_paid'] = history_tx.fee_msit
             transactions.append(tx)
 
         response = {
@@ -765,7 +765,7 @@ class NWCServer(Logger, EventListener):
             "invoice": b11,
             "description": request.message,
             "payment_hash": request.rhash,
-            "amount": request.get_amount_msat(),
+            "amount": request.get_amount_msit(),
             "created_at": request.time,
             "expires_at": request.get_expiration_date(),
             "preimage": self.wallet.lnworker.get_preimage_hex(request.rhash) or "not found",
@@ -791,7 +791,7 @@ class NWCServer(Logger, EventListener):
         payment_info = self.get_payment_info(key)
         if not payment_info:
             return
-        _, fee_msat, _, settled_at = payment_info
+        _, fee_msit, _, settled_at = payment_info
 
         assert key == invoice.rhash, f"{key=!r} != {invoice.rhash=!r}"
         notification = {
@@ -800,13 +800,13 @@ class NWCServer(Logger, EventListener):
             "description": invoice.message,
             "preimage": self.wallet.lnworker.get_preimage_hex(invoice.rhash) or "not found",
             "payment_hash": invoice.rhash,
-            "amount": invoice.get_amount_msat(),
+            "amount": invoice.get_amount_msit(),
             "created_at": invoice.time,
             "expires_at": invoice.get_expiration_date(),
             "metadata": {}
         }
-        if fee_msat:
-            notification['fees_paid'] = fee_msat
+        if fee_msit:
+            notification['fees_paid'] = fee_msit
         if settled_at:
             notification['settled_at'] = settled_at
         content = {
@@ -815,16 +815,16 @@ class NWCServer(Logger, EventListener):
         }
         self.publish_notification_event(content)
 
-    async def pay_invoice(self, b11: str, amount_msat: Optional[int], request_pub: str) -> dict:
+    async def pay_invoice(self, b11: str, amount_msit: Optional[int], request_pub: str) -> dict:
         try:
             invoice: Invoice = Invoice.from_bech32(b11)
         except InvoiceError:
             return self.get_error_response("INTERNAL", "Invalid invoice")
 
-        if invoice.get_amount_msat() is None and not amount_msat:
+        if invoice.get_amount_msit() is None and not amount_msit:
             return self.get_error_response("INTERNAL", "Missing amount")
-        elif invoice.get_amount_msat() is None:
-            invoice.set_amount_msat(amount_msat)
+        elif invoice.get_amount_msit() is None:
+            invoice.set_amount_msit(amount_msit)
 
         if not self.budget_allows_spend(request_pub, invoice.get_amount_sat()):
             return self.get_error_response("QUOTA_EXCEEDED", "Payment exceeds daily limit")
@@ -833,7 +833,7 @@ class NWCServer(Logger, EventListener):
         try:
             success, log = await self.wallet.lnworker.pay_invoice(
                 invoice=invoice,
-                amount_msat=amount_msat
+                amount_msit=amount_msit
             )
         except Exception as e:
             self.logger.exception(f"failed to pay nwc invoice")

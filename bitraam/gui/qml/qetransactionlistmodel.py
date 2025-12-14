@@ -133,8 +133,8 @@ class QETransactionListModel(QAbstractListModel, QtEventListener):
             item['lightning'] = False
 
         if item['lightning']:
-            item['value'] = QEAmount(amount_sat=item['value'].value, amount_msat=item['amount_msat'])
-            item['incoming'] = True if item['amount_msat'] > 0 else False
+            item['value'] = QEAmount(amount_sat=item['value'].value, amount_msit=item['amount_msit'])
+            item['incoming'] = True if item['amount_msit'] > 0 else False
             item['confirmations'] = 0
         else:
             item['value'] = QEAmount(amount_sat=item['value'].value)

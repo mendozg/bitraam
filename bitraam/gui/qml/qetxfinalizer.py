@@ -247,7 +247,7 @@ class TxFeeSlider(FeeSlider):
     def update_from_tx(self, tx: PartialTransaction):
         tx_size = tx.estimated_size()
         fee = tx.get_fee()
-        feerate = Decimal(fee) / tx_size  # sat/byte
+        feerate = Decimal(fee) / tx_size  # sit/byte
 
         self.fee = QEAmount(amount_sat=int(fee))
         self.feeRate = f'{feerate:.1f}'

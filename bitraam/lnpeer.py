@@ -52,7 +52,7 @@ from .lnutil import (Outpoint, LocalConfig, RECEIVED, UpdateAddHtlc, ChannelConf
 from .lntransport import LNTransport, LNTransportBase, LightningPeerConnectionClosed, HandshakeFailed
 from .lnmsg import encode_msg, decode_msg, UnknownOptionalMsgType, FailedToParseMsg
 from .interface import GracefulDisconnect
-from .lnrouter import fee_for_edge_msat
+from .lnrouter import fee_for_edge_msit
 from .json_db import StoredDict
 from .invoices import PR_PAID
 from .fee_policy import FEE_LN_ETA_TARGET, FEERATE_PER_KW_MIN_RELAY_LIGHTNING
@@ -925,13 +925,13 @@ class Peer(Logger, EventListener):
         self,
         *,
         funding_sat: int,
-        push_msat: int,
+        push_msit: int,
         initiator: HTLCOwner,
         channel_type: ChannelType,
         multisig_funding_keypair: Optional[Keypair],  # if None, will get derived from channel_seed
     ) -> LocalConfig:
         channel_seed = os.urandom(32)
-        initial_msat = funding_sat * 1000 - push_msat if initiator == LOCAL else push_msat
+        initial_msit = funding_sat * 1000 - push_msit if initiator == LOCAL else push_msit
 
         # sending empty bytes as the upfront_shutdown_script will give us the
         # flexibility to decide an address at closing time
@@ -962,7 +962,7 @@ class Peer(Logger, EventListener):
         # https://github.com/ACINQ/eclair/blob/afa378fbb73c265da44856b4ad0f2128a88ae6c6/eclair-core/src/main/resources/reference.conf#L66
         # https://github.com/ElementsProject/lightning/blob/0056dd75572a8857cff36fcbdb1a2295a1ac9253/lightningd/options.c#L657
         # https://github.com/lightningnetwork/lnd/blob/56b61078c5b2be007d318673a5f3b40c6346883a/config.go#L81
-        max_htlc_value_in_flight_msat = self.network.config.LIGHTNING_MAX_HTLC_VALUE_IN_FLIGHT_MSAT or funding_sat * 1000
+        max_htlc_value_in_flight_msit = self.network.config.LIGHTNING_MAX_HTLC_VALUE_IN_FLIGHT_msit or funding_sat * 1000
         local_config = LocalConfig.from_seed(
             channel_seed=channel_seed,
             static_remotekey=static_remotekey,
@@ -971,14 +971,14 @@ class Peer(Logger, EventListener):
             upfront_shutdown_script=upfront_shutdown_script,
             to_self_delay=self.network.config.LIGHTNING_TO_SELF_DELAY_CSV,
             dust_limit_sat=dust_limit_sat,
-            max_htlc_value_in_flight_msat=max_htlc_value_in_flight_msat,
+            max_htlc_value_in_flight_msit=max_htlc_value_in_flight_msit,
             max_accepted_htlcs=30,
-            initial_msat=initial_msat,
+            initial_msit=initial_msit,
             reserve_sat=reserve_sat,
             funding_locked_received=False,
             current_commitment_signature=None,
             current_htlc_signatures=b'',
-            htlc_minimum_msat=1,
+            htlc_minimum_msit=1,
             announcement_node_sig=b'',
             announcement_bitcoin_sig=b'',
         )
@@ -1009,7 +1009,7 @@ class Peer(Logger, EventListener):
             self, *,
             funding_tx: 'PartialTransaction',
             funding_sat: int,
-            push_msat: int,
+            push_msit: int,
             public: bool,
             zeroconf: bool = False,
             temp_channel_id: bytes,
@@ -1072,7 +1072,7 @@ class Peer(Logger, EventListener):
             multisig_funding_keypair = None
         local_config = self.make_local_config(
             funding_sat=funding_sat,
-            push_msat=push_msat,
+            push_msit=push_msit,
             initiator=LOCAL,
             channel_type=our_channel_type,
             multisig_funding_keypair=multisig_funding_keypair,
@@ -1101,9 +1101,9 @@ class Peer(Logger, EventListener):
             "open_channel",
             temporary_channel_id=temp_channel_id,
             chain_hash=constants.net.rev_genesis_bytes(),
-            funding_satoshis=funding_sat,
-            push_msat=push_msat,
-            dust_limit_satoshis=local_config.dust_limit_sat,
+            funding_sitashis=funding_sat,
+            push_msit=push_msit,
+            dust_limit_sitashis=local_config.dust_limit_sat,
             feerate_per_kw=feerate,
             max_accepted_htlcs=local_config.max_accepted_htlcs,
             funding_pubkey=local_config.multisig_key.pubkey,
@@ -1113,10 +1113,10 @@ class Peer(Logger, EventListener):
             delayed_payment_basepoint=local_config.delayed_basepoint.pubkey,
             first_per_commitment_point=per_commitment_point_first,
             to_self_delay=local_config.to_self_delay,
-            max_htlc_value_in_flight_msat=local_config.max_htlc_value_in_flight_msat,
+            max_htlc_value_in_flight_msit=local_config.max_htlc_value_in_flight_msit,
             channel_flags=channel_flags,
-            channel_reserve_satoshis=local_config.reserve_sat,
-            htlc_minimum_msat=local_config.htlc_minimum_msat,
+            channel_reserve_sitashis=local_config.reserve_sat,
+            htlc_minimum_msit=local_config.htlc_minimum_msit,
             open_channel_tlvs=open_channel_tlvs,
         )
 
@@ -1149,12 +1149,12 @@ class Peer(Logger, EventListener):
             delayed_basepoint=OnlyPubkeyKeypair(payload['delayed_payment_basepoint']),
             revocation_basepoint=OnlyPubkeyKeypair(payload['revocation_basepoint']),
             to_self_delay=payload['to_self_delay'],
-            dust_limit_sat=payload['dust_limit_satoshis'],
-            max_htlc_value_in_flight_msat=payload['max_htlc_value_in_flight_msat'],
+            dust_limit_sat=payload['dust_limit_sitashis'],
+            max_htlc_value_in_flight_msit=payload['max_htlc_value_in_flight_msit'],
             max_accepted_htlcs=payload["max_accepted_htlcs"],
-            initial_msat=push_msat,
-            reserve_sat=payload["channel_reserve_satoshis"],
-            htlc_minimum_msat=payload['htlc_minimum_msat'],
+            initial_msit=push_msit,
+            reserve_sat=payload["channel_reserve_sitashis"],
+            htlc_minimum_msit=payload['htlc_minimum_msit'],
             next_per_commitment_point=remote_per_commitment_point,
             current_per_commitment_point=None,
             upfront_shutdown_script=upfront_shutdown_script,
@@ -1310,8 +1310,8 @@ class Peer(Logger, EventListener):
             # old wallet that cannot have lightning anymore
             raise Exception('This wallet does not accept new channels')
 
-        funding_sat = payload['funding_satoshis']
-        push_msat = payload['push_msat']
+        funding_sat = payload['funding_sitashis']
+        push_msit = payload['push_msit']
         feerate = payload['feerate_per_kw']  # note: we are not validating this
         temp_chan_id = payload['temporary_channel_id']
         # store the temp id now, so that it is recognized for e.g. 'error' messages
@@ -1332,7 +1332,7 @@ class Peer(Logger, EventListener):
             multisig_funding_keypair = None
         local_config = self.make_local_config(
             funding_sat=funding_sat,
-            push_msat=push_msat,
+            push_msit=push_msit,
             initiator=REMOTE,
             channel_type=channel_type,
             multisig_funding_keypair=multisig_funding_keypair,
@@ -1348,12 +1348,12 @@ class Peer(Logger, EventListener):
             delayed_basepoint=OnlyPubkeyKeypair(payload['delayed_payment_basepoint']),
             revocation_basepoint=OnlyPubkeyKeypair(payload['revocation_basepoint']),
             to_self_delay=payload['to_self_delay'],
-            dust_limit_sat=payload['dust_limit_satoshis'],
-            max_htlc_value_in_flight_msat=payload['max_htlc_value_in_flight_msat'],
+            dust_limit_sat=payload['dust_limit_sitashis'],
+            max_htlc_value_in_flight_msit=payload['max_htlc_value_in_flight_msit'],
             max_accepted_htlcs=payload['max_accepted_htlcs'],
-            initial_msat=funding_sat * 1000 - push_msat,
-            reserve_sat=payload['channel_reserve_satoshis'],
-            htlc_minimum_msat=payload['htlc_minimum_msat'],
+            initial_msit=funding_sat * 1000 - push_msit,
+            reserve_sat=payload['channel_reserve_sitashis'],
+            htlc_minimum_msit=payload['htlc_minimum_msit'],
             next_per_commitment_point=payload['first_per_commitment_point'],
             current_per_commitment_point=None,
             upfront_shutdown_script=upfront_shutdown_script,
@@ -1398,10 +1398,10 @@ class Peer(Logger, EventListener):
         self.send_message(
             'accept_channel',
             temporary_channel_id=temp_chan_id,
-            dust_limit_satoshis=local_config.dust_limit_sat,
-            max_htlc_value_in_flight_msat=local_config.max_htlc_value_in_flight_msat,
-            channel_reserve_satoshis=local_config.reserve_sat,
-            htlc_minimum_msat=local_config.htlc_minimum_msat,
+            dust_limit_sitashis=local_config.dust_limit_sat,
+            max_htlc_value_in_flight_msit=local_config.max_htlc_value_in_flight_msit,
+            channel_reserve_sitashis=local_config.reserve_sat,
+            htlc_minimum_msit=local_config.htlc_minimum_msit,
             minimum_depth=min_depth,
             to_self_delay=local_config.to_self_delay,
             max_accepted_htlcs=local_config.max_accepted_htlcs,
@@ -1934,13 +1934,13 @@ class Peer(Logger, EventListener):
         *,
         chan: Channel,
         payment_hash: bytes,
-        amount_msat: int,
+        amount_msit: int,
         cltv_abs: int,
         onion: OnionPacket,
         session_key: Optional[bytes] = None,
     ) -> UpdateAddHtlc:
         assert chan.can_send_update_add_htlc(), f"cannot send updates: {chan.short_channel_id}"
-        htlc = UpdateAddHtlc(amount_msat=amount_msat, payment_hash=payment_hash, cltv_abs=cltv_abs, timestamp=int(time.time()))
+        htlc = UpdateAddHtlc(amount_msit=amount_msit, payment_hash=payment_hash, cltv_abs=cltv_abs, timestamp=int(time.time()))
         htlc = chan.add_htlc(htlc)
         if session_key:
             chan.set_onion_key(htlc.htlc_id, session_key) # should it be the outer onion secret?
@@ -1950,7 +1950,7 @@ class Peer(Logger, EventListener):
             channel_id=chan.channel_id,
             id=htlc.htlc_id,
             cltv_expiry=htlc.cltv_abs,
-            amount_msat=htlc.amount_msat,
+            amount_msit=htlc.amount_msit,
             payment_hash=htlc.payment_hash,
             onion_routing_packet=onion.to_bytes())
         self.maybe_send_commitment(chan)
@@ -1959,22 +1959,22 @@ class Peer(Logger, EventListener):
     def pay(self, *,
             route: 'LNPaymentRoute',
             chan: Channel,
-            amount_msat: int,
-            total_msat: int,
+            amount_msit: int,
+            total_msit: int,
             payment_hash: bytes,
             min_final_cltv_delta: int,
             payment_secret: bytes,
             trampoline_onion: Optional[OnionPacket] = None,
         ) -> UpdateAddHtlc:
 
-        assert amount_msat > 0, "amount_msat is not greater zero"
+        assert amount_msit > 0, "amount_msit is not greater zero"
         assert len(route) > 0
         if not chan.can_send_update_add_htlc():
             raise PaymentFailure("Channel cannot send update_add_htlc")
-        onion, amount_msat, cltv_abs, session_key = self.lnworker.create_onion_for_route(
+        onion, amount_msit, cltv_abs, session_key = self.lnworker.create_onion_for_route(
             route=route,
-            amount_msat=amount_msat,
-            total_msat=total_msat,
+            amount_msit=amount_msit,
+            total_msit=total_msit,
             payment_hash=payment_hash,
             min_final_cltv_delta=min_final_cltv_delta,
             payment_secret=payment_secret,
@@ -1983,7 +1983,7 @@ class Peer(Logger, EventListener):
         htlc = self.send_htlc(
             chan=chan,
             payment_hash=payment_hash,
-            amount_msat=amount_msat,
+            amount_msit=amount_msit,
             cltv_abs=cltv_abs,
             onion=onion,
             session_key=session_key,
@@ -2060,10 +2060,10 @@ class Peer(Logger, EventListener):
         payment_hash = payload["payment_hash"]
         htlc_id = payload["id"]
         cltv_abs = payload["cltv_expiry"]
-        amount_msat_htlc = payload["amount_msat"]
+        amount_msit_htlc = payload["amount_msit"]
         onion_packet = payload["onion_routing_packet"]
         htlc = UpdateAddHtlc(
-            amount_msat=amount_msat_htlc,
+            amount_msit=amount_msit_htlc,
             payment_hash=payment_hash,
             cltv_abs=cltv_abs,
             timestamp=int(time.time()),
@@ -2115,23 +2115,23 @@ class Peer(Logger, EventListener):
                 code=OnionFailureCode.FINAL_INCORRECT_CLTV_EXPIRY,
                 data=htlc.cltv_abs.to_bytes(4, byteorder="big"))
         try:
-            total_msat = processed_onion.hop_data.payload["payment_data"]["total_msat"]  # type: int
+            total_msit = processed_onion.hop_data.payload["payment_data"]["total_msit"]  # type: int
         except Exception:
-            log_fail_reason(f"'total_msat' missing from onion")
+            log_fail_reason(f"'total_msit' missing from onion")
             raise exc_incorrect_or_unknown_pd
 
         if chan.opening_fee:
             channel_opening_fee = chan.opening_fee['channel_opening_fee']  # type: int
-            total_msat -= channel_opening_fee
+            total_msit -= channel_opening_fee
             amt_to_forward -= channel_opening_fee
         else:
             channel_opening_fee = 0
 
-        if amt_to_forward > htlc.amount_msat:
-            log_fail_reason(f"amt_to_forward != htlc.amount_msat")
+        if amt_to_forward > htlc.amount_msit:
+            log_fail_reason(f"amt_to_forward != htlc.amount_msit")
             raise OnionRoutingFailure(
                 code=OnionFailureCode.FINAL_INCORRECT_HTLC_AMOUNT,
-                data=htlc.amount_msat.to_bytes(8, byteorder="big"))
+                data=htlc.amount_msit.to_bytes(8, byteorder="big"))
 
         try:
             payment_secret_from_onion = processed_onion.hop_data.payload["payment_data"]["payment_secret"]  # type: bytes
@@ -2139,7 +2139,7 @@ class Peer(Logger, EventListener):
             log_fail_reason(f"'payment_secret' missing from onion")
             raise exc_incorrect_or_unknown_pd
 
-        return payment_secret_from_onion, total_msat, channel_opening_fee, exc_incorrect_or_unknown_pd
+        return payment_secret_from_onion, total_msit, channel_opening_fee, exc_incorrect_or_unknown_pd
 
     def check_mpp_is_waiting(
         self,
@@ -2147,7 +2147,7 @@ class Peer(Logger, EventListener):
         payment_secret: bytes,
         short_channel_id: ShortChannelID,
         htlc: UpdateAddHtlc,
-        expected_msat: int,
+        expected_msit: int,
         exc_incorrect_or_unknown_pd: OnionRoutingFailure,
         log_fail_reason: Callable[[str], None],
     ) -> bool:
@@ -2155,7 +2155,7 @@ class Peer(Logger, EventListener):
             payment_secret=payment_secret,
             short_channel_id=short_channel_id,
             htlc=htlc,
-            expected_msat=expected_msat,
+            expected_msit=expected_msit,
         )
         if mpp_resolution == RecvMPPResolution.WAITING:
             return True
@@ -2208,7 +2208,7 @@ class Peer(Logger, EventListener):
         local_height = chain.height()
 
         # parse parameters and perform checks that are invariant
-        payment_secret_from_onion, total_msat, channel_opening_fee, exc_incorrect_or_unknown_pd = self.check_accepted_htlc(
+        payment_secret_from_onion, total_msit, channel_opening_fee, exc_incorrect_or_unknown_pd = self.check_accepted_htlc(
             chan=chan,
             htlc=htlc,
             processed_onion=processed_onion,
@@ -2222,7 +2222,7 @@ class Peer(Logger, EventListener):
                 payment_secret=payment_secret_from_onion,
                 short_channel_id=chan.get_scid_or_local_alias(),
                 htlc=htlc,
-                expected_msat=total_msat,
+                expected_msit=total_msit,
                 exc_incorrect_or_unknown_pd=exc_incorrect_or_unknown_pd,
                 log_fail_reason=log_fail_reason,
         ):
@@ -2279,12 +2279,12 @@ class Peer(Logger, EventListener):
         if payment_secret_from_onion != expected_payment_secret:
             log_fail_reason(f'incorrect payment secret {payment_secret_from_onion.hex()} != {expected_payment_secret.hex()}')
             raise exc_incorrect_or_unknown_pd
-        invoice_msat = info.amount_msat
+        invoice_msit = info.amount_msit
         if channel_opening_fee:
-            invoice_msat -= channel_opening_fee
+            invoice_msit -= channel_opening_fee
 
-        if not (invoice_msat is None or invoice_msat <= total_msat <= 2 * invoice_msat):
-            log_fail_reason(f"total_msat={total_msat} too different from invoice_msat={invoice_msat}")
+        if not (invoice_msit is None or invoice_msit <= total_msit <= 2 * invoice_msit):
+            log_fail_reason(f"total_msit={total_msit} too different from invoice_msit={invoice_msit}")
             raise exc_incorrect_or_unknown_pd
 
         hold_invoice_callback = self.lnworker.hold_invoice_callbacks.get(payment_hash)
@@ -2420,8 +2420,8 @@ class Peer(Logger, EventListener):
                     # Thus, automated force-closing might not be a good idea
                     # Maybe we should display something in the GUI instead
                     self.logger.warning(
-                        f"({chan.get_id_for_log()}) feerate is {chan_feerate} sat/kw, "
-                        f"current recommended feerate is {update_feerate_per_kw} sat/kw, consider force closing!")
+                        f"({chan.get_id_for_log()}) feerate is {chan_feerate} sit/kw, "
+                        f"current recommended feerate is {update_feerate_per_kw} sit/kw, consider force closing!")
             return
         # it is our responsibility to update the fee
         chan_fee = chan.get_next_feerate(REMOTE)
@@ -2561,7 +2561,7 @@ class Peer(Logger, EventListener):
             our_fee_range = config.TEST_SHUTDOWN_FEE_RANGE
         else:
             # we aim at a fee between next block inclusion and some lower value
-            our_fee_range = {'min_fee_satoshis': our_fee // 2, 'max_fee_satoshis': our_fee * 2}
+            our_fee_range = {'min_fee_sitashis': our_fee // 2, 'max_fee_sitashis': our_fee * 2}
         self.logger.info(f"Our fee range: {our_fee_range} and fee: {our_fee}")
         return our_fee, our_fee_range
 
@@ -2597,7 +2597,7 @@ class Peer(Logger, EventListener):
             self.send_message(
                 'closing_signed',
                 channel_id=chan.channel_id,
-                fee_satoshis=our_fee,
+                fee_sitashis=our_fee,
                 signature=our_sig,
                 closing_signed_tlvs=closing_signed_tlvs,
             )
@@ -2615,7 +2615,7 @@ class Peer(Logger, EventListener):
             except asyncio.exceptions.TimeoutError:
                 self.schedule_force_closing(chan.channel_id)
                 raise Exception("closing_signed not received, force closing.")
-            their_fee = cs_payload['fee_satoshis']
+            their_fee = cs_payload['fee_sitashis']
             their_fee_range = cs_payload['closing_signed_tlvs'].get('fee_range')
             their_sig = cs_payload['signature']
             # perform checks
@@ -2645,23 +2645,23 @@ class Peer(Logger, EventListener):
 
             # The sending node, if it is not the funder:
             if our_fee_range and their_fee_range and not is_initiator and not self.network.config.TEST_SHUTDOWN_FEE_RANGE:
-                # SHOULD set max_fee_satoshis to at least the max_fee_satoshis received
-                our_fee_range['max_fee_satoshis'] = max(their_fee_range['max_fee_satoshis'], our_fee_range['max_fee_satoshis'])
-                # SHOULD set min_fee_satoshis to a fairly low value
-                our_fee_range['min_fee_satoshis'] = min(their_fee_range['min_fee_satoshis'], our_fee_range['min_fee_satoshis'])
+                # SHOULD set max_fee_sitashis to at least the max_fee_sitashis received
+                our_fee_range['max_fee_sitashis'] = max(their_fee_range['max_fee_sitashis'], our_fee_range['max_fee_sitashis'])
+                # SHOULD set min_fee_sitashis to a fairly low value
+                our_fee_range['min_fee_sitashis'] = min(their_fee_range['min_fee_sitashis'], our_fee_range['min_fee_sitashis'])
                 # Note: the BOLT describes what the sending node SHOULD do.
                 # However, this assumes that we have decided to send 'funding_signed' in response to their fee_range.
                 # In practice, we might prefer to fail the channel in some cases (TODO)
 
-            # the receiving node, if fee_satoshis matches its previously sent fee_range,
-            if fee_range_sent and (our_fee_range['min_fee_satoshis'] <= their_fee <= our_fee_range['max_fee_satoshis']):
-                # SHOULD reply with a closing_signed with the same fee_satoshis value if it is different from its previously sent fee_satoshis
+            # the receiving node, if fee_sitashis matches its previously sent fee_range,
+            if fee_range_sent and (our_fee_range['min_fee_sitashis'] <= their_fee <= our_fee_range['max_fee_sitashis']):
+                # SHOULD reply with a closing_signed with the same fee_sitashis value if it is different from its previously sent fee_sitashis
                 our_fee = their_fee
 
             # the receiving node, if the message contains a fee_range
             elif our_fee_range and their_fee_range:
-                overlap_min = max(our_fee_range['min_fee_satoshis'], their_fee_range['min_fee_satoshis'])
-                overlap_max = min(our_fee_range['max_fee_satoshis'], their_fee_range['max_fee_satoshis'])
+                overlap_min = max(our_fee_range['min_fee_sitashis'], their_fee_range['min_fee_sitashis'])
+                overlap_max = min(our_fee_range['max_fee_sitashis'], their_fee_range['max_fee_sitashis'])
                 # if there is no overlap between that and its own fee_range
                 if overlap_min > overlap_max:
                     # TODO: the receiving node should first send a warning, and fail the channel
@@ -2670,26 +2670,26 @@ class Peer(Logger, EventListener):
                     raise Exception("There is no overlap between between their and our fee range.")
                 # otherwise, if it is the funder
                 if is_initiator:
-                    # if fee_satoshis is not in the overlap between the sent and received fee_range:
+                    # if fee_sitashis is not in the overlap between the sent and received fee_range:
                     if not (overlap_min <= their_fee <= overlap_max):
                         # MUST fail the channel
                         self.schedule_force_closing(chan.channel_id)
                         raise Exception("Their fee is not in the overlap region, we force closed.")
-                    # otherwise, MUST reply with the same fee_satoshis.
+                    # otherwise, MUST reply with the same fee_sitashis.
                     our_fee = their_fee
                 # otherwise (it is not the funder):
                 else:
                     # if it has already sent a closing_signed:
                     if fee_range_sent:
-                        # fee_satoshis is not the same as the value we sent, we MUST fail the channel
+                        # fee_sitashis is not the same as the value we sent, we MUST fail the channel
                         self.schedule_force_closing(chan.channel_id)
                         raise Exception("Expected the same fee as ours, we force closed.")
                     # otherwise:
-                    # MUST propose a fee_satoshis in the overlap between received and (about-to-be) sent fee_range.
+                    # MUST propose a fee_sitashis in the overlap between received and (about-to-be) sent fee_range.
                     our_fee = (overlap_min + overlap_max) // 2
             else:
-                # otherwise, if fee_satoshis is not strictly between its last-sent fee_satoshis
-                # and its previously-received fee_satoshis, UNLESS it has since reconnected:
+                # otherwise, if fee_sitashis is not strictly between its last-sent fee_sitashis
+                # and its previously-received fee_sitashis, UNLESS it has since reconnected:
                 if their_previous_fee and not (min(our_fee, their_previous_fee) < their_fee < max(our_fee, their_previous_fee)):
                     # SHOULD fail the connection.
                     raise Exception('Their fee is not between our last sent and their last sent fee.')

@@ -246,7 +246,7 @@ class Satoshis(object):
 
     def __new__(cls, value):
         self = super(Satoshis, cls).__new__(cls)
-        # note: 'value' sometimes has msat precision
+        # note: 'value' sometimes has msit precision
         assert isinstance(value, (int, Decimal)), f"unexpected type for {value=!r}"
         self.value = value
         return self
@@ -255,8 +255,8 @@ class Satoshis(object):
         return f'Satoshis({self.value})'
 
     def __str__(self):
-        # note: precision is truncated to satoshis here
-        return format_satoshis(self.value)
+        # note: precision is truncated to sitashis here
+        return format_sitashis(self.value)
 
     def __eq__(self, other):
         return self.value == other.value
@@ -796,13 +796,13 @@ def chunks(items, size: int):
         yield items[i: i + size]
 
 
-def format_satoshis_plain(
-        x: Union[int, float, Decimal, str],  # amount in satoshis,
+def format_sitashis_plain(
+        x: Union[int, float, Decimal, str],  # amount in sitashis,
         *,
         decimal_point: int = 8,  # how much to shift decimal point to left (default: sat->BRM)
         is_max_allowed: bool = True,
 ) -> str:
-    """Display a satoshi amount scaled.  Always uses a '.' as a decimal
+    """Display a sitashi amount scaled.  Always uses a '.' as a decimal
     point and has no thousands separator"""
     if is_max_allowed and parse_max_spend(x):
         return f'max({x})'
@@ -814,7 +814,7 @@ def format_satoshis_plain(
 
 
 # Check that Decimal precision is sufficient.
-# We need at the very least ~20, as we deal with msat amounts, and
+# We need at the very least ~20, as we deal with msit amounts, and
 # log10(21_000_000 * 10**8 * 1000) ~= 18.3
 # decimal.DefaultContext.prec == 28 by default, but it is mutable.
 # We enforce that we have at least that available.
@@ -827,12 +827,12 @@ assert len(DECIMAL_POINT) == 1, f"DECIMAL_POINT has unexpected len. {DECIMAL_POI
 assert len(THOUSANDS_SEP) == 1, f"THOUSANDS_SEP has unexpected len. {THOUSANDS_SEP!r}"
 
 
-def format_satoshis(
-        x: Union[int, float, Decimal, str, None],  # amount in satoshis
+def format_sitashis(
+        x: Union[int, float, Decimal, str, None],  # amount in sitashis
         *,
         num_zeros: int = 0,
         decimal_point: int = 8,  # how much to shift decimal point to left (default: sat->BRM)
-        precision: int = 0,  # extra digits after satoshi precision
+        precision: int = 0,  # extra digits after sitashi precision
         is_diff: bool = False,  # if True, enforce a leading sign (+/-)
         whitespaces: bool = False,  # if True, add whitespaces, to align numbers in a column
         add_thousands_sep: bool = False,  # if True, add whitespaces, for better readability of the numbers
@@ -884,23 +884,23 @@ def format_satoshis(
     return result
 
 
-FEERATE_PRECISION = 1  # num fractional decimal places for sat/byte fee rates
+FEERATE_PRECISION = 1  # num fractional decimal places for sit/byte fee rates
 _feerate_quanta = Decimal(10) ** (-FEERATE_PRECISION)
-UI_UNIT_NAME_FEERATE_SAT_PER_VBYTE = "sat/vbyte"
-UI_UNIT_NAME_FEERATE_SAT_PER_VB = "sat/vB"
+UI_UNIT_NAME_FEERATE_SIT_PER_VBYTE = "sit/vbyte"
+UI_UNIT_NAME_FEERATE_SIT_PER_VB = "sit/vB"
 UI_UNIT_NAME_TXSIZE_VBYTES = "vbytes"
 UI_UNIT_NAME_MEMPOOL_MB = "vMB"
 
 
-def format_fee_satoshis(fee, *, num_zeros=0, precision=None):
+def format_fee_sitashis(fee, *, num_zeros=0, precision=None):
     if precision is None:
         precision = FEERATE_PRECISION
     num_zeros = min(num_zeros, FEERATE_PRECISION)  # no more zeroes than available prec
-    return format_satoshis(fee, num_zeros=num_zeros, decimal_point=0, precision=precision)
+    return format_sitashis(fee, num_zeros=num_zeros, decimal_point=0, precision=precision)
 
 
 def quantize_feerate(fee) -> Union[None, Decimal, int]:
-    """Strip sat/byte fee rate of excess precision."""
+    """Strip sit/byte fee rate of excess precision."""
     if fee is None:
         return None
     return Decimal(fee).quantize(_feerate_quanta, rounding=decimal.ROUND_HALF_DOWN)
@@ -2405,8 +2405,8 @@ class OnchainHistoryItem(NamedTuple):
 class LightningHistoryItem(NamedTuple):
     payment_hash: Optional[str]
     preimage: Optional[str]
-    amount_msat: int
-    fee_msat: Optional[int]
+    amount_msit: int
+    fee_msit: Optional[int]
     type: str
     group_id: Optional[str]
     timestamp: int
@@ -2418,12 +2418,12 @@ class LightningHistoryItem(NamedTuple):
             'label': self.label,
             'timestamp': self.timestamp or 0,
             'date': timestamp_to_datetime(self.timestamp),
-            'amount_msat': self.amount_msat,
-            'fee_msat': self.fee_msat,
+            'amount_msit': self.amount_msit,
+            'fee_msit': self.fee_msit,
             'payment_hash': self.payment_hash,
             'preimage': self.preimage,
             'group_id': self.group_id,
-            'ln_value': Satoshis(Decimal(self.amount_msat) / 1000),
+            'ln_value': Satoshis(Decimal(self.amount_msit) / 1000),
             'direction': self.direction,
         }
 

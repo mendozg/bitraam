@@ -5,7 +5,7 @@ from typing import List, Tuple, Dict, NamedTuple
 from .lnutil import NoPathFound
 
 PART_PENALTY = 1.0  # 1.0 results in avoiding splits
-MIN_PART_SIZE_MSAT = 10_000_000  # we don't want to split indefinitely
+MIN_PART_SIZE_MSIT = 10_000_000  # we don't want to split indefinitely
 EXHAUST_DECAY_FRACTION = 10  # fraction of the local balance that should be reserved if possible
 RELATIVE_SPLIT_SPREAD = 0.3  # deviation from the mean when splitting amounts into parts
 
@@ -36,7 +36,7 @@ class SplitConfig(dict, Dict[Tuple[bytes, bytes], List[int]]):
     def is_any_amount_smaller_than_min_part_size(self) -> bool:
         smaller = False
         for amounts in self.values():
-            if any([amount < MIN_PART_SIZE_MSAT for amount in amounts]):
+            if any([amount < MIN_PART_SIZE_MSIT for amount in amounts]):
                 smaller |= True
         return smaller
 
@@ -112,13 +112,13 @@ def rate_config(
 
 
 def suggest_splits(
-        amount_msat: int,
+        amount_msit: int,
         channels_with_funds: ChannelsFundsInfo,
         exclude_single_part_payments=False,
         exclude_multinode_payments=False,
         exclude_single_channel_splits=False
 ) -> List[SplitConfigRating]:
-    """Breaks amount_msat into smaller pieces and distributes them over the
+    """Breaks amount_msit into smaller pieces and distributes them over the
     channels according to the funds they can send.
 
     Individual channels may be assigned multiple parts. The split configurations
@@ -137,7 +137,7 @@ def suggest_splits(
         for target_parts in range(1, MAX_PARTS):
             config = SplitConfig()
             # randomly split amount into target_parts chunks
-            split_amounts = split_amount_normal(amount_msat, target_parts)
+            split_amounts = split_amount_normal(amount_msit, target_parts)
             # randomly distribute amounts over channels
             for amount in split_amounts:
                 random.shuffle(channel_keys)
@@ -166,7 +166,7 @@ def suggest_splits(
                         distribute_amount -= add_amount
                         if distribute_amount == 0:
                             break
-            if config.total_config_amount() != amount_msat:
+            if config.total_config_amount() != amount_msit:
                 continue
             if target_parts > 1 and config.is_any_amount_smaller_than_min_part_size():
                 if target_parts == 2:
@@ -175,7 +175,7 @@ def suggest_splits(
                     # payments for more payments, if they are too small to split
                     exclude_single_part_payments = False
                 continue
-            assert config.total_config_amount() == amount_msat
+            assert config.total_config_amount() == amount_msit
             configs.append(config)
         if not configs:
             raise NoPathFound('Cannot distribute payment over channels.')

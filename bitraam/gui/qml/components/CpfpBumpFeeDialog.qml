@@ -136,7 +136,7 @@ ElDialog {
 
                             Label {
                                 visible: cpfpfeebumper.valid
-                                text: UI_UNIT_NAME.FEERATE_SAT_PER_VB
+                                text: UI_UNIT_NAME.FEERATE_SIT_PER_VB
                                 color: Material.accentColor
                             }
                         }

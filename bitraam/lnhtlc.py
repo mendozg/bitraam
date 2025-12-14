@@ -229,7 +229,7 @@ class HTLCManager:
                         self._maybe_active_htlc_ids[htlc_proposer].remove(htlc_id)
                         if log_action == 'settles':
                             htlc = self.log[htlc_proposer]['adds'][htlc_id]  # type: UpdateAddHtlc
-                            self._balance_delta -= htlc.amount_msat * htlc_proposer
+                            self._balance_delta -= htlc.amount_msit * htlc_proposer
 
     @with_lock
     def _init_maybe_active_htlc_ids(self):
@@ -507,14 +507,14 @@ class HTLCManager:
         return sent + received
 
     @with_lock
-    def get_balance_msat(self, whose: HTLCOwner, *, ctx_owner=HTLCOwner.LOCAL, ctn: int = None,
-                         initial_balance_msat: int) -> int:
+    def get_balance_msit(self, whose: HTLCOwner, *, ctx_owner=HTLCOwner.LOCAL, ctn: int = None,
+                         initial_balance_msit: int) -> int:
         """Returns the balance of 'whose' in 'ctx' at 'ctn'.
         Only HTLCs that have been settled by that ctn are counted.
         """
         if ctn is None:
             ctn = self.ctn_oldest_unrevoked(ctx_owner)
-        balance = initial_balance_msat
+        balance = initial_balance_msit
         if ctn >= self.ctn_oldest_unrevoked(ctx_owner):
             balance += self._balance_delta * whose
             considered_sent_htlc_ids = self._maybe_active_htlc_ids[whose]
@@ -529,7 +529,7 @@ class HTLCManager:
                 continue
             if ctns[ctx_owner] is not None and ctns[ctx_owner] <= ctn:
                 htlc = self.log[whose]['adds'][htlc_id]
-                balance -= htlc.amount_msat
+                balance -= htlc.amount_msit
         # recv htlcs
         for htlc_id in considered_recv_htlc_ids:
             ctns = self.log[-whose]['settles'].get(htlc_id, None)
@@ -537,7 +537,7 @@ class HTLCManager:
                 continue
             if ctns[ctx_owner] is not None and ctns[ctx_owner] <= ctn:
                 htlc = self.log[-whose]['adds'][htlc_id]
-                balance += htlc.amount_msat
+                balance += htlc.amount_msit
         return balance
 
     @with_lock
@@ -588,11 +588,11 @@ class HTLCManager:
                                                                log_action='fails')
 
     ##### Queries re Fees:
-    # note: feerates are in sat/kw everywhere in this file
+    # note: feerates are in sit/kw everywhere in this file
 
     @with_lock
     def get_feerate(self, subject: HTLCOwner, ctn: int) -> int:
-        """Return feerate (sat/kw) used in subject's commitment txn at ctn."""
+        """Return feerate (sit/kw) used in subject's commitment txn at ctn."""
         ctn = max(0, ctn)  # FIXME rm this
         # only one party can update fees; use length of logs to figure out which:
         assert not (len(self.log[LOCAL]['fee_updates']) > 1 and len(self.log[REMOTE]['fee_updates']) > 1)

@@ -387,13 +387,13 @@ class QEInvoice(QObject, QtEventListener):
         if self.invoiceType != QEInvoice.Type.LightningInvoice:
             raise Exception('payLightningInvoice can only pay lightning invoices')
 
-        amount_msat = None
+        amount_msit = None
         if self.amount.isEmpty:
             if self.amountOverride.isEmpty:
                 raise Exception('can not pay 0 amount')
-            amount_msat = self.amountOverride.satsInt * 1000
+            amount_msit = self.amountOverride.satsInt * 1000
 
-        self._wallet.pay_lightning_invoice(self._effectiveInvoice, amount_msat)
+        self._wallet.pay_lightning_invoice(self._effectiveInvoice, amount_msit)
 
     def get_max_spendable_onchain(self):
         return self._wallet.wallet.get_spendable_balance_sat()
@@ -657,7 +657,7 @@ class QEInvoiceParser(QEInvoice):
         self._logger.debug(f'{repr(invoice)}')
 
         # assure no shenanigans with the bolt11 invoice we get back
-        if orig_amount * 1000 != invoice.amount_msat:  # TODO msat precision can cause trouble here
+        if orig_amount * 1000 != invoice.amount_msit:  # TODO msit precision can cause trouble here
             raise Exception('Unexpected amount in invoice, differs from lnurl-pay specified amount')
 
         self.fromResolvedPaymentIdentifier(
@@ -672,11 +672,11 @@ class QEInvoiceParser(QEInvoice):
             return False
 
         try:
-            if not self._effectiveInvoice.amount_msat and not self.amountOverride.isEmpty:
+            if not self._effectiveInvoice.amount_msit and not self.amountOverride.isEmpty:
                 if self.invoiceType == QEInvoice.Type.OnchainInvoice and self.amountOverride.isMax:
-                    self._effectiveInvoice.set_amount_msat('!')
+                    self._effectiveInvoice.set_amount_msit('!')
                 else:
-                    self._effectiveInvoice.set_amount_msat(self.amountOverride.satsInt * 1000)
+                    self._effectiveInvoice.set_amount_msit(self.amountOverride.satsInt * 1000)
         except InvoiceError as e:
             self.invoiceCreateError.emit('validation', str(e))
             return False

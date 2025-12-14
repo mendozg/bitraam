@@ -178,17 +178,17 @@ class SettingsDialog(QDialog, QtEventListener):
         self.alias_e.editingFinished.connect(self.on_alias_edit)
 
 
-        msat_cb = checkbox_from_configvar(self.config.cv.BRM_AMOUNTS_PREC_POST_SAT)
-        msat_cb.setChecked(self.config.BRM_AMOUNTS_PREC_POST_SAT > 0)
+        msit_cb = checkbox_from_configvar(self.config.cv.BRM_AMOUNTS_PREC_POST_SIT)
+        msit_cb.setChecked(self.config.BRM_AMOUNTS_PREC_POST_SIT > 0)
 
-        def on_msat_checked(_x):
-            prec = 3 if msat_cb.isChecked() else 0
-            if self.config.amt_precision_post_satoshi != prec:
-                self.config.amt_precision_post_satoshi = prec
-                self.config.BRM_AMOUNTS_PREC_POST_SAT = prec
+        def on_msit_checked(_x):
+            prec = 3 if msit_cb.isChecked() else 0
+            if self.config.amt_precision_post_sitashi != prec:
+                self.config.amt_precision_post_sitashi = prec
+                self.config.BRM_AMOUNTS_PREC_POST_SIT = prec
                 self.app.refresh_tabs_signal.emit()
 
-        msat_cb.stateChanged.connect(on_msat_checked)
+        msit_cb.stateChanged.connect(on_msit_checked)
 
         # units
         units = base_units_list
@@ -389,7 +389,7 @@ class SettingsDialog(QDialog, QtEventListener):
         units_widgets = []
         units_widgets.append((unit_label, unit_combo))
         units_widgets.append((nz_label, nz))
-        units_widgets.append((msat_cb, None))
+        units_widgets.append((msit_cb, None))
         units_widgets.append((thousandsep_cb, None))
         lightning_widgets = []
         lightning_widgets.append((trampoline_cb, None))

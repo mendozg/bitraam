@@ -325,7 +325,7 @@ class TrezorPlugin(HW_PluginBase):
 
     def get_trezor_amount_unit(self):
         if self.config.decimal_point == 0:
-            return AmountUnit.SATOSHI
+            return AmountUnit.SITASHI
         elif self.config.decimal_point == 2:
             return AmountUnit.MICROBITCOIN
         elif self.config.decimal_point == 5:

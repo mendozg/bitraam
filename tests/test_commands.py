@@ -172,21 +172,21 @@ class TestCommands(BitraamTestCase):
         with self.assertRaises(binascii.Error):  # perhaps it should raise some nice UserFacingException instead
             await cmds.decrypt(pubkey, ciphertext+"trailinggarbage", wallet=wallet)
 
-    def test_format_satoshis(self):
-        format_satoshis = bitraam.commands.format_satoshis
+    def test_format_sitashis(self):
+        format_sitashis = bitraam.commands.format_sitashis
         # input type is highly polymorphic:
-        self.assertEqual(format_satoshis(None), None)
-        self.assertEqual(format_satoshis(1), "0.00000001")
-        self.assertEqual(format_satoshis(1.0), "0.00000001")
-        self.assertEqual(format_satoshis(Decimal(1)), "0.00000001")
+        self.assertEqual(format_sitashis(None), None)
+        self.assertEqual(format_sitashis(1), "0.00000001")
+        self.assertEqual(format_sitashis(1.0), "0.00000001")
+        self.assertEqual(format_sitashis(Decimal(1)), "0.00000001")
         # trailing zeroes are cut
-        self.assertEqual(format_satoshis(51000), "0.00051")
-        self.assertEqual(format_satoshis(123456_12345670), "123456.1234567")
-        # sub-satoshi precision is rounded
-        self.assertEqual(format_satoshis(Decimal(123.456)), "0.00000123")
-        self.assertEqual(format_satoshis(Decimal(123.5)), "0.00000124")
-        self.assertEqual(format_satoshis(Decimal(123.789)), "0.00000124")
-        self.assertEqual(format_satoshis(41754.681), "0.00041755")
+        self.assertEqual(format_sitashis(51000), "0.00051")
+        self.assertEqual(format_sitashis(123456_12345670), "123456.1234567")
+        # sub-sitashi precision is rounded
+        self.assertEqual(format_sitashis(Decimal(123.456)), "0.00000123")
+        self.assertEqual(format_sitashis(Decimal(123.5)), "0.00000124")
+        self.assertEqual(format_sitashis(Decimal(123.789)), "0.00000124")
+        self.assertEqual(format_sitashis(41754.681), "0.00041755")
 
 
 class TestCommandsTestnet(BitraamTestCase):
@@ -542,10 +542,10 @@ class TestCommandsTestnet(BitraamTestCase):
 
         mock_htlc1 = mock.Mock()
         mock_htlc1.cltv_abs = 800_000
-        mock_htlc1.amount_msat = 4_500_000
+        mock_htlc1.amount_msit = 4_500_000
         mock_htlc2 = mock.Mock()
         mock_htlc2.cltv_abs = 800_144
-        mock_htlc2.amount_msat = 5_500_000
+        mock_htlc2.amount_msit = 5_500_000
         mock_htlc_status = mock.Mock()
         mock_htlc_status.htlc_set = [(None, mock_htlc1), (None, mock_htlc2)]
         mock_htlc_status.resolution = RecvMPPResolution.COMPLETE

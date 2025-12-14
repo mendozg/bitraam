@@ -3,8 +3,8 @@ from datetime import datetime
 from decimal import Decimal
 
 from bitraam import util
-from bitraam.util import (format_satoshis, format_fee_satoshis, is_hash256_str, chunks, is_ip_address,
-                           list_enabled_bits, format_satoshis_plain, is_private_netaddress, is_hex_str,
+from bitraam.util import (format_sitashis, format_fee_sitashis, is_hash256_str, chunks, is_ip_address,
+                           list_enabled_bits, format_sitashis_plain, is_private_netaddress, is_hex_str,
                            is_integer, is_non_negative_integer, is_int_or_float, is_non_negative_int_or_float,
                            ShortID)
 from bitraam.bip21 import parse_bip21_URI, InvalidBitraamURI
@@ -13,93 +13,93 @@ from . import BitraamTestCase, as_testnet
 
 class TestUtil(BitraamTestCase):
 
-    def test_format_satoshis(self):
-        self.assertEqual("0.00001234", format_satoshis(1234))
+    def test_format_sitashis(self):
+        self.assertEqual("0.00001234", format_sitashis(1234))
 
-    def test_format_satoshis_negative(self):
-        self.assertEqual("-0.00001234", format_satoshis(-1234))
+    def test_format_sitashis_negative(self):
+        self.assertEqual("-0.00001234", format_sitashis(-1234))
 
-    def test_format_satoshis_to_mbtc(self):
-        self.assertEqual("0.01234", format_satoshis(1234, decimal_point=5))
+    def test_format_sitashis_to_mbtc(self):
+        self.assertEqual("0.01234", format_sitashis(1234, decimal_point=5))
 
-    def test_format_satoshis_decimal(self):
-        self.assertEqual("0.00001234", format_satoshis(Decimal(1234)))
+    def test_format_sitashis_decimal(self):
+        self.assertEqual("0.00001234", format_sitashis(Decimal(1234)))
 
-    def test_format_satoshis_msat_resolution(self):
-        self.assertEqual("45831276.",    format_satoshis(Decimal("45831276"), decimal_point=0))
-        self.assertEqual("45831276.",    format_satoshis(Decimal("45831275.748"), decimal_point=0))
-        self.assertEqual("45831275.75", format_satoshis(Decimal("45831275.748"), decimal_point=0, precision=2))
-        self.assertEqual("45831275.748", format_satoshis(Decimal("45831275.748"), decimal_point=0, precision=3))
+    def test_format_sitashis_msit_resolution(self):
+        self.assertEqual("45831276.",    format_sitashis(Decimal("45831276"), decimal_point=0))
+        self.assertEqual("45831276.",    format_sitashis(Decimal("45831275.748"), decimal_point=0))
+        self.assertEqual("45831275.75", format_sitashis(Decimal("45831275.748"), decimal_point=0, precision=2))
+        self.assertEqual("45831275.748", format_sitashis(Decimal("45831275.748"), decimal_point=0, precision=3))
 
-        self.assertEqual("458312.76",    format_satoshis(Decimal("45831276"), decimal_point=2))
-        self.assertEqual("458312.76",    format_satoshis(Decimal("45831275.748"), decimal_point=2))
-        self.assertEqual("458312.7575", format_satoshis(Decimal("45831275.748"), decimal_point=2, precision=2))
-        self.assertEqual("458312.75748", format_satoshis(Decimal("45831275.748"), decimal_point=2, precision=3))
+        self.assertEqual("458312.76",    format_sitashis(Decimal("45831276"), decimal_point=2))
+        self.assertEqual("458312.76",    format_sitashis(Decimal("45831275.748"), decimal_point=2))
+        self.assertEqual("458312.7575", format_sitashis(Decimal("45831275.748"), decimal_point=2, precision=2))
+        self.assertEqual("458312.75748", format_sitashis(Decimal("45831275.748"), decimal_point=2, precision=3))
 
-        self.assertEqual("458.31276", format_satoshis(Decimal("45831276"), decimal_point=5))
-        self.assertEqual("458.31276", format_satoshis(Decimal("45831275.748"), decimal_point=5))
-        self.assertEqual("458.3127575", format_satoshis(Decimal("45831275.748"), decimal_point=5, precision=2))
-        self.assertEqual("458.31275748", format_satoshis(Decimal("45831275.748"), decimal_point=5, precision=3))
+        self.assertEqual("458.31276", format_sitashis(Decimal("45831276"), decimal_point=5))
+        self.assertEqual("458.31276", format_sitashis(Decimal("45831275.748"), decimal_point=5))
+        self.assertEqual("458.3127575", format_sitashis(Decimal("45831275.748"), decimal_point=5, precision=2))
+        self.assertEqual("458.31275748", format_sitashis(Decimal("45831275.748"), decimal_point=5, precision=3))
 
     def test_format_fee_float(self):
-        self.assertEqual("1.7", format_fee_satoshis(1700/1000))
+        self.assertEqual("1.7", format_fee_sitashis(1700/1000))
 
     def test_format_fee_decimal(self):
-        self.assertEqual("1.7", format_fee_satoshis(Decimal("1.7")))
+        self.assertEqual("1.7", format_fee_sitashis(Decimal("1.7")))
 
     def test_format_fee_precision(self):
         self.assertEqual("1.666",
-                         format_fee_satoshis(1666/1000, precision=6))
+                         format_fee_sitashis(1666/1000, precision=6))
         self.assertEqual("1.7",
-                         format_fee_satoshis(1666/1000, precision=1))
+                         format_fee_sitashis(1666/1000, precision=1))
 
-    def test_format_satoshis_whitespaces(self):
-        self.assertEqual("     0.0001234 ", format_satoshis(12340, whitespaces=True))
-        self.assertEqual("     0.00001234", format_satoshis(1234, whitespaces=True))
-        self.assertEqual("     0.45831275", format_satoshis(Decimal("45831275."), whitespaces=True))
-        self.assertEqual("     0.45831275   ", format_satoshis(Decimal("45831275."), whitespaces=True, precision=3))
-        self.assertEqual("     0.458312757  ", format_satoshis(Decimal("45831275.7"), whitespaces=True, precision=3))
-        self.assertEqual("     0.45831275748", format_satoshis(Decimal("45831275.748"), whitespaces=True, precision=3))
+    def test_format_sitashis_whitespaces(self):
+        self.assertEqual("     0.0001234 ", format_sitashis(12340, whitespaces=True))
+        self.assertEqual("     0.00001234", format_sitashis(1234, whitespaces=True))
+        self.assertEqual("     0.45831275", format_sitashis(Decimal("45831275."), whitespaces=True))
+        self.assertEqual("     0.45831275   ", format_sitashis(Decimal("45831275."), whitespaces=True, precision=3))
+        self.assertEqual("     0.458312757  ", format_sitashis(Decimal("45831275.7"), whitespaces=True, precision=3))
+        self.assertEqual("     0.45831275748", format_sitashis(Decimal("45831275.748"), whitespaces=True, precision=3))
 
-    def test_format_satoshis_whitespaces_negative(self):
-        self.assertEqual("    -0.0001234 ", format_satoshis(-12340, whitespaces=True))
-        self.assertEqual("    -0.00001234", format_satoshis(-1234, whitespaces=True))
+    def test_format_sitashis_whitespaces_negative(self):
+        self.assertEqual("    -0.0001234 ", format_sitashis(-12340, whitespaces=True))
+        self.assertEqual("    -0.00001234", format_sitashis(-1234, whitespaces=True))
 
-    def test_format_satoshis_diff_positive(self):
-        self.assertEqual("+0.00001234", format_satoshis(1234, is_diff=True))
-        self.assertEqual("+456789.00001234", format_satoshis(45678900001234, is_diff=True))
+    def test_format_sitashis_diff_positive(self):
+        self.assertEqual("+0.00001234", format_sitashis(1234, is_diff=True))
+        self.assertEqual("+456789.00001234", format_sitashis(45678900001234, is_diff=True))
 
-    def test_format_satoshis_diff_negative(self):
-        self.assertEqual("-0.00001234", format_satoshis(-1234, is_diff=True))
-        self.assertEqual("-456789.00001234", format_satoshis(-45678900001234, is_diff=True))
+    def test_format_sitashis_diff_negative(self):
+        self.assertEqual("-0.00001234", format_sitashis(-1234, is_diff=True))
+        self.assertEqual("-456789.00001234", format_sitashis(-45678900001234, is_diff=True))
 
-    def test_format_satoshis_add_thousands_sep(self):
-        self.assertEqual("178 890 000.", format_satoshis(Decimal(178890000), decimal_point=0, add_thousands_sep=True))
-        self.assertEqual("458 312.757 48", format_satoshis(Decimal("45831275.748"), decimal_point=2, add_thousands_sep=True, precision=5))
+    def test_format_sitashis_add_thousands_sep(self):
+        self.assertEqual("178 890 000.", format_sitashis(Decimal(178890000), decimal_point=0, add_thousands_sep=True))
+        self.assertEqual("458 312.757 48", format_sitashis(Decimal("45831275.748"), decimal_point=2, add_thousands_sep=True, precision=5))
         # is_diff
-        self.assertEqual("+4 583 127.574 8", format_satoshis(Decimal("45831275.748"), decimal_point=1, is_diff=True, add_thousands_sep=True, precision=4))
-        self.assertEqual("+456 789 112.004 56", format_satoshis(Decimal("456789112.00456"), decimal_point=0, is_diff=True, add_thousands_sep=True, precision=5))
-        self.assertEqual("-0.000 012 34", format_satoshis(-1234, is_diff=True, add_thousands_sep=True))
-        self.assertEqual("-456 789.000 012 34", format_satoshis(-45678900001234, is_diff=True, add_thousands_sep=True))
+        self.assertEqual("+4 583 127.574 8", format_sitashis(Decimal("45831275.748"), decimal_point=1, is_diff=True, add_thousands_sep=True, precision=4))
+        self.assertEqual("+456 789 112.004 56", format_sitashis(Decimal("456789112.00456"), decimal_point=0, is_diff=True, add_thousands_sep=True, precision=5))
+        self.assertEqual("-0.000 012 34", format_sitashis(-1234, is_diff=True, add_thousands_sep=True))
+        self.assertEqual("-456 789.000 012 34", format_sitashis(-45678900001234, is_diff=True, add_thousands_sep=True))
         # num_zeros
-        self.assertEqual("-456 789.123 400", format_satoshis(-45678912340000, num_zeros=6, add_thousands_sep=True))
-        self.assertEqual("-456 789.123 4", format_satoshis(-45678912340000, num_zeros=2, add_thousands_sep=True))
+        self.assertEqual("-456 789.123 400", format_sitashis(-45678912340000, num_zeros=6, add_thousands_sep=True))
+        self.assertEqual("-456 789.123 4", format_sitashis(-45678912340000, num_zeros=2, add_thousands_sep=True))
         # whitespaces
-        self.assertEqual("      1 432.731 11", format_satoshis(143273111, decimal_point=5, add_thousands_sep=True, whitespaces=True))
-        self.assertEqual("      1 432.731   ", format_satoshis(143273100, decimal_point=5, add_thousands_sep=True, whitespaces=True))
-        self.assertEqual(" 67 891 432.731   ", format_satoshis(6789143273100, decimal_point=5, add_thousands_sep=True, whitespaces=True))
-        self.assertEqual("       143 273 100.", format_satoshis(143273100, decimal_point=0, add_thousands_sep=True, whitespaces=True))
-        self.assertEqual(" 6 789 143 273 100.", format_satoshis(6789143273100, decimal_point=0, add_thousands_sep=True, whitespaces=True))
-        self.assertEqual("56 789 143 273 100.", format_satoshis(56789143273100, decimal_point=0, add_thousands_sep=True, whitespaces=True))
+        self.assertEqual("      1 432.731 11", format_sitashis(143273111, decimal_point=5, add_thousands_sep=True, whitespaces=True))
+        self.assertEqual("      1 432.731   ", format_sitashis(143273100, decimal_point=5, add_thousands_sep=True, whitespaces=True))
+        self.assertEqual(" 67 891 432.731   ", format_sitashis(6789143273100, decimal_point=5, add_thousands_sep=True, whitespaces=True))
+        self.assertEqual("       143 273 100.", format_sitashis(143273100, decimal_point=0, add_thousands_sep=True, whitespaces=True))
+        self.assertEqual(" 6 789 143 273 100.", format_sitashis(6789143273100, decimal_point=0, add_thousands_sep=True, whitespaces=True))
+        self.assertEqual("56 789 143 273 100.", format_sitashis(56789143273100, decimal_point=0, add_thousands_sep=True, whitespaces=True))
 
-    def test_format_satoshis_plain(self):
-        self.assertEqual("0.00001234", format_satoshis_plain(1234))
+    def test_format_sitashis_plain(self):
+        self.assertEqual("0.00001234", format_sitashis_plain(1234))
 
-    def test_format_satoshis_plain_decimal(self):
-        self.assertEqual("0.00001234", format_satoshis_plain(Decimal(1234)))
+    def test_format_sitashis_plain_decimal(self):
+        self.assertEqual("0.00001234", format_sitashis_plain(Decimal(1234)))
 
-    def test_format_satoshis_plain_to_mbtc(self):
-        self.assertEqual("0.01234", format_satoshis_plain(1234, decimal_point=5))
+    def test_format_sitashis_plain_to_mbtc(self):
+        self.assertEqual("0.01234", format_sitashis_plain(1234, decimal_point=5))
 
     def _do_test_parse_URI(self, uri, expected):
         result = parse_bip21_URI(uri)

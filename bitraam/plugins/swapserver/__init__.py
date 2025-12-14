@@ -29,7 +29,7 @@ async def get_history(self: 'Commands', wallet: 'Abstract_Wallet' = None, plugin
                 "date": "2025-09-04",
                 "label": "Forward swap 0.2018 mBRM",
                 "timestamp": 1756982141,  # unix timestamp
-                "return_sat": -205  # value in satoshi that has been earned or lost with this swap
+                "return_sat": -205  # value in sitashi that has been earned or lost with this swap
             },
             {
                 "date": "2025-09-04",
@@ -72,7 +72,7 @@ async def get_summary(self: 'Commands', wallet: 'Abstract_Wallet' = None, plugin
     Example result:
     {
         "num_swaps": 160,
-        "overall_return_sat": 159052,  # value earned or lost in satoshi
+        "overall_return_sat": 159052,  # value earned or lost in sitashi
         "swaps_per_day": 0.78  # between first swap and last swap
     }
     """

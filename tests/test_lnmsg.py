@@ -143,29 +143,29 @@ class TestLNMsg(BitraamTestCase):
                 self.assertEqual({}, lnser.read_tlv_stream(fd=io.BytesIO(bfh("fe0200000100")), tlv_stream_name=tlv_stream_name))
                 self.assertEqual({}, lnser.read_tlv_stream(fd=io.BytesIO(bfh("ff020000000000000100")), tlv_stream_name=tlv_stream_name))
 
-        self.assertEqual({"tlv1": {"amount_msat": 0}},
+        self.assertEqual({"tlv1": {"amount_msit": 0}},
                          lnser.read_tlv_stream(fd=io.BytesIO(bfh("0100")), tlv_stream_name="n1"))
-        self.assertEqual({"tlv1": {"amount_msat": 1}},
+        self.assertEqual({"tlv1": {"amount_msit": 1}},
                          lnser.read_tlv_stream(fd=io.BytesIO(bfh("010101")), tlv_stream_name="n1"))
-        self.assertEqual({"tlv1": {"amount_msat": 256}},
+        self.assertEqual({"tlv1": {"amount_msit": 256}},
                          lnser.read_tlv_stream(fd=io.BytesIO(bfh("01020100")), tlv_stream_name="n1"))
-        self.assertEqual({"tlv1": {"amount_msat": 65536}},
+        self.assertEqual({"tlv1": {"amount_msit": 65536}},
                          lnser.read_tlv_stream(fd=io.BytesIO(bfh("0103010000")), tlv_stream_name="n1"))
-        self.assertEqual({"tlv1": {"amount_msat": 16777216}},
+        self.assertEqual({"tlv1": {"amount_msit": 16777216}},
                          lnser.read_tlv_stream(fd=io.BytesIO(bfh("010401000000")), tlv_stream_name="n1"))
-        self.assertEqual({"tlv1": {"amount_msat": 4294967296}},
+        self.assertEqual({"tlv1": {"amount_msit": 4294967296}},
                          lnser.read_tlv_stream(fd=io.BytesIO(bfh("01050100000000")), tlv_stream_name="n1"))
-        self.assertEqual({"tlv1": {"amount_msat": 1099511627776}},
+        self.assertEqual({"tlv1": {"amount_msit": 1099511627776}},
                          lnser.read_tlv_stream(fd=io.BytesIO(bfh("0106010000000000")), tlv_stream_name="n1"))
-        self.assertEqual({"tlv1": {"amount_msat": 281474976710656}},
+        self.assertEqual({"tlv1": {"amount_msit": 281474976710656}},
                          lnser.read_tlv_stream(fd=io.BytesIO(bfh("010701000000000000")), tlv_stream_name="n1"))
-        self.assertEqual({"tlv1": {"amount_msat": 72057594037927936}},
+        self.assertEqual({"tlv1": {"amount_msit": 72057594037927936}},
                          lnser.read_tlv_stream(fd=io.BytesIO(bfh("01080100000000000000")), tlv_stream_name="n1"))
         self.assertEqual({"tlv2": {"scid": ShortChannelID.from_components(0, 0, 550)}},
                          lnser.read_tlv_stream(fd=io.BytesIO(bfh("02080000000000000226")), tlv_stream_name="n1"))
         self.assertEqual({"tlv3": {"node_id": bfh("023da092f6980e58d2c037173180e9a465476026ee50f96695963e8efe436f54eb"),
-                                   "amount_msat_1": 1,
-                                   "amount_msat_2": 2}},
+                                   "amount_msit_1": 1,
+                                   "amount_msit_2": 2}},
                          lnser.read_tlv_stream(fd=io.BytesIO(bfh("0331023da092f6980e58d2c037173180e9a465476026ee50f96695963e8efe436f54eb00000000000000010000000000000002")), tlv_stream_name="n1"))
         self.assertEqual({"tlv4": {"cltv_delta": 550}},
                          lnser.read_tlv_stream(fd=io.BytesIO(bfh("fd00fe020226")), tlv_stream_name="n1"))
@@ -193,9 +193,9 @@ class TestLNMsg(BitraamTestCase):
                              channel_flags=b'\x00',
                              message_flags=b'\x01',
                              cltv_expiry_delta=144,
-                             htlc_minimum_msat=200,
-                             htlc_maximum_msat=1_000_000_000,
-                             fee_base_msat=500,
+                             htlc_minimum_msit=200,
+                             htlc_maximum_msit=1_000_000_000,
+                             fee_base_msit=500,
                              fee_proportional_millionths=35,
                              chain_hash=constants.net.rev_genesis_bytes(),
                              timestamp=1584320643,
@@ -204,10 +204,10 @@ class TestLNMsg(BitraamTestCase):
                          {'chain_hash': b'CI\x7f\xd7\xf8&\x95q\x08\xf4\xa3\x0f\xd9\xce\xc3\xae\xbay\x97 \x84\xe9\x0e\xad\x01\xea3\t\x00\x00\x00\x00',
                           'channel_flags': b'\x00',
                           'cltv_expiry_delta': 144,
-                          'fee_base_msat': 500,
+                          'fee_base_msit': 500,
                           'fee_proportional_millionths': 35,
-                          'htlc_maximum_msat': 1000000000,
-                          'htlc_minimum_msat': 200,
+                          'htlc_maximum_msit': 1000000000,
+                          'htlc_minimum_msit': 200,
                           'message_flags': b'\x01',
                           'short_channel_id': b'\x00\xd41\x00\x00o\x00\x02',
                           'signature': bytes(64),
@@ -223,9 +223,9 @@ class TestLNMsg(BitraamTestCase):
                              channel_flags=b'\x00',
                              message_flags=b'\x01',
                              cltv_expiry_delta=int.to_bytes(144, length=2, byteorder="big", signed=False),
-                             htlc_minimum_msat=int.to_bytes(200, length=8, byteorder="big", signed=False),
-                             htlc_maximum_msat=int.to_bytes(1_000_000_000, length=8, byteorder="big", signed=False),
-                             fee_base_msat=int.to_bytes(500, length=4, byteorder="big", signed=False),
+                             htlc_minimum_msit=int.to_bytes(200, length=8, byteorder="big", signed=False),
+                             htlc_maximum_msit=int.to_bytes(1_000_000_000, length=8, byteorder="big", signed=False),
+                             fee_base_msit=int.to_bytes(500, length=4, byteorder="big", signed=False),
                              fee_proportional_millionths=int.to_bytes(35, length=4, byteorder="big", signed=False),
                              chain_hash=constants.net.rev_genesis_bytes(),
                              timestamp=int.to_bytes(1584320643, length=4, byteorder="big", signed=False),
@@ -234,17 +234,17 @@ class TestLNMsg(BitraamTestCase):
                          {'chain_hash': b'CI\x7f\xd7\xf8&\x95q\x08\xf4\xa3\x0f\xd9\xce\xc3\xae\xbay\x97 \x84\xe9\x0e\xad\x01\xea3\t\x00\x00\x00\x00',
                           'channel_flags': b'\x00',
                           'cltv_expiry_delta': 144,
-                          'fee_base_msat': 500,
+                          'fee_base_msit': 500,
                           'fee_proportional_millionths': 35,
-                          'htlc_maximum_msat': 1000000000,
-                          'htlc_minimum_msat': 200,
+                          'htlc_maximum_msit': 1000000000,
+                          'htlc_minimum_msit': 200,
                           'message_flags': b'\x01',
                           'short_channel_id': b'\x00\xd41\x00\x00o\x00\x02',
                           'signature': bytes(64),
                           'timestamp': 1584320643}
                           ),
                          decode_msg(bfh("01020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000043497fd7f826957108f4a30fd9cec3aeba79972084e90ead01ea33090000000000d43100006f00025e6ed0830100009000000000000000c8000001f400000023000000003b9aca00")))
-        # "htlc_minimum_msat" is passed as bytes but with incorrect length
+        # "htlc_minimum_msit" is passed as bytes but with incorrect length
         with self.assertRaises(UnexpectedFieldSizeForEncoder):
             encode_msg(
                 "channel_update",
@@ -252,9 +252,9 @@ class TestLNMsg(BitraamTestCase):
                 channel_flags=b'\x00',
                 message_flags=b'\x01',
                 cltv_expiry_delta=int.to_bytes(144, length=2, byteorder="big", signed=False),
-                htlc_minimum_msat=int.to_bytes(200, length=4, byteorder="big", signed=False),
-                htlc_maximum_msat=int.to_bytes(1_000_000_000, length=8, byteorder="big", signed=False),
-                fee_base_msat=int.to_bytes(500, length=4, byteorder="big", signed=False),
+                htlc_minimum_msit=int.to_bytes(200, length=4, byteorder="big", signed=False),
+                htlc_maximum_msit=int.to_bytes(1_000_000_000, length=8, byteorder="big", signed=False),
+                fee_base_msit=int.to_bytes(500, length=4, byteorder="big", signed=False),
                 fee_proportional_millionths=int.to_bytes(35, length=4, byteorder="big", signed=False),
                 chain_hash=constants.net.rev_genesis_bytes(),
                 timestamp=int.to_bytes(1584320643, length=4, byteorder="big", signed=False),
@@ -361,9 +361,9 @@ class TestLNMsg(BitraamTestCase):
 
     def test_decode_onion_error(self):
         orf = OnionRoutingFailure.from_bytes(bfh("400f0000000017d2d8b0001d9458"))
-        self.assertEqual(('incorrect_or_unknown_payment_details', {'htlc_msat': 399694000, 'height': 1938520}),
+        self.assertEqual(('incorrect_or_unknown_payment_details', {'htlc_msit': 399694000, 'height': 1938520}),
                          OnionWireSerializer.decode_msg(orf.to_bytes()))
-        self.assertEqual({'htlc_msat': 399694000, 'height': 1938520},
+        self.assertEqual({'htlc_msit': 399694000, 'height': 1938520},
                          orf.decode_data())
 
         orf2 = OnionRoutingFailure(26399, bytes.fromhex("0000000017d2d8b0001d9458"))

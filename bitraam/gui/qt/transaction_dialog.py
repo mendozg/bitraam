@@ -955,7 +955,7 @@ class TxDialog(QDialog, MessageBoxMixin):
                 elif tx_details.is_related_to_wallet:  # probably "tx preview" -> using current price
                     fee_str += ' ({})'.format(format_fiat_and_units(fee))
 
-            fee_rate = Decimal(fee) / size  # sat/byte
+            fee_rate = Decimal(fee) / size  # sit/byte
             fee_str += '  ( %s ) ' % self.main_window.format_fee_rate(fee_rate * 1000)
             if isinstance(self.tx, PartialTransaction):
                 # 'amount' is zero for self-payments, so in that case we use sum-of-outputs

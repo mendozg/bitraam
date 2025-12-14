@@ -27,10 +27,10 @@ from .test_bitcoin import disable_ecdsa_r_value_grinding
 # https://github.com/lightningnetwork/lightning-rfc/blob/master/03-transactions.md#appendix-c-commitment-and-htlc-transaction-test-vectors
 funding_tx_id = '8984484a580b825b9972d7adb15050b3ab624ccd731946b3eeddb92f4e7ef6be'
 funding_output_index = 0
-funding_amount_satoshi = 10000000
+funding_amount_sitashi = 10000000
 commitment_number = 42
 local_delay = 144
-local_dust_limit_satoshi = 546
+local_dust_limit_sitashi = 546
 
 local_payment_basepoint = bytes.fromhex('034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa')
 remote_payment_basepoint = bytes.fromhex('032c0b7cf95324a07d05398b240174dc0c2be444d96b159aa6c7f7b1e668680991')
@@ -512,8 +512,8 @@ class TestLNUtil(BitraamTestCase):
                 self.assertEqual(s1, s2)
 
     def test_commitment_tx_with_all_five_HTLCs_untrimmed_minimum_feerate(self):
-        to_local_msat = 6988000000
-        to_remote_msat = 3000000000
+        to_local_msit = 6988000000
+        to_remote_msit = 3000000000
         local_feerate_per_kw = 0
         # base commitment transaction fee = 0
         # actual commitment transaction fee = 0
@@ -557,12 +557,12 @@ class TestLNUtil(BitraamTestCase):
         output_commit_tx = "02000000000101bef67e4e2fb9ddeeb3461973cd4c62abb35050b1add772995b820b584a488489000000000038b02b8007e80300000000000022002052bfef0479d7b293c27e0f1eb294bea154c63a3294ef092c19af51409bce0e2ad007000000000000220020403d394747cae42e98ff01734ad5c08f82ba123d3d9a620abda88989651e2ab5d007000000000000220020748eba944fedc8827f6b06bc44678f93c0f9e6078b35c6331ed31e75f8ce0c2db80b000000000000220020c20b5d1f8584fd90443e7b7b720136174fa4b9333c261d04dbbd012635c0f419a00f0000000000002200208c48d15160397c9731df9bc3b236656efb6665fbfe92b4a6878e88a499f741c4c0c62d0000000000160014ccf1af2f2aabee14bb40fa3851ab2301de843110e0a06a00000000002200204adb4e2f00643db396dd120d4e7dc17625f5f2c11a40d857accc862d6b7dd80e04004730440220275b0c325a5e9355650dc30c0eccfbc7efb23987c24b556b9dfdd40effca18d202206caceb2c067836c51f296740c7ae807ffcbfbf1dd3a0d56b6de9a5b247985f060147304402204fd4928835db1ccdfc40f5c78ce9bd65249b16348df81f0c44328dcdefc97d630220194d3869c38bc732dd87d13d2958015e2fc16829e74cd4377f84d215c0b7060601475221023da092f6980e58d2c037173180e9a465476026ee50f96695963e8efe436f54eb21030e9f7b623d2ccc7c9bd44d66d5ce21ce504c0acf6385a132cec6d3c39fa711c152ae3e195220"
 
         htlc_obj = {}
-        for num, msat in [(0, 1000 * 1000),
+        for num, msit in [(0, 1000 * 1000),
                           (2, 2000 * 1000),
                           (1, 2000 * 1000),
                           (3, 3000 * 1000),
                           (4, 4000 * 1000)]:
-            htlc_obj[num] = UpdateAddHtlc(amount_msat=msat, payment_hash=bitcoin.sha256(htlc_payment_preimage[num]), cltv_abs=0, htlc_id=None, timestamp=0)
+            htlc_obj[num] = UpdateAddHtlc(amount_msit=msit, payment_hash=bitcoin.sha256(htlc_payment_preimage[num]), cltv_abs=0, htlc_id=None, timestamp=0)
         htlcs = [ScriptHtlc(htlc[x], htlc_obj[x]) for x in range(5)]
 
         our_commit_tx = make_commitment(
@@ -577,10 +577,10 @@ class TestLNUtil(BitraamTestCase):
             to_self_delay=local_delay,
             funding_txid=funding_tx_id,
             funding_pos=funding_output_index,
-            funding_sat=funding_amount_satoshi,
-            local_amount=to_local_msat,
-            remote_amount=to_remote_msat,
-            dust_limit_sat=local_dust_limit_satoshi,
+            funding_sat=funding_amount_sitashi,
+            local_amount=to_local_msit,
+            remote_amount=to_remote_msit,
+            dust_limit_sat=local_dust_limit_sitashi,
             fees_per_participant=calc_fees_for_commitment_tx(num_htlcs=len(htlcs), feerate=local_feerate_per_kw, is_local_initiator=True, has_anchors=False),
             htlcs=htlcs,
             has_anchors=False
@@ -614,7 +614,7 @@ class TestLNUtil(BitraamTestCase):
             self.assertEqual(output_htlc_tx[i][1], self.htlc_tx(
                 htlc[i],
                 htlc_output_index[i],
-                htlcs[i].htlc.amount_msat,
+                htlcs[i].htlc.amount_msit,
                 htlc_payment_preimage[i],
                 signature_for_output_remote_htlc[i],
                 output_htlc_tx[i][0],
@@ -624,13 +624,13 @@ class TestLNUtil(BitraamTestCase):
                 False,
             ))
 
-    def htlc_tx(self, htlc: bytes, htlc_output_index: int, amount_msat: int,
+    def htlc_tx(self, htlc: bytes, htlc_output_index: int, amount_msit: int,
                 htlc_payment_preimage: bytes, remote_htlc_sig: str,
                 success: bool, cltv_abs: int,
                 local_feerate_per_kw: int, our_commit_tx: PartialTransaction,
                 has_anchors: bool) -> str:
         _script, our_htlc_tx_output = make_htlc_tx_output(
-            amount_msat=amount_msat,
+            amount_msit=amount_msit,
             local_feerate=local_feerate_per_kw,
             revocationpubkey=local_revocation_pubkey,
             local_delayedpubkey=local_delayedpubkey,
@@ -641,7 +641,7 @@ class TestLNUtil(BitraamTestCase):
         our_htlc_tx_inputs = make_htlc_tx_inputs(
             htlc_output_txid=our_commit_tx.txid(),
             htlc_output_index=htlc_output_index,
-            amount_msat=amount_msat,
+            amount_msit=amount_msit,
             witness_script=htlc)
         our_htlc_tx = make_htlc_tx(
             cltv_abs=cltv_abs,
@@ -665,8 +665,8 @@ class TestLNUtil(BitraamTestCase):
         return str(our_htlc_tx)
 
     def test_commitment_tx_with_one_output(self):
-        to_local_msat= 6988000000
-        to_remote_msat= 3000000000
+        to_local_msit= 6988000000
+        to_remote_msit= 3000000000
         local_feerate_per_kw= 9651181
         remote_signature = bfh("3044022064901950be922e62cbe3f2ab93de2b99f37cff9fc473e73e394b27f88ef0731d02206d1dfa227527b4df44a07599289e207d6fd9cca60c0365682dcd3deaf739567e")
         output_commit_tx= "02000000000101bef67e4e2fb9ddeeb3461973cd4c62abb35050b1add772995b820b584a488489000000000038b02b8001c0c62d0000000000160014ccf1af2f2aabee14bb40fa3851ab2301de8431100400473044022031a82b51bd014915fe68928d1abf4b9885353fb896cac10c3fdd88d7f9c7f2e00220716bda819641d2c63e65d3549b6120112e1aeaf1742eed94a471488e79e206b101473044022064901950be922e62cbe3f2ab93de2b99f37cff9fc473e73e394b27f88ef0731d02206d1dfa227527b4df44a07599289e207d6fd9cca60c0365682dcd3deaf739567e01475221023da092f6980e58d2c037173180e9a465476026ee50f96695963e8efe436f54eb21030e9f7b623d2ccc7c9bd44d66d5ce21ce504c0acf6385a132cec6d3c39fa711c152ae3e195220"
@@ -683,10 +683,10 @@ class TestLNUtil(BitraamTestCase):
             to_self_delay=local_delay,
             funding_txid=funding_tx_id,
             funding_pos=funding_output_index,
-            funding_sat=funding_amount_satoshi,
-            local_amount=to_local_msat,
-            remote_amount=to_remote_msat,
-            dust_limit_sat=local_dust_limit_satoshi,
+            funding_sat=funding_amount_sitashi,
+            local_amount=to_local_msit,
+            remote_amount=to_remote_msit,
+            dust_limit_sat=local_dust_limit_sitashi,
             fees_per_participant=calc_fees_for_commitment_tx(num_htlcs=0, feerate=local_feerate_per_kw, is_local_initiator=True, has_anchors=False),
             htlcs=[],
             has_anchors=False
@@ -696,8 +696,8 @@ class TestLNUtil(BitraamTestCase):
         self.assertEqual(str(our_commit_tx), output_commit_tx)
 
     def test_commitment_tx_with_fee_greater_than_funder_amount(self):
-        to_local_msat= 6988000000
-        to_remote_msat= 3000000000
+        to_local_msit= 6988000000
+        to_remote_msit= 3000000000
         local_feerate_per_kw= 9651936
         remote_signature = bfh("3044022064901950be922e62cbe3f2ab93de2b99f37cff9fc473e73e394b27f88ef0731d02206d1dfa227527b4df44a07599289e207d6fd9cca60c0365682dcd3deaf739567e")
         output_commit_tx= "02000000000101bef67e4e2fb9ddeeb3461973cd4c62abb35050b1add772995b820b584a488489000000000038b02b8001c0c62d0000000000160014ccf1af2f2aabee14bb40fa3851ab2301de8431100400473044022031a82b51bd014915fe68928d1abf4b9885353fb896cac10c3fdd88d7f9c7f2e00220716bda819641d2c63e65d3549b6120112e1aeaf1742eed94a471488e79e206b101473044022064901950be922e62cbe3f2ab93de2b99f37cff9fc473e73e394b27f88ef0731d02206d1dfa227527b4df44a07599289e207d6fd9cca60c0365682dcd3deaf739567e01475221023da092f6980e58d2c037173180e9a465476026ee50f96695963e8efe436f54eb21030e9f7b623d2ccc7c9bd44d66d5ce21ce504c0acf6385a132cec6d3c39fa711c152ae3e195220"
@@ -714,10 +714,10 @@ class TestLNUtil(BitraamTestCase):
             to_self_delay=local_delay,
             funding_txid=funding_tx_id,
             funding_pos=funding_output_index,
-            funding_sat=funding_amount_satoshi,
-            local_amount=to_local_msat,
-            remote_amount=to_remote_msat,
-            dust_limit_sat=local_dust_limit_satoshi,
+            funding_sat=funding_amount_sitashi,
+            local_amount=to_local_msit,
+            remote_amount=to_remote_msit,
+            dust_limit_sat=local_dust_limit_sitashi,
             fees_per_participant=calc_fees_for_commitment_tx(num_htlcs=0, feerate=local_feerate_per_kw, is_local_initiator=True, has_anchors=False),
             htlcs=[],
             has_anchors=False
@@ -762,8 +762,8 @@ class TestLNUtil(BitraamTestCase):
         self.assertEqual(revocationpubkey, bfh('02916e326636d19c33f13e8c0c3a03dd157f332f3e99c317c141dd865eb01f8ff0'))
 
     def test_simple_commitment_tx_with_no_HTLCs(self):
-        to_local_msat = 7000000000
-        to_remote_msat = 3000000000
+        to_local_msit = 7000000000
+        to_remote_msit = 3000000000
         local_feerate_per_kw = 15000
         # base commitment transaction fee = 10860
         # actual commitment transaction fee = 10860
@@ -783,10 +783,10 @@ class TestLNUtil(BitraamTestCase):
             to_self_delay=local_delay,
             funding_txid=funding_tx_id,
             funding_pos=funding_output_index,
-            funding_sat=funding_amount_satoshi,
-            local_amount=to_local_msat,
-            remote_amount=to_remote_msat,
-            dust_limit_sat=local_dust_limit_satoshi,
+            funding_sat=funding_amount_sitashi,
+            local_amount=to_local_msit,
+            remote_amount=to_remote_msit,
+            dust_limit_sat=local_dust_limit_sitashi,
             fees_per_participant=calc_fees_for_commitment_tx(num_htlcs=0, feerate=local_feerate_per_kw, is_local_initiator=True, has_anchors=False),
             htlcs=[],
             has_anchors=False
@@ -813,8 +813,8 @@ class TestLNUtil(BitraamTestCase):
     def _test_commitment_tx_anchors_test_vectors(self):
         for test_vector in ANCHOR_TEST_VECTORS:
             with self.subTest(test_vector['Name']):
-                to_local_msat = test_vector['LocalBalance']
-                to_remote_msat = test_vector['RemoteBalance']
+                to_local_msit = test_vector['LocalBalance']
+                to_remote_msit = test_vector['RemoteBalance']
                 local_feerate_per_kw = test_vector['FeePerKw']
                 ref_commit_tx_str = test_vector['ExpectedCommitmentTxHex']
                 remote_signature = bfh(test_vector['RemoteSigHex'])
@@ -828,8 +828,8 @@ class TestLNUtil(BitraamTestCase):
                 test_htlcs = {}
                 if use_test_htlcs:
                     # only consider htlcs whose sweep transaction creates outputs above dust limit
-                    threshold_sat_received = received_htlc_trim_threshold_sat(dust_limit_sat=local_dust_limit_satoshi, feerate=local_feerate_per_kw, has_anchors=True)
-                    threshold_sat_offered = offered_htlc_trim_threshold_sat(dust_limit_sat=local_dust_limit_satoshi, feerate=local_feerate_per_kw, has_anchors=True)
+                    threshold_sat_received = received_htlc_trim_threshold_sat(dust_limit_sat=local_dust_limit_sitashi, feerate=local_feerate_per_kw, has_anchors=True)
+                    threshold_sat_offered = offered_htlc_trim_threshold_sat(dust_limit_sat=local_dust_limit_sitashi, feerate=local_feerate_per_kw, has_anchors=True)
                     for test_index, test_htlc in enumerate(TEST_HTLCS):
                         if test_htlc['incoming']:
                             htlc_script = make_received_htlc(
@@ -847,7 +847,7 @@ class TestLNUtil(BitraamTestCase):
                                 payment_hash=bitcoin.sha256(bfh(test_htlc['preimage'])),
                                 has_anchors=True)
                         update_add_htlc = UpdateAddHtlc(
-                            amount_msat=test_htlc['amount'],
+                            amount_msit=test_htlc['amount'],
                             payment_hash=bitcoin.sha256(bfh(test_htlc['preimage'])),
                             cltv_abs=test_htlc['expiry'],
                             htlc_id=None,
@@ -869,10 +869,10 @@ class TestLNUtil(BitraamTestCase):
                     to_self_delay=local_delay,
                     funding_txid=funding_tx_id,
                     funding_pos=funding_output_index,
-                    funding_sat=funding_amount_satoshi,
-                    local_amount=to_local_msat,
-                    remote_amount=to_remote_msat,
-                    dust_limit_sat=local_dust_limit_satoshi,
+                    funding_sat=funding_amount_sitashi,
+                    local_amount=to_local_msit,
+                    remote_amount=to_remote_msit,
+                    dust_limit_sat=local_dust_limit_sitashi,
                     fees_per_participant=calc_fees_for_commitment_tx(num_htlcs=len(test_htlcs), feerate=local_feerate_per_kw, is_local_initiator=True, has_anchors=True),
                     htlcs=list(test_htlcs.values()),
                     has_anchors=True
@@ -882,14 +882,14 @@ class TestLNUtil(BitraamTestCase):
 
                 # test the transactions spending the htlc outputs
                 # we need to keep track of the htlc order in order to compare to test vectors
-                sorted_htlcs = {h[0]: h[1] for h in sorted(test_htlcs.items(), key=lambda x: (x[1].htlc.amount_msat, -x[1].htlc.cltv_abs))}
+                sorted_htlcs = {h[0]: h[1] for h in sorted(test_htlcs.items(), key=lambda x: (x[1].htlc.amount_msit, -x[1].htlc.cltv_abs))}
                 if use_test_htlcs:
                     for output_index, (test_index, htlc) in enumerate(sorted_htlcs.items()):
                         test_htlc = TEST_HTLCS[test_index]
                         our_htlc = self.htlc_tx(
                             htlc=htlc.redeem_script,
                             htlc_output_index=output_index + 2,  # first two are anchors
-                            amount_msat=htlc.htlc.amount_msat,
+                            amount_msit=htlc.htlc.amount_msit,
                             htlc_payment_preimage=bfh(test_htlc['preimage']),
                             remote_htlc_sig=htlc_descs[output_index]['RemoteSigHex'],
                             success=test_htlc['incoming'],

@@ -114,7 +114,7 @@ class TestMppSplit(BitraamTestCase):
         self.assertFalse(uses_full_amount)
 
     def test_payment_below_min_part_size(self):
-        amount = mpp_split.MIN_PART_SIZE_MSAT // 2
+        amount = mpp_split.MIN_PART_SIZE_MSIT // 2
         splits = mpp_split.suggest_splits(amount, self.channels_with_funds, exclude_single_part_payments=False)
         # we only get four configurations that end up spending the full amount
         # in a single channel

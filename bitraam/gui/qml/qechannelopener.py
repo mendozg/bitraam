@@ -9,7 +9,7 @@ from PyQt6.QtCore import pyqtProperty, pyqtSignal, pyqtSlot, QObject
 from bitraam.i18n import _
 from bitraam.gui import messages
 from bitraam.util import bfh
-from bitraam.lnutil import MIN_FUNDING_SAT
+from bitraam.lnutil import MIN_FUNDING_SIT
 from bitraam.lntransport import extract_nodeid, ConnStringFormatError
 from bitraam.bitcoin import DummyAddress
 from bitraam.lnworker import hardcoded_trampoline_nodes
@@ -158,9 +158,9 @@ class QEChannelOpener(QObject, AuthMixin):
             return
 
         # for MAX, estimate is assumed to be calculated and set in self._amount.satsInt
-        if self._amount.satsInt < MIN_FUNDING_SAT:
+        if self._amount.satsInt < MIN_FUNDING_SIT:
             message = _('Minimum required amount: {}').format(
-                self._wallet.wallet.config.format_amount_and_units(MIN_FUNDING_SAT)
+                self._wallet.wallet.config.format_amount_and_units(MIN_FUNDING_SIT)
             )
             if self._amount.isMax and self._determine_max_message:
                 message += '\n' + self._determine_max_message
@@ -168,9 +168,9 @@ class QEChannelOpener(QObject, AuthMixin):
             self.setValid(False)
             return
 
-        if self._amount.satsInt > self._wallet.wallet.config.LIGHTNING_MAX_FUNDING_SAT:
+        if self._amount.satsInt > self._wallet.wallet.config.LIGHTNING_MAX_FUNDING_SIT:
             self.setWarning(_('Amount is above maximum channel size: {}').format(
-                self._wallet.wallet.config.format_amount_and_units(self._wallet.wallet.config.LIGHTNING_MAX_FUNDING_SAT)
+                self._wallet.wallet.config.format_amount_and_units(self._wallet.wallet.config.LIGHTNING_MAX_FUNDING_SIT)
             ))
             self.setValid(False)
             return
@@ -186,7 +186,7 @@ class QEChannelOpener(QObject, AuthMixin):
             return False
         return True
 
-    # FIXME "max" button in amount_dialog should enforce LIGHTNING_MAX_FUNDING_SAT
+    # FIXME "max" button in amount_dialog should enforce LIGHTNING_MAX_FUNDING_SIT
     @pyqtSlot()
     @pyqtSlot(bool)
     def openChannel(self, confirm_backup_conflict=False):

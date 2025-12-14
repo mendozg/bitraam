@@ -282,12 +282,12 @@ class LnAddr(object):
         if value.is_nan() or not (0 <= value <= TOTAL_COIN_SUPPLY_LIMIT_IN_BRM):
             raise LnInvoiceException(f"amount is out-of-bounds: {value!r} BRM")
         if value * 10**12 % 10:
-            # max resolution is millisatoshi
+            # max resolution is millisitashi
             raise LnInvoiceException(f"Cannot encode {value!r}: too many decimal places")
         self._amount = value
 
     def get_amount_sat(self) -> Optional[Decimal]:
-        # note that this has msat resolution potentially
+        # note that this has msit resolution potentially
         if self.amount is None:
             return None
         return self.amount * COIN
@@ -302,7 +302,7 @@ class LnAddr(object):
         random.shuffle(r_tags)
         return r_tags
 
-    def get_amount_msat(self) -> Optional[int]:
+    def get_amount_msit(self) -> Optional[int]:
         if self.amount is None:
             return None
         return int(self.amount * COIN * 1000)

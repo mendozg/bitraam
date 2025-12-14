@@ -699,7 +699,7 @@ class Plugin(TimelockRecoveryPlugin):
                     "wallet_version": version.ELECTRUM_VERSION,
                     "wallet_name": context.wallet_name,
                     "timelock_days": context.timelock_days,
-                    "anchor_amount_sats": context.ANCHOR_OUTPUT_AMOUNT_SATS,
+                    "anchor_amount_sats": context.ANCHOR_OUTPUT_AMOUNT_SITS,
                     "anchor_addresses": [output.address for output in context.outputs],
                     "alert_address": context.get_alert_address(),
                     "alert_inputs": [tx_input.prevout.to_str() for tx_input in context.alert_tx.inputs()],
@@ -911,7 +911,7 @@ class Plugin(TimelockRecoveryPlugin):
                 f"as we'll explain later):\n"
             )
             for output in context.alert_tx.outputs():
-                if output.address != context.get_alert_address() and output.value == context.ANCHOR_OUTPUT_AMOUNT_SATS:
+                if output.address != context.get_alert_address() and output.value == context.ANCHOR_OUTPUT_AMOUNT_SITS:
                     step1_text += f"• {output.address}\n"
         else:
             step1_text += "except for a small fee.\n"
