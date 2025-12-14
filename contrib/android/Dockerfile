@@ -201,7 +201,7 @@ RUN /opt/venv/bin/python3 -m pip install --no-build-isolation --no-dependencies 
 ENV BUILDOZER_CHECKOUT_COMMIT="4403ecf445f10b5fbf7c74f4621bf2b922ad35b5"
 # ^ from branch bitraam_20240930 (note: careful with force-pushing! see #8162)
 RUN cd /opt \
-    && git clone https://github.com/mendozg/buildozer \
+    && git clone https://github.com/spesmilo/buildozer \
     && cd buildozer \
     && git checkout "${BUILDOZER_CHECKOUT_COMMIT}^{commit}" \
     && /opt/venv/bin/python3 -m pip install --no-build-isolation --no-dependencies -e .
@@ -210,7 +210,7 @@ RUN cd /opt \
 ENV P4A_CHECKOUT_COMMIT="003451604321deb1f10d879b63450ec76db4a758"
 # ^ from branch bitraam_20240930_android_16kb_page_alignment (note: careful with force-pushing! see #8162)
 RUN cd /opt \
-    && git clone https://github.com/mendozg/python-for-android \
+    && git clone https://github.com/spesmilo/python-for-android \
     && cd python-for-android \
     && git checkout "${P4A_CHECKOUT_COMMIT}^{commit}" \
     && /opt/venv/bin/python3 -m pip install --no-build-isolation --no-dependencies -e .
