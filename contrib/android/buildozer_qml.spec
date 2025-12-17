@@ -79,6 +79,7 @@ requirements =
     cryptography,
     pyqt6sip,
     pyqt6,
+    yescrypt_hash,
     libzbar
 
 # (str) Presplash of the application
