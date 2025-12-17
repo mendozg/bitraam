@@ -1,2 +1,2 @@
-yescrypt-hash==0.5 \
-    --hash=sha256:89472f4e14ffb621009cc8e7755f512a8ee51ece1f1aad4e7f17011ea1b9ea66
+yescrypt-hash==0.5.1 \
+    --hash=sha256:55a6190798acbe74ebd900e7d3aa0a4c9370649a636a5ac605dfdb7c21d85f82

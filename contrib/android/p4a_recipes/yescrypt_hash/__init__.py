@@ -5,8 +5,8 @@ class YescryptHashRecipe(CythonRecipe):
 
     url = ('https://files.pythonhosted.org/packages/'
            'source/y/yescrypt_hash/yescrypt_hash-{version}.tar.gz')
-    md5sum = 'da930575a18ebabb0baebb15dab0a19e'
-    version = '0.5'
+    md5sum = '94b03a79e23cca91b96601280505ec96'
+    version = '0.5.1'
     depends = ['python3']
 
 
