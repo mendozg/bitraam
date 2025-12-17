@@ -4,7 +4,7 @@ from PyQt6.QtCore import pyqtSlot, QSortFilterProxyModel, pyqtSignal, pyqtProper
 from PyQt6.QtCore import Qt, QAbstractListModel, QModelIndex
 
 from bitraam.logging import get_logger
-from bitraam.util import Satoshis
+from bitraam.util import Sitashis
 from .qeconfig import QEConfig
 
 from .qetypes import QEAmount
@@ -151,7 +151,7 @@ class QEAddressCoinListModel(QAbstractListModel, QtEventListener):
             return None
         if isinstance(value, (bool, list, int, str, QEAmount)) or value is None:
             return value
-        if isinstance(value, Satoshis):
+        if isinstance(value, Sitashis):
             return value.value
         return str(value)
 

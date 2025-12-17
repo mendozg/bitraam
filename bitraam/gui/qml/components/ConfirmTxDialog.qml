@@ -23,7 +23,7 @@ ElDialog {
 
     // copy these to finalizer
     onAddressChanged: finalizer.address = address
-    onSatoshisChanged: finalizer.amount = sitashis
+    onSitashisChanged: finalizer.amount = sitashis
 
     width: parent.width
     height: parent.height

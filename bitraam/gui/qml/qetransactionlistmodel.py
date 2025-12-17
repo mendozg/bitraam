@@ -5,7 +5,7 @@ from PyQt6.QtCore import pyqtProperty, pyqtSignal, pyqtSlot
 from PyQt6.QtCore import Qt, QAbstractListModel, QModelIndex
 
 from bitraam.logging import get_logger
-from bitraam.util import Satoshis, TxMinedInfo
+from bitraam.util import Sitashis, TxMinedInfo
 from bitraam.address_synchronizer import TX_HEIGHT_FUTURE, TX_HEIGHT_LOCAL
 
 from .qetypes import QEAmount
@@ -110,7 +110,7 @@ class QETransactionListModel(QAbstractListModel, QtEventListener):
 
         if isinstance(value, (bool, list, int, str, QEAmount)) or value is None:
             return value
-        if isinstance(value, Satoshis):
+        if isinstance(value, Sitashis):
             return value.value
         return str(value)
 

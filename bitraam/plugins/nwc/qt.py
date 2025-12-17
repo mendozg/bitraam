@@ -209,7 +209,7 @@ class Plugin(NWCServerPlugin):
         layout.addWidget(name_edit)
 
         # Daily limit field (optional)
-        layout.addWidget(QLabel(_("Daily Satoshi Budget (optional):")))
+        layout.addWidget(QLabel(_("Daily Sitashi Budget (optional):")))
         limit_edit = OptionalSpinBox()
         limit_edit.setRange(-1, 100_000_000)
         limit_edit.setMaximumHeight(30)

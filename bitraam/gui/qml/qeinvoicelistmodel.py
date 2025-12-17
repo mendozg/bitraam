@@ -5,7 +5,7 @@ from PyQt6.QtCore import pyqtSlot, QTimer
 from PyQt6.QtCore import Qt, QAbstractListModel, QModelIndex
 
 from bitraam.logging import get_logger
-from bitraam.util import Satoshis, format_time
+from bitraam.util import Sitashis, format_time
 from bitraam.invoices import BaseInvoice, PR_EXPIRED, LN_EXPIRY_NEVER, Invoice, Request, PR_PAID
 
 from .util import QtEventListener, qt_event_listener, status_update_timer_interval
@@ -54,7 +54,7 @@ class QEAbstractInvoiceListModel(QAbstractListModel):
 
         if isinstance(value, (bool, list, int, str, QEAmount)) or value is None:
             return value
-        if isinstance(value, Satoshis):
+        if isinstance(value, Sitashis):
             return value.value
         return str(value)
 

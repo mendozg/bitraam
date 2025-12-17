@@ -52,7 +52,7 @@ from .logging import get_logger, Logger
 from .util import (
     NotEnoughFunds, UserCancelled, profiler, OldTaskGroup, format_fee_sitashis,
     WalletFileException, BitraamException, InvalidPassword, format_time, timestamp_to_datetime,
-    Satoshis, Fiat, TxMinedInfo, quantize_feerate, OrderedDictWithIndex, multisig_type, parse_max_spend,
+    Sitashis, Fiat, TxMinedInfo, quantize_feerate, OrderedDictWithIndex, multisig_type, parse_max_spend,
     OnchainHistoryItem, read_json_file, write_json_file, UserFacingException, FileImportFailed, EventListener,
     event_listener
 )
@@ -1463,9 +1463,9 @@ class Abstract_Wallet(ABC, Logger, EventListener):
         transactions = OrderedDictWithIndex()
         for k, tx_item in sorted(list(transactions_tmp.items()), key=sort_key):
             if 'ln_value' not in tx_item:
-                tx_item['ln_value'] = Satoshis(0)
+                tx_item['ln_value'] = Sitashis(0)
             if 'bc_value' not in tx_item:
-                tx_item['bc_value'] = Satoshis(0)
+                tx_item['bc_value'] = Sitashis(0)
             group_id = tx_item.get('group_id')
             if not group_id:
                 transactions[k] = tx_item
@@ -1476,9 +1476,9 @@ class Abstract_Wallet(ABC, Logger, EventListener):
                 if parent is None:
                     parent = {
                         'label': group_label,
-                        'bc_value': Satoshis(0),
-                        'ln_value': Satoshis(0),
-                        'value': Satoshis(0),
+                        'bc_value': Sitashis(0),
+                        'ln_value': Sitashis(0),
+                        'value': Sitashis(0),
                         'children': [],
                         'timestamp': 0,
                         'date': timestamp_to_datetime(0),
@@ -1513,9 +1513,9 @@ class Abstract_Wallet(ABC, Logger, EventListener):
                 transactions[key] = children[0]
             # add on-chain and lightning values
             # note: 'value' has msit precision (as LN has msit precision)
-            item['value'] = item.get('bc_value', Satoshis(0)) + item.get('ln_value', Satoshis(0))
+            item['value'] = item.get('bc_value', Sitashis(0)) + item.get('ln_value', Sitashis(0))
             for child in item.get('children', []):
-                child['value'] = child.get('bc_value', Satoshis(0)) + child.get('ln_value', Satoshis(0))
+                child['value'] = child.get('bc_value', Sitashis(0)) + child.get('ln_value', Sitashis(0))
             if not include_fiat:
                 continue
             # add fiat values to both the root item and its children
@@ -1604,7 +1604,7 @@ class Abstract_Wallet(ABC, Logger, EventListener):
                 out = {
                     'date': date,
                     'block_height': height,
-                    'BRM_balance': Satoshis(balance),
+                    'BRM_balance': Sitashis(balance),
                 }
                 if show_fiat:
                     ap = self.acquisition_price(coins, fx.timestamp_rate, fx.ccy)
@@ -1619,8 +1619,8 @@ class Abstract_Wallet(ABC, Logger, EventListener):
             summary_start = summary_point(start_timestamp, start_height, start_balance, start_coins)
             summary_end = summary_point(end_timestamp, end_height, end_balance, end_coins)
             flow = {
-                'BRM_incoming': Satoshis(income),
-                'BRM_outgoing': Satoshis(expenditures)
+                'BRM_incoming': Sitashis(income),
+                'BRM_outgoing': Sitashis(expenditures)
             }
             if show_fiat:
                 flow['fiat_currency'] = fx.ccy

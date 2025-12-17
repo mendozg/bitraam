@@ -43,7 +43,7 @@ from bitraam.address_synchronizer import TX_HEIGHT_LOCAL
 from bitraam.i18n import _
 from bitraam.util import (block_explorer_URL, profiler, TxMinedInfo,
                            OrderedDictWithIndex, timestamp_to_datetime,
-                           Satoshis, format_time, Fiat)
+                           Sitashis, format_time, Fiat)
 from bitraam.logging import get_logger, Logger
 from bitraam.simple_config import SimpleConfig
 
@@ -135,7 +135,7 @@ class HistoryNode(CustomNode):
         }
 
     def set_balance(self, balance):
-        self._data['balance'] = Satoshis(balance)
+        self._data['balance'] = Sitashis(balance)
         self.sort_keys[HistoryColumns.BALANCE] = balance
 
     def get_data_for_role(self, index: QModelIndex, role: Qt.ItemDataRole) -> QVariant:

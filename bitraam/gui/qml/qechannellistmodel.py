@@ -4,7 +4,7 @@ from PyQt6.QtCore import pyqtProperty, pyqtSignal, pyqtSlot
 from bitraam.lnchannel import ChannelState
 from bitraam.lnutil import LOCAL, REMOTE
 from bitraam.logging import get_logger
-from bitraam.util import Satoshis
+from bitraam.util import Sitashis
 from bitraam.gui import messages
 
 from .qetypes import QEAmount
@@ -74,7 +74,7 @@ class QEChannelListModel(QAbstractListModel, QtEventListener):
         value = tx[self._ROLE_NAMES[role_index]]
         if isinstance(value, (bool, list, int, str, QEAmount)) or value is None:
             return value
-        if isinstance(value, Satoshis):
+        if isinstance(value, Sitashis):
             return value.value
         return str(value)
 

@@ -2,7 +2,7 @@ from PyQt6.QtCore import pyqtProperty, pyqtSignal, pyqtSlot
 from PyQt6.QtCore import Qt, QAbstractListModel, QModelIndex
 
 from bitraam.logging import get_logger
-from bitraam.util import Satoshis
+from bitraam.util import Sitashis
 from bitraam.interface import ServerAddr, PREFERRED_NETWORK_PROTOCOL
 from bitraam import blockchain
 
@@ -57,7 +57,7 @@ class QEServerListModel(QAbstractListModel, QtEventListener):
 
         if isinstance(value, (bool, list, int, str)) or value is None:
             return value
-        if isinstance(value, Satoshis):
+        if isinstance(value, Sitashis):
             return value.value
         return str(value)
 

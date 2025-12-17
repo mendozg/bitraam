@@ -241,18 +241,18 @@ def to_decimal(x: Union[str, float, int, Decimal]) -> Decimal:
 
 
 # note: this is not a NamedTuple as then its json encoding cannot be customized
-class Satoshis(object):
+class Sitashis(object):
     __slots__ = ('value',)
 
     def __new__(cls, value):
-        self = super(Satoshis, cls).__new__(cls)
+        self = super(Sitashis, cls).__new__(cls)
         # note: 'value' sometimes has msit precision
         assert isinstance(value, (int, Decimal)), f"unexpected type for {value=!r}"
         self.value = value
         return self
 
     def __repr__(self):
-        return f'Satoshis({self.value})'
+        return f'Sitashis({self.value})'
 
     def __str__(self):
         # note: precision is truncated to sitashis here
@@ -265,7 +265,7 @@ class Satoshis(object):
         return not (self == other)
 
     def __add__(self, other):
-        return Satoshis(self.value + other.value)
+        return Sitashis(self.value + other.value)
 
 
 # note: this is not a NamedTuple as then its json encoding cannot be customized
@@ -321,7 +321,7 @@ class MyEncoder(json.JSONEncoder):
             return obj.serialize()
         if isinstance(obj, TxOutput):
             return obj.to_legacy_tuple()
-        if isinstance(obj, Satoshis):
+        if isinstance(obj, Sitashis):
             return str(obj)
         if isinstance(obj, Fiat):
             return str(obj)
@@ -472,7 +472,7 @@ def json_decode(x):
 
 def json_normalize(x):
     # note: The return value of commands, when going through the JSON-RPC interface,
-    #       is json-encoded. The encoder used there cannot handle some types, e.g. bitraam.util.Satoshis.
+    #       is json-encoded. The encoder used there cannot handle some types, e.g. bitraam.util.Sitashis.
     # note: We should not simply do "json_encode(x)" here, as then later x would get doubly json-encoded.
     # see #5868
     return json_decode(json_encode(x))
@@ -2392,8 +2392,8 @@ class OnchainHistoryItem(NamedTuple):
             'timestamp': self.tx_mined_status.timestamp,
             'monotonic_timestamp': self.monotonic_timestamp,
             'incoming': True if self.amount_sat>0 else False,
-            'bc_value': Satoshis(self.amount_sat),
-            'bc_balance': Satoshis(self.balance_sat),
+            'bc_value': Sitashis(self.amount_sat),
+            'bc_balance': Sitashis(self.balance_sat),
             'date': timestamp_to_datetime(self.tx_mined_status.timestamp),
             'txpos_in_block': self.tx_mined_status.txpos,
             'wanted_height': self.tx_mined_status.wanted_height,
@@ -2423,7 +2423,7 @@ class LightningHistoryItem(NamedTuple):
             'payment_hash': self.payment_hash,
             'preimage': self.preimage,
             'group_id': self.group_id,
-            'ln_value': Satoshis(Decimal(self.amount_msit) / 1000),
+            'ln_value': Sitashis(Decimal(self.amount_msit) / 1000),
             'direction': self.direction,
         }
 
