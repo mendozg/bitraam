@@ -316,11 +316,9 @@ class Blockchain(Logger):
             raise InvalidHeader("prev hash mismatch: %s vs %s" % (prev_hash, header.get('prev_block_hash')))
         if constants.net.TESTNET:
             return
-        
         height = header.get('block_height')
         if height < POW_DGW3_HEIGHT:
             return
-        
         bits = cls.target_to_bits(target)
         if bits != header.get('bits'):
             raise InvalidHeader("bits mismatch: %s vs %s" % (bits, header.get('bits')))
@@ -333,7 +331,7 @@ class Blockchain(Logger):
         num = len(data) // HEADER_SIZE
         start_height = index * CHUNK_SIZE
         prev_hash = self.get_hash(start_height - 1)
-        #target = self.get_target(index-1)
+
         chunk_headers = {'empty': True}
         for i in range(num):
             height = start_height + i
@@ -342,7 +340,7 @@ class Blockchain(Logger):
             except MissingHeader:
                 expected_header_hash = None
             raw_header = data[i*HEADER_SIZE : (i+1)*HEADER_SIZE]
-            height = index*CHUNK_SIZE + i
+            height = index * CHUNK_SIZE + i
             header = deserialize_header(raw_header, height)
             target = self.get_target(height,chunk_headers)
             self.verify_header(header, prev_hash, target, expected_header_hash)
@@ -715,8 +713,8 @@ class Blockchain(Logger):
         n = self.height() // CHUNK_SIZE
         for index in range(n):
             height = (index+1) * CHUNK_SIZE - 1
-            h = self.get_hash((index+1) * CHUNK_SIZE -1)
-            target = self.get_target(index)
+            h = self.get_hash(height)
+            target = self.get_target(height)
             if len(h.strip('0')) == 0:
                 raise Exception('%s file has not enough data.' % self.path())
             dgw3_headers = []
@@ -727,7 +725,8 @@ class Blockchain(Logger):
                         f.seek(height * HEADER_SIZE)
                         hd = f.read(HEADER_SIZE)
                         if len(hd) < HEADER_SIZE:
-                            raise Exception('Expected to read a full header. This was only {} bytes'.format(len(hd)))
+                            raise Exception('Expected to read a full header.'
+                                            ' This was only {} bytes'.format(len(hd)))
                         dgw3_headers.append(height,bh2u(hd))
             cp.append((h, target, dgw3_headers))
         return cp
