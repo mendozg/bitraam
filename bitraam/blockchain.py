@@ -29,7 +29,7 @@ from . import util
 from .bitcoin import hash_encode
 from .crypto import sha256d
 from . import constants
-from .util import bfh, with_lock
+from .util import bfh, bh2u, with_lock
 from .crypto import PoWHash
 from .logging import get_logger, Logger
 
@@ -41,9 +41,12 @@ _logger = get_logger(__name__)
 HEADER_SIZE = 80  # bytes
 CHUNK_SIZE = 2016  # num headers in a difficulty retarget period
 
-# see https://github.com/bitcoin/bitcoin/blob/feedb9c84e72e4fff489810a2bbeec09bcda5763/src/chainparams.cpp#L76
-MAX_TARGET = 0x00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff  # compact: 0x1d00ffff
+# see https://github.com/BitRaam/BitRaamSourceCodeVer5-2025/blob/ef4bf437616e69a93476bd22eae1d20ece5f378e/src/kernel/chainparams.cpp#L97C39-L97C103
+MAX_TARGET = 0x00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff  # compact: 0x1d00ffff
 
+POW_TARGET_SPACING = int(2.5 * 60)  # Dash: 2.5 minutes
+POW_DGW3_HEIGHT = 1000
+DGW_PAST_BLOCKS = 24
 
 class MissingHeader(Exception):
     pass
@@ -313,6 +316,11 @@ class Blockchain(Logger):
             raise InvalidHeader("prev hash mismatch: %s vs %s" % (prev_hash, header.get('prev_block_hash')))
         if constants.net.TESTNET:
             return
+        
+        height = header.get('block_height')
+        if height < POW_DGW3_HEIGHT:
+            return
+        
         bits = cls.target_to_bits(target)
         if bits != header.get('bits'):
             raise InvalidHeader("bits mismatch: %s vs %s" % (bits, header.get('bits')))
@@ -325,7 +333,8 @@ class Blockchain(Logger):
         num = len(data) // HEADER_SIZE
         start_height = index * CHUNK_SIZE
         prev_hash = self.get_hash(start_height - 1)
-        target = self.get_target(index-1)
+        #target = self.get_target(index-1)
+        chunk_headers = {'empty': True}
         for i in range(num):
             height = start_height + i
             try:
@@ -333,7 +342,9 @@ class Blockchain(Logger):
             except MissingHeader:
                 expected_header_hash = None
             raw_header = data[i*HEADER_SIZE : (i+1)*HEADER_SIZE]
-            header = deserialize_header(raw_header, index*CHUNK_SIZE + i)
+            height = index*CHUNK_SIZE + i
+            header = deserialize_header(raw_header, height)
+            target = self.get_target(height,chunk_headers)
             self.verify_header(header, prev_hash, target, expected_header_hash)
             prev_hash = hash_header(header)
 
@@ -530,27 +541,58 @@ class Blockchain(Logger):
                 raise MissingHeader(height)
             return hash_header(header)
 
-    def get_target(self, index: int) -> int:
-        # compute target from chunk x, used in chunk x+1
-        if constants.net.TESTNET:
-            return 0
-        if index == -1:
+    def get_target(self, height: int, chunk_headers: Optional[dict]=None) -> int:
+        if chunk_headers is None:
+            chunk_headers = {'empty': True}
+
+        if height >= POW_DGW3_HEIGHT:
+            return self.get_target_dgw_v3(height, chunk_headers)
+        else:
             return MAX_TARGET
-        if index < len(self.checkpoints):
-            h, t = self.checkpoints[index]
-            return t
-        # new target
-        first = self.read_header(index * CHUNK_SIZE)
-        last = self.read_header((index+1) * CHUNK_SIZE - 1)
-        if not first or not last:
-            raise MissingHeader()
-        bits = last.get('bits')
-        target = self.bits_to_target(bits)
-        nActualTimespan = last.get('timestamp') - first.get('timestamp')
-        nTargetTimespan = 14 * 24 * 60 * 60
-        nActualTimespan = max(nActualTimespan, nTargetTimespan // 4)
-        nActualTimespan = min(nActualTimespan, nTargetTimespan * 4)
-        new_target = min(MAX_TARGET, (target * nActualTimespan) // nTargetTimespan)
+
+     def get_target_dgw_v3(self, height: int, chunk_headers: Optional[dict]) -> int:
+        if chunk_headers['empty']:
+            chunk_empty = True
+        else:
+            chunk_empty = False
+            min_height = chunk_headers['min_height']
+            max_height = chunk_headers['max_height']
+
+        count_blocks = 1
+        while count_blocks <= DGW_PAST_BLOCKS:
+            reading_h = height - count_blocks
+            reading_header = self.read_header(reading_h)
+            if (not reading_header and not chunk_empty
+                    and min_height <= reading_h <= max_height):
+                reading_header = chunk_headers[reading_h]
+            if not reading_header:
+                raise MissingHeader()
+            reading_time = reading_header.get('timestamp')
+            reading_target = self.bits_to_target(reading_header.get('bits'))
+
+            if count_blocks == 1:
+                past_target_avg = reading_target
+                last_time = reading_time
+            past_target_avg = (past_target_avg * count_blocks +
+                               reading_target) // (count_blocks + 1)
+
+            count_blocks +=1
+
+        new_target = past_target_avg
+        actual_timespan = last_time - reading_time
+        target_timespan = DGW_PAST_BLOCKS * POW_TARGET_SPACING
+
+        if actual_timespan < target_timespan // 3:
+            actual_timespan = target_timespan // 3
+        if actual_timespan > target_timespan * 3:
+            actual_timespan = target_timespan * 3
+
+        new_target *= actual_timespan
+        new_target //= target_timespan
+
+        if new_target > MAX_TARGET:
+            return MAX_TARGET
+
         # not any target can be represented in 32 bits:
         new_target = self.bits_to_target(self.target_to_bits(new_target))
         return new_target
@@ -642,7 +684,7 @@ class Blockchain(Logger):
         if prev_hash != header.get('prev_block_hash'):
             return False
         try:
-            target = self.get_target(height // CHUNK_SIZE - 1)
+            target = self.get_target(height)
         except MissingHeader:
             return False
         try:
@@ -666,9 +708,22 @@ class Blockchain(Logger):
         cp = []
         n = self.height() // CHUNK_SIZE
         for index in range(n):
+            height = (index+1) * CHUNK_SIZE - 1
             h = self.get_hash((index+1) * CHUNK_SIZE -1)
             target = self.get_target(index)
-            cp.append((h, target))
+            if len(h.strip('0')) == 0:
+                raise Exception('%s file has not enough data.' % self.path())
+            dgw3_headers = []
+            if os.path.exists(self.path()):
+                with open(self.path(), 'rb') as f:
+                    lower_header = height - DGW_PAST_BLOCKS
+                    for height in range(height, lower_header, -1):
+                        f.seek(height * HEADER_SIZE)
+                        hd = f.read(HEADER_SIZE)
+                        if len(hd) < HEADER_SIZE:
+                            raise Exception('Expected to read a full header. This was only {} bytes'.format(len(hd)))
+                        dgw3_headers.append(height,bh2u(hd))
+            cp.append((h, target, dgw3_headers))
         return cp
 
 

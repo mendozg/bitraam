@@ -692,6 +692,16 @@ def to_bytes(something, encoding='utf8') -> bytes:
 bfh = bytes.fromhex
 
 
+def bh2u(x: bytes) -> str:
+    """
+    str with hex representation of a bytes-like object
+
+    >>> x = bytes((1, 2, 10))
+    >>> bh2u(x)
+    '01020A'
+    """
+    return x.hex()
+
 def xor_bytes(a: bytes, b: bytes) -> bytes:
     size = min(len(a), len(b))
     return ((int.from_bytes(a[:size], "big") ^ int.from_bytes(b[:size], "big"))
