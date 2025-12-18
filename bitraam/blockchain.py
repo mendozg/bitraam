@@ -554,7 +554,7 @@ class Blockchain(Logger):
         else:
             return MAX_TARGET
 
-     def get_target_dgw_v3(self, height: int, chunk_headers: Optional[dict]) -> int:
+    def get_target_dgw_v3(self, height: int, chunk_headers: Optional[dict]) -> int:
         if chunk_headers['empty']:
             chunk_empty = True
         else:
