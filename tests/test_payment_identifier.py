@@ -69,7 +69,7 @@ class TestPaymentIdentifier(BitraamTestCase):
 
         for pi_str in [
             f'lightning:  {bolt11}',
-            f'bitcoin:{bolt11}'
+            f'bitraam:{bolt11}'
         ]:
             pi = PaymentIdentifier(None, pi_str)
             self.assertFalse(pi.is_valid())

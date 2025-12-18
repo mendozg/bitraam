@@ -189,11 +189,11 @@ Section
   CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\${PRODUCT_NAME} Testnet.lnk" "$INSTDIR\bitraam-${PRODUCT_VERSION}.exe" "--testnet" "$INSTDIR\bitraam-${PRODUCT_VERSION}.exe" 0
 
 
-  ;Links bitcoin: and lightning: URIs to Bitraam
-  WriteRegStr HKCU "Software\Classes\bitcoin" "" "URL:bitcoin Protocol"
-  WriteRegStr HKCU "Software\Classes\bitcoin" "URL Protocol" ""
-  WriteRegStr HKCU "Software\Classes\bitcoin" "DefaultIcon" "$\"$INSTDIR\bitraam.ico, 0$\""
-  WriteRegStr HKCU "Software\Classes\bitcoin\shell\open\command" "" "$\"$INSTDIR\bitraam-${PRODUCT_VERSION}.exe$\" $\"%1$\""
+  ;Links bitraam: and lightning: URIs to Bitraam
+  WriteRegStr HKCU "Software\Classes\bitraam" "" "URL:bitraam Protocol"
+  WriteRegStr HKCU "Software\Classes\bitraam" "URL Protocol" ""
+  WriteRegStr HKCU "Software\Classes\bitraam" "DefaultIcon" "$\"$INSTDIR\bitraam.ico, 0$\""
+  WriteRegStr HKCU "Software\Classes\bitraam\shell\open\command" "" "$\"$INSTDIR\bitraam-${PRODUCT_VERSION}.exe$\" $\"%1$\""
   WriteRegStr HKCU "Software\Classes\lightning" "" "URL:lightning Protocol"
   WriteRegStr HKCU "Software\Classes\lightning" "URL Protocol" ""
   WriteRegStr HKCU "Software\Classes\lightning" "DefaultIcon" "$\"$INSTDIR\bitraam.ico, 0$\""
