@@ -1,7 +1,7 @@
 #!/bin/bash
 
-LIBYESCRYPT_VERSION="627b36796e50435cf32693a0efb64eaa1b99a303"
-# ^ tag v0.5.0
+LIBYESCRYPT_VERSION="e65ec8ae26c98d0513cc264852fd994a08f4c122"
+# ^ tag v0.5.1
 
 set -e
 
@@ -33,7 +33,14 @@ info "Building $pkgname..."
     fi
 
     autoreconf -fi || fail "Could not run autoreconf."
-    ./configure --host=${GCC_TRIPLET_HOST} --prefix="$here/$pkgname/dist"
+
+    if ! [ -r config.status ] ; then
+        ./configure \
+            $AUTOCONF_FLAGS \
+            --prefix="$here/$pkgname/dist" \
+            --disable-static \
+            --enable-shared || fail "Could not configure $pkgname. Please make sure you have a C compiler installed and try again."
+    fi
 
     make "-j$CPU_COUNT" || fail "Could not build $pkgname"
     make install || warn "Could not install $pkgname"
