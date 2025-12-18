@@ -346,6 +346,12 @@ class Blockchain(Logger):
             header = deserialize_header(raw_header, height)
             target = self.get_target(height,chunk_headers)
             self.verify_header(header, prev_hash, target, expected_header_hash)
+         
+            chunk_headers[height] = header
+            if i == 0:
+                chunk_headers['min_height'] = height
+                chunk_headers['empty'] = False
+            chunk_headers['max_height'] = height
             prev_hash = hash_header(header)
 
     @with_lock
