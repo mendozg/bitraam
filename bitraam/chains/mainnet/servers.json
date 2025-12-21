@@ -10,5 +10,11 @@
         "s": "50018",
         "t": "50016",
         "version": "1.4"
+    },
+        "electrumserver03.bitraam.org": {
+        "pruning": "-",
+        "s": "50018",
+        "t": "50016",
+        "version": "1.4"
     }
 }
