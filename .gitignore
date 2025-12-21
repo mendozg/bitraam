@@ -5,7 +5,7 @@
 build/
 dist/
 *.egg/
-Electrum.egg-info/
+Bitraam.egg-info/
 .devlocaltmp/
 *_trial_temp
 packages
@@ -17,7 +17,7 @@ bin/
 .idea
 .mypy_cache
 .vscode
-electrum_data
+bitraam_data
 .DS_Store
 contrib/trigger_website
 contrib/trigger_binaries
@@ -41,13 +41,14 @@ contrib/osx/build-venv/
 contrib/android/android_debug.keystore
 contrib/android/.cache/
 contrib/secp256k1/
+contrib/yescrypt_hash/
 contrib/zbar/
 contrib/libusb/
 contrib/.venv_make_packages/
 
 # shared objects
-electrum/*.so
-electrum/*.so.*
-electrum/*.dll
-electrum/*.dylib
+bitraam/*.so
+bitraam/*.so.*
+bitraam/*.dll
+bitraam/*.dylib
 contrib/osx/*.dylib
