@@ -126,7 +126,7 @@ class AbstractNet:
     def CHECKPOINTS(cls) -> Sequence[Tuple[str, int]]:
         if cls._cached_checkpoints is None:
             default_file = [] if cls.TESTNET else None  # for mainnet we hard-fail if the file is missing.
-            cls._cached_checkpoints = read_json_gz(os.path.join('chains', cls.NET_NAME, 'checkpoints.json.gz'), default_file)
+            cls._cached_checkpoints = read_json(os.path.join('chains', cls.NET_NAME, 'checkpoints.json'), default_file)
         return cls._cached_checkpoints
 
     @classmethod
