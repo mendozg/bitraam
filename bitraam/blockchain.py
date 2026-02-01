@@ -540,7 +540,7 @@ class Blockchain(Logger):
             return constants.net.GENESIS
         elif is_height_checkpoint():
             index = height // CHUNK_SIZE
-             h, t, extra_headers = self.checkpoints[index]
+            h, t, extra_headers = self.checkpoints[index]
             return h
         else:
             header = self.read_header(height)
