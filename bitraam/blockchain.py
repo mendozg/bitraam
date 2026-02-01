@@ -180,12 +180,15 @@ _CHAINWORK_CACHE = {
 def init_headers_file_for_best_chain():
     b = get_best_chain()
     filename = b.path()
+    len_checkpoints = len(constants.net.CHECKPOINTS)
     length = HEADER_SIZE * len(constants.net.CHECKPOINTS) * CHUNK_SIZE
     if not os.path.exists(filename) or os.path.getsize(filename) < length:
         with open(filename, 'wb') as f:
-            if length > 0:
-                f.seek(length - 1)
-                f.write(b'\x00')
+            for i in range(len_checkpoints):
+                for height, header_data in b.checkpoints[i][2]:
+                    f.seek(height * HEADER_SIZE)
+                    bin_header = util.bfh(header_data)
+                    f.write(bin_header)
         util.ensure_sparse_file(filename)
     with b.lock:
         b.update_size()
@@ -537,7 +540,7 @@ class Blockchain(Logger):
             return constants.net.GENESIS
         elif is_height_checkpoint():
             index = height // CHUNK_SIZE
-            h, t = self.checkpoints[index]
+             h, t, extra_headers = self.checkpoints[index]
             return h
         else:
             header = self.read_header(height)
