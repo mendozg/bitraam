@@ -24,6 +24,7 @@
 # SOFTWARE.
 
 import os
+import gzip
 import json
 from typing import Sequence, Tuple, Mapping, Type, List, Optional
 
@@ -44,7 +45,17 @@ def read_json(filename, default=None):
             raise
         r = default
     return r
-
+    
+def read_json_gz(filename, default):
+    path = os.path.join(os.path.dirname(__file__), filename)
+    try:
+        with gzip.open(path, 'rb') as f:
+            data = f.read()
+            r = json.loads(data.decode('utf-8'))
+    except:
+        raise
+        r = default
+    return r
 
 def create_fallback_node_list(fallback_nodes_dict: dict[str, dict]) -> List[LNPeerAddr]:
     """Take a json dict of fallback nodes like: k:node_id, v:{k:'host', k:'port'} and return LNPeerAddr list"""
@@ -115,7 +126,7 @@ class AbstractNet:
     def CHECKPOINTS(cls) -> Sequence[Tuple[str, int]]:
         if cls._cached_checkpoints is None:
             default_file = [] if cls.TESTNET else None  # for mainnet we hard-fail if the file is missing.
-            cls._cached_checkpoints = read_json(os.path.join('chains', cls.NET_NAME, 'checkpoints.json'), default_file)
+            cls._cached_checkpoints = read_json_gz(os.path.join('chains', cls.NET_NAME, 'checkpoints.json.gz'), default_file)
         return cls._cached_checkpoints
 
     @classmethod
