@@ -42,9 +42,9 @@ HEADER_SIZE = 80  # bytes
 CHUNK_SIZE = 2016  # num headers in a difficulty retarget period
 
 # see https://github.com/BitRaam/BitRaamSourceCodeVer5-2025/blob/ef4bf437616e69a93476bd22eae1d20ece5f378e/src/kernel/chainparams.cpp#L97C39-L97C103
-MAX_TARGET = 0x00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff  # compact: 0x1d00ffff
+MAX_TARGET = 0x00000FFFFF000000000000000000000000000000000000000000000000000000  # compact: 0x1e0fffff
 
-POW_TARGET_SPACING = int(2.5 * 60)  # Dash: 2.5 minutes
+POW_TARGET_SPACING = int(10 * 60)  # BitRaam: 10.0 minutes
 POW_DGW3_HEIGHT = 1000
 DGW_PAST_BLOCKS = 24
 
